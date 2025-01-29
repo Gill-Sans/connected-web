@@ -1,1 +1,54 @@
 /* You can add global styles to this file, and also import other style files */
+
+@import "./reset.scss";
+
+$background-color: #f5f7f9;
+$highlight-color: #7662f6;
+$text-color: #47485b;
+
+.sidenav {
+  padding-top: 1rem;
+  padding-left: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  font-family: "Poppins", sans-serif;
+  background-color: $background-color;
+  color: $text-color;
+  width: 15%;
+  height: 100%;
+  position: fixed;
+
+  a {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    text-decoration: none;
+    color: inherit;
+
+    &:hover {
+      cursor: pointer;
+      background-color: lighten($background-color, 5%);
+      border-right: 2px solid $highlight-color;
+      border-radius: 10px 0px 0px 10px;
+    }
+
+    &.active-link {
+      color: $highlight-color;
+      .icon {
+        filter: invert(33%) sepia(94%) saturate(1502%) hue-rotate(231deg)
+          brightness(99%) contrast(95%);
+      }
+    }
+
+    .icon {
+      width: 20px;
+      height: 20px;
+      margin-right: 1rem;
+    }
+
+    span {
+      font-size: 1rem;
+    }
+  }
+}
