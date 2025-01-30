@@ -1,13 +1,11 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { SidenavComponent } from './shared/sidenav/sidenav.component';
-import { TopnavComponent } from './shared/topnav/topnav.component';
-
-import { ProjectOverviewComponent } from './feature/project-overview/project-overview.component';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { SidenavComponent } from './core/sidenav/sidenav.component';
+import { TopnavComponent } from './core/topnav/topnav.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, SidenavComponent, TopnavComponent, ProjectOverviewComponent],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, SidenavComponent, TopnavComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

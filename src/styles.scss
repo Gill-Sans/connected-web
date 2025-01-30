@@ -1,5 +1,4 @@
-/* You can add global styles to this file, and also import other style files */
-@import "./reset.scss";
+@use "./reset.scss" as *;
 
 // Variables
 $background-color: #f5f7f9;
@@ -19,7 +18,7 @@ $notification-size: 25px;
 $badge-size: 16px;
 
 // Derived colors
-$hover-bg: lighten($background-color, 5%);
+$hover-bg: #e2e3e4;
 
 // Mixins
 @mixin text-ellipsis {
@@ -234,34 +233,32 @@ body {
   }
 }
 
-.project-overview{
-
+.project-overview {
   /* Project Overview cards styling */
   padding: 20px;
 
   .container {
     padding: 20px;
   }
-  
+
   .card-container {
     display: grid;
     grid-template-columns: repeat(3, 1fr); /* 3 cards per row */
     gap: 20px;
   }
-  
+
   .card-container > * {
     box-sizing: border-box;
   }
 
   /* Styling of the tabs on project-overview */
 
-  .tabs{
+  .tabs {
     display: flex;
     border-bottom: 2px solid #e0e0e0;
     margin-bottom: 20px;
-
   }
-  .tab{
+  .tab {
     padding: 10px 15px;
     cursor: pointer;
     font-size: 14px;
@@ -271,11 +268,11 @@ body {
     border-bottom: 2px solid transparent;
   }
 
-  .tab:hover{
+  .tab:hover {
     color: black;
   }
 
-  .tab.active{
+  .tab.active {
     color: #6200ea; /* Paarse kleur*/
     border-bottom: 2px solid #7662f6;
   }
