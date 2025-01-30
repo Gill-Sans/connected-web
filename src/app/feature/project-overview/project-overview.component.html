@@ -1,0 +1,19 @@
+<div class="project-overview">
+  <div class="tabs">
+    <span 
+      *ngFor="let tab of tabOptions" 
+      class="tab" 
+      [class.active]="selectedTab === tab.value"
+      (click)="changeTab(tab.value)">
+      {{ tab.label }}
+    </span>
+  </div> 
+
+    <div class="card-container">
+        <app-projectcard *ngFor="let project of projects" 
+        [title]="project.title" 
+        [description]="project.description" 
+        [tags]="project.tags">
+      </app-projectcard>
+    </div>
+</div>

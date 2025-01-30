@@ -1,29 +1,17 @@
-.container{
-    padding: 20px;
-}
 
-.card-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
-    gap: 20px;
-  }
-
-.card-container > *{
- box-sizing: border-box
-}
 
 .card {
     background: white;
     border-radius: 12px;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
     padding: 20px;
-    max-width: 400px; /* Voorkomt dat kaarten te breed worden */
-    width: 100%; /* Zorgt dat ze zich aanpassen binnen grid */
+    
     transition: 0.3s ease-in-out;
   }
 
   .card:hover {
     transform: translateY(-3px);
+    cursor: pointer;
   }
   
   .card-header h3 {
