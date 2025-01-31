@@ -1,0 +1,14 @@
+<button
+  [ngClass]="{
+    add: type === 'add',
+    cancel: type === 'cancel',
+    confirm: type === 'confirm',
+    normal: type === 'normal'
+  }"
+  class="button"
+>
+  <ng-container *ngIf="type === 'add'">
+    <img src="icons/plus-solid.svg" alt="icon" class="button-icon" />
+  </ng-container>
+  {{ label }}
+</button>

@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
 import { ProjectcardComponent } from '../../shared/projectcard/projectcard.component';
 import { CommonModule } from '@angular/common';
+import { RouterOutlet } from '@angular/router';
+
 
 @Component({
   selector: 'app-project-overview',
-  imports: [ProjectcardComponent, CommonModule],
+  imports: [ProjectcardComponent, CommonModule, RouterOutlet],
   templateUrl: './project-overview.component.html',
   styleUrl: './project-overview.component.scss'
 })
@@ -19,7 +21,7 @@ export class ProjectOverviewComponent {
   selectedTab: string = 'all';
 
   projects = [{
-    title: 'ProjectConnect',
+    title: 'yuyu',
     description: 'ProjectConnect is an application with the aim of collecting project proposals and matching students with the right project for themProjectConnect is an application with the aim of collecting project proposals and matching students with the right project for them',
     tags: ['frontend', 'Laravel', 'Python']},
     {
