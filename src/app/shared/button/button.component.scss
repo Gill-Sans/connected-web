@@ -1,0 +1,31 @@
+$highlight-color: rgba(118, 98, 246, 1);
+
+.button {
+  border-radius: 4px;
+  color: rgba(255, 255, 255, 1);
+  background-color: $highlight-color;
+  border: none;
+  padding: 10px 25px;
+  font-size: 16px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+
+  .button-icon {
+    filter: brightness(0) invert(1);
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.cancel {
+  background-color: rgba(246, 98, 100, 1);
+  font-weight: 400;
+}
+
+.confirm {
+  background-color: rgba(48, 149, 53, 1);
+  font-weight: 400;
+}
