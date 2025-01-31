@@ -30,6 +30,7 @@ $hover-bg: #e2e3e4;
 body {
   background-color: $background-color;
   font-family: "Poppins", sans-serif;
+  overflow: hidden;
 }
 
 .container {
@@ -51,6 +52,8 @@ body {
     grid-row: 2 / -1;
     grid-column: 2 / -1;
     margin: 0 $small-spacing $small-spacing $small-spacing;
+    overflow-y: auto;
+    scrollbar-width: thin;
   }
 }
 
