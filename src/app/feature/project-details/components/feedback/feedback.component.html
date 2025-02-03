@@ -1,0 +1,18 @@
+<div class="tab-content">
+    <div class="feedback-container">
+
+      <div class="feedback-box">
+        <textarea [(ngModel)]="newFeedback" placeholder="geef je feedback hier..."></textarea>
+        <app-button class="post" label="post" type="post" (click)="submitFeedback()"> </app-button>
+      </div>
+
+      <div class="feedback-list">
+        <app-conversationcard 
+          *ngFor="let feedback of feedbackList" 
+          [fullname]="feedback.fullname" 
+          [timeStamp]="feedback.timestamp" 
+          [message]="feedback.message">
+        </app-conversationcard>
+      </div>
+    </div>
+  </div>

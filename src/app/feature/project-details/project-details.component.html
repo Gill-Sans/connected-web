@@ -1,0 +1,17 @@
+<div class="project-details-container">
+     <!-- Back Button -->
+     <app-button label="Back" type="back" class="Back" routerLink="/projects" ></app-button>
+
+    <!-- Navigation Tabs -->
+    <div class="project-tabs">
+        <a routerLink="overview" routerLinkActive="active-tab">Project Overview</a>
+        <a routerLink="feedback" routerLinkActive="active-tab">Feedback</a>
+        <a routerLink="members" routerLinkActive="active-tab">Members</a>
+        <a routerLink="applications" routerLinkActive="active-tab">Applications</a>
+    </div>
+
+    <!-- Router Outlet to Load Child Components -->
+    <div class="project-content">
+        <router-outlet></router-outlet>
+    </div>
+</div>
