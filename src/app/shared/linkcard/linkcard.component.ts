@@ -5,11 +5,27 @@ import { Component } from '@angular/core';
   selector: 'app-linkcard',
   imports: [CommonModule],
   templateUrl: './linkcard.component.html',
-  styleUrl: './linkcard.component.scss'
+  styleUrls: ['./linkcard.component.scss']
 })
 export class LinkcardComponent {
+  // Mapping tussen linkType en de juiste icon URL
+  private iconMapping: { [key: string]: string } = {
+    'Github': 'icons/links/Github.svg',
+    'Trello': 'icons/links/Trello.svg',
+    'Jira': 'icons/links/Jira.svg',
+    'Slack': 'icons/links/Slack.svg'
+  };
+
+  // De backend stuurt nu alleen een `linkType` en `url`
   links = [
-    { url: 'https://www.youtube.com/watch?v=xvFZjo5PgG0', icon: 'icons/Github.svg', alt: 'Github Link' },
-    { url: 'https://www.youtube.com/watch?v=xvFZjo5PgG0', icon: 'icons/Trello.svg', alt: 'Trello Link' },
+    { url: 'https://github.com', linkType: 'Github' },
+    { url: 'https://trello.com', linkType: 'Trello' },
+    { url: 'https://jira.com', linkType: 'Jira' },
+    { url: 'https://slack.com', linkType: 'Slack' }
   ];
+
+  // Methode om de juiste icon URL te krijgen
+  getIconUrl(linkType: string): string {
+    return this.iconMapping[linkType] || 'icons/default.svg';
+  }
 }

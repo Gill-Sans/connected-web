@@ -10,7 +10,7 @@ import { Component, Input } from '@angular/core';
 export class StatuscardComponent {
   @Input() status: string= '';
   
-  getStatusClass(status: string): string {
+  getStatusClass(): string {
     return this.status.toLowerCase();
   }
 }
