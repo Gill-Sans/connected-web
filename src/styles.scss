@@ -233,6 +233,34 @@ body {
   }
 }
 
+/* Splash screen covering the entire viewport */
+#splash-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #ffffff; /* White background; change as needed */
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* The spinner styling */
+.spinner {
+  border: 12px solid #f3f3f3; /* Light grey */
+  border-top: 12px solid #3498db; /* Blue color for the spinner top */
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  animation: spin 1s linear infinite;
+}
+/* Animation keyframes for the spinner */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
 .project-overview {
   /* Project Overview cards styling */
   padding: 20px;
@@ -276,4 +304,19 @@ body {
     color: #6200ea; /* Paarse kleur*/
     border-bottom: 2px solid #7662f6;
   }
+}
+
+.disabled {
+  pointer-events: none; /* Prevent clicks */
+  user-select: none; /* Prevent text selection */
+  filter: blur(3px); /* Optional: Adds a blur effect */
+}
+
+/* Ensure the login overlay stays on top */
+app-login {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000; /* Above all content */
 }
