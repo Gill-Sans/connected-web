@@ -4,6 +4,8 @@ import {LoginComponent} from './auth/login/login.component';
 import {MainLayoutComponent} from './feature/main-layout/main-layout.component';
 import {AuthGuard} from './auth/guards/auht.guard';
 import {AuthLayoutComponent} from './feature/auth-layout/auth-layout.component';
+import { ProjectCreateComponent } from './feature/project-create/project-create.component';
+
 export const routes: Routes = [
   {
     // Authenticated routes
@@ -12,6 +14,7 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       { path: 'projects', component: ProjectOverviewComponent },
+      {path: 'projects/create', component: ProjectCreateComponent},
     ]
   },
   {
