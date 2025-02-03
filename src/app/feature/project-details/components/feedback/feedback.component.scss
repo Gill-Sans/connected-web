@@ -1,5 +1,4 @@
 .feedback-container{
-    max-width: 800px;
     margin: auto;
     padding: 20px;
 }
@@ -16,13 +15,13 @@ textarea{
     padding: 10px;
     border: none;
     border-radius: 5px;
-    background-color: #f2f2f2; 
+    background-color: #f2f2f2;
     color: #333; /* Tekstkleur */
     resize: vertical; /* Sta verticale resizing toe */
     min-height: 80px;
 }
 
-  
+
 .feedback-list {
     display: flex;
     flex-direction: column;

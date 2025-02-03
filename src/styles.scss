@@ -33,6 +33,11 @@ body {
   overflow: hidden;
 }
 
+table {
+  width: 100%;
+  table-layout: fixed;
+}
+
 .app-container {
   display: grid;
   grid-template-columns: 15% auto;
