@@ -4,7 +4,6 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as AuthActions from './auth.actions';
 import { AuthService } from '../auth.service';
 import {catchError, map, mergeMap, of, tap} from 'rxjs';
-import { Router } from '@angular/router';
 import {environment} from '../../../environments/environment';
 
 
