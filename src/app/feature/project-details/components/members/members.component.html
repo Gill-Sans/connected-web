@@ -1,1 +1,27 @@
-<p>members works!</p>
+<div class="members-container">
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Role</th>
+                <th> Joined on</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let member of members; let i= index">
+                <td>
+                    <img [src]="member.image" alt="member.first_name" class="avatar" /> 
+                    {{member.first_name}} {{member.last_name}}
+                </td>
+                <td class="role-dropdown">
+                    <app-role-dropdown [selectedRole]="member.role" (selectedRoleChange)="updateRole(i, $event)"></app-role-dropdown>
+                </td>
+                <td>{{member.joinedOn}}</td>
+                <td>
+                    <button class="remove-btn" (click)="removeMember(i)">❌</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

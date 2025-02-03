@@ -1,0 +1,46 @@
+.members-container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
+  }
+  
+  h2 {
+    margin-bottom: 15px;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  td {
+    padding: 10px;
+    text-align: left;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid #ddd;
+  }
+  /*TODO: swap out component button  */
+  .remove-btn {
+    background: none;
+    border: none;
+    color: red;
+    cursor: pointer;
+    font-size: 18px;
+  }
+
+  .role-dropdown{
+   display: flex;
+   justify-content: left;
+  }
+  
+  .remove-btn:hover {
+    color: darkred;
+  }
+  
