@@ -10,16 +10,7 @@ import { Component, Input } from '@angular/core';
 export class StatuscardComponent {
   @Input() status: string= '';
   
-  getStatusClass(): string {
-    switch (this.status.toLowerCase()) {
-      case 'approved':
-        return 'approved';
-      case 'pending':
-        return 'pending';
-      case 'rejected':
-        return 'rejected';
-      default:
-        return 'default';
-    }
+  getStatusClass(status: string): string {
+    return this.status.toLowerCase();
   }
 }
