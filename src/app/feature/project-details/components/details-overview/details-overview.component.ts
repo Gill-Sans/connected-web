@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { LinkcardComponent } from '../../../../shared/linkcard/linkcard.component';
 import { first } from 'rxjs';
 import { CommonModule } from '@angular/common';
-
+//TODO: add check if image of user is empty --> placeholderpic.svg
 @Component({
   selector: 'app-details-overview',
   imports: [LinkcardComponent, CommonModule],

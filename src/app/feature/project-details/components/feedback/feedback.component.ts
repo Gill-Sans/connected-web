@@ -11,6 +11,9 @@ import { ButtonComponent } from '../../../../shared/button/button.component';
   styleUrl: './feedback.component.scss'
 })
 export class FeedbackComponent {
+   //voor nieuwe feedback
+   newFeedback: string = '';
+
   feedbackList: { fullname: string; timestamp: string; message: string }[] =[
     {
       fullname: "Robin Bervoets",
@@ -22,18 +25,17 @@ export class FeedbackComponent {
       timestamp: "09:45 21/01/2025",
       message: "Ik ben van mening dat de wireframes niet voldoende zijn uitgewerkt..."
     }
-  ]
+  ];
 
-  //voor nieuwe feedback
-  newFeedback: string = '';
+ 
 
   submitFeedback() {
     if (this.newFeedback.trim() === '') return;
 
     const now = new Date();
     const timestamp = now.toLocaleTimeString() + " " + now.toLocaleDateString();
-
-    this.feedbackList.push({
+    //vanboven niuwe feedback toevoegen
+    this.feedbackList.unshift({
       fullname: "Current User",
       timestamp: timestamp,
       message: this.newFeedback
