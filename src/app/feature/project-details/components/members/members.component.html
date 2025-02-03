@@ -19,9 +19,17 @@
                 </td>
                 <td>{{ member.joinedOn }}</td>
                 <td>
-                    <button class="remove-btn" (click)="removeMember(i)">X</button>
+                    <button class="remove-btn" (click)="confirmRemoveMember(i)">❌</button>
                 </td>
             </tr>
         </tbody>
     </table>
 </div>
+<!-- Confirm Dialog -->
+<app-confirm-dialog 
+  *ngIf="memberToDelete !== null"
+  title="Remove member?"
+  message="Are you sure you want to remove this member?"
+  (confirm)="removeMember()" 
+  (cancel)="cancelRemove()">
+</app-confirm-dialog>

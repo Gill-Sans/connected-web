@@ -17,6 +17,7 @@ export class LinkcardComponent {
   };
 
   // De backend stuurt nu alleen een `linkType` en `url`
+  //NOTE: Lucas past dit aan zodra dynmic data beschikbaar is
   links = [
     { url: 'https://github.com', linkType: 'Github' },
     { url: 'https://trello.com', linkType: 'Trello' },
