@@ -15,14 +15,13 @@ table {
 
 th {
   text-align: left;
-  font-weight: bold;
   padding: 12px;
 }
 
 td {
   padding: 10px;
   text-align: left;
-  vertical-align: middle; /* Zorgt ervoor dat de dropdowns verticaal gecentreerd zijn */
+  vertical-align: middle;
 }
 
 .avatar {
@@ -44,9 +43,8 @@ td {
   color: darkred;
 }
 
-/* Fix voor dropdown */
 .role-dropdown {
-  width: 100%; /* Zorgt ervoor dat de dropdown-box de breedte van de kolom gebruikt */
+  width: 100%; 
   display: flex;
   justify-content: flex-start;
 }
