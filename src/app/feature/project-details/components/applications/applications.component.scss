@@ -1,0 +1,43 @@
+.applications-container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
+  }
+  
+  h2 {
+    margin-bottom: 15px;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+  }
+  
+
+  
+  th {
+    text-align: left;
+    padding: 12px;
+  }
+  
+  td {
+    padding: 12px;
+    text-align: left;
+    vertical-align: middle;
+  }
+  
+  /* Applicant naam + avatar styling */
+  .applicant-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid #ddd;
+  }
+  

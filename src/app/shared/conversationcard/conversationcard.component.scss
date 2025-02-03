@@ -1,0 +1,21 @@
+.conversation-card{
+    background: #f5f5f5;
+    padding: 15px;
+    border-radius: 15px;
+    margin-bottom: 10px;
+    max-width: 600px;
+}
+.user-info{
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    color: #666;
+}
+.timestamp{
+    font-size: 0.8rem;
+}
+
+.message{
+    font-size: 1rem;
+    margin-top: 5px;
+}

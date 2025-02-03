@@ -1,0 +1,26 @@
+<div class="applications-container">
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Applicant Role</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let application of applications">
+          <td>
+            <div class="applicant-info">
+              <img [src]="application.image" alt="{{ application.first_name }}" class="avatar">
+              {{ application.first_name }}
+            </div>
+          </td>
+          <td>{{ application.role }}</td>
+          <td>
+            <app-statuscard [status]="application.status"></app-statuscard>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  

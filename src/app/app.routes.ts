@@ -5,7 +5,8 @@ import {MainLayoutComponent} from './feature/main-layout/main-layout.component';
 import {AuthGuard} from './auth/guards/auht.guard';
 import {AuthLayoutComponent} from './feature/auth-layout/auth-layout.component';
 import { ProjectCreateComponent } from './feature/project-create/project-create.component';
-
+import { projectDetailsRoutes } from './feature/project-details/project-details.routes';
+import { ProjectDetailsComponent } from './feature/project-details/project-details.component';
 export const routes: Routes = [
   {
     // Authenticated routes
@@ -15,6 +16,7 @@ export const routes: Routes = [
     children: [
       { path: 'projects', component: ProjectOverviewComponent },
       {path: 'projects/create', component: ProjectCreateComponent},
+      {path: 'projects/:id', children: projectDetailsRoutes}
     ]
   },
   {

@@ -1,0 +1,10 @@
+<div class="modal-backdrop">
+    <div class="modal">
+      <h3>{{ title }}</h3>
+      <p>{{ message }}</p>
+      <div class="modal-actions">
+        <app-button label="cancel" class="cancel" type="cancel" (click)="onCancel()">Cancel</app-button>
+        <app-button  label="confirm" class="confirm" type="confirm" (click)="onConfirm()">confirm</app-button>
+      </div>
+    </div>
+  </div>

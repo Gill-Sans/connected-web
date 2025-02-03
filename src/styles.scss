@@ -309,12 +309,6 @@ body {
   }
 }
 
-.disabled {
-  pointer-events: none; /* Prevent clicks */
-  user-select: none; /* Prevent text selection */
-  filter: blur(3px); /* Optional: Adds a blur effect */
-}
-
 /* Ensure the login overlay stays on top */
 app-login {
   position: fixed;
