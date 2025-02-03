@@ -28,6 +28,12 @@
         <img src="icons/bell-regular.svg" alt="Notifications" />
         <span class="notification-badge">3</span>
       </div>
+      <div *ngIf="user$ | async as user; else loading">
+        <span class="nav-name">Welcome, {{ user.email }}!</span>
+      </div>
+      <ng-template #loading>
+        Loading...
+      </ng-template>
       <div class="user-icon"></div>
     </div>
   </div>
