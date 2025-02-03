@@ -11,7 +11,7 @@ import { ButtonComponent } from '../button/button.component';
 export class ConfirmDialogComponent {
   @Input() title: string = "Are you sure?";
   @Input() message: string = "Do you really want to proceed?";
-  @Output() confirm = new EventEmitter<void>(); // Gebruiker klikt "Remove"
+  @Output() confirm = new EventEmitter<void>(); // Gebruiker klikt "confirm"
   @Output() cancel = new EventEmitter<void>(); // Gebruiker klikt "Cancel"
 
   onConfirm() {
