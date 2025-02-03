@@ -5,7 +5,7 @@ import { MembersComponent } from './components/members/members.component';
 import { ApplicationsComponent } from './components/applications/applications.component';
 import { DetailsOverviewComponent } from './components/details-overview/details-overview.component';
 
-// Define the routes for the project details feature module
+// route for the detailspage and its childroutes 
 export const projectDetailsRoutes: Routes = [
     {
         path: '',

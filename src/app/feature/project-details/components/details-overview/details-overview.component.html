@@ -1,4 +1,55 @@
 <div class="tab-content">
-    <h2>Project Overview</h2>
-    <p>Hier komt de projectbeschrijving...</p>
+  <div class="page-container">
+    <!-- Linker sectie met tekst -->
+    <div class="left-content">
+      <h1>ProjectConnect</h1>
+  
+      <p>
+        Doel van de applicatie: ProjectConnect heeft als doel projectvoorstellen binnen te krijgen 
+        voor studiegerelateerde projecten met deadlines. De applicatie biedt een intuïtieve interface 
+        waarmee docenten deze voorstellen kunnen beoordelen en goed- of afkeuren. Studenten krijgen 
+        de mogelijkheid om te solliciteren voor de projecten die hen interesseren. Bovendien bevat 
+        ProjectConnect een module waarmee project pitchers hun teamleden kunnen 'aanwerven'.
+      </p>
+  
+      <h3>Kenmerken van ProjectConnect:</h3>
+      <p>
+        1. Projectindiening en deadlinebeheer - Studenten kunnen eenvoudig projectvoorstellen indienen, 
+        inclusief projectbeschrijving, vereiste vaardigheden en de deadline voor indiening. Deadlineherinneringen 
+        worden verstuurd naar zowel studenten als docenten om de betrokkenheid te waarborgen.
+      </p>
+      <p>
+        2. Docentenbeoordeling en goedkeuring - Docenten hebben toegang tot een overzichtelijke lijst van alle 
+        ingediende projectvoorstellen. Ze kunnen de voorstellen beoordelen en goed- of afkeuren, waarbij ze 
+        feedback kunnen toevoegen voor de indieners. Goedgekeurde projecten worden zichtbaar voor alle studenten.
+      </p>
+      <p>
+        3. Sollicitatieproces - Studenten kunnen eenvoudig solliciteren voor de projecten van hun keuze. Ze kunnen 
+        hun motivatie en relevante ervaring toevoegen om zich te onderscheiden. Notificaties worden verzonden 
+        wanneer ze worden geselecteerd of afgewezen.
+      </p>
+      <p>
+        4. Teamwerving door project pitchers - Project pitchers (indieners van de projectvoorstellen) kunnen 
+        geïnteresseerde studenten uitnodigen om deel uit te maken van hun projectteam. Ze kunnen sollicitaties 
+        bekijken om de juiste teamleden te selecteren. Zodra een team is samengesteld, kunnen project pitchers 
+        (of docenten) het sollicitatieproces beëindigen.
+      </p>
+    </div>
+  
+    <!-- Rechter sidebar met Members & Links -->
+    <div class="right-sidebar">
+      <div class="members-section">
+        <h3>Members</h3>
+        <ul>
+          <li *ngFor="let member of members">
+            <img [src]="member.image" alt="{{ member.first_name }}" />
+            <span>{{ member.first_name }} {{member.last_name}}</span>
+          </li>
+        </ul>
+      </div>
+  
+      <app-linkcard></app-linkcard> <!-- Links component -->
+    </div>
+  </div>
+  
   </div>
