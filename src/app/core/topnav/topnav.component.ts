@@ -1,6 +1,6 @@
 import {AuthFacade} from '../../auth/store/auth.facade';
 import {CommonModule} from '@angular/common';
-import {inject} from '@angular/core';
+import {inject, Component} from '@angular/core';
 
 @Component({
   selector: 'app-topnav',
