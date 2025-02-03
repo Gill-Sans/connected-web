@@ -9,5 +9,5 @@ import { Component, Input } from '@angular/core';
 })
 export class ButtonComponent {
   @Input() label: string = '';
-  @Input() type: 'normal' | 'add' | 'post' | 'cancel' | 'confirm' = 'normal';
+  @Input() type: 'normal' | 'add' | 'post' | 'cancel' | 'back' | 'confirm' = 'normal';
 }

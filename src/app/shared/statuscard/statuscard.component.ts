@@ -8,6 +8,18 @@ import { Component, Input } from '@angular/core';
   styleUrl: './statuscard.component.scss'
 })
 export class StatuscardComponent {
-  @Input() statusLabel: string= '';
-  @Input() type: 'Pending' | 'Approved' | 'Rejected' = 'Pending';
+  @Input() status: string= '';
+  
+  getStatusClass(): string {
+    switch (this.status.toLowerCase()) {
+      case 'approved':
+        return 'approved';
+      case 'pending':
+        return 'pending';
+      case 'rejected':
+        return 'rejected';
+      default:
+        return 'default';
+    }
+  }
 }

@@ -35,3 +35,28 @@ $highlight-color: rgba(118, 98, 246, 1);
   background-color: rgba(118, 98, 246, 1);
   font-weight: 100;
 }
+
+.back{
+  display: inline-flex;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 500;
+  color: #6c757d; // Lichtgrijze kleur
+  text-decoration: none;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  padding: 5px 10px;
+  margin-left: 10px;
+
+  &::before {
+    content: "←";
+    margin-right: 5px;
+    font-size: 14px;
+  }
+
+  &:hover {
+    color: #5a6268; // Iets donkerdere grijstint bij hover
+    text-decoration: underline;
+  }
+}
