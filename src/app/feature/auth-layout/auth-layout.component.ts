@@ -1,6 +1,4 @@
 import { Component } from '@angular/core';
-import {SidenavComponent} from '../../core/sidenav/sidenav.component';
-import {TopnavComponent} from '../../core/topnav/topnav.component';
 import {RouterOutlet} from '@angular/router';
 
 @Component({

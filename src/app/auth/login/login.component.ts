@@ -1,9 +1,6 @@
 import { Component, inject, Input } from '@angular/core';
-import { AuthService } from '../auth.service';
 import {CommonModule} from '@angular/common';
 import { Store } from '@ngrx/store';
-import * as AuthActions from '../store/auth.actions';
-import {RouterLink, RouterLinkActive} from '@angular/router';
 import {AuthFacade} from '../store/auth.facade';
 
 @Component({
@@ -17,8 +14,6 @@ import {AuthFacade} from '../store/auth.facade';
 })
 export class LoginComponent {
   @Input() isLoginVisible = true;
-
-  private readonly store = inject(Store);
   private readonly authFacade = inject(AuthFacade);
 
   loginWithCanvas(): void {

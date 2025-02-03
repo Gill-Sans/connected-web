@@ -3,7 +3,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as AuthActions from './auth.actions';
 import { AuthService } from '../auth.service';
-import {catchError, delay, map, mergeMap, of, tap} from 'rxjs';
+import {catchError, map, mergeMap, of, tap} from 'rxjs';
 import { Router } from '@angular/router';
 import {environment} from '../../../environments/environment';
 
@@ -13,7 +13,6 @@ export class AuthEffects {
   private readonly actions$ = inject(Actions);
   private readonly authService = inject(AuthService);
   private readonly PLATFORM_ID = inject(PLATFORM_ID);
-  private readonly router = inject(Router);
 
   // Effect to load the current session by calling /auth/user
   readonly loadSession$ = createEffect(() =>

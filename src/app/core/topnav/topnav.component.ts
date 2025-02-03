@@ -1,6 +1,6 @@
-import {ChangeDetectorRef, Component, inject, OnInit} from '@angular/core';
 import {AuthFacade} from '../../auth/store/auth.facade';
 import {CommonModule} from '@angular/common';
+import {inject} from '@angular/core';
 
 @Component({
   selector: 'app-topnav',
