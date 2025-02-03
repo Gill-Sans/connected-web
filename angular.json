@@ -35,7 +35,7 @@
               {
                 "glob": "**/*",
                 "input": "node_modules/ace-builds/src-min",
-                "output": "./assets/ace-builds/" 
+                "output": "./assets/ace-builds/"
               }
             ],
             "styles": [
@@ -120,6 +120,6 @@
     }
   },
   "cli": {
-    "analytics": "6b9bb77d-1a1d-456d-9e06-c3cc305dfc22"
+    "analytics": false
   }
 }

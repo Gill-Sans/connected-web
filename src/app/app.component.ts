@@ -1,18 +1,34 @@
-import { Component } from '@angular/core';
+import {Component, inject, OnInit, PLATFORM_ID} from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { SidenavComponent } from './core/sidenav/sidenav.component';
-import { TopnavComponent } from './core/topnav/topnav.component';
-import { LMarkdownEditorModule } from 'ngx-markdown-editor';
-
-
-import { FormsModule } from '@angular/forms';
+import {CommonModule} from '@angular/common';
+import { AuthFacade } from './auth/store/auth.facade';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, SidenavComponent, TopnavComponent, FormsModule, LMarkdownEditorModule],
+  imports: [
+    CommonModule,
+    RouterOutlet
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'connected-web';
+
+  private readonly authFacade = inject(AuthFacade);
+  readonly isLoading$ = this.authFacade.isLoading$;
+  readonly platformId = inject(PLATFORM_ID);
+
+  ngOnInit(): void {
+    this.authFacade.loadSession().then(() => {
+      // Only access document if running in the browser
+      if (isPlatformBrowser(this.platformId)) {
+        const splash = document.getElementById('splash-screen');
+        if (splash) {
+          splash.remove();
+        }
+      }
+    });
+  }
 }

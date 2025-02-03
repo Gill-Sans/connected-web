@@ -21,6 +21,8 @@
     "@angular/platform-server": "^19.1.0",
     "@angular/router": "^19.1.0",
     "@angular/ssr": "^19.1.4",
+    "@ngrx/effects": "^19.0.1",
+    "@ngrx/store": "^19.0.1",
     "ace-builds": "^1.37.5",
     "bootstrap": "^5.3.3",
     "emoji-toolkit": "^9.0.1",
