@@ -38,6 +38,10 @@ table {
   table-layout: fixed;
 }
 
+th, td {
+  padding: 1em 1em 1em 0;
+}
+
 .app-container {
   display: grid;
   grid-template-columns: 15% auto;
