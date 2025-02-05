@@ -25,16 +25,16 @@ export class ProjectOverviewComponent {
     description: 'ProjectConnect is an application with the aim of collecting project proposals and matching students with the right project for themProjectConnect is an application with the aim of collecting project proposals and matching students with the right project for them',
     tags: ['frontend', 'Laravel', 'Python']},
     {
-    title: 'ProjectConnect',
-    description: 'ProjectConnect is an application with the aim of collecting project proposals and matching students with the right project for themProjectConnect is an application with the aim of collecting project proposals and matching students with the right project for them',
+    title: 'Een project met een hele lange naam die ik niet zelf kan en wil bedenken maar toch zal moeten',
+    description: 'ProjectConnect is an application with the aim of collecting project ',
     tags: ['frontend', 'Laravel', 'Python']},
     {
     title: 'ProjectConnect',
-    description: 'ProjectConnect is an application with the aim of collecting project proposals and matching students with the right project for themProjectConnect is an application with the aim of collecting project proposals and matching students with the right project for them',
+    description: 'ProjectConnect is an application with the aim of collecting project proposals and matching students with the right project for themProjectConnect is an application with the aim of collecting project proposals and matching students with the right project for them ProjectConnect is an application with the aim of collecting project proposals and matching students with the right project for themProjectConnect is an application with the aim of collecting project proposals and matching students with the right project for them',
     tags: ['frontend', 'Laravel', 'Python']},
     {
       title: 'ProjectConnect',
-      description: 'ProjectConnect is an application with the aim of collecting project proposals and matching students with the right project for themProjectConnect is an application with the aim of collecting project proposals and matching students with the right project for them',
+      description: 'ProjectConnect is an application with the aim of collecting project proposals and matching students with the right project for themProjectConnect is an application with the aim of collecting project proposals and matching students with the right project for them is an application with the aim of collecting project proposals and matching students with the right project for them',
       tags: ['frontend', 'Laravel', 'Python']},
     {
     title: 'ProjectConnect',
@@ -42,7 +42,7 @@ export class ProjectOverviewComponent {
     tags: ['frontend', 'Laravel', 'Python']},
     {
       title: 'ProjectConnect',
-      description: 'ProjectConnect is an application with the aim of collecting project proposals and matching students with the right project for themProjectConnect is an application with the aim of collecting project proposals and matching students with the right project for them',
+      description: 'ProjectConnect is an applProjectConnect is an application with the aim of collecting project proposals and matching students with the right project for themProjectConnect is an application with the aim of collecting project proposals and matching students with the right project for themProjectConnect is an application with the aim of collecting project proposals and matching students with the right project for themProjectConnect is an application with the aim of collecting project proposals and matching students with the right project for themh the right project for them',
       tags: ['frontend', 'Laravel', 'Python']},
     {
       title: 'ProjectConnect',
