@@ -1,25 +1,5 @@
 @use "./reset.scss" as *;
-
-// Variables
-$background-color: #f5f7f9;
-$highlight-color: #7662f6;
-$text-color: #47485b;
-
-$box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
-$border-radius: 10px;
-$border-color: #d9d9d9;
-
-// Spacings
-$spacing: 2rem;
-$small-spacing: 1rem;
-
-// Sizes
-$icon-size: 50px;
-$notification-size: 25px;
-$badge-size: 16px;
-
-// Derived colors
-$hover-bg: #e2e3e4;
+@use "./styles/variables.scss" as *;
 
 // Mixins
 @mixin text-ellipsis {
@@ -283,29 +263,28 @@ th, td {
   }
 }
 
-/* Splash screen covering the entire viewport */
 #splash-screen {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: #ffffff; /* White background; change as needed */
+  background: #ffffff;
   z-index: 9999;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-/* The spinner styling */
+
 .spinner {
-  border: 12px solid #f3f3f3; /* Light grey */
-  border-top: 12px solid #3498db; /* Blue color for the spinner top */
+  border: 12px solid #f3f3f3;
+  border-top: 12px solid #3498db;
   border-radius: 50%;
   width: 80px;
   height: 80px;
   animation: spin 1s linear infinite;
 }
-/* Animation keyframes for the spinner */
+
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
@@ -339,9 +318,8 @@ th, td {
   .tab {
     padding: 10px 15px;
     cursor: pointer;
-    font-size: 14px;
     font-weight: bold;
-    color: #666;
+    color: $text-color;
     transition: 0.25s;
     border-bottom: 2px solid transparent;
   }
