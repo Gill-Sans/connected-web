@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Role } from '../../auth/models/role.model';
+
 
 @Component({
   selector: 'app-sidenav',
@@ -8,5 +10,5 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   styleUrl: './sidenav.component.scss'
 })
 export class SidenavComponent {
-
+  public Role = Role;
 }
