@@ -1,6 +1,7 @@
 import {AuthFacade} from '../../auth/store/auth.facade';
 import {CommonModule} from '@angular/common';
 import {inject, Component} from '@angular/core';
+import { Role } from '../../auth/models/role.model';
 
 @Component({
   selector: 'app-topnav',
@@ -11,6 +12,8 @@ import {inject, Component} from '@angular/core';
   styleUrl: './topnav.component.scss'
 })
 export class TopnavComponent {
+  public Role = Role;
+
   isHidden = true;
   private readonly authFacade = inject(AuthFacade);
   readonly user$ = this.authFacade.user$;

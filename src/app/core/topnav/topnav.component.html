@@ -29,7 +29,7 @@
         <span class="notification-badge">3</span>
       </div>
       <div *ngIf="user$ | async as user; else loading">
-        <span class="nav-name">Welcome, {{ user.email }}!</span>
+        <span class="nav-name">Welcome, {{ user.email + " - " + user.role }}</span>
       </div>
       <ng-template #loading>
         Loading...
