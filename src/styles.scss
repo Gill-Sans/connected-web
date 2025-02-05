@@ -28,7 +28,6 @@ $hover-bg: #e2e3e4;
 }
 
 body {
-  background-color: $background-color;
   font-family: "Poppins", sans-serif;
   overflow: hidden;
 }
@@ -43,6 +42,7 @@ th, td {
 }
 
 .app-container {
+  background-color: $background-color;
   display: grid;
   grid-template-columns: 15% auto;
   grid-template-rows: auto 1fr;
