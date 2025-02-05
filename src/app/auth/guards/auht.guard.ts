@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, combineLatest, of } from 'rxjs';
@@ -8,7 +8,8 @@ import { AppState } from '../models/app.state';
 
 @Injectable({ providedIn: 'root' })
 export class AuthGuard implements CanActivate {
-  constructor(private store: Store<AppState>, private router: Router) {}
+  private readonly store: Store<AppState> = inject(Store);
+  private readonly router: Router = inject(Router);
 
   canActivate(): Observable<boolean> {
     // Combine isAuthenticated and loading states
