@@ -15,10 +15,12 @@ export class TopnavComponent {
   public Role = Role;
 
   isHidden = true;
+  isHiddenProfile= true;
   private readonly authFacade = inject(AuthFacade);
   readonly user$ = this.authFacade.user$;
 
-  toggleHidden() {
-    this.isHidden = !this.isHidden
-  }
+  toggleHidden() {this.isHidden = !this.isHidden}
+
+  toggleHiddenprofile(){this.isHiddenProfile = !this.isHiddenProfile}
+  
 }

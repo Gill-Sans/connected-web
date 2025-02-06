@@ -35,6 +35,18 @@
         Loading...
       </ng-template>
       <div class="user-icon"></div>
+      <img
+        class="dropdown-icon"
+        src="icons/dropdown.svg"
+        alt="Dropdown"
+        (click)="toggleHiddenprofile()"
+      />
+      <div class="dropdownProfile" [hidden]="isHiddenProfile">
+        <ul>
+          <li>My profile</li>
+          <li>Log out</li>
+        </ul>
+      </div>
     </div>
   </div>
 </div>
