@@ -7,6 +7,7 @@ import {AuthLayoutComponent} from './feature/auth-layout/auth-layout.component';
 import { ProjectCreateComponent } from './feature/project-create/project-create.component';
 import { projectDetailsRoutes } from './feature/project-details/project-details.routes';
 import { ProjectDetailsComponent } from './feature/project-details/project-details.component';
+import {CourseOverviewComponent} from './feature/courses/course-overview/course-overview.component';
 export const routes: Routes = [
   {
     // Authenticated routes
@@ -16,7 +17,9 @@ export const routes: Routes = [
     children: [
       { path: 'projects', component: ProjectOverviewComponent },
       {path: 'projects/create', component: ProjectCreateComponent},
-      {path: 'projects/:id', children: projectDetailsRoutes}
+      {path: 'projects/:id', children: projectDetailsRoutes},
+      {path: 'courses', component: CourseOverviewComponent},
+      {path: '', redirectTo: 'projects', pathMatch: 'full'}
     ]
   },
   {
