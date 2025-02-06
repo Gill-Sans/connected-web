@@ -1,0 +1,25 @@
+<div class="overlay">
+  <div class="modal">
+    <button class="close-btn" (click)="close()">✖</button>
+    <h2>Create a course</h2>
+
+    <p><strong>Import a course from Canvas</strong></p>
+
+    <div class="courses-container">
+      <ng-container *ngIf="courses$ | async as courses; else loading">
+        <button
+          *ngFor="let course of courses"
+          class="course-btn"
+          [class.selected]="selectedCourse?.id === course.id"
+          (click)="selectCourse(course)">
+          {{ course.name }}
+        </button>
+      </ng-container>
+      <ng-template #loading>
+        <p>Loading courses...</p>
+      </ng-template>
+    </div>
+
+    <button class="continue-btn" [disabled]="!selectedCourse">Continue</button>
+  </div>
+</div>

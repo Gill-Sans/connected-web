@@ -1,0 +1,2 @@
+<app-button type="post" label="Import a course" (click)="openModal()"></app-button>
+<app-create-course *ngIf="isModalOpen" (closeModal)="closeModal()"></app-create-course>
