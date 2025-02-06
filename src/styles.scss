@@ -192,8 +192,13 @@ th, td {
       z-index: 1000;
       ul{
         padding: $small-spacing;
+        list-style: none;
         li{
           padding: 10px;
+          cursor: pointer;
+        }
+        li:hover {
+          background-color: #f0f0f0; // Voeg een hover effect toe
         }
       }
     }
@@ -350,5 +355,90 @@ th, td {
   .tab.active {
     color: #6200ea; /* Paarse kleur*/
     border-bottom: 2px solid #7662f6;
+  }
+}
+
+
+.profilepage{
+  margin: auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 8px;
+
+  .profile-header{
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .profile-info{
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    margin-bottom: 20px;
+
+    .user-image{
+      margin-top: 20px;
+      border-radius: 50%;
+      width: 100px;
+      height: 100px;
+      border: 2px solid #abaaac;
+    }
+  
+    .profile-name{
+      font-size: 22px;
+      font-weight: bold;
+    }
+  }
+
+  .about-me{
+   
+    p{
+      padding-bottom: 20px;
+    }
+
+    .about-me-text{
+      width: 100%;
+      min-height: 50px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      white-space: pre-wrap; // Zorg ervoor dat de tekst correct wordt weergegeven
+      word-wrap: break-word; // Zorg ervoor dat lange woorden worden afgebroken
+    }
+  }
+
+  .linkedin-section {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    p {
+      font-weight: bold;
+    }
+    .linkedin-link {
+      display: block;
+      width: fit-content;
+      color: #0077b5;
+      text-decoration: none;
+      border-bottom: 1px solid #0077b5;
+      padding-bottom: 2px;
+    }
+
+    .linkedin-link:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .skillset {
+    margin-top: 20px;
+    p {
+      font-weight: bold;
+    }
+
+    
+
   }
 }

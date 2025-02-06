@@ -8,6 +8,7 @@ import { ProjectCreateComponent } from './feature/project-create/project-create.
 import { projectDetailsRoutes } from './feature/project-details/project-details.routes';
 import { ProjectDetailsComponent } from './feature/project-details/project-details.component';
 import {CourseOverviewComponent} from './feature/courses/course-overview/course-overview.component';
+import { ProfilepageComponent } from './feature/profilepage/profilepage.component';
 export const routes: Routes = [
   {
     // Authenticated routes
@@ -19,7 +20,8 @@ export const routes: Routes = [
       {path: 'projects/create', component: ProjectCreateComponent},
       {path: 'projects/:id', children: projectDetailsRoutes},
       {path: 'courses', component: CourseOverviewComponent},
-      {path: '', redirectTo: 'projects', pathMatch: 'full'}
+      {path: '', redirectTo: 'projects', pathMatch: 'full'},
+      {path: 'profile', component: ProfilepageComponent}
     ]
   },
   {

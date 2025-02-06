@@ -1,0 +1,46 @@
+
+<div class="profilepage">
+    <div class="profile-header">
+        <app-button label="Back" type="back" class="back-btn" routerLink="/projects"></app-button>
+        <app-button label="Edit" type="edit" class="edit-btn" routerLink="/edit-profile"></app-button>
+    </div>
+    <div class="profile-info">
+    <img 
+        *ngIf="userImage; else placeholderImage"
+        class="user-image" 
+        src="userImage" 
+        alt="profile picture"
+    />
+    <ng-template #placeholderImage>
+        <img
+            class="user-image"
+            src="icons/placeholderpic.svg"
+        />
+    </ng-template>
+        <p class="profile-name">{{first_name}} {{last_name}}</p>
+    </div>
+
+
+        <!-- about the user section -->
+    <div class="about-me">
+        <p>About me</p>
+        <div class="about-me-text" >
+            {{about_me}}
+        </div>
+    </div>
+
+    <!-- linkedin section -->
+    <div class="linkedin-section">
+        <img src="icons/links/Linkedin.svg" alt="linkedIn" class="linkedin-icon">
+        <a [href]="linkedinUrl" target="_blank" class="linkedin-link">{{linkedinUrl}}</a>
+    </div>
+
+
+    <!-- Skillset -->
+    <div class="skillset">
+        <p>Skillset</p>
+        <div>
+           <app-tagcard *ngFor="let skill of skills" [tag]="skill" ></app-tagcard>
+        </div>
+    </div>
+</div>

@@ -43,8 +43,8 @@
       />
       <div class="dropdownProfile" [hidden]="isHiddenProfile">
         <ul>
-          <li>My profile</li>
-          <li>Log out</li>
+          <li (click)="navigateToProfile()">My profile</li>
+          <li (click)="logout()">Log out</li>
         </ul>
       </div>
     </div>
