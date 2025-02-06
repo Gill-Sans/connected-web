@@ -34,13 +34,8 @@
       <ng-template #loading>
         Loading...
       </ng-template>
-      <div class="user-icon"></div>
-      <img
-        class="dropdown-icon"
-        src="icons/dropdown.svg"
-        alt="Dropdown"
-        (click)="toggleHiddenprofile()"
-      />
+      <div class="user-icon" (click)="toggleHiddenprofile()"></div>
+      
       <div class="dropdownProfile" [hidden]="isHiddenProfile">
         <ul>
           <li (click)="navigateToProfile()">My profile</li>
