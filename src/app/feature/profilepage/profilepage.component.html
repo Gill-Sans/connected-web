@@ -6,9 +6,9 @@
     </div>
     <div class="profile-info">
     <img 
-        *ngIf="userImage; else placeholderImage"
+        *ngIf="user?.avatarUrl else placeholderImage"
         class="user-image" 
-        src="userImage" 
+        src="user.avatarUrl" 
         alt="profile picture"
     />
     <ng-template #placeholderImage>
@@ -17,30 +17,28 @@
             src="icons/placeholderpic.svg"
         />
     </ng-template>
-        <p class="profile-name">{{first_name}} {{last_name}}</p>
+        <p class="profile-name">{{user?.firstName}} {{user?.lastName}}</p>
     </div>
-
 
         <!-- about the user section -->
     <div class="about-me">
         <p>About me</p>
         <div class="about-me-text" >
-            {{about_me}}
+            {{user?.aboutMe  || 'No information provided'  }}
         </div>
     </div>
 
     <!-- linkedin section -->
     <div class="linkedin-section">
         <img src="icons/links/Linkedin.svg" alt="linkedIn" class="linkedin-icon">
-        <a [href]="linkedinUrl" target="_blank" class="linkedin-link">{{linkedinUrl}}</a>
+        <a [href]="user?.linkedinUrl" target="_blank" class="linkedin-link">{{user.linkedinUrl || 'no link given yet'}}</a>
     </div>
-
 
     <!-- Skillset -->
     <div class="skillset">
         <p>Skillset</p>
         <div>
-           <app-tagcard *ngFor="let skill of skills" [tag]="skill" ></app-tagcard>
+           <app-tagcard *ngFor="let tag of user?.tags" [tag]="tag" ></app-tagcard>
         </div>
     </div>
 </div>

@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import * as AuthActions from './auth.actions'; // Actions like loadSession, redirectToLogin, logout
 import * as AuthSelectors from './auth.selectors';
 import {filter, take} from 'rxjs/operators';
-import {firstValueFrom, map} from 'rxjs'; // Selectors like selectUser, selectIsAuthenticated, etc.
+import {firstValueFrom, map, Observable} from 'rxjs'; // Selectors like selectUser, selectIsAuthenticated, etc.
 
 @Injectable({ providedIn: 'root' })
 export class AuthFacade {
@@ -36,6 +36,7 @@ export class AuthFacade {
   redirectToCanvasLogin(): void {
     this.store.dispatch(AuthActions.redirectToCanvasLogin());
   }
+
 
   // TODO: Implement logout functionality
   // logout(): void {

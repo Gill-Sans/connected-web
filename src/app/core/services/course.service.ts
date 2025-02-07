@@ -9,7 +9,7 @@ export class CourseService {
 
   getCanvasCourses(role: string): Observable<any[]> {
     return this.http.post<any[]>(`${this.apiBaseUrl}/canvas?EnrollmentType=${role}`, {}, {
-      withCredentials: true // ✅ This will now be sent as a request option instead of body
+      withCredentials: true //This will now be sent as a request option instead of body
     });
   }
 }
