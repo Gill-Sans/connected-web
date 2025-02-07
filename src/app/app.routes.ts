@@ -21,7 +21,7 @@ export const routes: Routes = [
       {path: 'projects/:id', children: projectDetailsRoutes},
       {path: 'courses', component: CourseOverviewComponent},
       {path: '', redirectTo: 'projects', pathMatch: 'full'},
-      {path: 'profile', component: ProfilepageComponent}
+      {path: 'profile/${id}', component: ProfilepageComponent}
     ]
   },
   {

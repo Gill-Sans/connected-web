@@ -396,6 +396,8 @@ th, td {
    
     p{
       padding-bottom: 20px;
+      font-weight: bold;
+
     }
 
     .about-me-text{
@@ -408,6 +410,17 @@ th, td {
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
       white-space: pre-wrap; // Zorg ervoor dat de tekst correct wordt weergegeven
       word-wrap: break-word; // Zorg ervoor dat lange woorden worden afgebroken
+    }
+  }
+
+  .field-of-study{
+    margin: 20px 20px 20px 0;
+    display: flex;
+    align-items: center;
+    
+    p{
+      font-weight: bold;
+      margin-bottom: 10px;
     }
   }
 

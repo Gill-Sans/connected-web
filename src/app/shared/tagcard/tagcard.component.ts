@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { tag } from '../../auth/models/tag.model';
 
 @Component({
   selector: 'app-tagcard',

@@ -17,8 +17,9 @@ export class UserService {
     return this.http.get<User>(`${this.baseUrl}/${id}`, { withCredentials: true });
   }
 
-  updateUserProfile(id: number,updatedUser: any): Observable<User> {
-    return this.http.put<User>(`${this.baseUrl}/${id}`, updatedUser);
+  //TODO change any type to userupdate type
+  updateUserProfile(updatedUser: any): Observable<User> {
+    return this.http.patch<User>(`${this.baseUrl}/update`, updatedUser , { withCredentials: true } );
   }
 
 
