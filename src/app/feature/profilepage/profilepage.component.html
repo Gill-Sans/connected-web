@@ -24,27 +24,24 @@
     <div class="about-me">
         <p>About me</p>
         <div class="about-me-text" >
-            <textarea class="about-me-text" [(ngModel)]="aboutMe" > {{user?.aboutMe}}</textarea>
+            <textarea *ngIf="user" class="about-me-text" [(ngModel)]="user.aboutMe" > {{user?.aboutMe}}</textarea>
         </div>
     </div>
 
     <div class="field-of-study">
         <p>Field of Study</p>
-        <input [(ngModel)]="fieldOfStudy" class="field-of-study-input" />
+        <input *ngIf="user" [(ngModel)]="user.fieldOfStudy" class="field-of-study-input" />
     </div>
 
     <!-- linkedin section -->
     <div class="linkedin-section">
         <img src="icons/links/Linkedin.svg" alt="linkedIn" class="linkedin-icon">
-        <input [(ngModel)]="linkedinUrl" class="linkedin-link" />
+        <input *ngIf="user"[(ngModel)]="user.linkedinUrl" class="linkedin-link" />
       </div>
-    
 
     <!-- Skillset -->
     <div class="skillset">
         <p>Skillset</p>
-        <div>
-           <app-tagcard *ngFor="let tag of user?.tags" [tag]="tag.name" ></app-tagcard>
-        </div>
+        <app-tag-search-component (tagSelected)="addTagToUser($event)"></app-tag-search-component>
     </div>
 </div>

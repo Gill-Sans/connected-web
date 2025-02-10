@@ -1,72 +1,97 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { AuthFacade } from '../../auth/store/auth.facade';
-import { FormsModule } from '@angular/forms'; 
-
+import { User } from '../../auth/models/user.model';
 import { ButtonComponent } from '../../shared/button/button.component';
 import { TagcardComponent } from '../../shared/tagcard/tagcard.component';
 import { UserService } from '../../core/services/user.service';
+import { TagService } from '../../core/services/tag.service';
 import { switchMap } from 'rxjs';
-import { User } from '../../auth/models/user.model';
-
+import { FormsModule } from '@angular/forms';
+import { tag } from '../../shared/models/tag.model';
+import { TagSearchComponentComponent } from '../../shared/tag-search-component/tag-search-component.component';
 @Component({
   selector: 'app-profilepage',
-  imports: [CommonModule,
-            ButtonComponent,
-            TagcardComponent,
-            FormsModule
-  ],
+  imports: [CommonModule,ButtonComponent,TagcardComponent,FormsModule,TagSearchComponentComponent],
   templateUrl: './profilepage.component.html',
-  styleUrls: ['./profilepage.component.scss']
+  styleUrl: './profilepage.component.scss'
 })
 export class ProfilepageComponent implements OnInit {
   user: User | null = null;
+  tag: tag | null = null;
   isEditing = false;
-  aboutMe: string = '';
-  fieldOfStudy: string = '';
-  linkedinUrl: string = '';
   private readonly authFacade = inject(AuthFacade);
   readonly user$ = this.authFacade.user$;
+  newTag: string = '';
+  showTagInput: boolean = false;
+  private currentUser: User | null = null;
 
-  constructor(private userService: UserService) { }
+  constructor(
+    private userService: UserService,
+    private tagService: TagService
+  ) { }
 
   ngOnInit() {
     this.authFacade.user$.subscribe(user => {
-      if (user) {
-        this.userService.getUserProfile(user.id).subscribe(userDetails => {
-          this.user = userDetails;
-          this.aboutMe = userDetails.aboutMe || '';
-          this.fieldOfStudy = userDetails.fieldOfStudy || '';
-          this.linkedinUrl = userDetails.linkedinUrl || '';
-        });
-        console.log("Ingelogde user vanuit state:", user);
-      } else {
-        console.error("User is null");
-      }
-    });
+      this.currentUser = user;
+      if(user != null){
+      this.userService.getUserProfile(user.id).subscribe(userDetails => {
+        this.user = userDetails;
+      });
+    } else{
+      console.log("ingelogde user vanuit state: " , user);
+    }
+    })
   }
 
-  toggleEditMode() {
-    this.isEditing = !this.isEditing;
+  get canEditProfile(): boolean {
+    return this.user?.id === this.currentUser?.id;
   }
 
-  saveProfile() {
-    if (!this.user) return;
+  addTagToUser(selectedTag:tag) {
+    if(!this.user || !this.user.tags) return;
 
-    this.user.aboutMe = this.aboutMe;
-    this.user.fieldOfStudy = this.fieldOfStudy;
-    this.user.linkedinUrl = this.linkedinUrl;
+   if(!this.user.tags.some(t => t.name === this.newTag)){
+    this.user.tags?.push(selectedTag);
+  }
+}
 
-    const observer = {
-      next: (response: User) => {
-        console.log('Profile updated:', response);
-        this.isEditing = false;
-      },
-      error: (error: any) => {
-        console.error('Error updating profile:', error);
-      }
+
+  removeTag(tagIdToRemove: number) {
+    if (!this.user?.tags) return;
+  
+    // Expliciet checken welke tag we gaan verwijderen
+    const tagToRemove = this.user.tags.find(tag => tag.id === tagIdToRemove);
+  
+    // Filter de specifieke tag eruit
+    const updatedTags = this.user.tags.filter(tag => tag.id !== tagIdToRemove);
+  
+    // Update de user tags
+    this.user.tags = updatedTags;
+  }
+  
+
+  //save the user profile 
+  saveProfile(){
+    if(!this.user) return;
+
+    const updatedUser: Partial<User> = {
+      id: this.user.id,
+      aboutMe: this.user.aboutMe,
+      fieldOfStudy: this.user.fieldOfStudy,
+      linkedinUrl: this.user.linkedinUrl,
+      tags: this.user.tags
     };
 
-    this.userService.updateUserProfile(this.user).subscribe(observer);
+    this.userService.updateUserProfile(updatedUser).subscribe(
+      updatedUser => {
+        this.user = updatedUser;
+        this.isEditing = false;
+        console.log("Profile updated successfully:", updatedUser);
+      },
+      error => {
+        console.error('Error updating profile:', error);
+      }
+    );
   }
 }
