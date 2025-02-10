@@ -1,27 +1,48 @@
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
 .card {
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    height: 100%;
-    transition: 0.3s ease-in-out;
-  }
+  display: flex;
+  flex-direction: column;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  transition: 0.3s ease-in-out;
+  flex-grow: 1;
+  height: 100%;
+  max-width: 600px; /* Adjust the max width for better responsiveness */
+}
 
-  .card:hover {
-    transform: translateY(-3px);
-    cursor: pointer;
-  }
+.card-header {
+  flex-shrink: 0; /* Prevent the header from shrinking */
+}
 
-  .card-header h3 {
-    font-size: 20px;
-    padding-bottom: 10px;
-  }
+.card-header h3 {
+  font-size: 20px;
+  margin: 0;
+  padding-bottom: 1rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; /* Adds "..." for long titles */
+}
 
-  .card-tags {
-    margin: 10px 0;
-  }
+.card-body {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1; /* Allow description to take available space */
+}
 
-  .card-body p {
-    font-size: 14px;
-    color: #666;
-  }
+.card-body p {
+  font-size: 14px;
+  color: #666;
+  flex-grow: 1; /* This allows the description to grow and fill available space */
+}
+
+.card-tags {
+  margin-top: auto; /* Keeps tags at the bottom of the card */
+}

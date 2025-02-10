@@ -17,7 +17,19 @@ body {
   overflow: hidden;
 }
 
-h1, h2, h3, h4, h5, h6, p, a, span, div, input, button, label {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+a,
+span,
+div,
+input,
+button,
+label {
   color: $text-color;
 }
 
@@ -41,15 +53,17 @@ table {
   table-layout: fixed;
 }
 
-th, td {
+th,
+td {
   padding: 1em 1em 1em 0;
 }
 
-.app-container, .auth-container {
+.app-container,
+.auth-container {
   background-color: $background-color;
 }
 
-.auth-container{
+.auth-container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -110,7 +124,7 @@ th, td {
       z-index: 5;
       padding: $small-spacing 0;
       border-radius: 0 0 $border-radius $border-radius;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); 
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
       dl {
         padding: $small-spacing;
 
@@ -182,18 +196,18 @@ th, td {
       gap: 3rem;
     }
 
-    .dropdownProfile{
+    .dropdownProfile {
       position: absolute;
-      top: 3.80rem; 
-      right: 0; 
-      background-color: white; 
+      top: 3.8rem;
+      right: 0;
+      background-color: white;
       border-radius: 10px;
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
       z-index: 1000;
-      ul{
+      ul {
         padding: $small-spacing;
         list-style: none;
-        li{
+        li {
           padding: 10px;
           cursor: pointer;
         }
@@ -241,8 +255,6 @@ th, td {
     width: $icon-size;
     height: $icon-size;
   }
-
-
 }
 
 .sidenav {
@@ -269,16 +281,17 @@ th, td {
       color: $highlight-color;
 
       .icon {
-        filter: invert(33%) sepia(94%) saturate(1502%) hue-rotate(231deg) brightness(99%) contrast(95%);
+        filter: invert(33%) sepia(94%) saturate(1502%) hue-rotate(231deg)
+          brightness(99%) contrast(95%);
       }
-
     }
 
     .icon {
       width: 25px;
       height: 25px;
       margin-right: $small-spacing;
-      filter: brightness(0) saturate(100%) invert(25%) sepia(10%) saturate(995%) hue-rotate(199deg) brightness(100%) contrast(87%);
+      filter: brightness(0) saturate(100%) invert(25%) sepia(10%) saturate(995%)
+        hue-rotate(199deg) brightness(100%) contrast(87%);
     }
 
     span {
@@ -310,22 +323,23 @@ th, td {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .project-overview {
   /* Project Overview cards styling */
   padding: 20px;
 
-  .container {
-    padding: 20px;
-  }
-
   .card-container {
     display: grid;
     grid-template-columns: repeat(3, 1fr); /* 3 cards per row */
-    gap: 20px;
+    gap: 1em;
+    grid-auto-rows: 1fr;
   }
 
   .card-container > * {
@@ -358,47 +372,45 @@ th, td {
   }
 }
 
-
-.profilepage{
+.profilepage {
   margin: auto;
   padding: 20px;
   background: #fff;
   border-radius: 8px;
 
-  .profile-header{
-    display:flex;
+  .profile-header {
+    display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
   }
 
-  .profile-info{
+  .profile-info {
     display: flex;
     gap: 20px;
     align-items: center;
     margin-bottom: 20px;
 
-    .user-image{
+    .user-image {
       margin-top: 20px;
       border-radius: 50%;
       width: 100px;
       height: 100px;
       border: 2px solid #abaaac;
     }
-  
-    .profile-name{
+
+    .profile-name {
       font-size: 22px;
       font-weight: bold;
     }
   }
 
-  .about-me{
-   
-    p{
+  .about-me {
+    p {
       padding-bottom: 20px;
     }
 
-    .about-me-text{
+    .about-me-text {
       width: 100%;
       min-height: 50px;
       padding: 10px;
@@ -437,8 +449,5 @@ th, td {
     p {
       font-weight: bold;
     }
-
-    
-
   }
 }
