@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { TagcardComponent } from '../tagcard/tagcard.component';
 import { CommonModule } from '@angular/common';
-
+import { tag } from '../models/tag.model';
 @Component({
   selector: 'app-projectcard',
   imports: [TagcardComponent, CommonModule ],
@@ -11,5 +11,5 @@ import { CommonModule } from '@angular/common';
 export class ProjectcardComponent {
   @Input() title: string = 'placeholder';
   @Input() description: string = 'placeholder';
-  @Input() tags: string[] = ['placeholder'];
+  @Input() tags: tag[] = [{ id: 0, name: 'placeholder' }];  // Changed to tag[]
 }

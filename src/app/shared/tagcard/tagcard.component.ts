@@ -1,21 +1,25 @@
-import { Component, Input } from '@angular/core';
-import { tag } from '../../auth/models/tag.model';
-
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { tag } from '../models/tag.model';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-tagcard',
-  imports: [],
+  imports: [CommonModule,FormsModule],
   templateUrl: './tagcard.component.html',
   styleUrl: './tagcard.component.scss'
 })
 export class TagcardComponent {
-  private _tag: string = 'placeholder';
+  @Input() tag!: tag;
+  @Input() showDelete: boolean = false;
+  @Output() deleteTag = new EventEmitter<number>();
 
-  @Input()
-  set tag(value: string){
-    this._tag = value || 'placeholder';
+  onDelete() {
+    console.log('Verwijderen van tag:', this.tag);
+    this.deleteTag.emit(this.tag.id);
   }
-  get tag(): string {
-    return this._tag;
-  }
+ 
+
+  
+
 
 }
