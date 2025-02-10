@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { ConversationcardComponent } from "../../../../shared/conversationcard/conversationcard.component";
+import { ConversationcardComponent } from "../../../../shared/components/conversationcard/conversationcard.component";
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ButtonComponent } from '../../../../shared/button/button.component';
+import { ButtonComponent } from '../../../../shared/components/button/button.component';
 
 @Component({
   selector: 'app-feedback',
@@ -27,7 +27,7 @@ export class FeedbackComponent {
     }
   ];
 
- 
+
 
   submitFeedback() {
     if (this.newFeedback.trim() === '') return;

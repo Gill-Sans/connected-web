@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { StatuscardComponent } from '../../../../shared/statuscard/statuscard.component';
+import { StatuscardComponent } from '../../../../shared/components/statuscard/statuscard.component';
 import { CommonModule } from '@angular/common';
 
 @Component({

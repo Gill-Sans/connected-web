@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
-import { ButtonComponent } from '../../../shared/button/button.component';
+import { ButtonComponent } from '../../../shared/components/button/button.component';
 import {CommonModule} from '@angular/common';
-import {CreateCourseComponent} from '../create-course/create-course.component';
+import {CourseCreateComponent} from '../course-create/course-create.component';
 
 @Component({
   selector: 'app-course-overview',
   imports: [
     CommonModule,
     ButtonComponent,
-    CreateCourseComponent
+    CourseCreateComponent
   ],
   templateUrl: './course-overview.component.html',
   styleUrl: './course-overview.component.scss'

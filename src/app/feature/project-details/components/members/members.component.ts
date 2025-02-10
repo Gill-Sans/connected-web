@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { RoleDropdownComponent } from '../../../../shared/role-dropdown/role-dropdown.component';
+import { RoleDropdownComponent } from '../../../../shared/components/role-dropdown/role-dropdown.component';
 import { CommonModule } from '@angular/common';
-import { ConfirmDialogComponent } from '../../../../shared/confirm-dialog/confirm-dialog.component';
+import { ConfirmDialogComponent } from '../../../../shared/components/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-members',

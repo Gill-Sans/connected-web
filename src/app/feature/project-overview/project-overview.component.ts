@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ProjectcardComponent } from '../../shared/projectcard/projectcard.component';
+import { ProjectcardComponent } from '../../shared/components/projectcard/projectcard.component';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 
