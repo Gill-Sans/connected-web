@@ -1,15 +1,14 @@
-import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
-import { AuthFacade } from '../../auth/store/auth.facade';
-import { User } from '../../auth/models/user.model';
-import { ButtonComponent } from '../../shared/components/button/button.component';
-import { TagcardComponent } from '../../shared/components/tagcard/tagcard.component';
-import { UserService } from '../../core/services/user.service';
-import { TagService } from '../../core/services/tag.service';
-import { switchMap } from 'rxjs';
-import { FormsModule } from '@angular/forms';
-import { tag } from '../../shared/models/tag.model';
-import { TagSearchComponentComponent } from '../../shared/tag-search-component/tag-search-component.component';
+import {CommonModule} from '@angular/common';
+import {Component, inject, OnInit} from '@angular/core';
+import {AuthFacade} from '../../auth/store/auth.facade';
+import {User} from '../../auth/models/user.model';
+import {ButtonComponent} from '../../shared/components/button/button.component';
+import {TagcardComponent} from '../../shared/components/tagcard/tagcard.component';
+import {UserService} from '../../core/services/user.service';
+import {FormsModule} from '@angular/forms';
+import {tag} from '../../shared/models/tag.model';
+import {TagSearchComponentComponent} from '../../shared/tag-search-component/tag-search-component.component';
+
 @Component({
   selector: 'app-profilepage',
   imports: [CommonModule,ButtonComponent,FormsModule,TagSearchComponentComponent,TagcardComponent],
@@ -27,8 +26,7 @@ export class ProfilepageComponent implements OnInit {
   private currentUser: User | null = null;
 
   constructor(
-    private userService: UserService,
-    private tagService: TagService
+    private userService: UserService
   ) { }
 
   ngOnInit() {
@@ -64,14 +62,9 @@ export class ProfilepageComponent implements OnInit {
   removeTag(tagIdToRemove: number) {
     if (!this.user?.tags) return;
 
-    // Expliciet checken welke tag we gaan verwijderen
-    const tagToRemove = this.user.tags.find(tag => tag.id === tagIdToRemove);
-
     // Filter de specifieke tag eruit
-    const updatedTags = this.user.tags.filter(tag => tag.id !== tagIdToRemove);
-
     // Update de user tags
-    this.user.tags = updatedTags;
+    this.user.tags = this.user.tags.filter(tag => tag.id !== tagIdToRemove);
   }
 
 
