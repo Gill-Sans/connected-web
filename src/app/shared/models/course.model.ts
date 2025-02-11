@@ -1,3 +1,5 @@
+import {Assignment} from './assignment.model';
+
 export interface Course {
   id: number
   uuid: string
@@ -5,6 +7,6 @@ export interface Course {
   start_at: Date
   end_at: Date
   owner_id: number
-  //assignments: Assignment[]
+  assignments: Assignment[]
 }
 
