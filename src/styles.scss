@@ -30,6 +30,7 @@ div,
 input,
 button,
 label {
+  font-family: inherit;
   color: $text-color;
 }
 
@@ -46,6 +47,15 @@ h2 {
 h3 {
   font-size: 1.6rem;
   font-weight: bold;
+}
+
+h4 {
+  font-size: 1.33333rem;
+  font-weight: bold;
+}
+
+p {
+  font-size: 1rem;
 }
 
 table {
@@ -407,7 +417,7 @@ td {
 
   .about-me {
     margin: 20px 0;
-    
+
     p {
       font-weight: bold;
       margin-bottom: 10px;
@@ -427,7 +437,7 @@ td {
       line-height: 1.4;
       color: $text-color;
       resize: none;
-      
+
       &:focus {
         outline: none;
         border-color: $highlight-color;
@@ -440,7 +450,7 @@ td {
     display: flex;
     align-items: center;
     gap: 20px;
-    
+
     p {
       font-weight: bold;
       min-width: 120px;
@@ -456,7 +466,7 @@ td {
       font-size: 16px;
       color: $text-color;
       padding: 8px 12px;
-      
+
       &:focus {
         outline: none;
         border-color: $highlight-color;
@@ -469,7 +479,7 @@ td {
     display: flex;
     align-items: center;
     gap: 20px;
-    
+
     p {
       font-weight: bold;
       min-width: 120px;
@@ -486,12 +496,12 @@ td {
       padding: 8px 12px;
       margin-left: 72px;
       background: transparent;
-      
+
       &:focus {
         outline: none;
         border-color: $highlight-color;
       }
-      
+
       &:hover {
         text-decoration: underline;
       }
@@ -504,7 +514,7 @@ td {
     gap: 8px;
     margin-bottom: 16px;
   }
-  
+
 
   .skillset {
     margin-top: 20px;
