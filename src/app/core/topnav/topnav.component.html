@@ -1,6 +1,6 @@
 <div class="topnav">
   <div class="left">
-    <div class="left-content">
+    <div class="left-content" (click)="toggleAssignmentsHidden()" clickOutside (clickOutside)="closeAssignmentsDropdown()">
       <div class="course-icon"></div>
       <div class="course-info">
         <p class="assignment-name">Short-burst Project</p>
@@ -10,9 +10,8 @@
         class="dropdown-icon"
         src="icons/dropdown.svg"
         alt="Dropdown"
-        (click)="toggleHidden()"
       />
-      <div class="dropdown" [hidden]="isHidden">
+      <div class="dropdown" [hidden]="isHiddenAssignments">
         <dl>
           <dt>Java Advanced</dt>
           <dd>Short-burst Project</dd>
@@ -34,8 +33,7 @@
       <ng-template #loading>
         Loading...
       </ng-template>
-      <div class="user-icon" (click)="toggleHiddenprofile()"></div>
-      
+      <div class="user-icon" (click)="toggleHiddenprofile()" clickOutside (clickOutside)="closeProfileDropdown()"></div>
       <div class="dropdownProfile" [hidden]="isHiddenProfile">
         <ul>
           <li (click)="navigateToProfile()">My profile</li>
