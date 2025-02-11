@@ -6,7 +6,6 @@ import { CourseService } from '../../../core/services/course.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Course } from '../../../shared/models/course.model';
 import { AssignmentCreateComponent } from '../../assignments/assignment-create/assignment-create.component';
-import { AssignmentService } from '../../../core/services/assignment.service';
 import { Assignment } from '../../../shared/models/assignment.model';
 
 @Component({
@@ -22,11 +21,8 @@ import { Assignment } from '../../../shared/models/assignment.model';
 })
 export class CourseOverviewComponent implements OnInit {
   private courseService = inject(CourseService);
-  private assignmentService = inject(AssignmentService);
   private coursesSubject = new BehaviorSubject<Course[]>([]);
-  private assignmentsSubject = new BehaviorSubject<Assignment[]>([]);
   courses$: Observable<Course[]> = this.coursesSubject.asObservable();
-  assignments$: Observable<Assignment[]> = this.assignmentsSubject.asObservable();
 
   selectedCourseId: number | null = null;
   showImportCourseModal = false;
@@ -34,31 +30,13 @@ export class CourseOverviewComponent implements OnInit {
 
   ngOnInit() {
     this.loadCourses();
-    this.loadAssignments();
-
-    this.courses$.subscribe(courses => {
-      console.log("Courses:", courses);
-    });
-    this.assignments$.subscribe(assignments => {
-      console.log("Assignments:", assignments);
-    });
   }
 
   loadCourses() {
     this.courseService.getAllCourses().subscribe(courses => {
-
       console.log("🔄 Updating courses list:", courses);
       this.coursesSubject.next(courses);
     });
-  }
-
-  loadAssignments() {
-    if (this.selectedCourseId) {
-      this.assignmentService.getAllAssignments(this.selectedCourseId).subscribe(assignments => {
-        console.log("Updating assignments list: ", assignments);
-        this.assignmentsSubject.next(assignments as Assignment[]);
-      });
-    }
   }
 
   onCourseCreated(newCourse: Course) {
@@ -67,7 +45,7 @@ export class CourseOverviewComponent implements OnInit {
   }
 
   onAssignmentCreated() {
-    this.loadAssignments();
+    this.loadCourses();
     this.showImportAssignmentModal = false;
   }
 
@@ -78,6 +56,5 @@ export class CourseOverviewComponent implements OnInit {
   openAssignmentImportModal(course: Course) {
     this.selectedCourseId = course.id;
     this.showImportAssignmentModal = true;
-    this.loadAssignments();
   }
 }
