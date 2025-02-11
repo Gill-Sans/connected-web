@@ -41,9 +41,12 @@ export class ProfilepageComponent implements OnInit {
     }
     })
   }
+  
 
   get canEditProfile(): boolean {
+  
     return this.user?.id === this.currentUser?.id;
+
   }
 
   addTagToUser(selectedTag:tag) {
