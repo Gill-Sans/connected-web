@@ -21,6 +21,13 @@ export class CourseOverviewComponent implements OnInit{
   private courseService = inject(CourseService);
   private coursesSubject = new BehaviorSubject<Course[]>([]);
   courses$: Observable<Course[]> = this.coursesSubject.asObservable();
+  assignments = [
+    {name: 'verymega insanely long assignment because ow yeah i am a good teacher wow very cool i dunno man more text to implement in them becausedamn 1', dueDate: '2020-01-01', description: 'This is the first assignment'},
+    {name: 'A medium long title for an assignment because wow 2', dueDate: '2020-01-02', description: 'This is the second second second  second second second  second second second  second second second  second second second  second second second  second second second  second second second  assignment'},
+    {name: 'Just a normal assignment name 3', dueDate: '2020-01-03', description: 'This is theassignmentassignment is is is is is isis is  third assignment assignment assignment  vassignment assignment assignment assignment assignment'},
+    {name: 'Machine Learning coding assignment 1st term 4', dueDate: '2020-01-04', description: 'This is the fourth assignment'},
+    {name: 'Assignment 3 - CIA triad and Parkerian Hexad - Case Study Analysis ', dueDate: '2020-01-05', description: 'This is the fifth assignment'},
+  ]
 
   showCreateModal = false;
 
@@ -45,5 +52,9 @@ export class CourseOverviewComponent implements OnInit{
 
   openModal() {
     this.showCreateModal = true;
+  }
+
+  importAssignment() {
+    console.log('importing assignment');
   }
 }
