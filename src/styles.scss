@@ -523,3 +523,65 @@ td {
     }
   }
 }
+
+
+.application-overview-container {
+  margin: auto;
+  background: #fff;
+  border-radius: 8px;
+  padding: 20px;
+
+  .applicant-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+  }
+  .thapplicant{
+    text-align: left;
+  }
+
+  tr.application-row {
+    td {
+      transition: background-color 0.2s ease;
+    }
+    
+    &:hover {
+      td {
+        background-color: #f5f5f5;
+      }
+    }
+  }
+
+  .application-tab {
+    display: flex;
+    margin-bottom: 20px;
+    
+    p {
+      font-weight: bold;
+      color: #6200ea;
+      padding: 10px 15px;
+      margin: 0;
+      position: relative;
+      
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 15px;
+        right: 15px;
+        height: 2px;
+        background-color: #7662f6;
+      }
+    }
+  }
+
+
+
+  
+}
