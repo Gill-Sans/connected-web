@@ -1,21 +1,25 @@
 <div class="project-overview">
   <div class="tabs">
-    <span 
-      *ngFor="let tab of tabOptions" 
-      class="tab" 
+    <span
+      *ngFor="let tab of tabOptions"
+      class="tab"
       [class.active]="selectedTab === tab.value"
-      (click)="changeTab(tab.value)">
+      (click)="changeTab(tab.value)"
+    >
       {{ tab.label }}
     </span>
-  </div> 
+  </div>
 
-    <div class="card-container">
-        <app-projectcard *ngFor="let project of projects" 
-        [title]="project.title" 
-        [description]="project.description" 
-        [tags]="project.tags">
-      </app-projectcard>
-    </div>
+  <div class="card-container">
+    <app-projectcard
+      *ngFor="let project of projects"
+      [title]="project.title"
+      [description]="project.description"
+      [tags]="project.tags"
+      [id]="project.id"
+    >
+    </app-projectcard>
+  </div>
 
-    <router-outlet></router-outlet>
+  <router-outlet></router-outlet>
 </div>
