@@ -1,60 +1,83 @@
-import {Component, inject, OnInit} from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { ButtonComponent } from '../../../shared/components/button/button.component';
-import {CommonModule} from '@angular/common';
-import {CourseCreateComponent} from '../course-create/course-create.component';
-import {log} from 'util';
-import {CourseService} from '../../../core/services/course.service';
-import {BehaviorSubject, Observable} from 'rxjs';
-import {Course} from '../../../shared/models/course.model';
+import { CommonModule } from '@angular/common';
+import { CourseCreateComponent } from '../course-create/course-create.component';
+import { CourseService } from '../../../core/services/course.service';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { Course } from '../../../shared/models/course.model';
+import { AssignmentCreateComponent } from '../../assignments/assignment-create/assignment-create.component';
+import { AssignmentService } from '../../../core/services/assignment.service';
+import { Assignment } from '../../../shared/models/assignment.model';
 
 @Component({
   selector: 'app-course-overview',
   imports: [
     CommonModule,
     ButtonComponent,
-    CourseCreateComponent
+    CourseCreateComponent,
+    AssignmentCreateComponent
   ],
   templateUrl: './course-overview.component.html',
   styleUrl: './course-overview.component.scss'
 })
-export class CourseOverviewComponent implements OnInit{
+export class CourseOverviewComponent implements OnInit {
   private courseService = inject(CourseService);
+  private assignmentService = inject(AssignmentService);
   private coursesSubject = new BehaviorSubject<Course[]>([]);
+  private assignmentsSubject = new BehaviorSubject<Assignment[]>([]);
   courses$: Observable<Course[]> = this.coursesSubject.asObservable();
-  assignments = [
-    {name: 'verymega insanely long assignment because ow yeah i am a good teacher wow very cool i dunno man more text to implement in them becausedamn 1', dueDate: '2020-01-01', description: 'This is the first assignment'},
-    {name: 'A medium long title for an assignment because wow 2', dueDate: '2020-01-02', description: 'This is the second second second  second second second  second second second  second second second  second second second  second second second  second second second  second second second  assignment'},
-    {name: 'Just a normal assignment name 3', dueDate: '2020-01-03', description: 'This is theassignmentassignment is is is is is isis is  third assignment assignment assignment  vassignment assignment assignment assignment assignment'},
-    {name: 'Machine Learning coding assignment 1st term 4', dueDate: '2020-01-04', description: 'This is the fourth assignment'},
-    {name: 'Assignment 3 - CIA triad and Parkerian Hexad - Case Study Analysis ', dueDate: '2020-01-05', description: 'This is the fifth assignment'},
-  ]
+  assignments$: Observable<Assignment[]> = this.assignmentsSubject.asObservable();
 
-  showCreateModal = false;
+  selectedCourseId: number | null = null;
+  showImportCourseModal = false;
+  showImportAssignmentModal = false;
 
   ngOnInit() {
     this.loadCourses();
+    this.loadAssignments();
+
     this.courses$.subscribe(courses => {
       console.log("Courses:", courses);
+    });
+    this.assignments$.subscribe(assignments => {
+      console.log("Assignments:", assignments);
     });
   }
 
   loadCourses() {
     this.courseService.getAllCourses().subscribe(courses => {
+
       console.log("🔄 Updating courses list:", courses);
       this.coursesSubject.next(courses);
     });
   }
 
+  loadAssignments() {
+    if (this.selectedCourseId) {
+      this.assignmentService.getAllAssignments(this.selectedCourseId).subscribe(assignments => {
+        console.log("Updating assignments list: ", assignments);
+        this.assignmentsSubject.next(assignments as Assignment[]);
+      });
+    }
+  }
+
   onCourseCreated(newCourse: Course) {
     this.loadCourses();
-    this.showCreateModal = false;
+    this.showImportCourseModal = false;
+  }
+
+  onAssignmentCreated() {
+    this.loadAssignments();
+    this.showImportAssignmentModal = false;
   }
 
   openModal() {
-    this.showCreateModal = true;
+    this.showImportCourseModal = true;
   }
 
-  importAssignment() {
-    console.log('importing assignment');
+  openAssignmentImportModal(course: Course) {
+    this.selectedCourseId = course.id;
+    this.showImportAssignmentModal = true;
+    this.loadAssignments();
   }
 }
