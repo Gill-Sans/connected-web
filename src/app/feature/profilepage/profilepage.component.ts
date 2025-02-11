@@ -2,8 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { AuthFacade } from '../../auth/store/auth.facade';
 import { User } from '../../auth/models/user.model';
-import { ButtonComponent } from '../../shared/button/button.component';
-import { TagcardComponent } from '../../shared/tagcard/tagcard.component';
+import { ButtonComponent } from '../../shared/components/button/button.component';
+import { TagcardComponent } from '../../shared/components/tagcard/tagcard.component';
 import { UserService } from '../../core/services/user.service';
 import { TagService } from '../../core/services/tag.service';
 import { switchMap } from 'rxjs';
@@ -63,19 +63,19 @@ export class ProfilepageComponent implements OnInit {
 
   removeTag(tagIdToRemove: number) {
     if (!this.user?.tags) return;
-  
+
     // Expliciet checken welke tag we gaan verwijderen
     const tagToRemove = this.user.tags.find(tag => tag.id === tagIdToRemove);
-  
+
     // Filter de specifieke tag eruit
     const updatedTags = this.user.tags.filter(tag => tag.id !== tagIdToRemove);
-  
+
     // Update de user tags
     this.user.tags = updatedTags;
   }
-  
 
-  //save the user profile 
+
+  //save the user profile
   saveProfile(){
     if(!this.user) return;
 
