@@ -12,7 +12,7 @@ import { tag } from '../../shared/models/tag.model';
 import { TagSearchComponentComponent } from '../../shared/tag-search-component/tag-search-component.component';
 @Component({
   selector: 'app-profilepage',
-  imports: [CommonModule,ButtonComponent,TagcardComponent,FormsModule,TagSearchComponentComponent],
+  imports: [CommonModule,ButtonComponent,FormsModule,TagSearchComponentComponent,TagcardComponent],
   templateUrl: './profilepage.component.html',
   styleUrl: './profilepage.component.scss'
 })
@@ -50,6 +50,10 @@ export class ProfilepageComponent implements OnInit {
 
   addTagToUser(selectedTag:tag) {
     if(!this.user || !this.user.tags) return;
+
+    if(this.user){
+      this.user.tags = [];
+    }
 
    if(!this.user.tags.some(t => t.name === this.newTag)){
     this.user.tags?.push(selectedTag);

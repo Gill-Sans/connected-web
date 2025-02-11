@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { debounceTime, distinctUntilChanged, Observable, Subject, switchMap } from 'rxjs';
+import { async, debounceTime, distinctUntilChanged, Observable, Subject, switchMap } from 'rxjs';
 import { tag } from '../models/tag.model';
 import { TagService } from '../../core/services/tag.service';
 import { FormsModule } from '@angular/forms';
@@ -16,6 +16,7 @@ export class TagSearchComponentComponent {
   searchTerm = new Subject<string>();
   tags$: Observable<tag[]> | undefined;
   @Output() tagSelected = new EventEmitter<tag>();
+  isDropdownVisible = false;
   
 
  constructor(private tagService: TagService) {
@@ -31,6 +32,7 @@ export class TagSearchComponentComponent {
 
   onSearchInput(event: Event): void {
     const inputElement = event.target as HTMLInputElement;
+    this.isDropdownVisible = inputElement.value.trim().length > 0;
     this.search(inputElement.value);
   }
 
@@ -41,7 +43,21 @@ export class TagSearchComponentComponent {
   }
 
   selectTag(tag: tag): void {
+  
     console.log("Tag geselecteerd:", tag);
     this.tagSelected.emit(tag);
+    this.isDropdownVisible = false; 
+    // Clear the input
+    /* const inputElement = document.querySelector('.tag-input') as HTMLInputElement;
+    if (inputElement) {
+      inputElement.value = '';
+
+    } */
+
+      setTimeout(() => {
+        this.searchTerm.next('');
+    }, 0);
   }
+
+
 }

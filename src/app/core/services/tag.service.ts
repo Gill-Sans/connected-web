@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { catchError, Observable, throwError } from 'rxjs';
 import { tag } from '../../shared/models/tag.model';
 @Injectable({
   providedIn: 'root'
@@ -11,9 +11,14 @@ export class TagService {
   constructor(private http: HttpClient) { }
 
   searchTags(query: string): Observable<tag[]> {
-    return this.http.get<tag[]>(`${this.apiUrl}/search?query=${query}`, { withCredentials: true });
+    return this.http.get<tag[]>(`${this.apiUrl}/search?query=${query}`,{ withCredentials: true })
+    .pipe(
+      catchError((error: HttpErrorResponse) => {
+        console.error("Error fetching tags:", error);
+        console.error("Server response:", error.error); 
+        return throwError(() => new Error("Failed to fetch tags"));
+      })
+    );
     }
-
-
 
 }

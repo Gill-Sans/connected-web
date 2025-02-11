@@ -445,6 +445,14 @@ th, td {
     }
   }
 
+  .tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  
+
   .skillset {
     margin-top: 20px;
     p {

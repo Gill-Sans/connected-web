@@ -1,4 +1,3 @@
-
 <div class="profilepage">
     <div class="profile-header">
         <app-button label="Back" type="back" class="back-btn" routerLink="/projects"></app-button>
@@ -24,7 +23,7 @@
     <div class="about-me">
         <p>About me</p>
         <div class="about-me-text" >
-            <textarea *ngIf="user" class="about-me-text" [(ngModel)]="user.aboutMe" > {{user?.aboutMe}}</textarea>
+            <textarea *ngIf="user" class="about-me-text" [(ngModel)]="user.aboutMe">{{user.aboutMe}}</textarea>
         </div>
     </div>
 
@@ -42,6 +41,14 @@
     <!-- Skillset -->
     <div class="skillset">
         <p>Skillset</p>
+        <div class="tags-container">
+            <app-tagcard 
+                *ngFor="let tag of user?.tags" 
+                [tag]="tag"
+                [showDelete]="true"
+                (deleteTag)="removeTag($event)">
+            </app-tagcard>
+        </div>
         <app-tag-search-component (tagSelected)="addTagToUser($event)"></app-tag-search-component>
     </div>
 </div>

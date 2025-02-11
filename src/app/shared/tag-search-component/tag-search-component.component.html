@@ -6,12 +6,13 @@
     class="tag-input"
     />
 
-    <ul *ngIf="tags$ | async as tags" class="tag-dropdown">
-        <li *ngIf="tags.length === 0" class="no-results">
-            No tags found
-        </li>
-        <li *ngFor="let tag of tags" (click)="selectTag(tag)">
-            {{ tag.name }}
-        </li>
-    </ul>
+    <ng-container *ngIf="tags$ | async as tags">
+        <ul *ngIf="isDropdownVisible" class="tag-dropdown">
+            <li *ngIf="tags.length === 0" class="no-results">No tags found</li>
+            <li *ngFor="let tag of tags" (click)="selectTag(tag)">
+                {{ tag.name }}
+            </li>
+        </ul>
+    </ng-container>
+    
 </div>
