@@ -5,6 +5,7 @@ export interface Course {
   start_at: Date
   end_at: Date
   owner_id: number
+  canvasCourseId: number
   //assignments: Assignment[]
 }
 
