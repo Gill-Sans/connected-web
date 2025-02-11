@@ -4,6 +4,8 @@ import {inject, Component} from '@angular/core';
 import { Router } from '@angular/router';
 import { Role } from '../../auth/models/role.model';
 import {ClickOutsideDirective} from '../../shared/directives/click-outside.directive';
+import {Observable} from 'rxjs';
+import {User} from '../../auth/models/user.model';
 
 @Component({
   selector: 'app-topnav',
@@ -15,13 +17,13 @@ import {ClickOutsideDirective} from '../../shared/directives/click-outside.direc
   styleUrl: './topnav.component.scss'
 })
 export class TopnavComponent {
-  public Role = Role;
-  isHiddenAssignments = true;
-  isHiddenProfile = true;
+  public Role: typeof Role = Role;
+  isHiddenAssignments: boolean = true;
+  isHiddenProfile: boolean = true;
 
-  private readonly authFacade = inject(AuthFacade);
-  readonly user$ = this.authFacade.user$;
-  private readonly router = inject(Router);
+  private readonly authFacade: AuthFacade = inject(AuthFacade);
+  readonly user$:Observable<User | null> = this.authFacade.user$;
+  private readonly router: Router = inject(Router);
 
   toggleAssignmentsHidden() {
     this.isHiddenAssignments = !this.isHiddenAssignments;

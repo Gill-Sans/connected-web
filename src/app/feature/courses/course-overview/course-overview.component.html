@@ -8,7 +8,17 @@
 <div class="courses-list">
   <ng-container *ngIf="courses$ | async as courses">
     <div *ngFor="let course of courses" class="course-item">
-      {{ course.name }}
+      <h2> {{ course.name }} </h2>
+      <div *ngFor="let assignment of assignments" class="assignment-card">
+        <h4> {{ assignment.name }} </h4>
+        <div> {{ assignment.dueDate }} </div>
+        <div> {{ assignment.description }} </div>
+      </div>
+      <button (click)="importAssignment()" class="import-assignment-button">
+        <img src="icons/file-import.svg" alt="import an assignment" />
+        <p>Import an assignment</p>
+      </button>
+
     </div>
   </ng-container>
 </div>
