@@ -1,0 +1,44 @@
+
+<div class="profilepage">
+    <div class="profile-header">
+        <app-button label="Back" type="back" class="back-btn" routerLink="/projects"></app-button>
+        <app-button label="Edit" type="edit" class="edit-btn" routerLink="/edit-profile"></app-button>
+    </div>
+    <div class="profile-info">
+    <img 
+        *ngIf="user?.avatarUrl else placeholderImage"
+        class="user-image" 
+        src="user.avatarUrl" 
+        alt="profile picture"
+    />
+    <ng-template #placeholderImage>
+        <img
+            class="user-image"
+            src="icons/placeholderpic.svg"
+        />
+    </ng-template>
+        <p class="profile-name">{{user?.firstName}} {{user?.lastName}}</p>
+    </div>
+
+        <!-- about the user section -->
+    <div class="about-me">
+        <p>About me</p>
+        <div class="about-me-text" >
+            {{user?.aboutMe  || 'No information provided'  }}
+        </div>
+    </div>
+
+    <!-- linkedin section -->
+    <div class="linkedin-section">
+        <img src="icons/links/Linkedin.svg" alt="linkedIn" class="linkedin-icon">
+        <a [href]="user?.linkedinUrl" target="_blank" class="linkedin-link">{{user.linkedinUrl || 'no link given yet'}}</a>
+    </div>
+
+    <!-- Skillset -->
+    <div class="skillset">
+        <p>Skillset</p>
+        <div>
+           <app-tagcard *ngFor="let tag of user?.tags" [tag]="tag" ></app-tagcard>
+        </div>
+    </div>
+</div>

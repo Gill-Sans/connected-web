@@ -1,10 +1,15 @@
 import {Role} from './role.model';
+import { tag } from './tag.model';
 
 export interface User {
-    id: Number,
-    firstName: String,
-    lastName: String,
-    email: String,
-    avatarUrl: String,
+    id: number,
+    firstName?: string,
+    lastName?: string,
+    email: string,
+    avatarUrl?: string,
     role: Role,
+    linkedinUrl?: string,
+    fieldOfStudy?: string,
+    aboutMe?: string,
+    tags?: tag[],
 }
