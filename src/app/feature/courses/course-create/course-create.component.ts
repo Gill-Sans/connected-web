@@ -1,4 +1,4 @@
-import {Component, EventEmitter, inject, Output} from '@angular/core';
+import {Component, EventEmitter, inject, OnInit, Output} from '@angular/core';
 import {CourseService} from '../../../core/services/course.service';
 import {AuthFacade} from '../../../auth/store/auth.facade';
 import {Observable, switchMap} from 'rxjs';
@@ -11,17 +11,18 @@ import {CommonModule} from '@angular/common';
   imports: [
     CommonModule,
   ],
-  templateUrl: './create-course.component.html',
+  templateUrl: './course-create.component.html',
   styleUrl: './course-create.component.scss'
 })
-export class CourseCreateComponent {
+export class CourseCreateComponent implements OnInit{
   @Output() closeModal = new EventEmitter<void>();
+  @Output() courseCreated = new EventEmitter<Course>(); // 🔥 Emit new course to parent
   private courseService = inject(CourseService);
   private authFacade = inject(AuthFacade);
 
   courses$: Observable<Course[]> | null = null;
   selectedCourse: Course | null = null;
-  isLoading = false; // To prevent multiple clicks
+  isLoading = false;
   successMessage: string | null = null;
   errorMessage: string | null = null;
 
@@ -39,6 +40,7 @@ export class CourseCreateComponent {
 
   createCourse() {
     if (!this.selectedCourse) return;
+
     this.isLoading = true;
     this.successMessage = null;
     this.errorMessage = null;
@@ -46,14 +48,26 @@ export class CourseCreateComponent {
     this.courseService.createCourse(this.selectedCourse).subscribe({
       next: (response) => {
         console.log('Course created:', response);
-        this.successMessage = 'Course successfully created!';
+
+        this.successMessage = ' Course successfully created!';
         this.isLoading = false;
-        setTimeout(() => this.close(), 2000); // Close modal after 2s
+
+        this.courseCreated.emit(this.selectedCourse ?? undefined);
+
+
+        // ✅ Fade out success message
+        setTimeout(() => this.successMessage = null, 3000);
+
+        setTimeout(() => this.close(), 2000);
       },
       error: (err) => {
         console.error('Error creating course:', err);
-        this.errorMessage = 'Failed to create course!';
+
+        this.errorMessage = 'x Failed to create course!';
         this.isLoading = false;
+
+        // ✅ Fade out error message
+        setTimeout(() => this.errorMessage = null, 3000);
       }
     });
   }
