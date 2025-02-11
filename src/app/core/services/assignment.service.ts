@@ -16,4 +16,12 @@ export class AssignmentService {
     createAssignment(assignment: Assignment): Observable<any> {
         return this.http.post<any>(`${environment.apiBaseUrl}/api/assignments/`, assignment, { withCredentials: true });
     }
+
+    getAllAssignments(courseId: number): Observable<Assignment[]> {
+        let response = this.http.get<Assignment[]>(`${environment.apiBaseUrl}/api/courses/${courseId}/assignments`, { withCredentials: true });
+        response.subscribe(assignment => {
+            console.log('Assignments:', assignment);
+        });
+        return response;
+    }
 }
