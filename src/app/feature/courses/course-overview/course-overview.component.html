@@ -1,2 +1,15 @@
 <app-button type="post" label="Import a course" (click)="openModal()"></app-button>
-<app-course-create *ngIf="isModalOpen" (closeModal)="closeModal()"></app-course-create>
+<app-course-create
+  *ngIf="showCreateModal"
+  (closeModal)="showCreateModal = false"
+  (courseCreated)="onCourseCreated($event)">
+</app-course-create>
+
+<div class="courses-list">
+  <ng-container *ngIf="courses$ | async as courses">
+    <div *ngFor="let course of courses" class="course-item">
+      {{ course.name }}
+    </div>
+  </ng-container>
+</div>
+

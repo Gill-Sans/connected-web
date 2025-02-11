@@ -4,6 +4,7 @@ export interface Course {
   name: string
   start_at: Date
   end_at: Date
+  owner_id: number
   //assignments: Assignment[]
 }
 
