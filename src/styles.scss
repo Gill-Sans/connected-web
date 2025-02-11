@@ -406,43 +406,105 @@ td {
   }
 
   .about-me {
+    margin: 20px 0;
+    
     p {
-      padding-bottom: 20px;
+      font-weight: bold;
+      margin-bottom: 10px;
     }
 
     .about-me-text {
       width: 100%;
-      min-height: 50px;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
+      height: 80px;
+      max-width: 600px;
+      padding: 12px;
+      font-size: 14px;
+      background: transparent;
+      border: 1px solid #e0e0e0;
+      border-radius: 4px;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      line-height: 1.4;
+      color: $text-color;
+      resize: none;
+      
+      &:focus {
+        outline: none;
+        border-color: $highlight-color;
+      }
+    }
+  }
+
+  .field-of-study {
+    margin: 20px 0;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    
+    p {
+      font-weight: bold;
+      min-width: 120px;
+      margin: 0;
+    }
+
+    input {
+     display: flex;
+      flex: 1;
+      border: 1px solid #e0e0e0;
+      border-radius: 4px;
+      background: transparent;
       font-size: 16px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-      white-space: pre-wrap; // Zorg ervoor dat de tekst correct wordt weergegeven
-      word-wrap: break-word; // Zorg ervoor dat lange woorden worden afgebroken
+      color: $text-color;
+      padding: 8px 12px;
+      
+      &:focus {
+        outline: none;
+        border-color: $highlight-color;
+      }
     }
   }
 
   .linkedin-section {
-    margin-top: 10px;
+    margin: 20px 0;
     display: flex;
     align-items: center;
+    gap: 20px;
+    
     p {
       font-weight: bold;
-    }
-    .linkedin-link {
-      display: block;
-      width: fit-content;
-      color: #0077b5;
-      text-decoration: none;
-      border-bottom: 1px solid #0077b5;
-      padding-bottom: 2px;
+      min-width: 120px;
+      margin: 0;
     }
 
-    .linkedin-link:hover {
-      text-decoration: underline;
+    .linkedin-link {
+      flex: 1;
+      border: 1px solid #e0e0e0;
+      border-radius: 4px;
+      color: $highlight-color;
+      text-decoration: none;
+      font-size: 16px;
+      padding: 8px 12px;
+      margin-left: 72px;
+      background: transparent;
+      
+      &:focus {
+        outline: none;
+        border-color: $highlight-color;
+      }
+      
+      &:hover {
+        text-decoration: underline;
+      }
     }
   }
+
+  .tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  
 
   .skillset {
     margin-top: 20px;

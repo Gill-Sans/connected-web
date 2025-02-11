@@ -1,8 +1,7 @@
-
 <div class="profilepage">
     <div class="profile-header">
         <app-button label="Back" type="back" class="back-btn" routerLink="/projects"></app-button>
-        <app-button label="Edit" type="edit" class="edit-btn" routerLink="/edit-profile"></app-button>
+        <app-button label="confirm" type="confirm" class="edit-btn" routerLink="/edit-profile" (click)="saveProfile()"></app-button>
     </div>
     <div class="profile-info">
     <img 
@@ -24,21 +23,32 @@
     <div class="about-me">
         <p>About me</p>
         <div class="about-me-text" >
-            {{user?.aboutMe  || 'No information provided'  }}
+            <textarea *ngIf="user" class="about-me-text" [(ngModel)]="user.aboutMe">{{user.aboutMe}}</textarea>
         </div>
+    </div>
+
+    <div class="field-of-study">
+        <p>Field of Study</p>
+        <input *ngIf="user" [(ngModel)]="user.fieldOfStudy" class="field-of-study-input" />
     </div>
 
     <!-- linkedin section -->
     <div class="linkedin-section">
         <img src="icons/links/Linkedin.svg" alt="linkedIn" class="linkedin-icon">
-        <a [href]="user?.linkedinUrl" target="_blank" class="linkedin-link">{{user.linkedinUrl || 'no link given yet'}}</a>
-    </div>
+        <input *ngIf="user"[(ngModel)]="user.linkedinUrl" class="linkedin-link" />
+      </div>
 
     <!-- Skillset -->
     <div class="skillset">
         <p>Skillset</p>
-        <div>
-           <app-tagcard *ngFor="let tag of user?.tags" [tag]="tag" ></app-tagcard>
+        <div class="tags-container">
+            <app-tagcard 
+                *ngFor="let tag of user?.tags" 
+                [tag]="tag"
+                [showDelete]="true"
+                (deleteTag)="removeTag($event)">
+            </app-tagcard>
         </div>
+        <app-tag-search-component (tagSelected)="addTagToUser($event)"></app-tag-search-component>
     </div>
 </div>

@@ -3,12 +3,15 @@ import { RouterOutlet } from '@angular/router';
 import {CommonModule} from '@angular/common';
 import { AuthFacade } from './auth/store/auth.facade';
 import { isPlatformBrowser } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+
 
 @Component({
   selector: 'app-root',
   imports: [
     CommonModule,
-    RouterOutlet
+    RouterOutlet,
+    FormsModule
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
