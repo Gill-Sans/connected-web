@@ -26,7 +26,7 @@ export class TopnavComponent {
   toggleHiddenprofile(){this.isHiddenProfile = !this.isHiddenProfile}
 
   navigateToProfile() {
-    this.router.navigate(['/profile']);
+    this.router.navigate(['/profile/${id}']);
   }
 
   logout(){
