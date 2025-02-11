@@ -20,11 +20,11 @@ export class UserService {
   //TODO change any type to userupdate type
   updateUserProfile(updatedUser: Partial<User>): Observable<User> {
     console.log('UserService - Sending update request:', updatedUser);
-    
+
     return this.http.patch<User>(
-      `${this.baseUrl}/update`, 
-      updatedUser, 
-      { 
+      `${this.baseUrl}/update`,
+      updatedUser,
+      {
         withCredentials: true
       }
     ).pipe(

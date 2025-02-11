@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { tag } from '../models/tag.model';
+import { tag } from '../../models/tag.model';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 @Component({
@@ -17,9 +17,4 @@ export class TagcardComponent {
     console.log('Verwijderen van tag:', this.tag);
     this.deleteTag.emit(this.tag.id);
   }
- 
-
-  
-
-
 }

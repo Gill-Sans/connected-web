@@ -20,6 +20,17 @@
       </ng-template>
     </div>
 
-    <button class="continue-btn" [disabled]="!selectedCourse">Continue</button>
+    <button
+      class="continue-btn"
+      [disabled]="!selectedCourse || isLoading"
+      [class.disabled]="isLoading"
+      (click)="createCourse()">
+      {{ isLoading ? 'Creating...' : 'Continue' }}
+    </button>
+
+
+    <!-- Success/Error Messages -->
+    <p *ngIf="successMessage" class="success">{{ successMessage }}</p>
+    <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
   </div>
 </div>

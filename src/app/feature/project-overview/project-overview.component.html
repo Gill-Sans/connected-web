@@ -11,9 +11,10 @@
   </div>
 
     <div class="card-container">
-        <app-projectcard *ngFor="let project of projects" 
-        [title]="project.title" 
-        [description]="project.description" 
+        <app-projectcard *ngFor="let project of projects"
+        [title]="project.title"
+        [id]="project.id"
+        [description]="project.description"
         [tags]="[
         { id: 1, name: 'tag1' },
         { id: 2, name: 'tag2' }

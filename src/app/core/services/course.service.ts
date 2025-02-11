@@ -1,15 +1,26 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import {Course} from '../../shared/models/course.model';
+import { environment } from '../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class CourseService {
   private http = inject(HttpClient);
-  private readonly apiBaseUrl = 'http://localhost:8080/api/courses';
 
   getCanvasCourses(role: string): Observable<any[]> {
-    return this.http.post<any[]>(`${this.apiBaseUrl}/canvas?EnrollmentType=${role}`, {}, {
-      withCredentials: true //This will now be sent as a request option instead of body
+    return this.http.post<any[]>(`${environment.apiBaseUrl}/api/courses/canvas?EnrollmentType=${role}`, {}, {withCredentials: true });
+  }
+
+  createCourse(course: Course): Observable<any> {
+    return this.http.post<any>(`${environment.apiBaseUrl}/api/courses/`, course, {withCredentials: true });
+  }
+
+  getAllCourses(): Observable<Course[]> {
+    let response = this.http.get<Course[]>(`${environment.apiBaseUrl}/api/courses/`, {withCredentials: true });
+    response.subscribe(courses => {
+      console.log('Courses:', courses);
     });
+    return response;
   }
 }

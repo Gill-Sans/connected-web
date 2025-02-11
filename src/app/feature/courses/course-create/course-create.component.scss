@@ -66,3 +66,8 @@
   cursor: pointer;
   margin-top: 10px;
 }
+
+.continue-btn.disabled {
+  opacity: 0.6;
+  pointer-events: none;
+}

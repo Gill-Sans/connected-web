@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { LinkcardComponent } from '../../../../shared/linkcard/linkcard.component';
+import { LinkcardComponent } from '../../../../shared/components/linkcard/linkcard.component';
 import { first } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import {MarkdownModule } from 'ngx-markdown';
@@ -14,10 +14,10 @@ export class DetailsOverviewComponent {
 //NOTE: als een tab inzet voor de markdown, dan wordt de markdown niet goed weergegeven
   project = {
     title: 'ProjectConnect',
-    description: 
+    description:
 `# Doel van de applicatie
 
-**ProjectConnect** heeft als doel projectvoorstellen binnen te krijgen voor *studiegerelateerde projecten* met **deadlines**.  
+**ProjectConnect** heeft als doel projectvoorstellen binnen te krijgen voor *studiegerelateerde projecten* met **deadlines**.
 De applicatie biedt een intuïtieve interface waarmee docenten deze voorstellen kunnen beoordelen en goed- of afkeuren.
 ### Functionaliteiten:
 1. **Projectindiening en deadlinebeheer**

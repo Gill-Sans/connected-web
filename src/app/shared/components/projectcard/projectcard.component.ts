@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { TagcardComponent } from '../tagcard/tagcard.component';
 import { CommonModule } from '@angular/common';
-import { tag } from '../models/tag.model';
+import { tag } from '../../models/tag.model';
 import { Router, RouterModule } from '@angular/router';
 
 @Component({
