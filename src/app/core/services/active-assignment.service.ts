@@ -18,5 +18,9 @@ export class ActiveAssignmentService {
     setActiveAssignment(active: ActiveAssignment): void {
         this.activeAssignmentSubject.next(active);
     }
+
+    getActiveAssignment(): ActiveAssignment | null {
+        return this.activeAssignmentSubject.getValue();
+    }
 }
 
