@@ -1,17 +1,29 @@
 <div class="topnav">
     <div class="left">
-        <div class="left-content" (click)="toggleAssignmentsHidden()" clickOutside (clickOutside)="closeAssignmentsDropdown()">
+        <div (click)="toggleAssignmentsHidden()" (clickOutside)="closeAssignmentsDropdown()" class="left-content"
+             clickOutside>
             <div class="course-icon"></div>
-            <div class="course-info">
-                <p class="assignment-name">Short-burst Project</p>
-                <p class="course-name">Java Advanced</p>
+            <div class="course-info" *ngIf="activeAssignment$ | async as active; else defaultInfo">
+                <p class="assignment-name">{{ active.assignment.name }}</p>
+                <p class="course-name">{{ active.course.name }}</p>
             </div>
-            <img class="dropdown-icon" src="icons/dropdown.svg" alt="Dropdown"/>
-            <div class="dropdown" [hidden]="isHiddenAssignments">
+            <ng-template #defaultInfo>
+                <div class="course-info">
+                    <p class="assignment-name">No assignment selected</p>
+                    <p class="course-name">select an assignment to get started</p>
+                </div>
+            </ng-template>
+            <img alt="Dropdown" class="dropdown-icon" src="icons/dropdown.svg"/>
+            <div [hidden]="isHiddenAssignments" class="dropdown">
                 <dl *ngIf="courses$ | async as courses; else loadingAssignments">
                     <div *ngFor="let course of courses">
                         <dt>{{ course.name }}</dt>
-                        <dd *ngFor="let assignment of course.assignments">{{ assignment.name }}</dd>
+                        <dd
+                            (click)="selectAssignment(assignment, course)"
+                            *ngFor="let assignment of course.assignments"
+                            [ngClass]="{'selected': (activeAssignment$ | async)?.assignment?.id === assignment.id}">
+                            {{ assignment.name }}
+                        </dd>
                     </div>
                 </dl>
                 <ng-template #loadingAssignments>
@@ -24,17 +36,18 @@
         <div class="nav-name">Projects</div>
         <div class="nav-icons">
             <div class="notification-icon">
-                <img src="icons/bell-regular.svg" alt="Notifications" />
+                <img alt="Notifications" src="icons/bell-regular.svg"/>
                 <span class="notification-badge">3</span>
-                </div>
+            </div>
             <div *ngIf="user$ | async as user; else loadingUser">
                 <span class="nav-name">Welcome, {{ user.email + " - " + user.role }}</span>
             </div>
             <ng-template #loadingUser>
-            Loading...
+                Loading...
             </ng-template>
-            <div class="user-icon" (click)="toggleHiddenprofile()" clickOutside (clickOutside)="closeProfileDropdown()"></div>
-            <div class="dropdownProfile" [hidden]="isHiddenProfile">
+            <div (click)="toggleHiddenprofile()" (clickOutside)="closeProfileDropdown()" class="user-icon"
+                 clickOutside></div>
+            <div [hidden]="isHiddenProfile" class="dropdownProfile">
                 <ul>
                     <li (click)="navigateToProfile()">My profile</li>
                     <li (click)="logout()">Log out</li>
