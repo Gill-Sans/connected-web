@@ -29,7 +29,7 @@ export class TopnavComponent {
     readonly user$: Observable<User | null> = this.authFacade.user$;
     private readonly router: Router = inject(Router);
     private readonly courseService: CourseService = inject(CourseService);
-    courses$: Observable<Course[] | null> = this.courseService.getAllCourses();
+    courses$: Observable<Course[] | null> = this.courseService.getAllEnrolledCourses();
     private readonly activeAssignmentService: ActiveAssignmentService = inject(ActiveAssignmentService);
     public activeAssignment$: Observable<ActiveAssignment | null> = this.activeAssignmentService.activeAssignment$;
 

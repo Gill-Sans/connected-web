@@ -47,6 +47,8 @@ export class CourseCreateComponent implements OnInit {
         this.successMessage = null;
         this.errorMessage = null;
 
+        this.selectedCourse.canvasCourseId = this.selectedCourse.id;
+
         this.courseService.createCourse(this.selectedCourse).subscribe({
             next: (response) => {
                 console.log('Course created:', response);

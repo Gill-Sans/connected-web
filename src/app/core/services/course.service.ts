@@ -23,4 +23,12 @@ export class CourseService {
         });
         return response;
     }
+
+    getAllEnrolledCourses(): Observable<Course[]> {
+        let response = this.http.get<Course[]>(`${environment.apiBaseUrl}/api/courses/enrolled`, {withCredentials: true});
+        response.subscribe(courses => {
+            console.log('Courses:', courses);
+        });
+        return response;
+    }
 }
