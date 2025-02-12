@@ -11,7 +11,7 @@ export class ProjectService {
     getAllProjects(assignmentId: number): Observable<Project[]> {
         const headers = new HttpHeaders().set('assignmentId', assignmentId.toString());
 
-        let response = this.http.get<Project[]>(`${environment.apiBaseUrl}/api/projects/`, {
+        let response = this.http.get<Project[]>(`${environment.apiBaseUrl}/projects`, {
             withCredentials: true,
             headers: headers
         });
