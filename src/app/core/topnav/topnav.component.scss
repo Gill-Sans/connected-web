@@ -1,0 +1,18 @@
+@use "../../../styles/variables.scss" as *;
+.left-content{
+    cursor: pointer;
+}
+
+dd {
+    padding: 1rem;
+    border-radius: $border-radius;
+    cursor: pointer;
+    :hover {
+        background-color: $background-color;
+    }
+}
+
+.selected {
+    color: white;
+    background-color: $highlight-color;
+}

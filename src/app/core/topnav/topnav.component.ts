@@ -1,14 +1,15 @@
 import {AuthFacade} from '../../auth/store/auth.facade';
 import {CommonModule} from '@angular/common';
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {Router} from '@angular/router';
 import {Role} from '../../auth/models/role.model';
 import {ClickOutsideDirective} from '../../shared/directives/click-outside.directive';
 import {Observable} from 'rxjs';
 import {User} from '../../auth/models/user.model';
 import {CourseService} from '../services/course.service';
-import {AssignmentService} from '../services/assignment.service';
 import {Course} from '../../shared/models/course.model';
+import {ActiveAssignment, ActiveAssignmentService} from '../services/active-assignment.service';
+import {Assignment} from '../../shared/models/assignment.model';
 
 @Component({
     selector: 'app-topnav',
@@ -19,7 +20,7 @@ import {Course} from '../../shared/models/course.model';
     templateUrl: './topnav.component.html',
     styleUrl: './topnav.component.scss'
 })
-export class TopnavComponent implements OnInit {
+export class TopnavComponent {
     public Role: typeof Role = Role;
     isHiddenAssignments: boolean = true;
     isHiddenProfile: boolean = true;
@@ -28,16 +29,9 @@ export class TopnavComponent implements OnInit {
     readonly user$: Observable<User | null> = this.authFacade.user$;
     private readonly router: Router = inject(Router);
     private readonly courseService: CourseService = inject(CourseService);
-    private readonly assignmentService: AssignmentService = inject(AssignmentService);
-
     courses$: Observable<Course[] | null> = this.courseService.getAllCourses();
-
-    ngOnInit(): void {
-        this.courses$.subscribe(courses => {
-
-        });
-    }
-
+    private readonly activeAssignmentService: ActiveAssignmentService = inject(ActiveAssignmentService);
+    public activeAssignment$: Observable<ActiveAssignment | null> = this.activeAssignmentService.activeAssignment$;
 
     toggleAssignmentsHidden() {
         this.isHiddenAssignments = !this.isHiddenAssignments;
@@ -62,5 +56,10 @@ export class TopnavComponent implements OnInit {
 
     logout() {
         console.log('logout!');
+    }
+
+    selectAssignment(assignment: Assignment, course: Course): void {
+        this.activeAssignmentService.setActiveAssignment({ assignment, course });
+        this.isHiddenAssignments = true;
     }
 }
