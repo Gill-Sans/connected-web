@@ -23,7 +23,7 @@ export const routes: Routes = [
             {path: 'courses', component: CourseOverviewComponent},
             {path: '', redirectTo: 'projects', pathMatch: 'full'},
             {path: 'profile', component: ProfilepageComponent},
-            {path: 'applications', component: ApplicationsOverviewComponent}
+            {path: 'assignment/applications', component: ApplicationsOverviewComponent}
         ]
     },
     {
