@@ -1,6 +1,6 @@
 import {AuthFacade} from '../../auth/store/auth.facade';
 import {CommonModule} from '@angular/common';
-import {Component, inject} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {Role} from '../../auth/models/role.model';
 import {ClickOutsideDirective} from '../../shared/directives/click-outside.directive';
@@ -8,9 +8,10 @@ import {Observable} from 'rxjs';
 import {User} from '../../auth/models/user.model';
 import {CourseService} from '../services/course.service';
 import {Course} from '../../shared/models/course.model';
-import {ActiveAssignment, ActiveAssignmentService} from '../services/active-assignment.service';
+import {ActiveAssignmentService} from '../services/active-assignment.service';
 import {Assignment} from '../../shared/models/assignment.model';
-
+import { ActiveAssignment } from '../../shared/models/activeAssignment.model';
+import { CookieService } from '../services/cookieService';
 @Component({
     selector: 'app-topnav',
     imports: [
@@ -20,7 +21,7 @@ import {Assignment} from '../../shared/models/assignment.model';
     templateUrl: './topnav.component.html',
     styleUrl: './topnav.component.scss'
 })
-export class TopnavComponent {
+export class TopnavComponent implements OnInit {
     public Role: typeof Role = Role;
     isHiddenAssignments: boolean = true;
     isHiddenProfile: boolean = true;
@@ -32,6 +33,22 @@ export class TopnavComponent {
     courses$: Observable<Course[] | null> = this.courseService.getAllEnrolledCourses();
     private readonly activeAssignmentService: ActiveAssignmentService = inject(ActiveAssignmentService);
     public activeAssignment$: Observable<ActiveAssignment | null> = this.activeAssignmentService.activeAssignment$;
+    //cookie service
+    private readonly cookieService = inject(CookieService);
+    private readonly ASSIGNMENT_COOKIE_KEY = 'activeAssignment';
+
+    ngOnInit(): void {
+        
+        if (this.cookieService.exists(this.ASSIGNMENT_COOKIE_KEY)) {
+            
+            const assignment = this.cookieService.get<ActiveAssignment>(this.ASSIGNMENT_COOKIE_KEY);
+            if (assignment) {
+                this.activeAssignmentService.setActiveAssignment(assignment);
+            }
+        }
+    }
+
+
 
     toggleAssignmentsHidden() {
         this.isHiddenAssignments = !this.isHiddenAssignments;
