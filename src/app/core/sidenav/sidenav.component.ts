@@ -2,9 +2,7 @@ import { Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { Role } from '../../auth/models/role.model';
 import { HasRoleDirective } from '../../shared/directives/HasRole.directive';
-import { map } from 'rxjs/operators';
-import { ActiveAssignmentService } from '../services/active-assignment.service';
-import { AsyncPipe } from '@angular/common';
+
 @Component({
     selector: 'app-sidenav',
     imports: [
