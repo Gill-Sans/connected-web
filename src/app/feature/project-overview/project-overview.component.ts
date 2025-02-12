@@ -6,7 +6,8 @@ import { ButtonComponent } from '../../shared/components/button/button.component
 import { Observable } from 'rxjs';
 import { Project } from '../../shared/models/project.model';
 import { ProjectService } from '../../core/services/project.service';
-import { ActiveAssignment, ActiveAssignmentService } from '../../core/services/active-assignment.service';
+import { ActiveAssignmentService } from '../../core/services/active-assignment.service';
+import { ActiveAssignment } from '../../shared/models/activeAssignment.model';
 
 
 @Component({
