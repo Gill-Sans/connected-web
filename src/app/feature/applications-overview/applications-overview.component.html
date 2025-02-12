@@ -2,31 +2,40 @@
     <div class="application-tab">
         <p>Applications</p>
     </div>
-    <table>
-        <thead class="thapplicant">
-        <tr>
-            <th>Name</th>
-            <th>Applied for</th>
-            <th>Status</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr class="application-row" *ngFor="let application of applications$ | async" 
-            (click)="navigateToApplication(application)">
-          <td>
-            <div class="applicant-info">
-              <img [src]="application.applicant.avatarUrl || 'icons/placeholderpic.svg'" 
-                   [alt]="application.applicant.firstName" 
-                   class="avatar">
-              {{ application.applicant.firstName }} {{ application.applicant.lastName }}
+    <ng-container *ngIf="applications$ | async as applications">
+        <div *ngIf="applications.length > 0; else noApplications">
+            <table>
+                <thead class="thapplicant">
+                <tr>
+                    <th>Name</th>
+                    <th>Applied for</th>
+                    <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="application-row" *ngFor="let application of applications" 
+                    (click)="navigateToApplication(application)">
+                  <td>
+                    <div class="applicant-info">
+                      <img [src]="application.applicant.avatarUrl || 'icons/placeholderpic.svg'" 
+                           [alt]="application.applicant.firstName" 
+                           class="avatar">
+                      {{ application.applicant.firstName }} {{ application.applicant.lastName }}
+                    </div>
+                  </td>
+                  <td>{{ application.project.title }}</td>
+                  <td>
+                    <app-statuscard [status]="application.status"></app-statuscard>
+                  </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <ng-template #noApplications>
+            <div class="no-applications-message">
+                No applications found
             </div>
-          </td>
-          <td>{{ application.project.title }}</td>
-          <td>
-            <app-statuscard [status]="application.status"></app-statuscard>
-          </td>
-        </tr>
-        </tbody>
-    </table>
+        </ng-template>
+    </ng-container>
 </div>
-

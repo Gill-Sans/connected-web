@@ -8,7 +8,9 @@ import { Application } from '../../shared/models/application.model';
 import { Observable } from 'rxjs/internal/Observable';
 import { User } from '../../auth/models/user.model';
 import { ApplicationStatusEnum } from '../../shared/models/ApplicationStatus.enum';
-
+import { ActiveAssignmentService } from '../../core/services/active-assignment.service';
+import { filter } from 'rxjs/internal/operators/filter';
+import { switchMap } from 'rxjs/internal/operators/switchMap';
 @Component({
     selector: 'app-applications-overview',
     imports: [CommonModule, StatuscardComponent],
@@ -19,35 +21,21 @@ export class ApplicationsOverviewComponent {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private assignmentService = inject(AssignmentService);
-  applications$: Observable<Application[]> | null = null;
+  private activeAssignmentService = inject(ActiveAssignmentService);
+  public applications$: Observable<Application[]> | null = null;
+  private activeAssignment = this.activeAssignmentService.getActiveAssignment();
 
   ngOnInit() {
-     if (!this.route.snapshot.params['id']) {
-      console.error("No assignment id provided!");
-      return;
+     if (this.activeAssignment?.assignment.canvasAssignmentId) {
+       this.applications$ = this.assignmentService.getAllApplicationsFromAssignment(this.activeAssignment.assignment.canvasAssignmentId);
      }
-     this.applications$ = this.assignmentService.getAllApplicationsFromAssignment(this.route.snapshot.params['id']);
   }
   
-  applications = [{
-    first_name: "Steve",last_name:"van der Beek" , project: "ConnectEd", status: "Pending", image: "icons/placeholderpic.svg"
-  },
-  {
-    first_name: "Wim", last_name: "van der Beek", project: "ConnectEd", status: "Approved", image: "icons/placeholderpic.svg"
-  },
-  {
-    first_name: "Lucas", last_name:"Lebron",project: "ConnectEd", status: "Rejected", image: "icons/placeholderpic.svg"
-  }
-]
-
+  navigateToApplication(application: Application) {
   
-  
-
-navigateToApplication(application: any) {
-  // Vervang '/application' met je gewenste route
   this.router.navigate(['/application', application.id]);
-  // Voor nu loggen we alleen
+  
   console.log('Navigating to application:', application);
 
-}
-}
+  }
+} 
