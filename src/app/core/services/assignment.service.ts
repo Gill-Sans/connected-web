@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { Assignment } from '../../shared/models/assignment.model';
+import { Application } from '../../shared/models/application.model';
 
 @Injectable({ providedIn: 'root' })
 export class AssignmentService {
@@ -17,11 +18,8 @@ export class AssignmentService {
         return this.http.post<any>(`${environment.apiBaseUrl}/api/assignments/`, assignment, { withCredentials: true });
     }
 
-    getAllAssignments(courseId: number): Observable<Assignment[]> {
-        let response = this.http.get<Assignment[]>(`${environment.apiBaseUrl}/api/courses/${courseId}/assignments`, { withCredentials: true });
-        response.subscribe(assignment => {
-            console.log('Assignments:', assignment);
-        });
-        return response;
+    getAllApplicationsFromAssignment(id: number): Observable<Application[]> {
+        return this.http.get<any[]>(`${environment.apiBaseUrl}/api/assignments/${id}/applications`, { withCredentials: true });
     }
+
 }
