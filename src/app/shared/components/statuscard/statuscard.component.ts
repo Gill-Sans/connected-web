@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
+import { ApplicationStatusEnum } from '../../models/ApplicationStatus.enum';
 
 @Component({
   selector: 'app-statuscard',
@@ -8,9 +9,9 @@ import { Component, Input } from '@angular/core';
   styleUrl: './statuscard.component.scss'
 })
 export class StatuscardComponent {
-  @Input() status: string= '';
+  @Input() status!: ApplicationStatusEnum;
   
-  getStatusClass(): string {
-    return this.status.toLowerCase();
+  getStatusClass(): ApplicationStatusEnum {
+    return this.status;
   }
 }
