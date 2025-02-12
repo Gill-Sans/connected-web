@@ -2,9 +2,9 @@
     position: relative;
     display: inline-block;
     width: 150px;
-  }
-  
-  .dropdown-btn {
+}
+
+.dropdown-btn {
     background: white;
     border: 1px solid #ddd;
     padding: 8px 12px;
@@ -14,9 +14,9 @@
     width: 100%;
     text-align: left;
     position: relative;
-  }
-  
-  .dropdown-menu {
+}
+
+.dropdown-menu {
     position: absolute;
     background: white;
     border: 1px solid #ddd;
@@ -27,13 +27,13 @@
     margin-top: 5px;
     width: 100%;
     display: block;
-  }
-  
-  .dropdown-menu li {
+}
+
+.dropdown-menu li {
     padding: 10px;
     cursor: pointer;
-  }
-  
-  .dropdown-menu li:hover {
+}
+
+.dropdown-menu li:hover {
     background: #f0f0f0;
-  }
+}

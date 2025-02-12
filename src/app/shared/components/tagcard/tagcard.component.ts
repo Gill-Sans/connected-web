@@ -1,20 +1,21 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { tag } from '../../models/tag.model';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {tag} from '../../models/tag.model';
+import {CommonModule} from '@angular/common';
+import {FormsModule} from '@angular/forms';
+
 @Component({
-  selector: 'app-tagcard',
-  imports: [CommonModule,FormsModule],
-  templateUrl: './tagcard.component.html',
-  styleUrl: './tagcard.component.scss'
+    selector: 'app-tagcard',
+    imports: [CommonModule, FormsModule],
+    templateUrl: './tagcard.component.html',
+    styleUrl: './tagcard.component.scss'
 })
 export class TagcardComponent {
-  @Input() tag!: tag;
-  @Input() showDelete: boolean = false;
-  @Output() deleteTag = new EventEmitter<number>();
+    @Input() tag!: tag;
+    @Input() showDelete: boolean = false;
+    @Output() deleteTag = new EventEmitter<number>();
 
-  onDelete() {
-    console.log('Verwijderen van tag:', this.tag);
-    this.deleteTag.emit(this.tag.id);
-  }
+    onDelete() {
+        console.log('Verwijderen van tag:', this.tag);
+        this.deleteTag.emit(this.tag.id);
+    }
 }

@@ -1,37 +1,39 @@
 @use "../../../../styles/variables.scss" as *;
 
 .courses-list {
-  margin-top: 2rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
 }
 
 .course-item {
-  //grid with 1 full column for the title and then 3 colums for each assingment in it
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1rem;
-  h2 {
-    grid-column: span 3;
-  }
+    //grid with 1 full column for the title and then 3 colums for each assingment in it
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+
+    h2 {
+        grid-column: span 3;
+    }
 }
 
 .assignment-card {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  padding: 1rem;
-  border: 1px solid $border-color;
-  border-radius: 4px;
-  background-color: $background-color;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+    border: 1px solid $border-color;
+    border-radius: 4px;
+    background-color: $background-color;
 }
 
 .import-assignment-button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  img{
-    width: 1.5rem;
-  }
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    img {
+        width: 1.5rem;
+    }
 }

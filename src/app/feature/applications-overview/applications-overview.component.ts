@@ -10,10 +10,10 @@ import { User } from '../../auth/models/user.model';
 import { ApplicationStatusEnum } from '../../shared/models/ApplicationStatus.enum';
 
 @Component({
-  selector: 'app-applications-overview',
-  imports: [CommonModule, StatuscardComponent],
-  templateUrl: './applications-overview.component.html',
-  styleUrl: './applications-overview.component.scss'
+    selector: 'app-applications-overview',
+    imports: [CommonModule, StatuscardComponent],
+    templateUrl: './applications-overview.component.html',
+    styleUrl: './applications-overview.component.scss'
 })
 export class ApplicationsOverviewComponent {
   private router = inject(Router);

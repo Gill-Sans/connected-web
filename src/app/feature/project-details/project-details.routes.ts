@@ -1,16 +1,16 @@
-import { Routes } from '@angular/router';
-import { ProjectDetailsComponent } from './project-details.component';
-import { FeedbackComponent } from './components/feedback/feedback.component';
-import { MembersComponent } from './components/members/members.component';
-import { ApplicationsComponent } from './components/applications/applications.component';
-import { DetailsOverviewComponent } from './components/details-overview/details-overview.component';
+import {Routes} from '@angular/router';
+import {ProjectDetailsComponent} from './project-details.component';
+import {FeedbackComponent} from './components/feedback/feedback.component';
+import {MembersComponent} from './components/members/members.component';
+import {ApplicationsComponent} from './components/applications/applications.component';
+import {DetailsOverviewComponent} from './components/details-overview/details-overview.component';
 
-// route for the detailspage and its childroutes 
+// route for the detailspage and its childroutes
 export const projectDetailsRoutes: Routes = [
     {
         path: '',
         component: ProjectDetailsComponent,
-        children:[
+        children: [
             {path: 'overview', component: DetailsOverviewComponent},
             {path: 'feedback', component: FeedbackComponent},
             {path: 'members', component: MembersComponent},

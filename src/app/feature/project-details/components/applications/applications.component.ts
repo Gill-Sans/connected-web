@@ -4,10 +4,10 @@ import { CommonModule } from '@angular/common';
 import { ApplicationStatusEnum } from '../../../../shared/models/ApplicationStatus.enum';
 
 @Component({
-  selector: 'app-applications',
-  imports: [StatuscardComponent,CommonModule],
-  templateUrl: './applications.component.html',
-  styleUrl: './applications.component.scss'
+    selector: 'app-applications',
+    imports: [StatuscardComponent, CommonModule],
+    templateUrl: './applications.component.html',
+    styleUrl: './applications.component.scss'
 })
 export class ApplicationsComponent {
 

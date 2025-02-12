@@ -1,6 +1,5 @@
-
-import { AuthState } from '../store/auth.reducer';
+import {AuthState} from '../store/auth.reducer';
 
 export interface AppState {
-  auth: AuthState;
+    auth: AuthState;
 }

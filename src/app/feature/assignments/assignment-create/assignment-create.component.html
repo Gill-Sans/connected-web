@@ -1,37 +1,37 @@
 <div class="overlay">
-  <div class="modal">
-    <button class="close-btn" (click)="close()">✖</button>
-    <h2>Import an assignment</h2>
+    <div class="modal">
+        <button class="close-btn" (click)="close()">✖</button>
+        <h2>Import an assignment</h2>
 
-    <p><strong>Import an assignment from Canvas</strong></p>
+        <p><strong>Import an assignment from Canvas</strong></p>
 
-    <div class="courses-container">
-      <ng-container *ngIf="assignments$ | async as assignments; else loading">
+        <div class="courses-container">
+            <ng-container *ngIf="assignments$ | async as assignments; else loading">
+                <button
+                    *ngFor="let assignment of assignments"
+                    class="course-btn"
+                    [class.selected]="selectedAssignment?.id === assignment.id"
+                    (click)="selectAssignment(assignment)"
+                >
+                    {{ assignment.name }}
+                </button>
+            </ng-container>
+            <ng-template #loading>
+                <p>Loading assignments...</p>
+            </ng-template>
+        </div>
+
         <button
-          *ngFor="let assignment of assignments"
-          class="course-btn"
-          [class.selected]="selectedAssignment?.id === assignment.id"
-          (click)="selectAssignment(assignment)"
+            class="continue-btn"
+            [disabled]="!selectedAssignment || isLoading"
+            [class.disabled]="isLoading"
+            (click)="createAssignment()"
         >
-          {{ assignment.name }}
+            {{ isLoading ? "Creating..." : "Continue" }}
         </button>
-      </ng-container>
-      <ng-template #loading>
-        <p>Loading assignments...</p>
-      </ng-template>
+
+        <!-- Success/Error Messages -->
+        <p *ngIf="successMessage" class="success">{{ successMessage }}</p>
+        <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
     </div>
-
-    <button
-      class="continue-btn"
-      [disabled]="!selectedAssignment || isLoading"
-      [class.disabled]="isLoading"
-      (click)="createAssignment()"
-    >
-      {{ isLoading ? "Creating..." : "Continue" }}
-    </button>
-
-    <!-- Success/Error Messages -->
-    <p *ngIf="successMessage" class="success">{{ successMessage }}</p>
-    <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
-  </div>
 </div>

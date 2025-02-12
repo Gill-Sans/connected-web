@@ -1,5 +1,5 @@
 <button
-  [ngClass]="{
+    [ngClass]="{
     add: type === 'add',
     cancel: type === 'cancel',
     confirm: type === 'confirm',
@@ -8,10 +8,10 @@
     back: type === 'back',
     edit: type === 'edit',
   }"
-  class="button"
+    class="button"
 >
-  <ng-container *ngIf="type === 'add'">
-    <img src="icons/plus-solid.svg" alt="icon" class="button-icon" />
-  </ng-container>
-  {{ label }}
+    <ng-container *ngIf="type === 'add'">
+        <img src="icons/plus-solid.svg" alt="icon" class="button-icon"/>
+    </ng-container>
+    {{ label }}
 </button>

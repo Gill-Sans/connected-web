@@ -1,10 +1,10 @@
 <div class="dropdown">
-    <button class="dropdown-btn" (click)="toggleDropdown($event)"> 
+    <button class="dropdown-btn" (click)="toggleDropdown($event)">
         {{selectedRole}} &#x25bc;
     </button>
     <ul class="dropdown-menu" *ngIf="isDropdownOpen">
         <li *ngFor="let role of roles" (click)="changeRole(role)">
-        {{ role }}
+            {{ role }}
         </li>
     </ul>
 </div>

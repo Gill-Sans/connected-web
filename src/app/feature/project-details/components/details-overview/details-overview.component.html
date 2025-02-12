@@ -1,26 +1,26 @@
 <div class="tab-content">
-  <div class="page-container">
-    <!-- Linker sectie met tekst -->
-    <div class="left-content">
-      <h2>{{ project.title }}</h2>
-      <!-- Markdown rendering -->
-     <markdown [data]="project.description"></markdown>
+    <div class="page-container">
+        <!-- Linker sectie met tekst -->
+        <div class="left-content">
+            <h2>{{ project.title }}</h2>
+            <!-- Markdown rendering -->
+            <markdown [data]="project.description"></markdown>
+        </div>
+
+        <!-- Rechter sidebar met Members & Links -->
+        <div class="right-sidebar">
+            <div class="members-section">
+                <h3>Members</h3>
+                <ul>
+                    <li *ngFor="let member of members">
+                        <img [src]="member.image" alt="{{ member.first_name }}"/>
+                        <span>{{ member.first_name }} {{member.last_name}}</span>
+                    </li>
+                </ul>
+            </div>
+            <!-- Links component -->
+            <app-linkcard></app-linkcard>
+        </div>
     </div>
-  
-    <!-- Rechter sidebar met Members & Links -->
-    <div class="right-sidebar">
-      <div class="members-section">
-        <h3>Members</h3>
-        <ul>
-          <li *ngFor="let member of members">
-            <img [src]="member.image" alt="{{ member.first_name }}" />
-            <span>{{ member.first_name }} {{member.last_name}}</span>
-          </li>
-        </ul>
-      </div>
-      <!-- Links component -->
-      <app-linkcard></app-linkcard> 
-    </div>
-  </div>
-  
-  </div>
+
+</div>
