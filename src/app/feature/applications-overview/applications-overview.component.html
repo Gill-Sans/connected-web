@@ -14,16 +14,17 @@
         </tr>
       </thead>
       <tbody>
-        <tr class="application-row"  *ngFor="let application of applications" 
-            (click)="navigateToApplication(application)"
-            >
-          <td >
+        <tr class="application-row" *ngFor="let application of applications$ | async" 
+            (click)="navigateToApplication(application)">
+          <td>
             <div class="applicant-info">
-              <img [src]="application.image" alt="{{ application.first_name }}" class="avatar">
-              {{ application.first_name }}
+              <img [src]="application.applicant.avatarUrl || 'icons/placeholderpic.svg'" 
+                   [alt]="application.applicant.firstName" 
+                   class="avatar">
+              {{ application.applicant.firstName }} {{ application.applicant.lastName }}
             </div>
           </td>
-          <td>{{ application.project }}</td>
+          <td>{{ application.project.title }}</td>
           <td>
             <app-statuscard [status]="application.status"></app-statuscard>
           </td>
