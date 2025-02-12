@@ -59,7 +59,7 @@ export class TopnavComponent {
     }
 
     selectAssignment(assignment: Assignment, course: Course): void {
-        this.activeAssignmentService.setActiveAssignment({ assignment, course });
+        this.activeAssignmentService.setActiveAssignment({assignment, course});
         this.isHiddenAssignments = true;
     }
 }

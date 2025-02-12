@@ -38,12 +38,12 @@
             <div class="notification-icon">
                 <img src="icons/bell-regular.svg" alt="Notifications"/>
                 <span class="notification-badge">3</span>
-                </div>
+            </div>
             <div *ngIf="user$ | async as user; else loadingUser">
                 <span class="nav-name">Welcome, {{ user.email + " - " + user.role }}</span>
             </div>
             <ng-template #loadingUser>
-            Loading...
+                Loading...
             </ng-template>
             <div class="user-icon" (click)="toggleHiddenprofile()" clickOutside
                  (clickOutside)="closeProfileDropdown()"></div>

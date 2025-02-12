@@ -1,5 +1,6 @@
 @use "../../../styles/variables.scss" as *;
-.left-content{
+
+.left-content {
     cursor: pointer;
 }
 
@@ -7,6 +8,7 @@ dd {
     padding: 1rem;
     border-radius: $border-radius;
     cursor: pointer;
+
     :hover {
         background-color: $background-color;
     }
