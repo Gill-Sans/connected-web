@@ -1,4 +1,4 @@
-import {Assignment} from './assignment.model';
+import { Assignment } from './assignment.model';
 
 export interface Course {
   id: number
@@ -7,6 +7,7 @@ export interface Course {
   start_at: Date
   end_at: Date
   owner_id: number
+  canvasCourseId: number
   assignments: Assignment[]
 }
 
