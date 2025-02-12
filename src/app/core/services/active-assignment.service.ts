@@ -1,7 +1,7 @@
-import {Injectable} from '@angular/core';
-import {BehaviorSubject, Observable} from 'rxjs';
-import {Assignment} from '../../shared/models/assignment.model';
-import {Course} from '../../shared/models/course.model';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { Assignment } from '../../shared/models/assignment.model';
+import { Course } from '../../shared/models/course.model';
 
 export interface ActiveAssignment {
     assignment: Assignment;
@@ -17,6 +17,10 @@ export class ActiveAssignmentService {
 
     setActiveAssignment(active: ActiveAssignment): void {
         this.activeAssignmentSubject.next(active);
+    }
+
+    getActiveAssignment(): ActiveAssignment | null {
+        return this.activeAssignmentSubject.getValue();
     }
 }
 
