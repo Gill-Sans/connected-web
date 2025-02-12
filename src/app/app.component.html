@@ -1,10 +1,10 @@
 <ng-container *ngIf="(isLoading$ | async) === false; else loadingTemplate">
-  <router-outlet></router-outlet>
+    <router-outlet></router-outlet>
 </ng-container>
 
 <ng-template #loadingTemplate>
-  <!-- You can display a loading spinner or leave it blank -->
-  <div class="loading-container">
-    Loading...
-  </div>
+    <!-- You can display a loading spinner or leave it blank -->
+    <div class="loading-container">
+        Loading...
+    </div>
 </ng-template>

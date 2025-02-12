@@ -1,9 +1,9 @@
 <div class="tag-search-container">
-    <input 
-    type="text" 
-    (input)="onSearchInput($event)" 
-    placeholder="Search for a tag..." 
-    class="tag-input"
+    <input
+        type="text"
+        (input)="onSearchInput($event)"
+        placeholder="Search for a tag..."
+        class="tag-input"
     />
 
     <ng-container *ngIf="tags$ | async as tags">
@@ -14,5 +14,5 @@
             </li>
         </ul>
     </ng-container>
-    
+
 </div>

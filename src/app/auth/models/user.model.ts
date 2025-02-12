@@ -1,5 +1,5 @@
 import {Role} from './role.model';
-import { tag } from '../../shared/models/tag.model';
+import {tag} from '../../shared/models/tag.model';
 
 export interface User {
     id: number,

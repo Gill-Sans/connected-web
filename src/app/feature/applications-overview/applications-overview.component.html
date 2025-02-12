@@ -1,35 +1,31 @@
-
-
-
 <div class="application-overview-container">
     <div class="application-tab">
         <p>Applications</p>
     </div>
     <table>
-      <thead class="thapplicant">
+        <thead class="thapplicant">
         <tr>
-          <th >Name</th>
-          <th >Applied for</th>
-          <th >Status</th>
+            <th>Name</th>
+            <th>Applied for</th>
+            <th>Status</th>
         </tr>
-      </thead>
-      <tbody>
-        <tr class="application-row"  *ngFor="let application of applications" 
+        </thead>
+        <tbody>
+        <tr class="application-row" *ngFor="let application of applications"
             (click)="navigateToApplication(application)"
-            >
-          <td >
-            <div class="applicant-info">
-              <img [src]="application.image" alt="{{ application.first_name }}" class="avatar">
-              {{ application.first_name }}
-            </div>
-          </td>
-          <td>{{ application.project }}</td>
-          <td>
-            <app-statuscard [status]="application.status"></app-statuscard>
-          </td>
+        >
+            <td>
+                <div class="applicant-info">
+                    <img [src]="application.image" alt="{{ application.first_name }}" class="avatar">
+                    {{ application.first_name }}
+                </div>
+            </td>
+            <td>{{ application.project }}</td>
+            <td>
+                <app-statuscard [status]="application.status"></app-statuscard>
+            </td>
         </tr>
-      </tbody>
+        </tbody>
     </table>
-  </div>
+</div>
 
-  

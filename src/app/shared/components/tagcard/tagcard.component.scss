@@ -1,20 +1,21 @@
 .tag {
-  display: inline-flex;
-  align-items: center;
-  background-color: #e0e0e0;
-  border-radius: 16px;
-  padding: 4px 12px;
-  margin: 4px;
-  font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    background-color: #e0e0e0;
+    border-radius: 16px;
+    padding: 4px 12px;
+    margin: 4px;
+    font-size: 14px;
 
-  .delete-btn {
-    margin-left: 8px;
-    border: none;
-    background: none;
-    cursor: pointer;
-    padding: 0 4px;
-    &:hover {
-      color: red;
+    .delete-btn {
+        margin-left: 8px;
+        border: none;
+        background: none;
+        cursor: pointer;
+        padding: 0 4px;
+
+        &:hover {
+            color: red;
+        }
     }
-  }
 }

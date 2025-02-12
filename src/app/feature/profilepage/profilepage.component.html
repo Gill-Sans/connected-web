@@ -1,49 +1,50 @@
 <div class="profilepage">
     <div class="profile-header">
         <app-button label="Back" type="back" class="back-btn" routerLink="/projects"></app-button>
-        <app-button label="confirm" type="confirm" class="edit-btn" routerLink="/edit-profile" (click)="saveProfile()"></app-button>
+        <app-button label="confirm" type="confirm" class="edit-btn" routerLink="/edit-profile"
+                    (click)="saveProfile()"></app-button>
     </div>
     <div class="profile-info">
-    <img 
-        *ngIf="user?.avatarUrl else placeholderImage"
-        class="user-image" 
-        src="user.avatarUrl" 
-        alt="profile picture"
-    />
-    <ng-template #placeholderImage>
         <img
+            *ngIf="user?.avatarUrl else placeholderImage"
             class="user-image"
-            src="icons/placeholderpic.svg"
+            src="user.avatarUrl"
+            alt="profile picture"
         />
-    </ng-template>
+        <ng-template #placeholderImage>
+            <img
+                class="user-image"
+                src="icons/placeholderpic.svg"
+            />
+        </ng-template>
         <p class="profile-name">{{user?.firstName}} {{user?.lastName}}</p>
     </div>
 
-        <!-- about the user section -->
+    <!-- about the user section -->
     <div class="about-me">
         <p>About me</p>
-        <div class="about-me-text" >
+        <div class="about-me-text">
             <textarea *ngIf="user" class="about-me-text" [(ngModel)]="user.aboutMe">{{user.aboutMe}}</textarea>
         </div>
     </div>
 
     <div class="field-of-study">
         <p>Field of Study</p>
-        <input *ngIf="user" [(ngModel)]="user.fieldOfStudy" class="field-of-study-input" />
+        <input *ngIf="user" [(ngModel)]="user.fieldOfStudy" class="field-of-study-input"/>
     </div>
 
     <!-- linkedin section -->
     <div class="linkedin-section">
         <img src="icons/links/Linkedin.svg" alt="linkedIn" class="linkedin-icon">
-        <input *ngIf="user"[(ngModel)]="user.linkedinUrl" class="linkedin-link" />
-      </div>
+        <input *ngIf="user" [(ngModel)]="user.linkedinUrl" class="linkedin-link"/>
+    </div>
 
     <!-- Skillset -->
     <div class="skillset">
         <p>Skillset</p>
         <div class="tags-container">
-            <app-tagcard 
-                *ngFor="let tag of user?.tags" 
+            <app-tagcard
+                *ngFor="let tag of user?.tags"
                 [tag]="tag"
                 [showDelete]="true"
                 (deleteTag)="removeTag($event)">

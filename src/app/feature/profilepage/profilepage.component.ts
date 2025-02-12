@@ -10,88 +10,89 @@ import {tag} from '../../shared/models/tag.model';
 import {TagSearchComponentComponent} from '../../shared/tag-search-component/tag-search-component.component';
 
 @Component({
-  selector: 'app-profilepage',
-  imports: [CommonModule,ButtonComponent,FormsModule,TagSearchComponentComponent,TagcardComponent],
-  templateUrl: './profilepage.component.html',
-  styleUrl: './profilepage.component.scss'
+    selector: 'app-profilepage',
+    imports: [CommonModule, ButtonComponent, FormsModule, TagSearchComponentComponent, TagcardComponent],
+    templateUrl: './profilepage.component.html',
+    styleUrl: './profilepage.component.scss'
 })
 export class ProfilepageComponent implements OnInit {
-  user: User | null = null;
-  tag: tag | null = null;
-  isEditing = false;
-  private readonly authFacade = inject(AuthFacade);
-  readonly user$ = this.authFacade.user$;
-  newTag: string = '';
-  showTagInput: boolean = false;
-  private currentUser: User | null = null;
+    user: User | null = null;
+    tag: tag | null = null;
+    isEditing = false;
+    private readonly authFacade = inject(AuthFacade);
+    readonly user$ = this.authFacade.user$;
+    newTag: string = '';
+    showTagInput: boolean = false;
+    private currentUser: User | null = null;
 
-  constructor(
-    private userService: UserService
-  ) { }
-
-  ngOnInit() {
-    this.authFacade.user$.subscribe(user => {
-      this.currentUser = user;
-      if(user != null){
-      this.userService.getUserProfile(user.id).subscribe(userDetails => {
-        this.user = userDetails;
-      });
-    } else{
-      console.log("ingelogde user vanuit state: " , user);
-    }
-    })
-  }
-  
-
-  get canEditProfile(): boolean {
-  
-    return this.user?.id === this.currentUser?.id;
-
-  }
-
-  addTagToUser(selectedTag:tag) {
-    if(!this.user || !this.user.tags) return;
-
-    if(this.user){
-      this.user.tags = [];
+    constructor(
+        private userService: UserService
+    ) {
     }
 
-   if(!this.user.tags.some(t => t.name === this.newTag)){
-    this.user.tags?.push(selectedTag);
-  }
-}
+    ngOnInit() {
+        this.authFacade.user$.subscribe(user => {
+            this.currentUser = user;
+            if (user != null) {
+                this.userService.getUserProfile(user.id).subscribe(userDetails => {
+                    this.user = userDetails;
+                });
+            } else {
+                console.log("ingelogde user vanuit state: ", user);
+            }
+        })
+    }
 
 
-  removeTag(tagIdToRemove: number) {
-    if (!this.user?.tags) return;
+    get canEditProfile(): boolean {
 
-    // Filter de specifieke tag eruit
-    // Update de user tags
-    this.user.tags = this.user.tags.filter(tag => tag.id !== tagIdToRemove);
-  }
+        return this.user?.id === this.currentUser?.id;
+
+    }
+
+    addTagToUser(selectedTag: tag) {
+        if (!this.user || !this.user.tags) return;
+
+        if (this.user) {
+            this.user.tags = [];
+        }
+
+        if (!this.user.tags.some(t => t.name === this.newTag)) {
+            this.user.tags?.push(selectedTag);
+        }
+    }
 
 
-  //save the user profile
-  saveProfile(){
-    if(!this.user) return;
+    removeTag(tagIdToRemove: number) {
+        if (!this.user?.tags) return;
 
-    const updatedUser: Partial<User> = {
-      id: this.user.id,
-      aboutMe: this.user.aboutMe,
-      fieldOfStudy: this.user.fieldOfStudy,
-      linkedinUrl: this.user.linkedinUrl,
-      tags: this.user.tags
-    };
+        // Filter de specifieke tag eruit
+        // Update de user tags
+        this.user.tags = this.user.tags.filter(tag => tag.id !== tagIdToRemove);
+    }
 
-    this.userService.updateUserProfile(updatedUser).subscribe(
-      updatedUser => {
-        this.user = updatedUser;
-        this.isEditing = false;
-        console.log("Profile updated successfully:", updatedUser);
-      },
-      error => {
-        console.error('Error updating profile:', error);
-      }
-    );
-  }
+
+    //save the user profile
+    saveProfile() {
+        if (!this.user) return;
+
+        const updatedUser: Partial<User> = {
+            id: this.user.id,
+            aboutMe: this.user.aboutMe,
+            fieldOfStudy: this.user.fieldOfStudy,
+            linkedinUrl: this.user.linkedinUrl,
+            tags: this.user.tags
+        };
+
+        this.userService.updateUserProfile(updatedUser).subscribe(
+            updatedUser => {
+                this.user = updatedUser;
+                this.isEditing = false;
+                console.log("Profile updated successfully:", updatedUser);
+            },
+            error => {
+                console.error('Error updating profile:', error);
+            }
+        );
+    }
 }

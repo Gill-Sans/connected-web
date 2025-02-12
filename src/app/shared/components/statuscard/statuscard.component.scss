@@ -10,36 +10,35 @@
     user-select: none;
     border: 2px solid;
     background: transparent;
-    min-width: 100px; 
-  }
-  
- 
-  .pending {
+    min-width: 100px;
+}
+
+
+.pending {
     border-color: #b48b4e;
     color: #b48b4e;
-  }
-  
-  .approved {
+}
+
+.approved {
     border-color: #4CAF50;
     color: #4CAF50;
-  }
-  
-  .rejected {
+}
+
+.rejected {
     border-color: #D9534F;
     color: #D9534F;
-  }
+}
 
 
-  .pending:hover {
+.pending:hover {
     background: rgba(180, 139, 78, 0.1);
-  }
-  
-  .approved:hover {
+}
+
+.approved:hover {
     background: rgba(76, 175, 80, 0.1);
-  }
-  
-  .rejected:hover {
+}
+
+.rejected:hover {
     background: rgba(217, 83, 79, 0.1);
-  }
-  
-  
+}
+

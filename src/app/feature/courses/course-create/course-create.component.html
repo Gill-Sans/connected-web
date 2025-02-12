@@ -1,36 +1,36 @@
 <div class="overlay">
-  <div class="modal">
-    <button class="close-btn" (click)="close()">✖</button>
-    <h2>Import a course</h2>
+    <div class="modal">
+        <button class="close-btn" (click)="close()">✖</button>
+        <h2>Import a course</h2>
 
-    <p><strong>Import a course from Canvas</strong></p>
+        <p><strong>Import a course from Canvas</strong></p>
 
-    <div class="courses-container">
-      <ng-container *ngIf="courses$ | async as courses; else loading">
+        <div class="courses-container">
+            <ng-container *ngIf="courses$ | async as courses; else loading">
+                <button
+                    *ngFor="let course of courses"
+                    class="course-btn"
+                    [class.selected]="selectedCourse?.id === course.id"
+                    (click)="selectCourse(course)">
+                    {{ course.name }}
+                </button>
+            </ng-container>
+            <ng-template #loading>
+                <p>Loading courses...</p>
+            </ng-template>
+        </div>
+
         <button
-          *ngFor="let course of courses"
-          class="course-btn"
-          [class.selected]="selectedCourse?.id === course.id"
-          (click)="selectCourse(course)">
-          {{ course.name }}
+            class="continue-btn"
+            [disabled]="!selectedCourse || isLoading"
+            [class.disabled]="isLoading"
+            (click)="createCourse()">
+            {{ isLoading ? 'Creating...' : 'Continue' }}
         </button>
-      </ng-container>
-      <ng-template #loading>
-        <p>Loading courses...</p>
-      </ng-template>
+
+
+        <!-- Success/Error Messages -->
+        <p *ngIf="successMessage" class="success">{{ successMessage }}</p>
+        <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
     </div>
-
-    <button
-      class="continue-btn"
-      [disabled]="!selectedCourse || isLoading"
-      [class.disabled]="isLoading"
-      (click)="createCourse()">
-      {{ isLoading ? 'Creating...' : 'Continue' }}
-    </button>
-
-
-    <!-- Success/Error Messages -->
-    <p *ngIf="successMessage" class="success">{{ successMessage }}</p>
-    <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
-  </div>
 </div>

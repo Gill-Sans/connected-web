@@ -1,4 +1,4 @@
-.project-details-container{
+.project-details-container {
     margin: auto;
     padding: 20px;
     background: #fff;
@@ -6,11 +6,12 @@
 
 }
 
-.project-tabs{
-    display:flex;
+.project-tabs {
+    display: flex;
     border-bottom: 2px solid #ddd;
     margin-bottom: 20px;
-    a{
+
+    a {
         padding: 10px 20px;
         font-size: 16px;
         text-decoration: none;
@@ -18,18 +19,18 @@
         border-bottom: 3px solid transparent;
         transition: all 0.3s ease-in-out;
 
-    &:hover{
-        color: #6200ea;
+        &:hover {
+            color: #6200ea;
         }
     }
 }
 
-.active-tab{
+.active-tab {
     border-bottom: 3px solid #6200ea !important;
-    color:#6200ea !important;
+    color: #6200ea !important;
 }
 
-.project-content{
+.project-content {
     padding: 20px;
     background: none;
 
