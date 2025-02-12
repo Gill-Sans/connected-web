@@ -1,24 +1,34 @@
 <div class="project-overview">
     <div class="tabs">
-    <span
-        *ngFor="let tab of tabOptions"
-        class="tab"
-        [class.active]="selectedTab === tab.value"
-        (click)="changeTab(tab.value)"
-    >
-      {{ tab.label }}
-    </span>
+        <span
+            *ngFor="let tab of tabOptions"
+            class="tab"
+            [class.active]="selectedTab === tab.value"
+            (click)="changeTab(tab.value)"
+        >
+            {{ tab.label }}
+        </span>
+        <app-button type="post" label="Create Project"></app-button>
     </div>
 
-    <div class="card-container">
-        <app-projectcard *ngFor="let project of projects"
-                         [title]="project.title"
-                         [id]="project.id"
-                         [description]="project.description"
-                         [tags]="[
-        { id: 1, name: 'tag1' },
-        { id: 2, name: 'tag2' }
-         ]">
+    <ng-template #loadingProject>
+        <p>Loading...</p>
+    </ng-template>
+
+    <div
+        class="card-container"
+        *ngIf="projects$ | async as projects; else loadingProject"
+    >
+        <app-projectcard
+            *ngFor="let project of projects"
+            [title]="project.title"
+            [id]="project.id"
+            [description]="project.description"
+            [tags]="[
+                { id: 1, name: 'tag1' },
+                { id: 2, name: 'tag2' }
+            ]"
+        >
         </app-projectcard>
     </div>
 
