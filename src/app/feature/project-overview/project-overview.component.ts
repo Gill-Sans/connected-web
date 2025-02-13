@@ -17,18 +17,13 @@ import { ActiveAssignment } from '../../shared/models/activeAssignment.model';
     styleUrl: './project-overview.component.scss'
 })
 export class ProjectOverviewComponent implements OnInit {
-
-
     private readonly projectService: ProjectService = inject(ProjectService);
     private readonly activeAssignmentService: ActiveAssignmentService = inject(ActiveAssignmentService);
 
+    projects$: Observable<Project[]> | null = null;
+
     activeAssignment: ActiveAssignment | null = this.activeAssignmentService.getActiveAssignment();
-
-
-    ngOnInit(): void {
-        this.loadProjects();
-    }
-
+    selectedTab: string = 'all';
 
     tabOptions = [
         { label: 'All projects', value: 'all' },
@@ -36,9 +31,9 @@ export class ProjectOverviewComponent implements OnInit {
         { label: 'Crossover projects', value: 'crossover' }
     ];
 
-    selectedTab: string = 'all';
-
-    projects$: Observable<Project[]> | null = null;
+    ngOnInit(): void {
+        this.loadProjects();
+    }
 
     changeTab(tab: string) {
         this.selectedTab = tab;

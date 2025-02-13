@@ -1,8 +1,9 @@
-import {Component, Input} from '@angular/core';
+import {Component, inject, Input} from '@angular/core';
 import {TagcardComponent} from '../tagcard/tagcard.component';
 import {CommonModule} from '@angular/common';
 import {tag} from '../../models/tag.model';
 import {Router, RouterModule} from '@angular/router';
+import {ActiveAssignmentRoutingService} from '../../../core/services/active-assignment-routing.service';
 
 @Component({
     selector: 'app-projectcard',
@@ -16,10 +17,11 @@ export class ProjectcardComponent {
     @Input() tags: tag[] = [{id: 0, name: 'placeholder'}];  // Changed to tag[]
     @Input() id!: number;
 
-    constructor(private router: Router) {
-    }
+    router: Router = inject(Router);
+    private readonly assignmentRouting: ActiveAssignmentRoutingService = inject(ActiveAssignmentRoutingService);
 
     navigateToProject() {
-        this.router.navigate(['/projects', this.id]);
+        const route = this.assignmentRouting.buildRoute('projects', this.id.toString());
+        this.router.navigate(route);
     }
 }

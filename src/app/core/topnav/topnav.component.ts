@@ -11,7 +11,6 @@ import {Course} from '../../shared/models/course.model';
 import {ActiveAssignmentService} from '../services/active-assignment.service';
 import {Assignment} from '../../shared/models/assignment.model';
 import { ActiveAssignment } from '../../shared/models/activeAssignment.model';
-import { CookieService } from '../services/cookieService';
 @Component({
     selector: 'app-topnav',
     imports: [
@@ -21,35 +20,19 @@ import { CookieService } from '../services/cookieService';
     templateUrl: './topnav.component.html',
     styleUrl: './topnav.component.scss'
 })
-export class TopnavComponent implements OnInit {
+export class TopnavComponent{
+    private readonly authFacade: AuthFacade = inject(AuthFacade);
+    private readonly router: Router = inject(Router);
+    private readonly courseService: CourseService = inject(CourseService);
+    private readonly activeAssignmentService: ActiveAssignmentService = inject(ActiveAssignmentService);
+
+    public activeAssignment$: Observable<ActiveAssignment | null> = this.activeAssignmentService.activeAssignment$;
+    public courses$: Observable<Course[] | null> = this.courseService.getAllEnrolledCourses();
+    readonly user$: Observable<User | null> = this.authFacade.user$;
+
     public Role: typeof Role = Role;
     isHiddenAssignments: boolean = true;
     isHiddenProfile: boolean = true;
-
-    private readonly authFacade: AuthFacade = inject(AuthFacade);
-    readonly user$: Observable<User | null> = this.authFacade.user$;
-    private readonly router: Router = inject(Router);
-    private readonly courseService: CourseService = inject(CourseService);
-    courses$: Observable<Course[] | null> = this.courseService.getAllEnrolledCourses();
-    private readonly activeAssignmentService: ActiveAssignmentService = inject(ActiveAssignmentService);
-    public activeAssignment$: Observable<ActiveAssignment | null> = this.activeAssignmentService.activeAssignment$;
-    //cookie service
-    private readonly cookieService = inject(CookieService);
-    private readonly ASSIGNMENT_COOKIE_KEY = 'activeAssignment';
-
-    ngOnInit(): void {
-        
-        if (this.cookieService.exists(this.ASSIGNMENT_COOKIE_KEY)) {
-            
-            const assignment = this.cookieService.get<ActiveAssignment>(this.ASSIGNMENT_COOKIE_KEY);
-            if (assignment) {
-                this.activeAssignmentService.setActiveAssignment(assignment);
-            }
-        }
-    }
-
-
-
     toggleAssignmentsHidden() {
         this.isHiddenAssignments = !this.isHiddenAssignments;
     }
@@ -76,7 +59,23 @@ export class TopnavComponent implements OnInit {
     }
 
     selectAssignment(assignment: Assignment, course: Course): void {
-        this.activeAssignmentService.setActiveAssignment({assignment, course});
+        // Set the active assignment in the service
+        this.activeAssignmentService.setActiveAssignment({ assignment, course });
         this.isHiddenAssignments = true;
+
+        // Create URL-friendly slugs for the course and assignment names
+        const courseSlug = this.slugify(course.name);
+        const assignmentSlug = this.slugify(assignment.name);
+
+        // Navigate to the default route under the active assignment context (e.g., 'projects')
+        this.router.navigate(['/', courseSlug, assignmentSlug, '/']);
+    }
+
+    private slugify(text: string): string {
+        return text
+            .toString()
+            .toLowerCase()
+            .trim()
+            .replace(/[\s\W-]+/g, '-');  // Replace spaces and non-word characters with a dash
     }
 }
