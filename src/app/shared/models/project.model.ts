@@ -7,6 +7,7 @@ export interface Project {
     id: number;
     title: string;
     description: string;
+    shortDescription: string;
     status: ProjectStatusEnum;
     repositoryUrl: string;
     boardUrl: string;

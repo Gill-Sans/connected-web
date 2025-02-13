@@ -25,7 +25,7 @@ export class ProjectService {
 
     createProject(
         assignmentId: number,
-        projectData: { title: string; description: string }
+        projectData: Project
     ): Observable<Project> {
         const headers = new HttpHeaders()
             .append('assignmentId', assignmentId.toString())
