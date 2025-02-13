@@ -9,7 +9,7 @@ import {projectDetailsRoutes} from './feature/project-details/project-details.ro
 import {CourseOverviewComponent} from './feature/courses/course-overview/course-overview.component';
 import {ProfilepageComponent} from './feature/profilepage/profilepage.component';
 import {ApplicationsOverviewComponent} from './feature/applications-overview/applications-overview.component';
-
+import {ApplicationDetailsComponent} from './feature/applications-overview/application-details/application-details.component';
 export const routes: Routes = [
     {
         // Authenticated routes
@@ -23,7 +23,8 @@ export const routes: Routes = [
             {path: 'courses', component: CourseOverviewComponent},
             {path: '', redirectTo: 'projects', pathMatch: 'full'},
             {path: 'profile', component: ProfilepageComponent},
-            {path: 'assignment/applications', component: ApplicationsOverviewComponent}
+            {path: 'assignment/applications', component: ApplicationsOverviewComponent},
+            {path: 'assignment/applications/:id', component: ApplicationDetailsComponent}
         ]
     },
     {
