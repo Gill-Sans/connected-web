@@ -140,7 +140,7 @@ $color-wood-2:    #410A09;
     .circle:nth-child(1) { left: -12px; top: 80px; }
     .circle:nth-child(2) {
         right: 10px;
-        top: 0px;
+        top: 0;
         transform: rotate(90deg);
         &:after   { left: 65px; top: 10px; }
         &:before  { display: none; }
@@ -218,7 +218,7 @@ $color-wood-2:    #410A09;
             @include position;
             background-color: $color-skin-1;
             border-radius: 50%;
-            bottom: 0px;
+            bottom: 0;
             height: 15px;
             transform-origin: bottom;
             width: 15px;
@@ -294,7 +294,7 @@ $color-wood-2:    #410A09;
     0%    { width: 350px; left: 80px; }
     25%   { width: 450px; left: 80px; }
     50%   { width: 350px; left: 80px; }
-    75%   { width: 450px; left: 0px; }
+    75%   { width: 450px; left: 0; }
     100%  { width: 350px; left: 80px; }
 }
 /*/////////////////////// credit ////*/
