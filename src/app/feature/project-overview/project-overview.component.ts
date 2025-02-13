@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { ProjectcardComponent } from '../../shared/components/projectcard/projectcard.component';
 import { CommonModule } from '@angular/common';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { ButtonComponent } from '../../shared/components/button/button.component';
 import { Observable } from 'rxjs';
 import { Project } from '../../shared/models/project.model';
@@ -27,6 +27,13 @@ export class ProjectOverviewComponent implements OnInit {
 
     ngOnInit(): void {
         this.loadProjects();
+    }
+
+    constructor(private router: Router) {
+    }
+
+    navigateToProjectCreate() {
+        this.router.navigate(['/projects/create']);
     }
 
 

@@ -8,7 +8,11 @@
         >
             {{ tab.label }}
         </span>
-        <app-button type="post" label="Create Project"></app-button>
+        <app-button
+            type="post"
+            label="Create Project"
+            (click)="navigateToProjectCreate()"
+        ></app-button>
     </div>
 
     <ng-template #loadingProject>
