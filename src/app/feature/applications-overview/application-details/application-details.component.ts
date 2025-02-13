@@ -2,9 +2,11 @@ import { Component, inject } from '@angular/core';
 import { ApplicationService } from '../../../core/services/application.service';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { ButtonComponent } from '../../../shared/components/button/button.component';
+import { MarkdownModule } from 'ngx-markdown';
 @Component({
   selector: 'app-application-details',
-  imports: [CommonModule],
+  imports: [CommonModule,ButtonComponent,MarkdownModule],
   templateUrl: './application-details.component.html',
   styleUrl: './application-details.component.scss'
 })
