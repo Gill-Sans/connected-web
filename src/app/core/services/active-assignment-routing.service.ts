@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import { ActiveAssignmentService } from './active-assignment.service';
 import { ActiveAssignment } from '../../shared/models/activeAssignment.model';
 
@@ -6,7 +6,7 @@ import { ActiveAssignment } from '../../shared/models/activeAssignment.model';
     providedIn: 'root'
 })
 export class ActiveAssignmentRoutingService {
-    constructor(private activeAssignmentService: ActiveAssignmentService) {}
+    private readonly activeAssignmentService: ActiveAssignmentService = inject(ActiveAssignmentService);
 
     // Converts a given string into a URL-friendly slug.
     slugify(text: string): string {

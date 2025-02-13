@@ -12,6 +12,7 @@ import {ApplicationsOverviewComponent} from './feature/applications-overview/app
 import {DashboardComponent} from './feature/dashboard/dashboard.component';
 import {ActiveAssignmentResolver} from './core/services/active-assignment-resolver.service';
 import {WelcomeComponent} from './feature/welcome/welcome.component';
+import {NotfoundComponent} from './feature/notfound/notfound.component';
 
 export const routes: Routes = [
     {
@@ -24,6 +25,7 @@ export const routes: Routes = [
             { path: 'courses', component: CourseOverviewComponent },
             { path: 'profile', component: ProfilepageComponent },
             { path: '', component: WelcomeComponent },
+            { path: '404', component: NotfoundComponent },
 
             // Routes that DO require an active assignment context:
             {
