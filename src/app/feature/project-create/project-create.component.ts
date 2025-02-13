@@ -6,6 +6,7 @@ import { LMarkdownEditorModule } from 'ngx-markdown-editor';
 import { ProjectService } from '../../core/services/project.service';
 import { ActiveAssignmentService } from '../../core/services/active-assignment.service';
 import { Router } from '@angular/router';
+import { Project } from '../../shared/models/project.model';
 
 @Component({
     selector: 'app-project-create',
@@ -24,19 +25,29 @@ export class ProjectCreateComponent implements OnInit {
 
     projectForm = new FormGroup({
         title: new FormControl('', [Validators.required]),
-        description: new FormControl('')
+        description: new FormControl(''),
+        shortDescription: new FormControl('', [Validators.required]),
     });
 
+
+    charCount: number = 0;
     markdownPreview = '';
 
     updatePreview() {
         this.markdownPreview = this.projectForm.value.description || '';
     }
 
+    updateCharCount(): void {
+        const shortDescriptionControl = this.projectForm.get('shortDescription');
+        this.charCount = shortDescriptionControl?.value ? shortDescriptionControl.value?.length : 0;
+    }
+
+
     onSubmit() {
         const assignmentId = this.activeAssignmentService.getActiveAssignment()?.assignment.id;
         if (this.projectForm.valid && assignmentId) {
-            this.projectService.createProject(assignmentId, { title: this.projectForm.value.title || '', description: this.projectForm.value.description || '' }).subscribe(project => {
+            let project: Project = this.projectForm.value as Project;
+            this.projectService.createProject(assignmentId, project).subscribe(project => {
                 console.log('Project created:', project);
                 this.router.navigate(['/projects']);
             });
