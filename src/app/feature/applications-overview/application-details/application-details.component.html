@@ -1,0 +1,8 @@
+<div *ngIf="application$ | async as application">
+    <h2>Application Details</h2>
+    <div>
+      <p>Applicant: {{ application.applicant.firstName }} {{ application.applicant.lastName }}</p>
+      <p>Status: {{ application.status }}</p>
+      <!-- Voeg meer details toe zoals je wilt -->
+    </div>
+  </div>
