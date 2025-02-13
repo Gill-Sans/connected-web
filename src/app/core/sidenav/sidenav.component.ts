@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import {Router, RouterLink, RouterLinkActive} from '@angular/router';
+import {Router} from '@angular/router';
 import { Role } from '../../auth/models/role.model';
 import { HasRoleDirective } from '../../shared/directives/HasRole.directive';
 import {ActiveAssignmentRoutingService} from '../services/active-assignment-routing.service';
@@ -7,8 +7,6 @@ import {ActiveAssignmentRoutingService} from '../services/active-assignment-rout
 @Component({
     selector: 'app-sidenav',
     imports: [
-        RouterLink,
-        RouterLinkActive,
         HasRoleDirective
     ],
     templateUrl: './sidenav.component.html',
