@@ -59,16 +59,29 @@ export class TopnavComponent{
     }
 
     selectAssignment(assignment: Assignment, course: Course): void {
-        // Set the active assignment in the service
+        // Set the active assignment in the service.
         this.activeAssignmentService.setActiveAssignment({ assignment, course });
         this.isHiddenAssignments = true;
 
-        // Create URL-friendly slugs for the course and assignment names
+        // Create URL-friendly slugs.
         const courseSlug = this.slugify(course.name);
         const assignmentSlug = this.slugify(assignment.name);
 
-        // Navigate to the default route under the active assignment context (e.g., 'projects')
-        this.router.navigate(['/', courseSlug, assignmentSlug, '/']);
+        // Get the current URL (e.g., "/java-advanced/doesitwork/projects").
+        const currentUrl = this.router.url;
+        // Split into segments, filtering out any empty segments.
+        const segments = currentUrl.split('/').filter(segment => segment !== '');
+
+        if (segments.length >= 3) {
+            // Assume the first two segments are the active assignment context.
+            segments[0] = courseSlug;
+            segments[1] = assignmentSlug;
+            // Navigate to the updated URL (e.g., "/new-course-slug/new-assignment-slug/projects").
+            this.router.navigate(['/' + segments.join('/')]);
+        } else {
+            // If no active assignment context is found in the URL, navigate to the default dashboard.
+            this.router.navigate(['/', courseSlug, assignmentSlug, 'dashboard']);
+        }
     }
 
     private slugify(text: string): string {
