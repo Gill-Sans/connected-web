@@ -18,6 +18,19 @@
 
         <!-- Project Description -->
         <div class="form-group">
+            <label>Short Description</label>
+            <p class="input-description">
+                Describe your project. ({{ charCount }}/500 characters)
+            </p>
+            <textarea
+                id="shortDescription"
+                formControlName="shortDescription"
+                placeholder="Description of your project"
+                maxlength="500"
+                rows="7"
+                (input)="updateCharCount()"
+            ></textarea>
+
             <label for="description">Project Description</label>
             <p class="input-description">
                 Describe your project in a detailed way. You can style your

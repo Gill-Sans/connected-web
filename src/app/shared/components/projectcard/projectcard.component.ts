@@ -13,7 +13,7 @@ import { MarkdownModule } from 'ngx-markdown';
 })
 export class ProjectcardComponent {
     @Input() title: string = 'placeholder';
-    @Input() description: string = 'placeholder';
+    @Input() shortDescription: string = 'placeholder';
     @Input() tags: tag[] = [{ id: 0, name: 'placeholder' }];  // Changed to tag[]
     @Input() id!: number;
 
