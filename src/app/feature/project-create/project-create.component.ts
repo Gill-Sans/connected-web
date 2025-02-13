@@ -1,4 +1,4 @@
-import { Component, inject, Inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MarkdownModule } from 'ngx-markdown';
@@ -7,6 +7,7 @@ import { ProjectService } from '../../core/services/project.service';
 import { ActiveAssignmentService } from '../../core/services/active-assignment.service';
 import { Router } from '@angular/router';
 import { Project } from '../../shared/models/project.model';
+import {ActiveAssignmentRoutingService} from '../../core/services/active-assignment-routing.service';
 
 @Component({
     selector: 'app-project-create',
@@ -18,6 +19,7 @@ export class ProjectCreateComponent implements OnInit {
 
     private readonly projectService: ProjectService = inject(ProjectService);
     private readonly activeAssignmentService: ActiveAssignmentService = inject(ActiveAssignmentService);
+    private readonly activeAssignmentRoutingService: ActiveAssignmentRoutingService = inject(ActiveAssignmentRoutingService);
     private readonly router: Router = inject(Router);
 
     ngOnInit() {
@@ -49,7 +51,7 @@ export class ProjectCreateComponent implements OnInit {
             let project: Project = this.projectForm.value as Project;
             this.projectService.createProject(assignmentId, project).subscribe(project => {
                 console.log('Project created:', project);
-                this.router.navigate(['/projects']);
+                this.router.navigate(this.activeAssignmentRoutingService.buildRoute('projects'));
             });
             console.log('Project submitted:', this.projectForm.value);
         }

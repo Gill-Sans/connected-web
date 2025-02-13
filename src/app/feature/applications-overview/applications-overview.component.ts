@@ -1,17 +1,14 @@
-import { Component, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { StatuscardComponent } from '../../shared/components/statuscard/statuscard.component';
-import { Router,ActivatedRoute  } from '@angular/router';
-import { AssignmentService } from '../../core/services/assignment.service';
-import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
-import { Application } from '../../shared/models/application.model';
-import { Observable } from 'rxjs/internal/Observable';
-import { User } from '../../auth/models/user.model';
-import { ApplicationStatusEnum } from '../../shared/models/ApplicationStatus.enum';
-import { ActiveAssignmentService } from '../../core/services/active-assignment.service';
-import { filter } from 'rxjs/internal/operators/filter';
-import { switchMap } from 'rxjs/internal/operators/switchMap';
-import { ApplicationService } from '../../core/services/application.service';
+import {Component, inject, OnInit} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {StatuscardComponent} from '../../shared/components/statuscard/statuscard.component';
+import {Router} from '@angular/router';
+import {AssignmentService} from '../../core/services/assignment.service';
+import {Application} from '../../shared/models/application.model';
+import {Observable} from 'rxjs/internal/Observable';
+import {ActiveAssignmentService} from '../../core/services/active-assignment.service';
+import {ActiveAssignment} from '../../shared/models/activeAssignment.model';
+import {Subscription} from 'rxjs';
+import {ActiveAssignmentRoutingService} from '../../core/services/active-assignment-routing.service';
 
 @Component({
     selector: 'app-applications-overview',
@@ -19,21 +16,38 @@ import { ApplicationService } from '../../core/services/application.service';
     templateUrl: './applications-overview.component.html',
     styleUrl: './applications-overview.component.scss'
 })
-export class ApplicationsOverviewComponent {
-  private router = inject(Router);
-  private assignmentService = inject(AssignmentService);
-  private applicationService = inject(ApplicationService);
-  private activeAssignmentService = inject(ActiveAssignmentService);
-  public applications$: Observable<Application[]> | null = null;
-  private activeAssignment = this.activeAssignmentService.getActiveAssignment();
+export class ApplicationsOverviewComponent implements OnInit {
+    private router: Router = inject(Router);
+    private assignmentService: AssignmentService = inject(AssignmentService);
+    private activeAssignmentService: ActiveAssignmentService = inject(ActiveAssignmentService);
+    private readonly activeAssignmentRouteService: ActiveAssignmentRoutingService = inject(ActiveAssignmentRoutingService);
 
-  ngOnInit() {
-     if (this.activeAssignment?.assignment.canvasAssignmentId) {
-       this.applications$ = this.assignmentService.getAllApplicationsFromAssignment(this.activeAssignment.assignment.canvasAssignmentId);
-     }
-  }
-  
-  navigateToApplication(application: Application) {
-    this.router.navigate(['/assignment/applications', application.id]);
-  }
-} 
+    public applications$: Observable<Application[]> | null = null;
+
+    private activeAssignment: ActiveAssignment | null = null;
+
+    private activeAssignmentSub?: Subscription;
+
+    ngOnInit() {
+        this.activeAssignmentSub = this.activeAssignmentService.activeAssignment$.subscribe(
+            (activeAssignment) => {
+                this.activeAssignment = activeAssignment;
+                // Only reload projects if an active assignment exists.
+                if (activeAssignment && activeAssignment.assignment) {
+                    this.loadApplications();
+                }
+            }
+        );
+    }
+
+    loadApplications() {
+        const assignmentId = this.activeAssignmentService.getActiveAssignment()?.assignment.id;
+        if (assignmentId) {
+            this.applications$ = this.assignmentService.getAllApplicationsFromAssignment(assignmentId);
+        }
+    }
+
+    navigateToApplication(application: Application) {
+        this.router.navigate(this.activeAssignmentRouteService.buildRoute('applications', application.id.toString()));
+    }
+}

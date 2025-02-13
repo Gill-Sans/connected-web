@@ -1,7 +1,8 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {RouterModule} from '@angular/router';
+import {Router, RouterModule} from '@angular/router';
 import {ButtonComponent} from '../../shared/components/button/button.component';
+import {ActiveAssignmentRoutingService} from '../../core/services/active-assignment-routing.service';
 
 @Component({
     selector: 'app-project-details',
@@ -10,5 +11,10 @@ import {ButtonComponent} from '../../shared/components/button/button.component';
     styleUrl: './project-details.component.scss'
 })
 export class ProjectDetailsComponent {
+    private readonly router: Router = inject(Router);
+    private readonly activeAssignmentService: ActiveAssignmentRoutingService = inject(ActiveAssignmentRoutingService);
 
+    navigateBack() {
+        this.router.navigate(this.activeAssignmentService.buildRoute('projects'));
+    }
 }
