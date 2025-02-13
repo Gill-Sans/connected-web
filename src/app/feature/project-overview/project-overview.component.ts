@@ -64,8 +64,6 @@ export class ProjectOverviewComponent implements OnInit, OnDestroy {
 
     loadProjects(): void {
         const assignmentId = this.activeAssignmentService.getActiveAssignment()?.assignment.id;
-        if (assignmentId) {
-            this.projects$ = this.projectService.getAllProjects(assignmentId);
-        }
+        if (assignmentId) this.projects$ = this.projectService.getAllProjects(assignmentId);
     }
 }
