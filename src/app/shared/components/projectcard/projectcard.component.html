@@ -5,7 +5,7 @@
     <div class="card-tags">
         <app-tagcard *ngFor="let tag of tags" [tag]="tag"></app-tagcard>
     </div>
-    <div class="card-body">
-        <p>{{ description }}</p>
+    <div class="card-body md-editor-container">
+        <p markdown>{{ description }}</p>
     </div>
 </div>
