@@ -11,7 +11,7 @@ export class ProjectService {
     getAllProjects(assignmentId: number): Observable<Project[]> {
         const headers = new HttpHeaders().set('assignmentId', assignmentId.toString());
 
-        let response = this.http.get<Project[]>(`${environment.apiBaseUrl}/projects`, {
+        let response = this.http.get<Project[]>(`${environment.apiBaseUrl}/api/projects`, {
             withCredentials: true,
             headers: headers
         });
@@ -22,4 +22,19 @@ export class ProjectService {
 
         return response;
     }
+
+    createProject(
+        assignmentId: number,
+        projectData: { title: string; description: string }
+    ): Observable<Project> {
+        const headers = new HttpHeaders()
+            .append('assignmentId', assignmentId.toString())
+            .append('Content-Type', 'application/json');
+
+        return this.http.post<Project>(`${environment.apiBaseUrl}/api/projects/create`, projectData, {
+            withCredentials: true,
+            headers: headers
+        });
+    }
+
 }
