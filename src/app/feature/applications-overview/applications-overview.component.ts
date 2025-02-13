@@ -6,7 +6,6 @@ import {AssignmentService} from '../../core/services/assignment.service';
 import {Application} from '../../shared/models/application.model';
 import {Observable} from 'rxjs/internal/Observable';
 import {ActiveAssignmentService} from '../../core/services/active-assignment.service';
-import {ApplicationService} from '../../core/services/application.service';
 import {ActiveAssignment} from '../../shared/models/activeAssignment.model';
 import {Subscription} from 'rxjs';
 import {ActiveAssignmentRoutingService} from '../../core/services/active-assignment-routing.service';
@@ -18,10 +17,9 @@ import {ActiveAssignmentRoutingService} from '../../core/services/active-assignm
     styleUrl: './applications-overview.component.scss'
 })
 export class ApplicationsOverviewComponent implements OnInit {
-    private router = inject(Router);
-    private assignmentService = inject(AssignmentService);
-    private applicationService = inject(ApplicationService);
-    private activeAssignmentService = inject(ActiveAssignmentService);
+    private router: Router = inject(Router);
+    private assignmentService: AssignmentService = inject(AssignmentService);
+    private activeAssignmentService: ActiveAssignmentService = inject(ActiveAssignmentService);
     private readonly activeAssignmentRouteService: ActiveAssignmentRoutingService = inject(ActiveAssignmentRoutingService);
 
     public applications$: Observable<Application[]> | null = null;
