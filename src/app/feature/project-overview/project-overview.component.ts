@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { ProjectcardComponent } from '../../shared/components/projectcard/projectcard.component';
 import { CommonModule } from '@angular/common';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { ButtonComponent } from '../../shared/components/button/button.component';
 import { Observable } from 'rxjs';
 import { Project } from '../../shared/models/project.model';
@@ -19,21 +19,28 @@ import { ActiveAssignment } from '../../shared/models/activeAssignment.model';
 export class ProjectOverviewComponent implements OnInit {
     private readonly projectService: ProjectService = inject(ProjectService);
     private readonly activeAssignmentService: ActiveAssignmentService = inject(ActiveAssignmentService);
+    router: Router = inject(Router)
 
     projects$: Observable<Project[]> | null = null;
 
     activeAssignment: ActiveAssignment | null = this.activeAssignmentService.getActiveAssignment();
     selectedTab: string = 'all';
 
+
+    ngOnInit(): void {
+        this.loadProjects();
+    }
+
+    navigateToProjectCreate() {
+        this.router.navigate(['/projects/create']);
+    }
+
+
     tabOptions = [
         { label: 'All projects', value: 'all' },
         { label: 'Recommended projects', value: 'recommended' },
         { label: 'Crossover projects', value: 'crossover' }
     ];
-
-    ngOnInit(): void {
-        this.loadProjects();
-    }
 
     changeTab(tab: string) {
         this.selectedTab = tab;
