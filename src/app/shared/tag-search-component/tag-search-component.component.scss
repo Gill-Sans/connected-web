@@ -10,6 +10,12 @@
     }
 
     .tag-dropdown {
+        .no-results {
+            font-size: 0.833rem;
+            color: #818181;
+            padding: 1rem;
+            border-top: 1px solid #ccc;
+        }
         position: absolute;
         width: 100%;
         background: white;
@@ -32,4 +38,3 @@
         }
     }
 }
-

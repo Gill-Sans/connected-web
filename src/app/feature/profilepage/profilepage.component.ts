@@ -1,13 +1,13 @@
-import {CommonModule} from '@angular/common';
-import {Component, inject, OnInit} from '@angular/core';
-import {AuthFacade} from '../../auth/store/auth.facade';
-import {User} from '../../auth/models/user.model';
-import {ButtonComponent} from '../../shared/components/button/button.component';
-import {TagcardComponent} from '../../shared/components/tagcard/tagcard.component';
-import {UserService} from '../../core/services/user.service';
-import {FormsModule} from '@angular/forms';
-import {tag} from '../../shared/models/tag.model';
-import {TagSearchComponentComponent} from '../../shared/tag-search-component/tag-search-component.component';
+import { CommonModule } from '@angular/common';
+import { Component, inject, OnInit } from '@angular/core';
+import { AuthFacade } from '../../auth/store/auth.facade';
+import { User } from '../../auth/models/user.model';
+import { ButtonComponent } from '../../shared/components/button/button.component';
+import { TagcardComponent } from '../../shared/components/tagcard/tagcard.component';
+import { UserService } from '../../core/services/user.service';
+import { FormsModule } from '@angular/forms';
+import { tag } from '../../shared/models/tag.model';
+import { TagSearchComponentComponent } from '../../shared/tag-search-component/tag-search-component.component';
 
 @Component({
     selector: 'app-profilepage',
@@ -52,10 +52,6 @@ export class ProfilepageComponent implements OnInit {
 
     addTagToUser(selectedTag: tag) {
         if (!this.user || !this.user.tags) return;
-
-        if (this.user) {
-            this.user.tags = [];
-        }
 
         if (!this.user.tags.some(t => t.name === this.newTag)) {
             this.user.tags?.push(selectedTag);

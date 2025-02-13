@@ -1,9 +1,9 @@
-import {Component, EventEmitter, Output} from '@angular/core';
-import {debounceTime, distinctUntilChanged, Observable, Subject, switchMap} from 'rxjs';
-import {tag} from '../models/tag.model';
-import {TagService} from '../../core/services/tag.service';
-import {FormsModule} from '@angular/forms';
-import {AsyncPipe, CommonModule} from '@angular/common';
+import { Component, EventEmitter, Output } from '@angular/core';
+import { debounceTime, distinctUntilChanged, Observable, Subject, switchMap } from 'rxjs';
+import { tag, tagCreate } from '../models/tag.model';
+import { TagService } from '../../core/services/tag.service';
+import { FormsModule } from '@angular/forms';
+import { AsyncPipe, CommonModule } from '@angular/common';
 
 
 @Component({
@@ -17,6 +17,9 @@ export class TagSearchComponentComponent {
     tags$: Observable<tag[]> | undefined;
     @Output() tagSelected = new EventEmitter<tag>();
     isDropdownVisible = false;
+    searchQuery = '';
+
+    inputElement: HTMLInputElement | null = null;
 
 
     constructor(private tagService: TagService) {
@@ -26,20 +29,30 @@ export class TagSearchComponentComponent {
             switchMap((term: string) => this.tagService.searchTags(term))
         );
 
-        // Debugging: kijk wat er wordt opgehaald
         this.tags$.subscribe(tags => console.log("Tags ontvangen:", tags));
     }
 
     onSearchInput(event: Event): void {
-        const inputElement = event.target as HTMLInputElement;
-        this.isDropdownVisible = inputElement.value.trim().length > 0;
-        this.search(inputElement.value);
+        this.inputElement = event.target as HTMLInputElement;
+        this.isDropdownVisible = this.inputElement.value.trim().length > 0;
+        this.searchQuery = this.inputElement.value.toLowerCase();
+        this.search(this.inputElement.value);
     }
 
     search(term: string): void {
-        if (term.trim().length > 0) {
-            this.searchTerm.next(term);
-        }
+        this.searchTerm.next(term);
+    }
+
+    createTag(): void {
+        let newTag: tagCreate = {
+            name: this.searchQuery,
+        };
+        this.tagService.createTag(newTag).subscribe(tag => {
+            console.log("Tag aangemaakt:", tag);
+            this.isDropdownVisible = false;
+            this.inputElement!.value = '';
+            this.tagSelected.emit(tag);
+        });
     }
 
     selectTag(tag: tag): void {
@@ -47,12 +60,6 @@ export class TagSearchComponentComponent {
         console.log("Tag geselecteerd:", tag);
         this.tagSelected.emit(tag);
         this.isDropdownVisible = false;
-        // Clear the input
-        /* const inputElement = document.querySelector('.tag-input') as HTMLInputElement;
-        if (inputElement) {
-          inputElement.value = '';
-
-        } */
 
         setTimeout(() => {
             this.searchTerm.next('');
