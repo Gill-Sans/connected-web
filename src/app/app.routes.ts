@@ -13,7 +13,7 @@ import {DashboardComponent} from './feature/dashboard/dashboard.component';
 import {ActiveAssignmentResolver} from './core/services/active-assignment-resolver.service';
 import {WelcomeComponent} from './feature/welcome/welcome.component';
 import {NotfoundComponent} from './feature/notfound/notfound.component';
-
+import {ApplicationDetailsComponent} from './feature/applications-overview/application-details/application-details.component';
 export const routes: Routes = [
     {
         // Authenticated routes
@@ -37,6 +37,7 @@ export const routes: Routes = [
                     { path: 'projects/create', component: ProjectCreateComponent },
                     { path: 'projects/:id', children: projectDetailsRoutes },
                     { path: 'applications', component: ApplicationsOverviewComponent },
+                    {path: 'applications/:id', component: ApplicationDetailsComponent},
                     { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
                 ]
             }

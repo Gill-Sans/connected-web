@@ -11,6 +11,8 @@ import { ApplicationStatusEnum } from '../../shared/models/ApplicationStatus.enu
 import { ActiveAssignmentService } from '../../core/services/active-assignment.service';
 import { filter } from 'rxjs/internal/operators/filter';
 import { switchMap } from 'rxjs/internal/operators/switchMap';
+import { ApplicationService } from '../../core/services/application.service';
+
 @Component({
     selector: 'app-applications-overview',
     imports: [CommonModule, StatuscardComponent],
@@ -19,8 +21,8 @@ import { switchMap } from 'rxjs/internal/operators/switchMap';
 })
 export class ApplicationsOverviewComponent {
   private router = inject(Router);
-  private route = inject(ActivatedRoute);
   private assignmentService = inject(AssignmentService);
+  private applicationService = inject(ApplicationService);
   private activeAssignmentService = inject(ActiveAssignmentService);
   public applications$: Observable<Application[]> | null = null;
   private activeAssignment = this.activeAssignmentService.getActiveAssignment();
@@ -32,10 +34,6 @@ export class ApplicationsOverviewComponent {
   }
   
   navigateToApplication(application: Application) {
-  
-  this.router.navigate(['/application', application.id]);
-  
-  console.log('Navigating to application:', application);
-
+    this.router.navigate(['/assignment/applications', application.id]);
   }
 } 
