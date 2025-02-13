@@ -64,4 +64,26 @@ $highlight-color: rgba(118, 98, 246, 1);
         color: #5a6268; // Iets donkerdere grijstint bij hover
         text-decoration: underline;
     }
+
+
 }
+
+.approve {
+    background-color: #4CAF50;
+    font-weight: 400;
+}
+
+.approve:hover {
+    background: rgba(76, 175, 80, 0.1);
+}
+
+.reject {
+    background-color: #D9534F;
+    font-weight: 400;
+}
+
+.reject:hover {
+    background: rgba(217, 83, 79, 0.1);
+
+}
+
