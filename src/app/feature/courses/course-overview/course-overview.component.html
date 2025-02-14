@@ -20,27 +20,32 @@
 
 <div class="courses-list">
     <ng-container *ngIf="courses$ | async as courses; else loading">
-        <div *ngFor="let course of courses" class="course-item">
-            <h2>{{ course.name }}</h2>
+        <ng-container *ngIf="courses.length > 0; else noCourses">
+            <div *ngFor="let course of courses" class="course-item">
+                <h2>{{ course.name }}</h2>
 
-            <div *ngFor="let assignment of course.assignments">
-                <div class="assignment-card">
-                    <h4>{{ assignment.name }}</h4>
-                    <div>{{ assignment.description }}</div>
+                <div *ngFor="let assignment of course.assignments">
+                    <div class="assignment-card">
+                        <h4>{{ assignment.name }}</h4>
+                        <div>{{ assignment.description }}</div>
+                    </div>
                 </div>
-            </div>
 
-            <button
-                (click)="openAssignmentImportModal(course)"
-                class="import-assignment-button"
-            >
-                <img src="icons/file-import.svg" alt="import an assignment"/>
-                <p>Import an assignment</p>
-            </button>
-        </div>
+                <button (click)="openAssignmentImportModal(course)" class="import-assignment-button">
+                    <img src="icons/file-import.svg" alt="import an assignment"/>
+                    <p>Import an assignment</p>
+                </button>
+            </div>
+        </ng-container>
     </ng-container>
+    <ng-template #noCourses>
+        <div class="no-courses-message">
+            No courses available for import.
+        </div>
+    </ng-template>
 
     <ng-template #loading>
         <div>Loading...</div>
     </ng-template>
 </div>
+

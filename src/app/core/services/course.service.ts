@@ -17,18 +17,10 @@ export class CourseService {
     }
 
     getAllCourses(): Observable<Course[]> {
-        let response = this.http.get<Course[]>(`${environment.apiBaseUrl}/api/courses/`, {withCredentials: true});
-        response.subscribe(courses => {
-            console.log('Courses:', courses);
-        });
-        return response;
+        return this.http.get<Course[]>(`${environment.apiBaseUrl}/api/courses/`, {withCredentials: true});
     }
 
     getAllEnrolledCourses(): Observable<Course[]> {
-        let response = this.http.get<Course[]>(`${environment.apiBaseUrl}/api/courses/enrolled`, {withCredentials: true});
-        response.subscribe(courses => {
-            console.log('Courses:', courses);
-        });
-        return response;
+        return this.http.get<Course[]>(`${environment.apiBaseUrl}/api/courses/enrolled`, {withCredentials: true});
     }
 }
