@@ -10,10 +10,9 @@ import {ActiveAssignmentRoutingService} from '../../core/services/active-assignm
     templateUrl: './project-details.component.html',
     styleUrl: './project-details.component.scss'
 })
-export class ProjectDetailsComponent {
+export class ProjectDetailsComponent  {
     private readonly router: Router = inject(Router);
     private readonly activeAssignmentService: ActiveAssignmentRoutingService = inject(ActiveAssignmentRoutingService);
-
     navigateBack() {
         this.router.navigate(this.activeAssignmentService.buildRoute('projects'));
     }

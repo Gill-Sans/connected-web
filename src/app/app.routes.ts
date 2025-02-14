@@ -37,7 +37,7 @@ export const routes: Routes = [
                     { path: 'dashboard', component: DashboardComponent },
                     { path: 'projects', component: ProjectOverviewComponent },
                     { path: 'projects/create', component: ProjectCreateComponent },
-                    { path: 'projects/:id', children: projectDetailsRoutes },
+                    { path: 'projects', children: projectDetailsRoutes },
                     { path: 'projects/:id/apply', component: ApplicationsCreateComponent },
                     { path: 'applications', component: ApplicationsOverviewComponent },
                     { path: 'applications/:id', component: ApplicationDetailsComponent },

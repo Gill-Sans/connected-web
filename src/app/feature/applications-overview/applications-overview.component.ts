@@ -29,6 +29,7 @@ export class ApplicationsOverviewComponent implements OnInit {
     private activeAssignmentSub?: Subscription;
 
     ngOnInit() {
+        //hier subscriben naar de active assignment service
         this.activeAssignmentSub = this.activeAssignmentService.activeAssignment$.subscribe(
             (activeAssignment) => {
                 this.activeAssignment = activeAssignment;
@@ -41,7 +42,9 @@ export class ApplicationsOverviewComponent implements OnInit {
     }
 
     loadApplications() {
+        //ophalen van assignment id uit de activeassignment 
         const assignmentId = this.activeAssignmentService.getActiveAssignment()?.assignment.id;
+        //als assignment id bestaat, dan ophalen van alle applicaties van deze assignment
         if (assignmentId) {
             this.applications$ = this.assignmentService.getAllApplicationsFromAssignment(assignmentId);
         }
