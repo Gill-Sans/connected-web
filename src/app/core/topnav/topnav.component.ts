@@ -4,7 +4,7 @@ import {Component, inject} from '@angular/core';
 import {Router} from '@angular/router';
 import {Role} from '../../auth/models/role.model';
 import {ClickOutsideDirective} from '../../shared/directives/click-outside.directive';
-import {Observable} from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
 import {User} from '../../auth/models/user.model';
 import {CourseService} from '../services/course.service';
 import {Course} from '../../shared/models/course.model';
@@ -27,7 +27,7 @@ export class TopnavComponent{
     private readonly activeAssignmentService: ActiveAssignmentService = inject(ActiveAssignmentService);
 
     public activeAssignment$: Observable<ActiveAssignment | null> = this.activeAssignmentService.activeAssignment$;
-    public courses$: Observable<Course[] | null> = this.courseService.getAllEnrolledCourses();
+    public courses$: Observable<Course[]> = this.courseService.courses$;
     readonly user$: Observable<User | null> = this.authFacade.user$;
 
     public Role: typeof Role = Role;
