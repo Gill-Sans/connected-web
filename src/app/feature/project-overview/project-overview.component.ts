@@ -38,6 +38,7 @@ export class ProjectOverviewComponent implements OnInit, OnDestroy {
                 // Only reload projects if an active assignment exists.
                 if (activeAssignment && activeAssignment.assignment) {
                     this.loadProjects();
+
                 }
             }
         );
@@ -65,6 +66,6 @@ export class ProjectOverviewComponent implements OnInit, OnDestroy {
 
     loadProjects(): void {
         const assignmentId = this.activeAssignmentService.getActiveAssignment()?.assignment.id;
-        if (assignmentId) this.projects$ = this.projectService.getAllProjects(assignmentId);
+        if (assignmentId) this.projects$ = this.projectService.getAllPublishedProjects(assignmentId);
     }
 }

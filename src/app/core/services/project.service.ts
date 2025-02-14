@@ -26,6 +26,14 @@ export class ProjectService {
         return response;
     }
 
+    getAllPublishedProjects(assignmentId: number): Observable<Project[]> {
+        const headers: HttpHeaders = new HttpHeaders().set('assignmentId', assignmentId.toString());
+        return this.http.get<Project[]>(`${environment.apiBaseUrl}/api/projects/published`, {
+            withCredentials: true,
+            headers: headers
+        });
+    }
+
     createProject(
         assignmentId: number,
         projectData: Project
@@ -54,7 +62,7 @@ export class ProjectService {
             withCredentials: true
         });
     }
-    
+
     approveApplication(projectId: string, applicationId: number): Observable<void>{
         return this.http.post<void>(`${environment.apiBaseUrl}/api/projects/${projectId}/applications/${applicationId}/approve`,{} ,{
             withCredentials: true
