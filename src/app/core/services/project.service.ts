@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { Project } from '../../shared/models/project.model';
+import { ApplicationCreate } from '../../shared/models/application.model';
 
 @Injectable({ providedIn: 'root' })
 export class ProjectService {
@@ -37,4 +38,12 @@ export class ProjectService {
         });
     }
 
+    applyForProject(projectId: number, application: ApplicationCreate): Observable<Project> {
+        const headers = new HttpHeaders().set('Content-Type', 'application/json');
+
+        return this.http.post<Project>(`${environment.apiBaseUrl}/api/projects/${projectId}/apply`, application, {
+            withCredentials: true,
+            headers: headers
+        });
+    }
 }
