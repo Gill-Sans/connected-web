@@ -60,6 +60,7 @@ export class TagSearchComponentComponent {
         console.log("Tag geselecteerd:", tag);
         this.tagSelected.emit(tag);
         this.isDropdownVisible = false;
+        this.inputElement!.value = '';
 
         setTimeout(() => {
             this.searchTerm.next('');
