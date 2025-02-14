@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { tag } from '../../shared/models/tag.model';
 import { TagSearchComponentComponent } from '../../shared/tag-search-component/tag-search-component.component';
 import e from 'express';
+import { ToastService } from '../../core/services/toast.service';
 
 @Component({
     selector: 'app-profilepage',
@@ -22,6 +23,7 @@ export class ProfilepageComponent implements OnInit {
     isEditing = false;
     loading = false;
     private readonly authFacade = inject(AuthFacade);
+    private readonly toastService: ToastService = inject(ToastService);
     readonly user$ = this.authFacade.user$;
     newTag: string = '';
     showTagInput: boolean = false;
@@ -91,11 +93,13 @@ export class ProfilepageComponent implements OnInit {
                 this.user = updatedUser;
                 this.isEditing = false;
                 this.loading = false;
+                this.toastService.showToast('success', 'Profile updated successfully');
                 console.log("Profile updated successfully:", updatedUser);
             },
             error => {
                 console.error('Error updating profile:', error);
                 this.loading = false;
+                this.toastService.showToast('error', 'Error updating profile');
             }
         );
     }
