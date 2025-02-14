@@ -3,6 +3,7 @@ import {Assignment} from '../../../shared/models/assignment.model';
 import {AssignmentService} from '../../../core/services/assignment.service';
 import {Observable} from 'rxjs';
 import {CommonModule} from '@angular/common';
+import {ToastService} from '../../../core/services/toast.service';
 
 @Component({
     selector: 'app-assignment-create',
@@ -13,9 +14,11 @@ import {CommonModule} from '@angular/common';
 export class AssignmentCreateComponent implements OnInit {
     @Input() courseId!: number;
     @Output() closeModal = new EventEmitter<void>();
-    @Output() assignmentImported = new EventEmitter<Assignment>();
+    // Rename this output to match what the parent expects:
+    @Output() assignmentCreated = new EventEmitter<Assignment>();
 
     private assignmentService = inject(AssignmentService);
+    private toastService = inject(ToastService);
 
     assignments$: Observable<Assignment[]> | null = null;
     selectedAssignment: Assignment | null = null;
@@ -39,35 +42,21 @@ export class AssignmentCreateComponent implements OnInit {
     createAssignment() {
         if (!this.selectedAssignment) return;
 
-        this.isLoading = true;
-        this.successMessage = null;
-        this.errorMessage = null;
+        // Prepare the assignment for creation.
         this.selectedAssignment.courseId = this.courseId;
         this.selectedAssignment.canvasAssignmentId = this.selectedAssignment.id;
         this.selectedAssignment.defaultTeamSize = 3;
 
         this.assignmentService.createAssignment(this.selectedAssignment).subscribe({
-
-
             next: (response) => {
-                this.successMessage = 'Assignment successfully created';
-                this.isLoading = false;
-
-                this.assignmentImported.emit(this.selectedAssignment ?? undefined);
-
-                setTimeout(() => this.successMessage = null, 3000);
-
-                setTimeout(() => this.close(), 2000);
+                this.assignmentCreated.emit(this.selectedAssignment!);
+                this.close();
+                this.toastService.showToast('success', 'Assignment created successfully!');
             },
             error: (err) => {
-                console.error('Error creating course:', err);
-
-                this.errorMessage = 'x Failed to create course!';
-                this.isLoading = false;
-
-                setTimeout(() => this.errorMessage = null, 3000);
+                this.toastService.showToast('error', 'Failed to create assignment!');
             }
-        })
+        });
     }
 
     close() {

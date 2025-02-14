@@ -29,10 +29,7 @@ export class CourseCreateComponent implements OnInit {
     ngOnInit() {
         this.courses$ = this.authFacade.user$.pipe(
             map(user => user?.role || 'teacher'),
-            switchMap(role => this.courseService.getCanvasCourses(role)),
-            tap(courses => {
-                console.log('Courses:', courses);
-            })
+            switchMap(role => this.courseService.getCanvasCourses(role))
         );
     }
 
