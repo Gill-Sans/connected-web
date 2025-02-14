@@ -3,7 +3,7 @@
         <div class="feedback-box">
             <textarea
                 [(ngModel)]="newFeedback"
-                placeholder="geef je feedback hier..."
+                placeholder="Enter your feedback here..."
             ></textarea>
             <app-button
                 label="Post"
@@ -26,7 +26,7 @@
                 </app-conversationcard>
             </ng-container>
             <ng-template #loading>
-                <p>Loading feedback...</p>
+                <p class="loading">Loading feedback...</p>
             </ng-template>
         </div>
     </div>
