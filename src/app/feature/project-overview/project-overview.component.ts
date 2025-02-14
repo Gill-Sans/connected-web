@@ -18,9 +18,10 @@ import { ActiveAssignmentRoutingService } from '../../core/services/active-assig
 })
 export class ProjectOverviewComponent implements OnInit, OnDestroy {
     private readonly projectService: ProjectService = inject(ProjectService);
+
     private readonly activeAssignmentService: ActiveAssignmentService = inject(ActiveAssignmentService);
     private readonly activeAssignmentRoutingService = inject(ActiveAssignmentRoutingService);
-    router: Router = inject(Router);
+    private router: Router = inject(Router);
 
     projects$: Observable<Project[]> | null = null;
     activeAssignment: ActiveAssignment | null = this.activeAssignmentService.getActiveAssignment();

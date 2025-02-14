@@ -1,10 +1,11 @@
 <div class="tab-content">
-    <div class="page-container">
+   
+    <div class="page-container" *ngIf="project$ | async as project">
         <!-- Linker sectie met tekst -->
         <div class="left-content">
-            <h2>{{ project.title }}</h2>
+            <h2>{{ project.title || 'Untitled Project' }}</h2>
             <!-- Markdown rendering -->
-            <markdown [data]="project.description"></markdown>
+            <markdown [data]="project.description || ''"></markdown>
         </div>
 
         <!-- Rechter sidebar met Members & Links -->
@@ -12,9 +13,10 @@
             <div class="members-section">
                 <h3>Members</h3>
                 <ul>
-                    <li *ngFor="let member of members">
-                        <img [src]="member.image" alt="{{ member.first_name }}"/>
-                        <span>{{ member.first_name }} {{member.last_name}}</span>
+                    <li *ngFor="let member of project.members || []">
+                        <img [src]="member?.avatarUrl || '/assets/default-avatar.png'" 
+                             [alt]="member?.firstName || 'User'"/>
+                        <span>{{ member?.firstName || '' }} {{ member?.lastName || '' }}</span>
                     </li>
                 </ul>
             </div>
@@ -22,5 +24,6 @@
             <app-linkcard></app-linkcard>
         </div>
     </div>
+    
 
 </div>
