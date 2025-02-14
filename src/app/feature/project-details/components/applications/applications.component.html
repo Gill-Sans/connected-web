@@ -1,34 +1,42 @@
 <div class="applications-container">
     <table>
         <thead>
-        <tr>
-            <th>Name</th>
-            <th>Status</th>
-            <th>Actions</th>
-        </tr>
+            <tr>
+                <th>Name</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let application of (project$ | async)">
-            <td>
-                <div class="applicant-info">
-                    <img [src]="application.applicant.avatarUrl" alt="{{ application.applicant.firstName }}" class="avatar">
-                    {{ application.applicant.firstName }} {{ application.applicant.lastName }}
-                </div>
-            </td>
-            <td>
-               <app-statuscard [status]="application.status"></app-statuscard>
-           </td>
-           <td>
-            <div class="actions">
-                <button class="btn btn-primary" (click)="approveApplication(application.id)">
-                    Accept
-                </button>
-                <button class="btn btn-danger" (click)="rejectApplication(application.id)">
-                    Deny
-                </button>
-            </div>
-           </td>
-        </tr>
+            <tr *ngFor="let application of project$ | async">
+                <td>
+                    <div class="applicant-info">
+                        {{ application.applicant.firstName }}
+                        {{ application.applicant.lastName }}
+                    </div>
+                </td>
+                <td>
+                    <app-statuscard
+                        [status]="application.status"
+                    ></app-statuscard>
+                </td>
+                <td>
+                    <div class="actions">
+                        <button
+                            class="btn btn-primary"
+                            (click)="approveApplication(application.id)"
+                        >
+                            Accept
+                        </button>
+                        <button
+                            class="btn btn-danger"
+                            (click)="rejectApplication(application.id)"
+                        >
+                            Deny
+                        </button>
+                    </div>
+                </td>
+            </tr>
         </tbody>
     </table>
 </div>
