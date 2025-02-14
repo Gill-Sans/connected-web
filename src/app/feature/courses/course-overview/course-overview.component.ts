@@ -20,31 +20,25 @@ import {AssignmentCreateComponent} from '../../assignments/assignment-create/ass
 })
 export class CourseOverviewComponent implements OnInit {
     private courseService = inject(CourseService);
-    private coursesSubject = new BehaviorSubject<Course[]>([]);
-    courses$: Observable<Course[]> = this.coursesSubject.asObservable();
+    // Use the shared observable from CourseService.
+    courses$: Observable<Course[]> = this.courseService.courses$;
 
     selectedCourseId: number | null = null;
     showImportCourseModal = false;
     showImportAssignmentModal = false;
 
     ngOnInit() {
-        this.loadCourses();
-    }
-
-    loadCourses() {
-        this.courseService.getAllCourses().subscribe(courses => {
-            console.log("🔄 Updating courses list:", courses);
-            this.coursesSubject.next(courses);
-        });
+        // Optionally refresh courses if needed.
+        this.courseService.refreshCourses();
     }
 
     onCourseCreated(newCourse: Course) {
-        this.loadCourses();
+        this.courseService.refreshCourses();
         this.showImportCourseModal = false;
     }
 
     onAssignmentCreated() {
-        this.loadCourses();
+        this.courseService.refreshCourses();
         this.showImportAssignmentModal = false;
     }
 
