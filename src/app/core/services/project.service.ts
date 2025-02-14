@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { Project } from '../../shared/models/project.model';
 import { response } from 'express';
+import { Application } from '../../shared/models/application.model';
 
 @Injectable({ providedIn: 'root' })
 export class ProjectService {
@@ -46,5 +47,27 @@ export class ProjectService {
             withCredentials: true
         });
     }
+
+    getProjectApplications(projectId: string): Observable<Application[]>{
+        return this.http.get<Application[]>(`${environment.apiBaseUrl}/api/projects/${projectId}/applications`, {
+            withCredentials: true
+        });
+    }
+    
+    approveApplication(projectId: string, applicationId: number): Observable<void>{
+        return this.http.post<void>(`${environment.apiBaseUrl}/api/projects/${projectId}/applications/${applicationId}/approve`,{} ,{
+            withCredentials: true
+        });
+    }
+
+    rejectApplication(projectId: string, applicationId: number): Observable<void>{
+        return this.http.post<void>(`${environment.apiBaseUrl}/api/projects/${projectId}/applications/${applicationId}/reject`,{} ,{
+            withCredentials: true
+        });
+    }
+
+
+
+
 }
 
