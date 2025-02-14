@@ -4,12 +4,8 @@ import {CommonModule} from '@angular/common';
 import {MarkdownModule} from 'ngx-markdown';
 import { ProjectService } from '../../../../core/services/project.service';
 import { ActiveAssignmentService } from '../../../../core/services/active-assignment.service';
-import { ActiveAssignmentRoutingService } from '../../../../core/services/active-assignment-routing.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { map } from 'rxjs/operators';
 import { Observable, Subscription } from 'rxjs';
-import { ActiveAssignment } from '../../../../shared/models/activeAssignment.model';
-import { AssignmentService } from '../../../../core/services/assignment.service';
 import { Project } from '../../../../shared/models/project.model';
 //TODO: add check if image of user is empty --> placeholderpic.svg
 @Component({
@@ -27,22 +23,17 @@ export class DetailsOverviewComponent {
    private projectId: string = 'undefined';
    public project$ : Observable<Project> | null = null;
    activeAssignment$ = this.activeAssignmentService.activeAssignment$;
-   
+
+
     ngOnInit(){
-        this.route.paramMap.subscribe(params => {
-            console.log('in de sub');
-            const id = params.get('id');
+        this.route.parent?.params.subscribe(params => {
+            const id = params['id'];
             if (id) {
                 this.projectId = id;
-                this.project$ = this.projectService.getProject(this.projectId);
-                console.log('project$', this.project$);
+                this.project$ = this.projectService.getProject(this.projectId);                
             }
         })
         
-        this.activeAssignment$.subscribe(activeAssignment =>{
-            console.log('id:', this.projectId);
-            console.log('Active Assignment:', activeAssignment);
-        })
     }
 
    
