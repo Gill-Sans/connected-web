@@ -10,9 +10,17 @@
 
         <!-- Rechter sidebar met Members & Links -->
         <div class="right-sidebar">
+            <div class="status-section">
+                <span>{{project.status}}</span>
+            </div>
             <div class="members-section">
                 <h3>Members</h3>
                 <ul>
+                    <li>
+                        <img [src]="project.createdBy.avatarUrl || 'assets/placeholderpic.svg'" 
+                             [alt]="project.createdBy.firstName || 'User'"/>
+                        <span>{{ project.createdBy.firstName }} {{ project.createdBy.lastName }}</span>
+                    </li>
                     <li *ngFor="let member of project.members || []">
                         <img [src]="member?.avatarUrl || '/assets/default-avatar.png'" 
                              [alt]="member?.firstName || 'User'"/>
