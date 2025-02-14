@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { Project } from '../../shared/models/project.model';
+import { response } from 'express';
 
 @Injectable({ providedIn: 'root' })
 export class ProjectService {
@@ -37,4 +38,13 @@ export class ProjectService {
         });
     }
 
+    getProject(projectId: string): Observable<Project> {
+        if(!projectId) {
+            throw new Error('Project ID is required');
+        }
+        return this.http.get<Project>(`${environment.apiBaseUrl}/api/projects/${projectId}`, {
+            withCredentials: true
+        });
+    }
 }
+

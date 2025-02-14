@@ -8,7 +8,7 @@ import {DetailsOverviewComponent} from './components/details-overview/details-ov
 // route for the detailspage and its childroutes
 export const projectDetailsRoutes: Routes = [
     {
-        path: '',
+        path: ':id',
         component: ProjectDetailsComponent,
         children: [
             {path: 'overview', component: DetailsOverviewComponent},
@@ -18,4 +18,6 @@ export const projectDetailsRoutes: Routes = [
             {path: '', redirectTo: 'overview', pathMatch: 'full'}
         ]
     }
+   
+
 ];
