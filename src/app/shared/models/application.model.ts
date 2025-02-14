@@ -10,5 +10,5 @@ export interface Application {
 }
 
 export interface ApplicationCreate {
-    motivationMd: string,
+    motivation_md: string,
 }

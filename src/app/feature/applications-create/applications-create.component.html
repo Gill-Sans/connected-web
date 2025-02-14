@@ -1,1 +1,10 @@
-<p>applications-create works!</p>
+<form
+    [formGroup]="applicationForm"
+    class="create-application-container"
+    (ngSubmit)="onSubmit()"
+>
+    <h2>Apply for project:</h2>
+    <md-editor name="Content" formControlName="motivationMd" [height]="'700px'">
+    </md-editor>
+    <button class="create-application-btn" type="submit">Apply</button>
+</form>

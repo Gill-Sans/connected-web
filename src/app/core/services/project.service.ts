@@ -48,7 +48,7 @@ export class ProjectService {
         });
     }
 
-    applyForProject(projectId: number, application: ApplicationCreate): Observable<Project> {
+    applyForProject(projectId: string, application: ApplicationCreate): Observable<Project> {
         const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
         return this.http.post<Project>(`${environment.apiBaseUrl}/api/projects/${projectId}/apply`, application, {
