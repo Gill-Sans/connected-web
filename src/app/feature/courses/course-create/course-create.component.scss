@@ -1,3 +1,5 @@
+@use "../../../../styles/variables.scss" as *;
+
 .overlay {
     position: fixed;
     top: 0;
@@ -34,7 +36,7 @@
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
-    margin-top: 10px;
+    margin: 2rem 0;
 }
 
 .course-btn {
@@ -70,4 +72,8 @@
 .continue-btn.disabled {
     opacity: 0.6;
     pointer-events: none;
+}
+
+.no-course-text{
+    color: $text-color-light;
 }
