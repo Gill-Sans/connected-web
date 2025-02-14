@@ -1,6 +1,16 @@
 <h3>Links</h3>
 <div class="links-container">
-    <a *ngFor="let link of links" [href]="link.url" class="link-card" target="_blank">
-        <img [src]="getIconUrl(link.linkType)" [alt]="link.linkType + ' Link'" class="link-icon">
+    <a
+        *ngFor="let link of links"
+        [href]="link.url"
+        class="link-card"
+        target="_blank"
+    >
+        <img
+            [src]="getIconUrl(link.linkType)"
+            [alt]="link.linkType + ' Link'"
+            class="link-icon"
+        />
+        <span class="link-text">{{ link.linkType }}</span>
     </a>
 </div>

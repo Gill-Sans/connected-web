@@ -1,30 +1,39 @@
 <div class="tab-content">
-   
     <div class="page-container" *ngIf="project$ | async as project">
         <!-- Linker sectie met tekst -->
         <div class="left-content">
-            <h2>{{ project.title || 'Untitled Project' }}</h2>
+            <h2>{{ project.title || "Untitled Project" }}</h2>
             <!-- Markdown rendering -->
-            <markdown class="md-editor-container" [data]="project.description || ''"></markdown>
+            <markdown
+                class="md-editor-container"
+                [data]="project.description || ''"
+            ></markdown>
         </div>
 
         <!-- Rechter sidebar met Members & Links -->
         <div class="right-sidebar">
+            <app-button
+                label="Apply for this project"
+                type="normal"
+                (click)="applyForProject()"
+            ></app-button>
             <div class="status-section">
-                <span>{{project.status}}</span>
+                <span class="status-label">{{ project.status }}</span>
             </div>
             <div class="members-section">
                 <h3>Members</h3>
                 <ul>
                     <li class="owner-section">
-                        <img [src]="project.createdBy.avatarUrl || 'assets/placeholderpic.svg'" 
-                             [alt]="project.createdBy.firstName || 'User'"/>
-                        <span>{{ project.createdBy.firstName }} {{ project.createdBy.lastName }}</span>
+                        <span class="owner-name"
+                            >{{ project.createdBy.firstName }}
+                            {{ project.createdBy.lastName }}</span
+                        >
                     </li>
                     <li *ngFor="let member of project.members || []">
-                        <img [src]="member?.avatarUrl || '/assets/default-avatar.png'" 
-                             [alt]="member?.firstName || 'User'"/>
-                        <span>{{ member?.firstName || '' }} {{ member?.lastName || '' }}</span>
+                        <span
+                            >{{ member?.firstName || "" }}
+                            {{ member?.lastName || "" }}</span
+                        >
                     </li>
                 </ul>
             </div>
@@ -32,6 +41,4 @@
             <app-linkcard></app-linkcard>
         </div>
     </div>
-    
-
 </div>
