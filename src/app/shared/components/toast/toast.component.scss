@@ -1,11 +1,23 @@
 .toast-container {
     position: fixed;
     top: 20px;
-    right: 20px;
+    right: 50%;
+    transform: translate(50%, 0);
     z-index: 1000;
     display: flex;
     flex-direction: column;
     gap: 10px;
+}
+
+@keyframes fadeUp {
+    0% {
+        opacity: 0;
+        transform: translateY(0);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(20px);
+    }
 }
 
 .toast {
@@ -17,6 +29,7 @@
     transition: transform 0.3s ease, opacity 0.3s ease;
     opacity: 1;
     transform: translateY(0);
+    animation: fadeUp 0.5s ease forwards;
 
     &.success {
         border: 1px solid #3fb46a;
