@@ -1,8 +1,13 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {ConversationcardComponent} from "../../../../shared/components/conversationcard/conversationcard.component";
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {ButtonComponent} from '../../../../shared/components/button/button.component';
+import { Observable } from 'rxjs';
+import { Project } from '../../../../shared/models/project.model';
+import { ActiveAssignmentService } from '../../../../core/services/active-assignment.service';
+import { ActivatedRoute } from '@angular/router';
+import { ProjectService } from '../../../../core/services/project.service';
 
 @Component({
     selector: 'app-feedback',
@@ -11,6 +16,27 @@ import {ButtonComponent} from '../../../../shared/components/button/button.compo
     styleUrl: './feedback.component.scss'
 })
 export class FeedbackComponent {
+    private readonly projectService: ProjectService = inject(ProjectService);
+    private readonly route: ActivatedRoute = inject(ActivatedRoute);
+    
+    private readonly activeAssignmentService: ActiveAssignmentService = inject(ActiveAssignmentService);
+    private projectId: string = 'undefined';
+    public project$ : Observable<Project> | null = null;
+    activeAssignment$ = this.activeAssignmentService.activeAssignment$;
+    
+    ngOnInit(){
+        this.route.parent?.params.subscribe(params => {
+            const id = params['id'];
+            if (id) {
+                this.projectId = id;
+                this.project$ = this.projectService.getProject(this.projectId);                
+            }
+        })
+        
+    }
+
+
+
     //voor nieuwe feedback
     newFeedback: string = '';
 
