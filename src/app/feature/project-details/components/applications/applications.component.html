@@ -3,21 +3,30 @@
         <thead>
         <tr>
             <th>Name</th>
-            <th>Applicant Role</th>
             <th>Status</th>
+            <th>Actions</th>
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let application of applications">
+        <tr *ngFor="let application of (project$ | async)">
             <td>
                 <div class="applicant-info">
-                    <img [src]="application.image" alt="{{ application.first_name }}" class="avatar">
-                    {{ application.first_name }}
+                    <img [src]="application.applicant.avatarUrl" alt="{{ application.applicant.firstName }}" class="avatar">
+                    {{ application.applicant.firstName }} {{ application.applicant.lastName }}
                 </div>
             </td>
-            <td>role</td>
             <td>
-                <p>statuscard hier</p>
+               <app-statuscard [status]="application.status"></app-statuscard>
+           </td>
+           <td>
+            <div class="actions">
+                <button class="btn btn-primary" (click)="approveApplication(application.id)">
+                    Accept
+                </button>
+                <button class="btn btn-danger" (click)="rejectApplication(application.id)">
+                    Deny
+                </button>
+            </div>
            </td>
         </tr>
         </tbody>
