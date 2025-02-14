@@ -1,5 +1,5 @@
-import {CommonModule} from '@angular/common';
-import {Component, Input} from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, Input } from '@angular/core';
 
 @Component({
     selector: 'app-button',
@@ -10,4 +10,5 @@ import {Component, Input} from '@angular/core';
 export class ButtonComponent {
     @Input() label: string = '';
     @Input() type: 'normal' | 'add' | 'post' | 'edit' | 'cancel' | 'back' | 'confirm' | 'Approve' | 'Reject' = 'normal';
+    @Input() disabled: boolean = false;
 }

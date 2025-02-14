@@ -1,42 +1,66 @@
 <div class="profilepage">
     <div class="profile-header">
-        <app-button label="Back" type="back" class="back-btn" routerLink="/projects"></app-button>
-        <app-button label="confirm" type="confirm" class="edit-btn" routerLink="/edit-profile"
-                    (click)="saveProfile()"></app-button>
+        <app-button
+            label="Back"
+            type="back"
+            class="back-btn"
+            routerLink="/projects"
+        ></app-button>
+        <app-button
+            label="confirm"
+            type="confirm"
+            class="edit-btn"
+            routerLink="/edit-profile"
+            (click)="saveProfile()"
+            [disabled]="loading"
+        ></app-button>
     </div>
     <div class="profile-info">
         <img
-            *ngIf="user?.avatarUrl else placeholderImage"
+            *ngIf="user?.avatarUrl; else placeholderImage"
             class="user-image"
             src="user.avatarUrl"
             alt="profile picture"
         />
         <ng-template #placeholderImage>
-            <img
-                class="user-image"
-                src="icons/placeholderpic.svg"
-            />
+            <img class="user-image" src="icons/placeholderpic.svg" />
         </ng-template>
-        <p class="profile-name">{{user?.firstName}} {{user?.lastName}}</p>
+        <p class="profile-name">{{ user?.firstName }} {{ user?.lastName }}</p>
     </div>
 
     <!-- about the user section -->
     <div class="about-me">
         <p>About me</p>
-        <div class="about-me-text">
-            <textarea *ngIf="user" class="about-me-text" [(ngModel)]="user.aboutMe">{{user.aboutMe}}</textarea>
-        </div>
+
+        <textarea
+            *ngIf="user"
+            class="about-me-text"
+            [(ngModel)]="user.aboutMe"
+            >{{ user.aboutMe }}</textarea
+        >
     </div>
 
     <div class="field-of-study">
         <p>Field of Study</p>
-        <input *ngIf="user" [(ngModel)]="user.fieldOfStudy" class="field-of-study-input"/>
+        <input
+            *ngIf="user"
+            [(ngModel)]="user.fieldOfStudy"
+            class="field-of-study-input"
+        />
     </div>
 
     <!-- linkedin section -->
     <div class="linkedin-section">
-        <img src="icons/links/Linkedin.svg" alt="linkedIn" class="linkedin-icon">
-        <input *ngIf="user" [(ngModel)]="user.linkedinUrl" class="linkedin-link"/>
+        <img
+            src="icons/links/Linkedin.svg"
+            alt="linkedIn"
+            class="linkedin-icon"
+        />
+        <input
+            *ngIf="user"
+            [(ngModel)]="user.linkedinUrl"
+            class="linkedin-link"
+        />
     </div>
 
     <!-- Skillset -->
@@ -47,9 +71,12 @@
                 *ngFor="let tag of user?.tags"
                 [tag]="tag"
                 [showDelete]="true"
-                (deleteTag)="removeTag($event)">
+                (deleteTag)="removeTag($event)"
+            >
             </app-tagcard>
         </div>
-        <app-tag-search-component (tagSelected)="addTagToUser($event)"></app-tag-search-component>
+        <app-tag-search-component
+            (tagSelected)="addTagToUser($event)"
+        ></app-tag-search-component>
     </div>
 </div>

@@ -1,8 +1,9 @@
-import {Component, inject, OnInit, PLATFORM_ID} from '@angular/core';
-import {RouterOutlet} from '@angular/router';
-import {CommonModule, isPlatformBrowser} from '@angular/common';
-import {AuthFacade} from './auth/store/auth.facade';
-import {FormsModule} from '@angular/forms';
+import { Component, inject, OnInit, PLATFORM_ID } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { AuthFacade } from './auth/store/auth.facade';
+import { FormsModule } from '@angular/forms';
+import { ToastComponent } from './shared/components/toast/toast.component';
 
 
 @Component({
@@ -10,7 +11,8 @@ import {FormsModule} from '@angular/forms';
     imports: [
         CommonModule,
         RouterOutlet,
-        FormsModule
+        FormsModule,
+        ToastComponent
     ],
     templateUrl: './app.component.html',
     styleUrl: './app.component.scss'

@@ -1,13 +1,15 @@
-import {CommonModule} from '@angular/common';
-import {Component, inject, OnInit} from '@angular/core';
-import {AuthFacade} from '../../auth/store/auth.facade';
-import {User} from '../../auth/models/user.model';
-import {ButtonComponent} from '../../shared/components/button/button.component';
-import {TagcardComponent} from '../../shared/components/tagcard/tagcard.component';
-import {UserService} from '../../core/services/user.service';
-import {FormsModule} from '@angular/forms';
-import {tag} from '../../shared/models/tag.model';
-import {TagSearchComponentComponent} from '../../shared/tag-search-component/tag-search-component.component';
+import { CommonModule } from '@angular/common';
+import { Component, inject, OnInit } from '@angular/core';
+import { AuthFacade } from '../../auth/store/auth.facade';
+import { User } from '../../auth/models/user.model';
+import { ButtonComponent } from '../../shared/components/button/button.component';
+import { TagcardComponent } from '../../shared/components/tagcard/tagcard.component';
+import { UserService } from '../../core/services/user.service';
+import { FormsModule } from '@angular/forms';
+import { tag } from '../../shared/models/tag.model';
+import { TagSearchComponentComponent } from '../../shared/tag-search-component/tag-search-component.component';
+import e from 'express';
+import { ToastService } from '../../core/services/toast.service';
 
 @Component({
     selector: 'app-profilepage',
@@ -19,7 +21,9 @@ export class ProfilepageComponent implements OnInit {
     user: User | null = null;
     tag: tag | null = null;
     isEditing = false;
+    loading = false;
     private readonly authFacade = inject(AuthFacade);
+    private readonly toastService: ToastService = inject(ToastService);
     readonly user$ = this.authFacade.user$;
     newTag: string = '';
     showTagInput: boolean = false;
@@ -53,12 +57,10 @@ export class ProfilepageComponent implements OnInit {
     addTagToUser(selectedTag: tag) {
         if (!this.user || !this.user.tags) return;
 
-        if (this.user) {
-            this.user.tags = [];
-        }
-
-        if (!this.user.tags.some(t => t.name === this.newTag)) {
+        if (!this.user.tags.some(t => t.id === selectedTag.id)) {
             this.user.tags?.push(selectedTag);
+        } else {
+            console.log("Tag is already added to user");
         }
     }
 
@@ -76,6 +78,8 @@ export class ProfilepageComponent implements OnInit {
     saveProfile() {
         if (!this.user) return;
 
+        this.loading = true;
+
         const updatedUser: Partial<User> = {
             id: this.user.id,
             aboutMe: this.user.aboutMe,
@@ -88,10 +92,14 @@ export class ProfilepageComponent implements OnInit {
             updatedUser => {
                 this.user = updatedUser;
                 this.isEditing = false;
+                this.loading = false;
+                this.toastService.showToast('success', 'Profile updated successfully');
                 console.log("Profile updated successfully:", updatedUser);
             },
             error => {
                 console.error('Error updating profile:', error);
+                this.loading = false;
+                this.toastService.showToast('error', 'Error updating profile');
             }
         );
     }
