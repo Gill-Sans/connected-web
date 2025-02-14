@@ -1,6 +1,6 @@
 <div class="tab-content">
     <div class="page-container" *ngIf="project$ | async as project">
-        <!-- Linker sectie met tekst -->
+        <!-- Left section with text -->
         <div class="left-content">
             <h2>{{ project.title || "Untitled Project" }}</h2>
             <!-- Markdown rendering -->
@@ -10,15 +10,29 @@
             ></markdown>
         </div>
 
-        <!-- Rechter sidebar met Members & Links -->
+        <!-- Right sidebar with Members & Links -->
         <div class="right-sidebar">
-            <app-button
-                label="Apply for this project"
-                type="normal"
-                (click)="applyForProject()"
-            ></app-button>
-            <div class="status-section">
-                <span class="status-label">{{ project.status }}</span>
+            <div class="apply-section">
+                <p>
+                    Press this button to apply for this project. By applying,
+                    you express your interest in contributing to this project
+                    and collaborating with the team.
+                </p>
+                <app-button
+                    label="Apply for this project"
+                    type="normal"
+                    (click)="applyForProject()"
+                ></app-button>
+            </div>
+            <div
+                class="status-section"
+                [ngClass]="project.status.toString().toLowerCase()"
+            >
+                <h3>Project Status</h3>
+                <div class="status-container">
+                    <div class="status-icon"></div>
+                    <span class="status-label">{{ project.status }}</span>
+                </div>
             </div>
             <div class="members-section">
                 <h3>Members</h3>
