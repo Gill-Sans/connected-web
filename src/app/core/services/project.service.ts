@@ -6,6 +6,7 @@ import { Project } from '../../shared/models/project.model';
 import { response } from 'express';
 import { Application } from '../../shared/models/application.model';
 import { ApplicationCreate } from '../../shared/models/application.model';
+import {ProjectStatusEnum} from '../../shared/models/ProjectStatus.enum';
 import { createFeedback, Feedback } from '../../shared/models/feedback.model';
 
 @Injectable({ providedIn: 'root' })
@@ -25,6 +26,14 @@ export class ProjectService {
         });
 
         return response;
+    }
+
+    getAllPublishedProjects(assignmentId: number): Observable<Project[]> {
+        const headers: HttpHeaders = new HttpHeaders().set('assignmentId', assignmentId.toString());
+        return this.http.get<Project[]>(`${environment.apiBaseUrl}/api/projects/published`, {
+            withCredentials: true,
+            headers: headers
+        });
     }
 
     createProject(
@@ -84,6 +93,23 @@ export class ProjectService {
         });
     }
 
+    updateProjectStatus(projectId: number, status: ProjectStatusEnum): Observable<Project>{
+        const headers: HttpHeaders = new HttpHeaders()
+            .set('projectId', projectId.toString())
+            .set('status', status);
+        return this.http.post<Project>(`${environment.apiBaseUrl}/api/projects/status`,   {}, {
+            withCredentials: true,
+            headers: headers
+        });
+    }
+
+    publishAllProjects(assignmentId: number): Observable<Project[]> {
+        const headers: HttpHeaders = new HttpHeaders().set('assignmentId', assignmentId.toString());
+        return this.http.post<Project[]>(`${environment.apiBaseUrl}/api/assignments/${assignmentId}/projects/publish`, {}, {
+            withCredentials: true,
+            headers: headers
+        });
+    }
 
     applyForProject(projectId: string, application: ApplicationCreate): Observable<Project> {
         const headers = new HttpHeaders().set('Content-Type', 'application/json');
