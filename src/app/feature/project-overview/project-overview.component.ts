@@ -13,11 +13,10 @@ import {User} from '../../auth/models/user.model';
 import {AuthFacade} from '../../auth/store/auth.facade';
 import {Role} from '../../auth/models/role.model';
 import {ProjectStatusEnum} from '../../shared/models/ProjectStatus.enum';
-import {ButtonComponent} from '../../shared/components/button/button.component';
 
 @Component({
     selector: 'app-project-overview',
-    imports: [ProjectcardComponent, CommonModule, RouterOutlet, ButtonComponent],
+    imports: [ProjectcardComponent, CommonModule, RouterOutlet],
     templateUrl: './project-overview.component.html',
     styleUrl: './project-overview.component.scss'
 })
