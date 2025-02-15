@@ -14,12 +14,11 @@ import {ActiveAssignmentRoutingService} from '../services/active-assignment-rout
     styleUrl: './sidenav.component.scss'
 })
 export class SidenavComponent {
-    public Role = Role;
-    private router = inject(Router);
-    private assignmentRoutingService = inject(ActiveAssignmentRoutingService);
+    public Role: typeof Role = Role;
+    private assignmentRoutingService:ActiveAssignmentRoutingService = inject(ActiveAssignmentRoutingService);
 
     // List of routes that should NOT include the active assignment context
-    private excludedRoutes = ['courses', 'profile'];
+    private excludedRoutes: string[] = ['courses', 'profile'];
 
     /**
      * Returns the proper router link for the given route.
