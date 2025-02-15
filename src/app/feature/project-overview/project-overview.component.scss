@@ -1,1 +1,129 @@
+/* Styling for the Create Project button */
+.create-project-btn {
+    background-color: #007bff;
+    border: none;
+    padding: 0.5rem 1rem;
+    color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-left: 1rem;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+        background-color: #0056b3;
+    }
+}
+
+/* Toggle container styles */
+.toggle-container {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    margin-left: 1rem;
+}
+
+/* Label next to the toggle */
+.toggle-label {
+    margin-right: 0.5rem;
+    font-size: 0.9rem;
+    color: #333;
+}
+
+/* Toggle switch track */
+.toggle-switch {
+    width: 50px;
+    height: 24px;
+    background-color: #ccc;
+    border-radius: 12px;
+    position: relative;
+    transition: background-color 0.3s ease;
+}
+
+/* Toggle thumb (slider) */
+.toggle-thumb {
+    width: 22px;
+    height: 22px;
+    background-color: #fff;
+    border-radius: 50%;
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    transition: left 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Active state for toggle thumb */
+.toggle-thumb.active {
+    left: 27px;
+}
+
+/* Optional: change track color when active */
+.toggle-switch:active,
+.toggle-thumb.active + .toggle-switch {
+    background-color: #66bb6a;
+}
+
+tr {
+    border-bottom: 1px solid #ccc;
+}
+
+th {
+    text-align: left;
+    font-weight: bold;
+}
+
+
+
+
+
+
+
+//TODO: Should be removed when status card component is improved to use generic types
+
+// Basisstijl voor alle status buttons
+.status-button {
+    display: inline-block;
+    padding: 6px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 20px;
+    text-align: center;
+    cursor: default;
+    user-select: none;
+    border: 2px solid;
+    background: transparent;
+    min-width: 100px;
+}
+
+
+.pending {
+    border-color: #b48b4e;
+    color: #b48b4e;
+}
+
+.approved {
+    border-color: #4CAF50;
+    color: #4CAF50;
+}
+
+.rejected {
+    border-color: #D9534F;
+    color: #D9534F;
+}
+
+
+.pending:hover {
+    background: rgba(180, 139, 78, 0.1);
+}
+
+.approved:hover {
+    background: rgba(76, 175, 80, 0.1);
+}
+
+.rejected:hover {
+    background: rgba(217, 83, 79, 0.1);
+}
+
+
 

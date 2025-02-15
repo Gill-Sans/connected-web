@@ -1,6 +1,6 @@
 export enum ProjectStatusEnum {
-    PENDING,
-    APPROVED,
-    PUBLISHED,
-    REJECTED
+    PENDING= 'PENDING',
+    APPROVED = 'APPROVED',
+    PUBLISHED = 'PUBLISHED',
+    REJECTED = 'REJECTED',
 }
