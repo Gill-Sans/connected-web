@@ -13,25 +13,25 @@
                 </tr>
               </thead>
               <tbody>
-                <tr class="application-row" *ngFor="let application of applications" 
+                <tr class="application-row" *ngFor="let application of applications"
                     (click)="navigateToApplication(application)">
                   <td>
                     <div class="applicant-info">
-                      <img [src]="application.applicant.avatarUrl || 'icons/placeholderpic.svg'" 
-                           [alt]="application.applicant.firstName" 
+                      <img [src]="application.applicant.avatarUrl || 'icons/placeholderpic.svg'"
+                           [alt]="application.applicant.firstName"
                            class="avatar">
                       {{ application.applicant.firstName }} {{ application.applicant.lastName }}
                     </div>
                   </td>
                   <td>{{ application.project.title }}</td>
                   <td>
-                    <app-statuscard [status]="application.status"></app-statuscard>
+                    <app-statuscard [status]="application.status.toString()"></app-statuscard>
                   </td>
                 </tr>
                 </tbody>
             </table>
         </div>
-        
+
         <ng-template #noApplications>
             <div class="no-applications-message">
                 No applications found
