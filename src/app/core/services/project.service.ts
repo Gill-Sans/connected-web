@@ -7,6 +7,7 @@ import { response } from 'express';
 import { Application } from '../../shared/models/application.model';
 import { ApplicationCreate } from '../../shared/models/application.model';
 import {ProjectStatusEnum} from '../../shared/models/ProjectStatus.enum';
+import { createFeedback, Feedback } from '../../shared/models/feedback.model';
 
 @Injectable({ providedIn: 'root' })
 export class ProjectService {
@@ -58,21 +59,37 @@ export class ProjectService {
         });
     }
 
-    getProjectApplications(projectId: string): Observable<Application[]>{
+    getProjectApplications(projectId: string): Observable<Application[]> {
         return this.http.get<Application[]>(`${environment.apiBaseUrl}/api/projects/${projectId}/applications`, {
             withCredentials: true
         });
     }
 
-    approveApplication(projectId: string, applicationId: number): Observable<void>{
-        return this.http.post<void>(`${environment.apiBaseUrl}/api/projects/${projectId}/applications/${applicationId}/approve`,{} ,{
+    approveApplication(projectId: string, applicationId: number): Observable<void> {
+        return this.http.post<void>(`${environment.apiBaseUrl}/api/projects/${projectId}/applications/${applicationId}/approve`, {}, {
             withCredentials: true
         });
     }
 
-    rejectApplication(projectId: string, applicationId: number): Observable<void>{
-        return this.http.post<void>(`${environment.apiBaseUrl}/api/projects/${projectId}/applications/${applicationId}/reject`,{} ,{
+    rejectApplication(projectId: string, applicationId: number): Observable<void> {
+        return this.http.post<void>(`${environment.apiBaseUrl}/api/projects/${projectId}/applications/${applicationId}/reject`, {}, {
             withCredentials: true
+        });
+    }
+
+
+    getFeedback(projectId: string): Observable<Feedback[]> {
+        return this.http.get<Feedback[]>(`${environment.apiBaseUrl}/api/projects/${projectId}/feedback`, {
+            withCredentials: true
+        });
+    }
+
+    submitFeedback(projectId: string, feedback: createFeedback): Observable<void> {
+        const headers = new HttpHeaders().set('Content-Type', 'application/json');
+
+        return this.http.post<void>(`${environment.apiBaseUrl}/api/projects/${projectId}/feedback`, feedback, {
+            withCredentials: true,
+            headers: headers
         });
     }
 

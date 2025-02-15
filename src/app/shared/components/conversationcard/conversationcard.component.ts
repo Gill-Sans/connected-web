@@ -1,5 +1,5 @@
-import {CommonModule} from '@angular/common';
-import {Component, Input} from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, Input } from '@angular/core';
 
 @Component({
     selector: 'app-conversationcard',
@@ -8,10 +8,9 @@ import {Component, Input} from '@angular/core';
     styleUrl: './conversationcard.component.scss'
 })
 export class ConversationcardComponent {
-    @Input() first_name!: string; // First name of the user
-    @Input() last_name!: string; // Last
-    @Input() fullname: string = this.first_name + " " + this.last_name; // Full name of the user
-    @Input() timeStamp!: string; // Time of the message
-    @Input() message!: string; // Message content
+    @Input() firstName!: string;
+    @Input() lastName!: string;
+    @Input() createdAt!: Date;
+    @Input() comment!: string;
 
 }

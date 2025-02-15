@@ -31,7 +31,5 @@ export class ProjectDetailsComponent {
         this.router.navigate(this.activeAssignmentService.buildRoute('projects'));
     }
 
-    applyForProject() {
-        this.router.navigate(this.activeAssignmentService.buildRoute('projects', this.projectId, 'apply'));
-    }
+
 }

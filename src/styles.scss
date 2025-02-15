@@ -30,6 +30,7 @@ span,
 div,
 input,
 button,
+textarea,
 label {
     font-family: inherit;
     color: $text-color;
@@ -112,6 +113,7 @@ td {
     margin: $small-spacing;
     display: flex;
     box-shadow: $box-shadow;
+    z-index: 6;
 
     .left {
         border-right: 1px solid $border-color;
@@ -130,12 +132,11 @@ td {
             position: absolute;
             background-color: #fff;
             width: 100%;
-            top: 7rem;
+            top: 4.7rem;
             left: 0;
             z-index: 5;
             padding: $small-spacing 0;
             border-radius: 0 0 $border-radius $border-radius;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 
             dl {
                 padding: $small-spacing;
@@ -210,11 +211,13 @@ td {
 
         .dropdownProfile {
             position: absolute;
-            top: 3.8rem;
-            right: 0;
+            top: 4.3rem;
+            right: -1.1rem;
             background-color: white;
             border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15),
+                -4px 0px 12px rgba(0, 0, 0, 0.1),
+                4px 0px 12px rgba(0, 0, 0, 0.1);
             z-index: 1000;
 
             ul {
