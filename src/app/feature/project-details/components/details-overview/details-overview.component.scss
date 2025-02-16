@@ -1,3 +1,5 @@
+@use "../../../../../styles/variables.scss" as *;
+
 .page-container {
     display: grid;
     grid-template-columns: 2fr 1fr; /* 2/3 left, 1/3 right */
@@ -13,7 +15,7 @@
     h2 {
         font-size: 2rem;
         font-weight: 600;
-        color: #222;
+        color: $text-color-dark;
         margin-bottom: 10px;
     }
 }
@@ -30,7 +32,7 @@ p {
 .right-sidebar {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 2rem;
 }
 
 /* Apply button section */
@@ -51,29 +53,38 @@ p {
 
 /* Status section */
 .status-section {
+    width: fit-content;
     display: flex;
-    flex-direction: column;
     align-items: center;
     gap: 10px;
-    padding: 10px;
     border-radius: 8px;
-    font-weight: bold;
-    color: #333;
     margin-bottom: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-
-    h3 {
-        margin: 0;
-        font-size: 1rem;
-        color: #666;
-    }
 
     .status-container {
         display: flex;
         align-items: center;
         gap: 5px;
+        border-radius: 999px;
+        padding: 6px;
+        border: 2px solid #ccc;
     }
+
+    &.pending .status-container{
+        border-color: #ffc107;
+    }
+
+    &.approved .status-container{
+        border-color: #28a745;
+    }
+
+    &.rejected .status-container{
+        border-color: #dc3545;
+    }
+
+    &.published .status-container{
+        border-color: #354bdc;
+    }
+
 
     .status-icon {
         width: 10px;
@@ -98,6 +109,10 @@ p {
         background-color: #dc3545; /* Red for rejected */
     }
 
+    &.published .status-icon {
+        background-color: #354bdc; /* Blue for published */
+    }
+
     &.pending .status-label {
         color: #ffc107;
     }
@@ -109,25 +124,22 @@ p {
     &.rejected .status-label {
         color: #dc3545;
     }
+
+    &.published .status-label {
+        color: #354bdc;
+    }
 }
 
 /* Members section */
 .members-section {
-    background: white;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
     h3 {
-        margin-bottom: 10px;
-        font-size: 1.3rem;
-        color: #222;
+        margin-bottom: 1rem;
     }
 
     ul {
         display: flex;
         flex-direction: column;
-        gap: 12px;
     }
 
     li {
@@ -137,6 +149,13 @@ p {
         padding: 8px;
         border-radius: 6px;
         transition: background-color 0.3s ease;
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
 
         &:hover {
             background-color: #f0f0f0;
@@ -165,9 +184,5 @@ p {
             }
         }
 
-        span {
-            font-size: 1rem;
-            color: #555;
-        }
     }
 }

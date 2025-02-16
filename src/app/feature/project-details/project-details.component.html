@@ -10,14 +10,10 @@
 
     <!-- Navigation Tabs -->
     <div class="project-tabs">
-        <a routerLink="overview" routerLinkActive="active-tab"
-            >Project Overview</a
-        >
-        <a routerLink="feedback" routerLinkActive="active-tab">Feedback</a>
+        <a routerLink="overview" routerLinkActive="active-tab">Project Overview</a>
+        <a routerLink="feedback" routerLinkActive="active-tab" *ngIf="(canManageProject$ | async)">Feedback</a>
         <a routerLink="members" routerLinkActive="active-tab">Members</a>
-        <a routerLink="applications" routerLinkActive="active-tab"
-            >Applications</a
-        >
+        <a routerLink="applications" routerLinkActive="active-tab" *ngIf="(canManageProject$ | async)">Applications</a>
     </div>
 
     <!-- Router Outlet to Load Child Components -->
