@@ -1,9 +1,7 @@
 .page-container {
     display: grid;
     grid-template-columns: 2fr 1fr; /* 2/3 left, 1/3 right */
-    gap: 40px;
-    padding: 20px;
-    border-radius: 8px;
+    gap: 4rem;
 }
 
 /* Left content: Text */
@@ -17,10 +15,6 @@
         font-weight: 600;
         color: #222;
         margin-bottom: 10px;
-    }
-
-    .md-editor-container {
-        background: white;
     }
 }
 
@@ -45,10 +39,8 @@ p {
     padding: 15px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    text-align: center;
     display: flex;
     flex-direction: column;
-    align-items: center;
 
     p {
         margin-bottom: 10px;
