@@ -1,6 +1,4 @@
 <div class="application-details-container">
-    <app-button label="Back" type="back" class="back-button" routerLink="/assignment/applications"></app-button>
-    
     <div class="content-wrapper" *ngIf="application$ | async as application">
         <!-- Left side - Motivation -->
         <div class="motivation-section">
@@ -11,7 +9,14 @@
         </div>
 
         <!-- Right side - Applicant Details -->
-        <div class="right-section">
+        <div class="applicant-section">
+            <div class="action-container" *ngIf="(isOwner$ | async) && (application.status == ApplicationStatusEnum.PENDING)">
+                <h4>Manage Application</h4>
+                <div class="action-buttons">
+                <app-button label="Approve" type="Approve" (click)="approveApplication(application.id)"></app-button>
+                <app-button label="Reject" type="Reject" (click)="rejectApplication(application.id)"></app-button>
+                </div>
+            </div>
             <div class="details-section">
                 <h2>Applicant Details</h2>
                 <div class="details-content">
@@ -21,19 +26,13 @@
                     </div>
                     <div class="detail-item">
                         <label>Status</label>
-                        <p>{{ application.status }}</p>
+                        <app-statuscard [status]="application.status.toString()"></app-statuscard>
                     </div>
                     <div class="detail-item">
                         <label>Project</label>
-                        <p>{{ application.project.title }}</p>
+                        <p class="project-title" (click)="navigateToProject()">{{ application.project.title }}</p>
                     </div>
                 </div>
-            </div>
-            
-            <div class="action-buttons">
-                <app-button label ="Approve" type="Approve" class="approve-button" ></app-button>
-                <app-button label ="Reject" type="Reject" class="reject-button"></app-button>
-
             </div>
         </div>
     </div>
