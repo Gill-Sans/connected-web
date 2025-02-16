@@ -1,0 +1,37 @@
+<div class="overlay">
+    <div class="modal">
+        <button class="close-btn" (click)="close()">✖</button>
+        <h2>Import a course</h2>
+
+        <p><strong>Import a course from Canvas</strong></p>
+
+        <div class="courses-container">
+            <ng-container *ngIf="courses$ | async as courses; else loading">
+                <ng-container *ngIf="courses.length > 0; else noCourses">
+                    <button
+                        *ngFor="let course of courses"
+                        class="course-btn"
+                        [class.selected]="selectedCourse?.id === course.id"
+                        (click)="selectCourse(course)">
+                        {{ course.name }}
+                    </button>
+                </ng-container>
+            </ng-container>
+            <ng-template #loading>
+                <p>Loading courses...</p>
+            </ng-template>
+            <ng-template #noCourses>
+                <h4 class="no-course-text">No courses found to import.</h4>
+                <p class="no-course-text">We couldn't find any courses that you can import. Make sure you have courses in Canvas that are not already imported.</p>
+            </ng-template>
+        </div>
+
+        <button
+            class="continue-btn"
+            [disabled]="!selectedCourse || isLoading"
+            [class.disabled]="isLoading"
+            (click)="createCourse()">
+            {{ isLoading ? 'Creating...' : 'Continue' }}
+        </button>
+    </div>
+</div>

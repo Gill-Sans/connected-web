@@ -1,0 +1,46 @@
+<app-button
+    type="post"
+    label="Import a course"
+    (click)="openModal()"
+></app-button>
+
+<app-course-create
+    *ngIf="showImportCourseModal"
+    (closeModal)="showImportCourseModal = false"
+    (courseCreated)="onCourseCreated($event)"
+>
+</app-course-create>
+
+<app-assignment-create
+    *ngIf="showImportAssignmentModal"
+    [courseId]="selectedCourseId ?? 0"
+    (closeModal)="showImportAssignmentModal = false"
+    (assignmentCreated)="onAssignmentCreated()"
+></app-assignment-create>
+
+<div class="courses-list">
+    <ng-container *ngIf="courses$ | async as courses; else loading">
+        <div *ngFor="let course of courses" class="course-item">
+            <h2>{{ course.name }}</h2>
+
+            <div *ngFor="let assignment of course.assignments">
+                <div class="assignment-card">
+                    <h4>{{ assignment.name }}</h4>
+                    <div>Default Team Size: {{ assignment.defaultTeamSize }}</div>
+                </div>
+            </div>
+
+            <button
+                (click)="openAssignmentImportModal(course)"
+                class="import-assignment-button"
+            >
+                <img src="icons/file-import.svg" alt="import an assignment"/>
+                <p>Import an assignment</p>
+            </button>
+        </div>
+    </ng-container>
+
+    <ng-template #loading>
+        <div>Loading...</div>
+    </ng-template>
+</div>

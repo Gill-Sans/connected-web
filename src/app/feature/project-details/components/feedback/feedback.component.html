@@ -1,0 +1,33 @@
+<div class="tab-content">
+    <div class="feedback-container">
+        <div class="feedback-box">
+            <textarea
+                [(ngModel)]="newFeedback"
+                placeholder="Enter your feedback here..."
+            ></textarea>
+            <app-button
+                label="Post"
+                type="normal"
+                (click)="submitFeedback()"
+            ></app-button>
+        </div>
+
+        <div class="feedback-list">
+            <ng-container
+                *ngIf="feedbackList$ | async as feedbackList; else loading"
+            >
+                <app-conversationcard
+                    *ngFor="let feedback of feedbackList"
+                    [firstName]="feedback.user.firstName || ''"
+                    [lastName]="feedback.user.lastName || ''"
+                    [createdAt]="feedback.createdAt"
+                    [comment]="feedback.comment"
+                >
+                </app-conversationcard>
+            </ng-container>
+            <ng-template #loading>
+                <p class="loading">Loading feedback...</p>
+            </ng-template>
+        </div>
+    </div>
+</div>

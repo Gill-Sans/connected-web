@@ -1,0 +1,18 @@
+<div class="members-container">
+    <table>
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Role</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let member of (project$ | async)?.members; let i = index">
+            <td>
+                {{ member.firstName }} {{ member.lastName }}
+            </td>
+            <td>{{ member.role.charAt(0) + member.role.substring(1).toLowerCase() }}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>

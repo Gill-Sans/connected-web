@@ -1,0 +1,32 @@
+.tag {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 16px;
+    padding: 4px 12px;
+    margin: 4px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    background-color: #f0f0f0;
+    color: #333;
+    transition: background-color 0.3s, border-color 0.3s;
+
+    &:hover {
+        border-color: #b0b0b0;
+    }
+
+    .delete-btn {
+        margin-left: 8px;
+        border: none;
+        background: none;
+        cursor: pointer;
+        padding: 0 4px;
+        font-size: 16px;
+        line-height: 1;
+        color: #999;
+        transition: color 0.3s;
+
+        &:hover {
+            color: #e74c3c;
+        }
+    }
+}
