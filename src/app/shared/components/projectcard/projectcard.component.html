@@ -1,10 +1,15 @@
 <div class="card" (click)="navigateToProject()">
     <div class="card-header">
         <div class="card-user">
-            <img class="avatar" [src]="'img/lucas.jpeg'" alt="avatar"/>
-            <div class="user-info">
-                <p class="name">{{ project.createdBy.firstName }} {{ project.createdBy.lastName }}</p>
-                <p class="email">{{ project.createdBy.email }}</p>
+            <div class="card-user__details">
+                <img class="avatar" [src]="'img/lucas.jpeg'" alt="avatar"/>
+                <div class="user-info">
+                    <p class="name">{{ project.createdBy.firstName }} {{ project.createdBy.lastName }}</p>
+                    <p class="email">{{ project.createdBy.email }}</p>
+                </div>
+            </div>
+            <div class="members">
+                {{ project.members.length }} {{ project.members.length === 1 ? 'member' : 'members' }}
             </div>
         </div>
     </div>
@@ -12,11 +17,5 @@
     <div class="card-body">
         <h3 class="card-title">{{ project.title }}</h3>
         <p class="description">{{ project.shortDescription }}</p>
-    </div>
-
-    <div class="card-footer">
-        <div class="members">
-            {{ project.members.length }} {{ project.members.length === 1 ? 'member' : 'members' }}
-        </div>
     </div>
 </div>
