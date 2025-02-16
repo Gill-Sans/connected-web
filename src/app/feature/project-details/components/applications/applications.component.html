@@ -8,7 +8,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let application of project$ | async">
+            <tr *ngFor="let application of applications$ | async">
                 <td>
                     <div class="applicant-info">
                         {{ application.applicant.firstName }}
