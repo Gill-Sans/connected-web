@@ -77,8 +77,6 @@ export class ProjectOverviewComponent implements OnInit, OnDestroy {
 
     tabOptions = [
         { label: 'All projects', value: 'all' },
-        { label: 'Recommended projects', value: 'recommended' },
-        { label: 'Crossover projects', value: 'crossover' }
     ];
 
     changeTab(tab: string): void {

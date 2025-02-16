@@ -35,13 +35,7 @@
             <div class="card-container">
                 <app-projectcard
                     *ngFor="let project of projects"
-                    [title]="project.title"
-                    [id]="project.id"
-                    [shortDescription]="project.shortDescription"
-                    [tags]="[
-              { id: 1, name: 'tag1' },
-              { id: 2, name: 'tag2' }
-          ]"
+                    [project]="project"
                 ></app-projectcard>
             </div>
         </div>
