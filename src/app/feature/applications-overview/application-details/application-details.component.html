@@ -1,6 +1,6 @@
 <div class="application-details-container">
     <app-button label="Back" type="back" class="back-button" routerLink="/assignment/applications"></app-button>
-    
+
     <div class="content-wrapper" *ngIf="application$ | async as application">
         <!-- Left side - Motivation -->
         <div class="motivation-section">
@@ -25,11 +25,11 @@
                     </div>
                     <div class="detail-item">
                         <label>Project</label>
-                        <p>{{ application.project.title }}</p>
+                        <p class="project-title" (click)="navigateToProject()">{{ application.project.title }}</p>
                     </div>
                 </div>
             </div>
-            
+
             <div class="action-buttons">
                 <app-button label ="Approve" type="Approve" class="approve-button" ></app-button>
                 <app-button label ="Reject" type="Reject" class="reject-button"></app-button>
