@@ -17,9 +17,6 @@
                     (click)="navigateToApplication(application)">
                   <td>
                     <div class="applicant-info">
-                      <img [src]="application.applicant.avatarUrl || 'icons/placeholderpic.svg'"
-                           [alt]="application.applicant.firstName"
-                           class="avatar">
                       {{ application.applicant.firstName }} {{ application.applicant.lastName }}
                     </div>
                   </td>

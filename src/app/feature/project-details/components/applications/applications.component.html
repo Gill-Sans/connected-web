@@ -8,7 +8,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let application of project$ | async">
+            <tr *ngFor="let application of applications$ | async">
                 <td>
                     <div class="applicant-info">
                         {{ application.applicant.firstName }}
@@ -25,14 +25,22 @@
                         <button
                             class="btn btn-primary"
                             (click)="approveApplication(application.id)"
+                            *ngIf="application.status === ApplicationStatusEnum.PENDING"
                         >
                             Accept
                         </button>
                         <button
                             class="btn btn-danger"
                             (click)="rejectApplication(application.id)"
+                            *ngIf="application.status === ApplicationStatusEnum.PENDING"
                         >
                             Deny
+                        </button>
+                        <button
+                            class="btn btn-secondary"
+                            (click)="navigateToApplication(application.id)"
+                        >
+                            View
                         </button>
                     </div>
                 </td>

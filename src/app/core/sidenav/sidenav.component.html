@@ -13,13 +13,13 @@
         <img class="icon" src="icons/projects.svg" alt="Projects" />
         <span>Projects</span>
     </a>
-    <a [routerLink]="getRoute('calendar')"
-       routerLinkActive="active-link"
-       [routerLinkActiveOptions]="{ exact: false }"
-       class="nav-link">
-        <img class="icon" src="icons/calendar-solid.svg" alt="Calendar" />
-        <span>Calendar</span>
-    </a>
+<!--    <a [routerLink]="getRoute('calendar')"-->
+<!--       routerLinkActive="active-link"-->
+<!--       [routerLinkActiveOptions]="{ exact: false }"-->
+<!--       class="nav-link">-->
+<!--        <img class="icon" src="icons/calendar-solid.svg" alt="Calendar" />-->
+<!--        <span>Calendar</span>-->
+<!--    </a>-->
     <a [routerLink]="getRoute(['applications'])"
        routerLinkActive="active-link"
        [routerLinkActiveOptions]="{ exact: false }"
@@ -27,14 +27,14 @@
         <img class="icon" src="icons/clipboard-solid.svg" alt="Applications" />
         <span>Applications</span>
     </a>
-    <a [routerLink]="getRoute('students')"
-       routerLinkActive="active-link"
-       [routerLinkActiveOptions]="{ exact: false }"
-       class="nav-link"
-       *hasRole="Role.Teacher">
-        <img class="icon" src="icons/user-group-solid.svg" alt="Students" />
-        <span>Students</span>
-    </a>
+<!--    <a [routerLink]="getRoute('students')"-->
+<!--       routerLinkActive="active-link"-->
+<!--       [routerLinkActiveOptions]="{ exact: false }"-->
+<!--       class="nav-link"-->
+<!--       *hasRole="Role.Teacher">-->
+<!--        <img class="icon" src="icons/user-group-solid.svg" alt="Students" />-->
+<!--        <span>Students</span>-->
+<!--    </a>-->
     <a [routerLink]="getRoute('courses')"
        routerLinkActive="active-link"
        [routerLinkActiveOptions]="{ exact: false }"
