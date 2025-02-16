@@ -4,17 +4,17 @@ import {AssignmentService} from '../../../core/services/assignment.service';
 import {Observable} from 'rxjs';
 import {CommonModule} from '@angular/common';
 import {ToastService} from '../../../core/services/toast.service';
+import {FormsModule} from '@angular/forms';
 
 @Component({
     selector: 'app-assignment-create',
-    imports: [CommonModule],
+    imports: [CommonModule, FormsModule],
     templateUrl: './assignment-create.component.html',
     styleUrl: './assignment-create.component.scss'
 })
 export class AssignmentCreateComponent implements OnInit {
     @Input() courseId!: number;
     @Output() closeModal = new EventEmitter<void>();
-    // Rename this output to match what the parent expects:
     @Output() assignmentCreated = new EventEmitter<Assignment>();
 
     private assignmentService = inject(AssignmentService);
@@ -25,6 +25,7 @@ export class AssignmentCreateComponent implements OnInit {
     isLoading = false;
     successMessage: string | null = null;
     errorMessage: string | null = null;
+    defaultTeamSize: number = 1;
 
     ngOnInit() {
         if (!this.courseId) {
@@ -45,7 +46,7 @@ export class AssignmentCreateComponent implements OnInit {
         // Prepare the assignment for creation.
         this.selectedAssignment.courseId = this.courseId;
         this.selectedAssignment.canvasAssignmentId = this.selectedAssignment.id;
-        this.selectedAssignment.defaultTeamSize = 3;
+        this.selectedAssignment.defaultTeamSize = this.defaultTeamSize;
 
         this.assignmentService.createAssignment(this.selectedAssignment).subscribe({
             next: (response) => {

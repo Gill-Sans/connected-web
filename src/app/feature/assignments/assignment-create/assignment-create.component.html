@@ -7,28 +7,44 @@
 
         <div class="courses-container">
             <ng-container *ngIf="assignments$ | async as assignments; else loading">
-                <button
-                    *ngFor="let assignment of assignments"
-                    class="course-btn"
-                    [class.selected]="selectedAssignment?.id === assignment.id"
-                    (click)="selectAssignment(assignment)"
-                >
-                    {{ assignment.name }}
-                </button>
+                <div *ngIf="assignments.length > 0; else noAssignments">
+                    <button
+                        *ngFor="let assignment of assignments"
+                        class="course-btn"
+                        [class.selected]="selectedAssignment?.id === assignment.id"
+                        (click)="selectAssignment(assignment)"
+                    >
+                        {{ assignment.name }}
+                    </button>
+                    <div class="select-container">
+                        <label>Default Team Size:</label>
+                        <select [(ngModel)]="defaultTeamSize" name="defaultTeamSize">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                        </select>
+                    </div>
+                    <button
+                        class="continue-btn"
+                        [class.disabled]="isLoading"
+                        (click)="createAssignment()"
+                    >
+                        Continue
+                    </button>
+                </div>
             </ng-container>
             <ng-template #loading>
                 <p>Loading assignments...</p>
             </ng-template>
+            <ng-template #noAssignments>
+                <p>There are no assignments left for this course.</p>
+            </ng-template>
         </div>
-
-        <button
-            class="continue-btn"
-            [disabled]="!selectedAssignment || isLoading"
-            [class.disabled]="isLoading"
-            (click)="createAssignment()"
-        >
-            {{ isLoading ? "Creating..." : "Continue" }}
-        </button>
 
         <!-- Success/Error Messages -->
         <p *ngIf="successMessage" class="success">{{ successMessage }}</p>
