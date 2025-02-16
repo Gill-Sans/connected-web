@@ -306,48 +306,6 @@ td {
     }
 }
 
-.project-overview {
-    /* Project Overview cards styling */
-    padding: 20px;
-
-    .card-container {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr); /* 3 cards per row */
-        gap: 1em;
-        grid-auto-rows: 1fr;
-    }
-
-    .card-container > * {
-        box-sizing: border-box;
-    }
-
-    /* Styling of the tabs on project-overview */
-
-    .tabs {
-        display: flex;
-        border-bottom: 2px solid #e0e0e0;
-        margin-bottom: 20px;
-    }
-
-    .tab {
-        padding: 10px 15px;
-        cursor: pointer;
-        font-weight: bold;
-        color: $text-color;
-        transition: 0.25s;
-        border-bottom: 2px solid transparent;
-    }
-
-    .tab:hover {
-        color: black;
-    }
-
-    .tab.active {
-        color: #6200ea; /* Paarse kleur*/
-        border-bottom: 2px solid #7662f6;
-    }
-}
-
 .profilepage {
     max-width: 800px;
     margin: auto;

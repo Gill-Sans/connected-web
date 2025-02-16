@@ -13,6 +13,7 @@ import {User} from '../../auth/models/user.model';
 import {AuthFacade} from '../../auth/store/auth.facade';
 import {Role} from '../../auth/models/role.model';
 import {ProjectStatusEnum} from '../../shared/models/ProjectStatus.enum';
+import {AuthorizationService} from '../../core/services/authorization.service';
 
 @Component({
     selector: 'app-project-overview',
@@ -26,7 +27,8 @@ export class ProjectOverviewComponent implements OnInit, OnDestroy {
     private readonly activeAssignmentRoutingService = inject(ActiveAssignmentRoutingService);
     private router: Router = inject(Router);
     private readonly authFacade = inject(AuthFacade);
-    private readonly ToastService = inject(ToastService);
+    private readonly toastService = inject(ToastService);
+    private readonly authorizationService: AuthorizationService = inject(AuthorizationService);
     protected readonly ProjectStatusEnum = ProjectStatusEnum;
 
     user$: Observable<User | null> = this.authFacade.user$;
@@ -35,12 +37,12 @@ export class ProjectOverviewComponent implements OnInit, OnDestroy {
     selectedTab: string = 'all';
 
     // New properties for teacher role and view toggle
-    isTeacher: boolean = false;
     viewType: 'card' | 'table' = 'card';
 
     // Subscription to listen to active assignment changes
     private activeAssignmentSub?: Subscription;
     private userSub?: Subscription;
+    public isTeacher$!: Observable<boolean>;
 
     ngOnInit(): void {
         // Subscribe to changes in the active assignment
@@ -56,7 +58,15 @@ export class ProjectOverviewComponent implements OnInit, OnDestroy {
 
         // Subscribe to user changes to check for teacher role
         this.userSub = this.user$.subscribe((user) => {
-            this.isTeacher = !!user && user.role === Role.Teacher;
+            this.isTeacher$ = this.authorizationService.isTeacher$();
+            this.isTeacher$.subscribe(isTeacher => {
+                // If the user is a teacher, start on the list view (table view)
+                this.viewType = isTeacher ? 'table' : 'card';
+                // Reload projects if necessary
+                if (this.activeAssignment && this.activeAssignment.assignment) {
+                    this.loadProjects();
+                }
+            });
             // After detecting the role, reload projects if necessary
             if (this.activeAssignment && this.activeAssignment.assignment) {
                 this.loadProjects();
@@ -90,7 +100,7 @@ export class ProjectOverviewComponent implements OnInit, OnDestroy {
     loadProjects(): void {
         const assignmentId = this.activeAssignmentService.getActiveAssignment()?.assignment.id;
         if (assignmentId) {
-            if (this.isTeacher) {
+            if (this.isTeacher$) {
                 // Teachers see all projects
                 this.projects$ = this.projectService.getAllProjects(assignmentId);
             } else {
@@ -102,7 +112,7 @@ export class ProjectOverviewComponent implements OnInit, OnDestroy {
 
     updateProjectStatus(project: Project, status: ProjectStatusEnum): void {
         this.projectService.updateProjectStatus(project.id, status).subscribe(() => {
-            this.ToastService.showToast('success', 'Project status updated to ' + ProjectStatusEnum[status]);
+            this.toastService.showToast('success', 'Project status updated to ' + ProjectStatusEnum[status]);
             this.loadProjects();
         });
     }
@@ -110,7 +120,7 @@ export class ProjectOverviewComponent implements OnInit, OnDestroy {
     publishAllProjects(): void {
         if (this.activeAssignment) {
             this.projectService.publishAllProjects(this.activeAssignment.assignment.id).subscribe(() => {
-                this.ToastService.showToast('success', 'All approved projects were published');
+                this.toastService.showToast('success', 'All approved projects were published');
                 this.loadProjects();
             });
         }
@@ -118,5 +128,9 @@ export class ProjectOverviewComponent implements OnInit, OnDestroy {
 
     get publishedStatus(): string {
         return ProjectStatusEnum[ProjectStatusEnum.PUBLISHED];
+    }
+
+    navigateToProject(project: Project): void {
+        this.router.navigate(this.activeAssignmentRoutingService.buildRoute('projects', project.id.toString()));
     }
 }

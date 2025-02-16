@@ -186,3 +186,14 @@ p {
 
     }
 }
+
+.update-status {
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+
+    .update-status-buttons {
+        display: flex;
+        gap: 10px;
+    }
+}
