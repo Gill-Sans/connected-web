@@ -53,4 +53,8 @@ export class DetailsOverviewComponent {
         this.router.navigate(this.activeAssignmentRoutingService.buildRoute('projects', this.projectId, 'apply'));
     }
 
+    getFilteredMembers(members: any[], owner: any): any[] {
+        return members.filter(member => member.id !== owner.id);
+    }
+
 }

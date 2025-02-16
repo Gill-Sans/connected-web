@@ -38,7 +38,7 @@
                         <img class="avatar" [src]="'img/lucas.jpeg'" alt="avatar"/>
                         <span class="owner-name">{{ project.createdBy.firstName }} {{ project.createdBy.lastName }}</span>
                     </li>
-                    <li *ngFor="let member of project.members || []">
+                    <li *ngFor="let member of getFilteredMembers(project.members || [], project.createdBy)">
                         <img class="avatar" [src]="'img/lucas.jpeg'" alt="avatar"/>
                         <span>{{ member?.firstName || "" }} {{ member?.lastName || "" }}</span>
                     </li>
