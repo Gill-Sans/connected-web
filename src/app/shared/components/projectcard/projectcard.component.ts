@@ -1,7 +1,5 @@
 import {Component, inject, Input} from '@angular/core';
-import {TagcardComponent} from '../tagcard/tagcard.component';
 import {CommonModule} from '@angular/common';
-import {tag} from '../../models/tag.model';
 import {Router, RouterModule} from '@angular/router';
 import {ActiveAssignmentRoutingService} from '../../../core/services/active-assignment-routing.service';
 import { MarkdownModule } from 'ngx-markdown';
