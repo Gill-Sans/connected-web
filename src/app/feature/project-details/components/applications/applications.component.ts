@@ -4,10 +4,11 @@ import { CommonModule } from '@angular/common';
 import { ApplicationStatusEnum } from '../../../../shared/models/ApplicationStatus.enum';
 import { Application } from '../../../../shared/models/application.model';
 import { ProjectService } from '../../../../core/services/project.service';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import { Observable } from 'rxjs';
 import { ActiveAssignmentService } from '../../../../core/services/active-assignment.service';
 import { Project } from '../../../../shared/models/project.model';
+import {ActiveAssignmentRoutingService} from '../../../../core/services/active-assignment-routing.service';
 
 
 @Component({
@@ -17,13 +18,15 @@ import { Project } from '../../../../shared/models/project.model';
     styleUrl: './applications.component.scss'
 })
 export class ApplicationsComponent {
- 
+
   private readonly projectService: ProjectService = inject(ProjectService);
    private readonly route: ActivatedRoute = inject(ActivatedRoute);
-   
+
    private readonly activeAssignmentService: ActiveAssignmentService = inject(ActiveAssignmentService);
    private projectId: string = 'undefined';
    public project$ : Observable<Application[]> | null = null;
+   private router: Router = inject(Router);
+   private readonly activeAssignmentRouteService: ActiveAssignmentRoutingService = inject(ActiveAssignmentRoutingService);
    activeAssignment$ = this.activeAssignmentService.activeAssignment$;
 
 
@@ -62,4 +65,7 @@ export class ApplicationsComponent {
         }
     }
 
+    navigateToApplication(applicationId: number) {
+        this.router.navigate(this.activeAssignmentRouteService.buildRoute('applications', applicationId.toString()));
+    }
 }

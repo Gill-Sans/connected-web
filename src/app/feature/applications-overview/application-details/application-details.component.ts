@@ -1,14 +1,13 @@
 import {Component, inject, OnInit} from '@angular/core';
 import { ApplicationService } from '../../../core/services/application.service';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ButtonComponent } from '../../../shared/components/button/button.component';
 import { MarkdownModule } from 'ngx-markdown';
-import {Application} from 'express';
 import {ActiveAssignmentRoutingService} from '../../../core/services/active-assignment-routing.service';
 @Component({
   selector: 'app-application-details',
-  imports: [CommonModule,ButtonComponent,MarkdownModule],
+    imports: [CommonModule, ButtonComponent, MarkdownModule, RouterLink],
   templateUrl: './application-details.component.html',
   styleUrl: './application-details.component.scss'
 })
