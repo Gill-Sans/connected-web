@@ -5,7 +5,7 @@ import { MarkdownModule } from 'ngx-markdown';
 import { ProjectService } from '../../../../core/services/project.service';
 import { ActiveAssignmentService } from '../../../../core/services/active-assignment.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Project } from '../../../../shared/models/project.model';
 import { ButtonComponent } from '../../../../shared/components/button/button.component';
 import { ActiveAssignmentRoutingService } from '../../../../core/services/active-assignment-routing.service';
@@ -22,7 +22,6 @@ export class DetailsOverviewComponent implements OnInit {
     private readonly projectService: ProjectService = inject(ProjectService);
     private readonly route: ActivatedRoute = inject(ActivatedRoute);
     public authorizationService: AuthorizationService = inject(AuthorizationService);
-    private readonly activeAssignmentService: ActiveAssignmentService = inject(ActiveAssignmentService);
     private readonly activeAssignmentRoutingService: ActiveAssignmentRoutingService = inject(ActiveAssignmentRoutingService);
     private readonly router: Router = inject(Router);
 

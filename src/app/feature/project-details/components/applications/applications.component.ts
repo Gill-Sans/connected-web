@@ -22,7 +22,6 @@ export class ApplicationsComponent implements OnInit {
     readonly projectService: ProjectService = inject(ProjectService);
     private readonly route: ActivatedRoute = inject(ActivatedRoute);
 
-    private readonly activeAssignmentService: ActiveAssignmentService = inject(ActiveAssignmentService);
     private projectId: string = 'undefined';
     public applications$ : Observable<Application[]> | null = null;
     private router: Router = inject(Router);
