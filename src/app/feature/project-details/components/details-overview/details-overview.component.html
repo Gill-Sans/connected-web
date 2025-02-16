@@ -19,6 +19,21 @@
 
         <!-- Right sidebar with Members & Links -->
         <div class="right-sidebar">
+            <div class="update-status" *ngIf="(isTeacher$ | async) && project.status === ProjectStatusEnum.PENDING ">
+                <h3>Update status</h3>
+                <div class="update-status-buttons">
+                    <app-button
+                        label="Approve"
+                        type="confirm"
+                        (click)="updateProjectStatus(ProjectStatusEnum.APPROVED)"
+                    ></app-button>
+                    <app-button
+                        label="Reject"
+                        type="cancel"
+                        (click)="updateProjectStatus(ProjectStatusEnum.REJECTED)"
+                    ></app-button>
+                </div>
+            </div>
             <div class="apply-section" *ngIf="!(canManageProject$ | async) && !(isMember$ | async)">
                 <p>
                     Press this button to apply for this project. By applying,

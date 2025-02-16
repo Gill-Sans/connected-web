@@ -10,6 +10,7 @@ import { Project } from '../../../../shared/models/project.model';
 import { ButtonComponent } from '../../../../shared/components/button/button.component';
 import { ActiveAssignmentRoutingService } from '../../../../core/services/active-assignment-routing.service';
 import {AuthorizationService} from '../../../../core/services/authorization.service';
+import {ProjectStatusEnum} from '../../../../shared/models/ProjectStatus.enum';
 //TODO: add check if image of user is empty --> placeholderpic.svg
 @Component({
     selector: 'app-details-overview',
@@ -25,12 +26,15 @@ export class DetailsOverviewComponent implements OnInit {
     private readonly activeAssignmentService: ActiveAssignmentService = inject(ActiveAssignmentService);
     private readonly activeAssignmentRoutingService: ActiveAssignmentRoutingService = inject(ActiveAssignmentRoutingService);
     private readonly router: Router = inject(Router);
+    protected readonly ProjectStatusEnum = ProjectStatusEnum;
 
     public project$: Observable<Project> | null = null;
     public canManageProject$!: Observable<boolean>;
     public isMember$!: Observable<boolean>;
+    public isTeacher$!: Observable<boolean>;
 
-    private projectId: string = 'undefined';
+    private projectId: number | null = null;
+
 
     ngOnInit() {
         // Get project ID from parent route parameters
@@ -44,16 +48,29 @@ export class DetailsOverviewComponent implements OnInit {
                 this.project$.subscribe(project => {
                     this.canManageProject$ = this.authorizationService.canManageProject$(project);
                     this.isMember$ = this.authorizationService.isMember$(project);
+                    this.isTeacher$ = this.authorizationService.isTeacher$();
                 });
             }
         });
     }
 
     applyForProject() {
-        this.router.navigate(this.activeAssignmentRoutingService.buildRoute('projects', this.projectId, 'apply'));
+        if (this.projectId) {
+            this.router.navigate(this.activeAssignmentRoutingService.buildRoute('projects', this.projectId.toString(), 'apply'));
+        }
     }
 
     getFilteredMembers(members: any[], owner: any): any[] {
         return members.filter(member => member.id !== owner.id);
+    }
+
+    updateProjectStatus(status: ProjectStatusEnum) {
+        if (this.projectId) {
+            this.projectService.updateProjectStatus(this.projectId, status).subscribe(
+                (updatedProject: Project) => {
+                    this.project$ = new Observable<Project>(subscriber => subscriber.next(updatedProject));
+                }
+            );
+        }
     }
 }
