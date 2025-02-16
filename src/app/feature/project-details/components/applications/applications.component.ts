@@ -6,7 +6,6 @@ import { Application } from '../../../../shared/models/application.model';
 import { ProjectService } from '../../../../core/services/project.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import { Observable } from 'rxjs';
-import { ActiveAssignmentService } from '../../../../core/services/active-assignment.service';
 import {ActiveAssignmentRoutingService} from '../../../../core/services/active-assignment-routing.service';
 import {ToastService} from '../../../../core/services/toast.service';
 
