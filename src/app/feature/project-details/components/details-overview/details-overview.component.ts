@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import { LinkcardComponent } from '../../../../shared/components/linkcard/linkcard.component';
 import { CommonModule } from '@angular/common';
 import { MarkdownModule } from 'ngx-markdown';
@@ -17,7 +17,7 @@ import {AuthorizationService} from '../../../../core/services/authorization.serv
     templateUrl: './details-overview.component.html',
     styleUrl: './details-overview.component.scss'
 })
-export class DetailsOverviewComponent {
+export class DetailsOverviewComponent implements OnInit {
     //NOTE: als een tab inzet voor de markdown, dan wordt de markdown niet goed weergegeven
     private readonly projectService: ProjectService = inject(ProjectService);
     private readonly route: ActivatedRoute = inject(ActivatedRoute);

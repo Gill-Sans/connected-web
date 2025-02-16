@@ -68,4 +68,6 @@ export class ApplicationsComponent {
     navigateToApplication(applicationId: number) {
         this.router.navigate(this.activeAssignmentRouteService.buildRoute('applications', applicationId.toString()));
     }
+
+    protected readonly ApplicationStatusEnum = ApplicationStatusEnum;
 }
