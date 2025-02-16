@@ -1,0 +1,17 @@
+<div class="tag-search-container">
+    <input
+        type="text"
+        (input)="onSearchInput($event)"
+        placeholder="Search for a tag..."
+        class="tag-input"
+    />
+
+    <ng-container *ngIf="tags$ | async as tags">
+        <ul *ngIf="isDropdownVisible" class="tag-dropdown">
+            <li *ngFor="let tag of tags" (click)="selectTag(tag)">
+                {{ tag.name }}
+            </li>
+            <li class="no-results" (click)="createTag()">+ Create tag</li>
+        </ul>
+    </ng-container>
+</div>

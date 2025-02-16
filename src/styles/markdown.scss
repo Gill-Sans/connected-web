@@ -1,0 +1,118 @@
+.md-editor-container .md-layout .tool-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #f5f5f5;
+    border-bottom: 1px solid #ddd;
+
+    .btn-group {
+        display: flex;
+        align-items: center;
+
+        &::after {
+            content: "";
+            display: inline-block;
+            width: 1px;
+            height: 24px;
+            background-color: #ddd;
+            margin: 0 22px; /* Adjusted for even spacing */
+        }
+
+        &:last-child::after {
+            display: none;
+        }
+
+        button {
+            margin-right: 10px;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+
+            i {
+                font-size: 16px;
+            }
+        }
+
+        &:nth-child(2) button:nth-child(2) {
+            display: none; /* Hide the second button in the second group */
+        }
+
+        &:nth-child(3) button:nth-child(3) {
+            display: none; /* Hide the third button in the third group */
+        }
+
+        &:nth-child(5) {
+            display: none; /* Hide the entire fifth group */
+        }
+    }
+}
+
+.ace-tm .ace_print-margin {
+    width: 0px !important;
+}
+
+/* Override the unwanted rule */
+.md-editor-container .md-layout .tool-bar .btn-group:not(:empty)::before {
+    content: none !important;
+}
+
+.md-editor-container {
+    p {
+        font-size: 16px;
+        line-height: 1.5;
+    }
+
+    strong {
+        font-weight: bold;
+    }
+
+    em {
+        font-style: italic;
+    }
+
+    blockquote {
+        margin: 0;
+        padding: 10px 20px;
+        background: #333;
+        border-left: 10px solid #555;
+    }
+
+    a {
+        color: #9a67ea;
+
+        &:hover {
+            color: #bb86fc;
+        }
+    }
+
+    ul {
+        padding-left: 20px;
+        list-style-type: disc;
+
+        li {
+            margin: 10px;
+        }
+    }
+
+    ol {
+        padding-left: 20px;
+        list-style-type: decimal;
+
+        li {
+            margin: 10px;
+        }
+    }
+
+    pre {
+        color: #d1d7e6;
+        padding: 1rem 2rem;
+        line-height: 1.5rem;
+        background: #282c34;
+        border-radius: 4px;
+        overflow-x: auto;
+        margin: 1rem 0;
+    }
+}

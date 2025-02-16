@@ -1,0 +1,46 @@
+// Basisstijl voor alle status buttons
+.status-button {
+    display: inline-block;
+    padding: 6px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 10px;
+    text-align: center;
+    cursor: default;
+    user-select: none;
+    border: 2px solid;
+    background: transparent;
+    min-width: 100px;
+}
+
+.pending {
+    border-color: #b48b4e;
+    color: #b48b4e;
+}
+
+.approved {
+    border-color: #4caf50;
+    color: #4caf50;
+}
+
+.rejected {
+    border-color: #d9534f;
+    color: #d9534f;
+}
+
+.published {
+    border-color: #2196f3;
+    color: #2196f3;
+}
+
+.pending:hover {
+    background: rgba(180, 139, 78, 0.1);
+}
+
+.approved:hover {
+    background: rgba(76, 175, 80, 0.1);
+}
+
+.rejected:hover {
+    background: rgba(217, 83, 79, 0.1);
+}

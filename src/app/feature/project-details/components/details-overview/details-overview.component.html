@@ -1,0 +1,66 @@
+<div class="tab-content">
+    <div class="page-container" *ngIf="project$ | async as project">
+        <!-- Left section with text -->
+        <div class="left-content">
+            <div>
+                <h2>{{ project.title || "Untitled Project" }}</h2>
+                <div *ngIf="(canManageProject$ | async)" class="status-section" [ngClass]="project.status.toString().toLowerCase()">
+                    <div class="status-container">
+                        <div class="status-icon"></div>
+                        <span class="status-label">{{ project.status.toString().toLowerCase() }}</span>
+                    </div>
+                </div>
+            </div>
+            <markdown
+                class="md-editor-container"
+                [data]="project.description || ''"
+            ></markdown>
+        </div>
+
+        <!-- Right sidebar with Members & Links -->
+        <div class="right-sidebar">
+            <div class="update-status" *ngIf="(isTeacher$ | async) && project.status === ProjectStatusEnum.PENDING ">
+                <h3>Update status</h3>
+                <div class="update-status-buttons">
+                    <app-button
+                        label="Approve"
+                        type="confirm"
+                        (click)="updateProjectStatus(ProjectStatusEnum.APPROVED)"
+                    ></app-button>
+                    <app-button
+                        label="Reject"
+                        type="cancel"
+                        (click)="updateProjectStatus(ProjectStatusEnum.REJECTED)"
+                    ></app-button>
+                </div>
+            </div>
+            <div class="apply-section" *ngIf="!(canManageProject$ | async) && !(isMember$ | async)">
+                <p>
+                    Press this button to apply for this project. By applying,
+                    you express your interest in contributing to this project
+                    and collaborating with the team.
+                </p>
+                <app-button
+                    label="Apply for this project"
+                    type="normal"
+                    (click)="applyForProject()"
+                ></app-button>
+            </div>
+            <div class="members-section">
+                <h3>Members</h3>
+                <ul>
+                    <li class="owner-section">
+                        <img class="avatar" [src]="'img/lucas.jpeg'" alt="avatar"/>
+                        <span class="owner-name">{{ project.createdBy.firstName }} {{ project.createdBy.lastName }}</span>
+                    </li>
+                    <li *ngFor="let member of getFilteredMembers(project.members || [], project.createdBy)">
+                        <img class="avatar" [src]="'img/lucas.jpeg'" alt="avatar"/>
+                        <span>{{ member?.firstName || "" }} {{ member?.lastName || "" }}</span>
+                    </li>
+                </ul>
+            </div>
+            <!-- Links component -->
+            <app-linkcard></app-linkcard>
+        </div>
+    </div>
+</div>

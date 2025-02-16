@@ -1,0 +1,80 @@
+$highlight-color: rgba(118, 98, 246, 1);
+
+.button {
+    border-radius: 4px;
+    color: rgba(255, 255, 255, 1);
+    background-color: $highlight-color;
+    border: none;
+    padding: 10px 25px;
+    font-size: 16px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+
+    .button-icon {
+        filter: brightness(0) invert(1);
+        width: 16px;
+        height: 16px;
+    }
+}
+
+.cancel {
+    background-color: rgba(246, 98, 100, 1);
+    font-weight: 400;
+}
+
+.confirm {
+    background-color: rgba(48, 149, 53, 1);
+    font-weight: 400;
+}
+
+.edit {
+    background-color: rgba(118, 98, 246, 1);
+    font-weight: 400;
+}
+
+
+.post {
+    background-color: rgba(118, 98, 246, 1);
+    font-weight: 100;
+}
+
+.back {
+    display: inline-flex;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 500;
+    color: #6c757d; // Lichtgrijze kleur
+    text-decoration: none;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    padding: 5px 10px;
+    margin-left: 10px;
+
+    &::before {
+        content: "←";
+        margin-right: 5px;
+        font-size: 14px;
+    }
+
+    &:hover {
+        color: #5a6268; // Iets donkerdere grijstint bij hover
+        text-decoration: underline;
+    }
+
+
+}
+
+.approve {
+    background-color: $highlight-color;
+    font-weight: 400;
+}
+
+.reject {
+    background-color: #D9534F;
+    font-weight: 400;
+}
+

@@ -1,0 +1,41 @@
+.tag-search-container {
+    position: relative;
+    width: 300px;
+    padding-top: 10px;
+
+    .tag-input {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    .tag-dropdown {
+        .no-results {
+            font-size: 0.833rem;
+            color: #818181;
+            padding: 1rem;
+            border-top: 1px solid #ccc;
+        }
+        position: absolute;
+        width: 100%;
+        background: white;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin-top: 5px;
+        list-style: none;
+        padding: 0;
+        max-height: 200px;
+        overflow-y: auto;
+        z-index: 1000;
+
+        li {
+            padding: 10px;
+            cursor: pointer;
+
+            &:hover {
+                background: #f2f2f2;
+            }
+        }
+    }
+}

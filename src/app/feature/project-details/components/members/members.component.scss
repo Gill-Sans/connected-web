@@ -1,0 +1,27 @@
+.members-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 20px;
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+        font-size: 1em;
+        min-width: 400px;
+
+        thead tr {
+            text-align: left;
+            font-weight: bold;
+        }
+
+        th {
+            padding: 12px 1rem;
+        }
+        td {
+            border-bottom: 1px solid #ddd;
+            padding: 1.5rem 1rem;
+        }
+    }
+}
