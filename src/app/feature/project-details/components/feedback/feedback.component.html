@@ -1,6 +1,6 @@
 <div class="tab-content">
     <div class="feedback-container">
-        <div class="feedback-box">
+        <div class="feedback-box" *ngIf="(isTeacher$ | async)">
             <textarea
                 [(ngModel)]="newFeedback"
                 placeholder="Enter your feedback here..."
