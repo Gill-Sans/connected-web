@@ -15,25 +15,14 @@ export class ProjectService {
     private http = inject(HttpClient);
 
     getAllProjects(assignmentId: number): Observable<Project[]> {
-        const headers = new HttpHeaders().set('assignmentId', assignmentId.toString());
-
-        let response = this.http.get<Project[]>(`${environment.apiBaseUrl}/api/projects`, {
-            withCredentials: true,
-            headers: headers
+        return this.http.get<Project[]>(`${environment.apiBaseUrl}/api/projects/assignment/${assignmentId.toString()}`, {
+            withCredentials: true
         });
-
-        response.subscribe(projects => {
-            console.log('projects:', projects);
-        });
-
-        return response;
     }
 
     getAllPublishedProjects(assignmentId: number): Observable<Project[]> {
-        const headers: HttpHeaders = new HttpHeaders().set('assignmentId', assignmentId.toString());
-        return this.http.get<Project[]>(`${environment.apiBaseUrl}/api/projects/published`, {
-            withCredentials: true,
-            headers: headers
+        return this.http.get<Project[]>(`${environment.apiBaseUrl}/api/projects/${assignmentId.toString()}/published`, {
+            withCredentials: true
         });
     }
 
@@ -41,13 +30,8 @@ export class ProjectService {
         assignmentId: number,
         projectData: Project
     ): Observable<Project> {
-        const headers = new HttpHeaders()
-            .append('assignmentId', assignmentId.toString())
-            .append('Content-Type', 'application/json');
-
-        return this.http.post<Project>(`${environment.apiBaseUrl}/api/projects`, projectData, {
-            withCredentials: true,
-            headers: headers
+        return this.http.post<Project>(`${environment.apiBaseUrl}/api/projects/${assignmentId}`, projectData, {
+            withCredentials: true
         });
     }
 

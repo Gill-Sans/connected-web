@@ -8,7 +8,6 @@
         display: grid;
         grid-template-columns: repeat(3, 1fr); /* 3 cards per row */
         gap: 1em;
-        grid-auto-rows: 1fr;
     }
 
     .card-container > * {
