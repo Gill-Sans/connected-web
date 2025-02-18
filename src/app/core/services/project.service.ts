@@ -8,6 +8,7 @@ import { Application } from '../../shared/models/application.model';
 import { ApplicationCreate } from '../../shared/models/application.model';
 import {ProjectStatusEnum} from '../../shared/models/ProjectStatus.enum';
 import { createFeedback, Feedback } from '../../shared/models/feedback.model';
+import {ApplicationStatusEnum} from '../../shared/models/ApplicationStatus.enum';
 
 @Injectable({ providedIn: 'root' })
 export class ProjectService {
@@ -44,7 +45,7 @@ export class ProjectService {
             .append('assignmentId', assignmentId.toString())
             .append('Content-Type', 'application/json');
 
-        return this.http.post<Project>(`${environment.apiBaseUrl}/api/projects/create`, projectData, {
+        return this.http.post<Project>(`${environment.apiBaseUrl}/api/projects`, projectData, {
             withCredentials: true,
             headers: headers
         });
@@ -65,18 +66,14 @@ export class ProjectService {
         });
     }
 
-    approveApplication(projectId: string, applicationId: number): Observable<void> {
-        return this.http.post<void>(`${environment.apiBaseUrl}/api/projects/${projectId}/applications/${applicationId}/approve`, {}, {
-            withCredentials: true
+    reviewApplication(applicationId: number, status: ApplicationStatusEnum): Observable<Application> {
+        const headers: HttpHeaders = new HttpHeaders()
+            .set('status', status);
+        return this.http.post<Application>(`${environment.apiBaseUrl}/api/applications/${applicationId}/review`, {}, {
+            withCredentials: true,
+            headers: headers
         });
     }
-
-    rejectApplication(projectId: string, applicationId: number): Observable<void> {
-        return this.http.post<void>(`${environment.apiBaseUrl}/api/projects/${projectId}/applications/${applicationId}/reject`, {}, {
-            withCredentials: true
-        });
-    }
-
 
     getFeedback(projectId: string): Observable<Feedback[]> {
         return this.http.get<Feedback[]>(`${environment.apiBaseUrl}/api/projects/${projectId}/feedback`, {
@@ -95,9 +92,8 @@ export class ProjectService {
 
     updateProjectStatus(projectId: number, status: ProjectStatusEnum): Observable<Project>{
         const headers: HttpHeaders = new HttpHeaders()
-            .set('projectId', projectId.toString())
             .set('status', status);
-        return this.http.post<Project>(`${environment.apiBaseUrl}/api/projects/status`,   {}, {
+        return this.http.post<Project>(`${environment.apiBaseUrl}/api/projects/${projectId}/status`,   {}, {
             withCredentials: true,
             headers: headers
         });

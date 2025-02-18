@@ -1,11 +1,11 @@
 import {Component, inject, OnInit} from '@angular/core';
-import { StatuscardComponent } from '../../../../shared/components/statuscard/statuscard.component';
-import { CommonModule } from '@angular/common';
-import { ApplicationStatusEnum } from '../../../../shared/models/ApplicationStatus.enum';
-import { Application } from '../../../../shared/models/application.model';
-import { ProjectService } from '../../../../core/services/project.service';
+import {StatuscardComponent} from '../../../../shared/components/statuscard/statuscard.component';
+import {CommonModule} from '@angular/common';
+import {ApplicationStatusEnum} from '../../../../shared/models/ApplicationStatus.enum';
+import {Application} from '../../../../shared/models/application.model';
+import {ProjectService} from '../../../../core/services/project.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import { Observable } from 'rxjs';
+import {Observable} from 'rxjs';
 import {ActiveAssignmentRoutingService} from '../../../../core/services/active-assignment-routing.service';
 import {ToastService} from '../../../../core/services/toast.service';
 
@@ -41,9 +41,7 @@ export class ApplicationsComponent implements OnInit {
 
 
    approveApplication(applicationId: number){
-    if(this.projectId){
-      console.log("approveApplication", applicationId)
-      this.projectService.approveApplication(this.projectId, applicationId)
+      this.projectService.reviewApplication(applicationId, ApplicationStatusEnum.APPROVED)
       .subscribe(() => {
         //refresh the applicationlist
         this.applications$ = this.projectService.getProjectApplications(this.projectId);
@@ -51,20 +49,15 @@ export class ApplicationsComponent implements OnInit {
       })
       console.log("application approved")
     }
-   }
 
    rejectApplication(applicationId: number) {
-        if (this.projectId) {
-          console.log("rejectApplication", applicationId)
-            this.projectService.rejectApplication(this.projectId, applicationId)
+            this.projectService.reviewApplication(applicationId, ApplicationStatusEnum.REJECTED)
                 .subscribe(() => {
                     // Refresh the applications list
                     this.applications$ = this.projectService.getProjectApplications(this.projectId);
                     this.toastService.showToast("success", "Application rejected");
                 });
-                console.log("application rejected")
         }
-    }
 
     navigateToApplication(applicationId: number) {
         this.router.navigate(this.activeAssignmentRouteService.buildRoute('applications', applicationId.toString()));
