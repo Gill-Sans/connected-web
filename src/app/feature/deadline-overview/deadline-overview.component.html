@@ -10,9 +10,11 @@
                 <h2>Deadlines</h2>
                 <div *ngFor="let deadline of deadlines" class="deadline-card">
                     <h3>{{ deadline.title }}</h3>
-                    <p><strong>Due Date:</strong> {{ deadline.dueDate | date: 'MMM d' }} at {{ deadline.dueDate | date: 'shortTime' }}</p>
-                    <p><strong>Description:</strong> {{ deadline.description }}</p>
-                    <p><strong>Restriction:</strong> {{ deadline.restriction.toLowerCase() }}</p>
+                    <p class="due-date">{{ deadline.dueDate | date: 'EEE MMM d' }} at {{ deadline.dueDate | date: 'h:mm a' }}</p>
+                    <p class="description">{{ deadline.description }}</p>
+                    <p class="restriction" [ngClass]="deadline.restriction.toLowerCase()">
+                        <span class="badge">{{ deadline.restriction.replace('_', ' ').toLowerCase() }}</span>
+                    </p>
                 </div>
             </div>
         </div>
