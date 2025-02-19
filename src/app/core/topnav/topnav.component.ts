@@ -4,35 +4,42 @@ import {Component, inject} from '@angular/core';
 import {Router} from '@angular/router';
 import {Role} from '../../auth/models/role.model';
 import {ClickOutsideDirective} from '../../shared/directives/click-outside.directive';
-import {BehaviorSubject, Observable} from 'rxjs';
+import {Observable} from 'rxjs';
 import {User} from '../../auth/models/user.model';
 import {CourseService} from '../services/course.service';
 import {Course} from '../../shared/models/course.model';
 import {ActiveAssignmentService} from '../services/active-assignment.service';
 import {Assignment} from '../../shared/models/assignment.model';
 import { ActiveAssignment } from '../../shared/models/activeAssignment.model';
+import { NotificationService } from '../services/notifications.service';
+import { Notification } from '../../shared/models/notification.model';
+import { switchMap } from 'rxjs/operators';
 @Component({
     selector: 'app-topnav',
     imports: [
         CommonModule,
-        ClickOutsideDirective
+        ClickOutsideDirective,
     ],
     templateUrl: './topnav.component.html',
-    styleUrl: './topnav.component.scss'
+    styleUrl: './topnav.component.scss',
+    standalone: true
 })
 export class TopnavComponent{
     private readonly authFacade: AuthFacade = inject(AuthFacade);
     private readonly router: Router = inject(Router);
     private readonly courseService: CourseService = inject(CourseService);
     private readonly activeAssignmentService: ActiveAssignmentService = inject(ActiveAssignmentService);
+    private readonly notificationService: NotificationService = inject(NotificationService);
 
     public activeAssignment$: Observable<ActiveAssignment | null> = this.activeAssignmentService.activeAssignment$;
     public courses$: Observable<Course[]> = this.courseService.courses$;
     readonly user$: Observable<User | null> = this.authFacade.user$;
+    public notifications$: Observable<Notification[]>= this.notificationService.notifications$;
 
     public Role: typeof Role = Role;
     isHiddenAssignments: boolean = true;
     isHiddenProfile: boolean = true;
+    isHiddenNotifications: boolean = true;
     toggleAssignmentsHidden() {
         this.isHiddenAssignments = !this.isHiddenAssignments;
     }
@@ -57,6 +64,76 @@ export class TopnavComponent{
     logout() {
         console.log('logout!');
     }
+
+    toggleNotifications() {
+        this.isHiddenNotifications = !this.isHiddenNotifications;
+        
+        // Fetch notifications when the dropdown is opened
+        if (!this.isHiddenNotifications) {
+            //fetch notifications based on user id 
+            this.authFacade.user$.pipe(
+                switchMap(user => {
+                    if (user) {
+                        return this.notificationService.getNotificationsByUserId(user.id);
+                    }
+                    return [];
+                })
+            ).subscribe(notifications => {
+                this.notificationService.notifications$.next(notifications);
+            });
+        }
+    }
+
+    closeNotificationsDropdown(){
+        this.isHiddenNotifications = true;
+    }
+
+    deleteNotification(notificationId: number){
+       
+        if (notificationId === undefined) {
+            console.error('Notification ID is undefined!');
+            return;
+        }
+       this.notificationService.deleteNotification(notificationId).subscribe({
+        next: () => {
+            //refresh notifications
+            const currentNotifications = this.notificationService.notifications$.getValue();
+            const updatedNotifications = currentNotifications.filter(n => n.notificationId !== notificationId);
+            this.notificationService.notifications$.next(updatedNotifications);
+        }, 
+        error: (error) => {
+            console.error('Error deleting notification:', error);
+        }
+       })
+    }
+
+    navigateToNotification(notification: Notification){
+        //mark notification as read
+        this.notificationService.updateNotificationAsRead(notification.notificationId).subscribe({
+            next: () => {
+                //update notification status in local list
+                const currentNotifications = this.notificationService.notifications$.getValue();
+                const updatedNotifications = currentNotifications.map(n => n.notificationId === notification.notificationId 
+                    ? {...n, isRead: true} 
+                    : n);
+
+            this.notificationService.notifications$.next(updatedNotifications);
+
+            //navigate to destination url
+            console.log('Navigating to:', notification.destinationUrl);
+            this.router.navigate([notification.destinationUrl]);
+
+            //close notifications dropdown
+            this.closeNotificationsDropdown();
+            },
+            error: (error) => {
+                console.error('Error updating notification:', error);
+                //even if the update fails, navigate to the destination url
+                this.router.navigate([notification.destinationUrl]);
+            }
+        })
+    }
+
 
     selectAssignment(assignment: Assignment, course: Course): void {
         // Set the active assignment in the service.
@@ -84,6 +161,8 @@ export class TopnavComponent{
         }
     }
 
+
+
     private slugify(text: string): string {
         return text
             .toString()
@@ -91,4 +170,10 @@ export class TopnavComponent{
             .trim()
             .replace(/[\s\W-]+/g, '-');  // Replace spaces and non-word characters with a dash
     }
+
+   
+
+
+
+
 }
