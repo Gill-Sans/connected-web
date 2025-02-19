@@ -16,6 +16,7 @@ import { NotfoundComponent } from './feature/notfound/notfound.component';
 import { ApplicationDetailsComponent } from './feature/applications-overview/application-details/application-details.component';
 import { ApplicationsCreateComponent } from './feature/applications-create/applications-create.component';
 import {DeadlineOverviewComponent} from './feature/deadline-overview/deadline-overview.component';
+import {DeadlineCreateComponent} from './feature/deadline-create/deadline-create.component';
 
 export const routes: Routes = [
     {
@@ -41,6 +42,7 @@ export const routes: Routes = [
                     { path: 'projects', children: projectDetailsRoutes },
                     { path: 'projects/:id/apply', component: ApplicationsCreateComponent },
                     { path: 'deadlines', component: DeadlineOverviewComponent },
+                    { path: 'deadlines/create', component: DeadlineCreateComponent },
                     { path: 'applications', component: ApplicationsOverviewComponent },
                     { path: 'applications/:id', component: ApplicationDetailsComponent },
                     { path: '', redirectTo: 'dashboard', pathMatch: 'full' },

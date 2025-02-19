@@ -7,6 +7,9 @@ import {ActiveAssignment} from '../../shared/models/activeAssignment.model';
 import {CommonModule} from '@angular/common';
 import {AuthorizationService} from '../../core/services/authorization.service';
 import {ButtonComponent} from '../../shared/components/button/button.component';
+import {ActiveAssignmentRoutingService} from '../../core/services/active-assignment-routing.service';
+import {Router} from '@angular/router';
+import {toZonedTime} from 'date-fns-tz';
 
 @Component({
   selector: 'app-deadline-overview',
@@ -19,6 +22,8 @@ export class DeadlineOverviewComponent implements OnInit, OnDestroy {
     private readonly deadlineService: DeadlineService = inject(DeadlineService);
     private readonly activeAssignmentService: ActiveAssignmentService = inject(ActiveAssignmentService);
     private readonly authorizationService: AuthorizationService = inject(AuthorizationService);
+    private readonly activeAssignmentRoutingService = inject(ActiveAssignmentRoutingService);
+    private readonly router: Router = inject(Router);
 
     public isTeacher$: Observable<boolean> = this.authorizationService.isTeacher$();
 
@@ -52,4 +57,13 @@ export class DeadlineOverviewComponent implements OnInit, OnDestroy {
         this.activeAssignmentSub?.unsubscribe();
     }
 
+    navigateToDeadlineCreate() {
+        const builtRoute = this.activeAssignmentRoutingService.buildRoute('deadlines', 'create');
+        this.router.navigate(builtRoute);
+    }
+
+    convertToTimeZone(date: string, timeZone: string): Date {
+        const dateObj = new Date(date);
+        return toZonedTime(dateObj, timeZone);
+    }
 }
