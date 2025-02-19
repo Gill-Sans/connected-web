@@ -14,6 +14,50 @@
         width: 20%;
         position: relative;
 
+        .left-content {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: $small-spacing;
+            padding: $small-spacing $spacing $small-spacing $small-spacing;
+            cursor: pointer;
+
+            .course-info {
+                display: flex;
+                flex-direction: column;
+                flex-grow: 1;
+                min-width: 0;
+                @include text-ellipsis;
+            }
+
+            .assignment-name {
+                font-size: 18px;
+                padding-bottom: 0;
+                margin: 0;
+                @include text-ellipsis;
+            }
+
+            .course-name {
+                color: gray;
+                font-size: 14px;
+                margin: 0;
+                @include text-ellipsis;
+            }
+
+            .course-icon {
+                background-color: $border-color;
+                min-width: $icon-size;
+                min-height: $icon-size;
+                border-radius: $border-radius;
+            }
+
+            .dropdown-icon {
+                width: 20px;
+                height: 20px;
+                cursor: pointer;
+            }
+        }
+
         .dropdown {
             position: absolute;
             background-color: #fff;
@@ -26,61 +70,21 @@
 
             dl {
                 padding: $small-spacing;
+                display: flex;
+                flex-direction: column;
+                gap: $small-spacing;
 
-                dt {
-                    font-weight: bold;
-                    padding-bottom: 0.5rem;
-                }
+                .course {
+                    display: flex;
+                    flex-direction: column;
+                    gap: .5rem;
 
-                dd {
-                    padding-left: 10px;
-                    padding-top: $small-spacing;
+                    dt {
+                        font-size: 1rem;
+                        font-weight: bold;
+                    }
                 }
             }
-        }
-    }
-
-    .left-content {
-        position: relative;
-        display: flex;
-        align-items: center;
-        gap: $small-spacing;
-        padding: $small-spacing $spacing $small-spacing $small-spacing;
-        cursor: pointer;
-
-        .course-info {
-            display: flex;
-            flex-direction: column;
-            flex-grow: 1;
-            min-width: 0;
-            @include text-ellipsis;
-        }
-
-        .assignment-name {
-            font-size: 18px;
-            padding-bottom: 0;
-            margin: 0;
-            @include text-ellipsis;
-        }
-
-        .course-name {
-            color: gray;
-            font-size: 14px;
-            margin: 0;
-            @include text-ellipsis;
-        }
-
-        .course-icon {
-            background-color: $border-color;
-            min-width: $icon-size;
-            min-height: $icon-size;
-            border-radius: $border-radius;
-        }
-
-        .dropdown-icon {
-            width: 20px;
-            height: 20px;
-            cursor: pointer;
         }
     }
 
@@ -181,7 +185,7 @@ dd {
 
     &.selected {
         background-color: $highlight-color;
-        cursor: pointer;
+        cursor: default;
     }
 }
 

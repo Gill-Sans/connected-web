@@ -14,10 +14,9 @@
             </ng-template>
             <img alt="Dropdown" class="dropdown-icon" src="icons/dropdown.svg"/>
         </div>
-        <!-- Moved dropdown OUTSIDE of left-content -->
         <div [hidden]="isHiddenAssignments" class="dropdown">
             <dl *ngIf="courses$ | async as courses; else loadingAssignments">
-                <div *ngFor="let course of courses">
+                <div *ngFor="let course of courses" class="course">
                     <dt>{{ course.name }}</dt>
                     <dd (click)="selectAssignment(assignment, course)" *ngFor="let assignment of course.assignments"
                         [ngClass]="{'selected': (activeAssignment$ | async)?.assignment?.id === assignment.id}">
