@@ -35,10 +35,43 @@
     <div class="right">
         <div class="nav-name">Projects</div>
         <div class="nav-icons">
+        <div class="notifications-container">
             <div class="notification-icon">
-                <img src="icons/bell-regular.svg" alt="Notifications"/>
-                <span class="notification-badge">3</span>
+                <img 
+                    src="icons/bell-regular.svg" 
+                    alt="Notifications"
+                    (click)="toggleNotifications()"
+                />
+                <span class="notification-badge" *ngIf="notifications$ | async as notifications">
+                    {{notifications.length}}
+                </span>
             </div>
+            <div 
+                class="notifications-dropdown"
+                [ngClass]="{'hidden': isHiddenNotifications}"
+            >
+                <ng-container *ngIf="notifications$ | async as notifications">
+                    <div class="notification-item" *ngFor="let notification of notifications">
+                        <div class="notification-content"  
+                            (click)="navigateToNotification(notification)"
+                            [ngClass]="{'unread': !notification.isRead}">
+                            <div class="notification-text">
+                                <span class="unread-dot" *ngIf="!notification.isRead"></span>
+                                <p>{{ notification.message }}</p>
+                            </div>
+                            <span class="notification-date">{{ notification.timestamp| date }}</span>
+                        </div>
+                        <button class="delete-notification" (click)="deleteNotification(notification.notificationId)">
+                            <img src="icons/delete-icon.svg" alt="Delete notification" />
+                        </button>
+                    </div>
+                    <div *ngIf="notifications.length === 0" class="no-notifications">
+                        Geen notificaties
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+
             <div *ngIf="user$ | async as user; else loadingUser">
                 <span class="nav-name">Welcome, {{ user.email + " - " + user.role }}</span>
             </div>
