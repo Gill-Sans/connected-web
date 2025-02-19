@@ -12,6 +12,7 @@ export interface Project {
     repositoryUrl: string;
     boardUrl: string;
     backgroundImage: string;
+    teamSize: number;
 
     assignment: Assignment;
     tags: tag[];

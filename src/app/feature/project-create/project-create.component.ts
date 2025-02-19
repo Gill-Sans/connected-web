@@ -49,6 +49,8 @@ export class ProjectCreateComponent implements OnInit {
         const assignmentId = this.activeAssignmentService.getActiveAssignment()?.assignment.id;
         if (this.projectForm.valid && assignmentId) {
             let project: Project = this.projectForm.value as Project;
+            project.teamSize = 3;
+            project.tags = [];
             this.projectService.createProject(assignmentId, project).subscribe(project => {
                 console.log('Project created:', project);
                 this.router.navigate(this.activeAssignmentRoutingService.buildRoute('projects'));

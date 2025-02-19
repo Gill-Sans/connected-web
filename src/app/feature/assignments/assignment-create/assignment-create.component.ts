@@ -45,7 +45,6 @@ export class AssignmentCreateComponent implements OnInit {
 
         // Prepare the assignment for creation.
         this.selectedAssignment.courseId = this.courseId;
-        this.selectedAssignment.canvasAssignmentId = this.selectedAssignment.id;
         this.selectedAssignment.defaultTeamSize = this.defaultTeamSize;
 
         this.assignmentService.createAssignment(this.selectedAssignment).subscribe({
