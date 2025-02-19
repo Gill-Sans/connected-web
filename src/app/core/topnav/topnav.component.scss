@@ -18,3 +18,79 @@ dd {
     color: white;
     background-color: $highlight-color;
 }
+
+.notifications-container {
+    position: relative;
+    
+    
+    img {
+        cursor: pointer;
+    }
+}
+
+.notification-icon {
+    cursor: pointer;
+    position: relative;
+    padding: 8px;
+    
+    img {
+        width: 24px;
+        height: 24px;
+    }
+}
+
+.notifications-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    min-width: 250px;
+    max-height: 400px;
+    overflow-y: auto;
+    z-index: 1000;
+    
+    &.hidden {
+        display: none;
+    }
+}
+
+.notification-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 10px;
+
+    &:last-child {
+        border-bottom: none;
+    }
+
+    .notification-date {
+        font-size: 0.8em;
+        color: #666;
+    }
+}
+.notification-content {
+    flex: 1;
+}
+
+.delete-notification {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    margin-left: 8px;
+}
+
+.delete-notification img {
+    width: 12px;
+    height: 12px;
+}
+
+.no-notifications {
+    padding: 12px;
+    text-align: center;
+    color: #666;
+}
