@@ -21,12 +21,11 @@ export class NotificationService {
 
     // Update the notification as read and redirect to the destinationUrl
     updateNotificationAsRead(notificationId: number): Observable<Notification> {
-        return this.http.put<Notification>(`${environment.apiBaseUrl}/api/notifications/${notificationId}`, {withCredentials: true});
+        return this.http.put<Notification>(`${environment.apiBaseUrl}/api/notifications/${notificationId}`,{isRead: true}, {withCredentials: true});
     }
 
     deleteNotification(notificationId: number): Observable<void>{
         return this.http.delete<void>(`${environment.apiBaseUrl}/api/notifications/${notificationId}`, {withCredentials: true});
     }
-
    
 }

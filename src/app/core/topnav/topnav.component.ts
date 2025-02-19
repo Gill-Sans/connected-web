@@ -107,6 +107,33 @@ export class TopnavComponent{
        })
     }
 
+    navigateToNotification(notification: Notification){
+        //mark notification as read
+        this.notificationService.updateNotificationAsRead(notification.notificationId).subscribe({
+            next: () => {
+                //update notification status in local list
+                const currentNotifications = this.notificationService.notifications$.getValue();
+                const updatedNotifications = currentNotifications.map(n => n.notificationId === notification.notificationId 
+                    ? {...n, isRead: true} 
+                    : n);
+
+            this.notificationService.notifications$.next(updatedNotifications);
+
+            //navigate to destination url
+            console.log('Navigating to:', notification.destinationUrl);
+            this.router.navigate([notification.destinationUrl]);
+
+            //close notifications dropdown
+            this.closeNotificationsDropdown();
+            },
+            error: (error) => {
+                console.error('Error updating notification:', error);
+                //even if the update fails, navigate to the destination url
+                this.router.navigate([notification.destinationUrl]);
+            }
+        })
+    }
+
 
     selectAssignment(assignment: Assignment, course: Course): void {
         // Set the active assignment in the service.

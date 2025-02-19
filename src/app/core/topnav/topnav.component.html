@@ -52,7 +52,9 @@
             >
                 <ng-container *ngIf="notifications$ | async as notifications">
                     <div class="notification-item" *ngFor="let notification of notifications">
-                        <div class="notification-content">
+                        <div class="notification-content"  
+                            (click)="navigateToNotification(notification)"
+                            [ngClass]="{'unread': !notification.isRead}">
                             <p>{{ notification.message }}</p>
                             <span class="notification-date">{{ notification.timestamp| date }}</span>
                         </div>
