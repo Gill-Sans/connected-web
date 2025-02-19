@@ -1,6 +1,6 @@
 <div class="topnav">
     <div class="left">
-        <div class="left-content" (click)="toggleAssignmentsHidden()" clickOutside (clickOutside)="closeAssignmentsDropdown()">
+        <div class="left-content" (click)="toggleAssignmentsHidden()" (clickOutside)="closeAssignmentsDropdown()">
             <div class="course-icon"></div>
             <div class="course-info" *ngIf="activeAssignment$ | async as active; else defaultInfo">
                 <p class="assignment-name">{{ active.assignment.name }}</p>
@@ -75,8 +75,7 @@
             <ng-template #loadingUser>
                 Loading...
             </ng-template>
-            <div class="user-icon" (click)="toggleHiddenprofile()" clickOutside
-                 (clickOutside)="closeProfileDropdown()"></div>
+            <div class="user-icon" (click)="toggleHiddenprofile()" (clickOutside)="closeProfileDropdown()"></div>
             <div class="dropdownProfile" [hidden]="isHiddenProfile">
                 <ul>
                     <li (click)="navigateToProfile()">My profile</li>
