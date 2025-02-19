@@ -22,8 +22,8 @@ export class CourseService {
             });
     }
 
-    getCanvasCourses(role: string): Observable<any[]> {
-        return this.http.post<any[]>(`${environment.apiBaseUrl}/api/courses/canvas?EnrollmentType=${role}`, {}, {withCredentials: true});
+    getCanvasCourses(): Observable<any[]> {
+        return this.http.post<any[]>(`${environment.apiBaseUrl}/api/courses/canvas`, {}, {withCredentials: true});
     }
 
     createCourse(course: Course): Observable<any> {

@@ -1,9 +1,8 @@
 import {Component, EventEmitter, inject, OnInit, Output} from '@angular/core';
 import {CourseService} from '../../../core/services/course.service';
 import {AuthFacade} from '../../../auth/store/auth.facade';
-import {Observable, switchMap} from 'rxjs';
+import {Observable} from 'rxjs';
 import {Course} from '../../../shared/models/course.model';
-import {map, tap} from 'rxjs/operators';
 import {CommonModule} from '@angular/common';
 
 @Component({
@@ -18,7 +17,6 @@ export class CourseCreateComponent implements OnInit {
     @Output() closeModal = new EventEmitter<void>();
     @Output() courseCreated = new EventEmitter<Course>(); // 🔥 Emit new course to parent
     private courseService = inject(CourseService);
-    private authFacade = inject(AuthFacade);
 
     courses$: Observable<Course[]> | null = null;
     selectedCourse: Course | null = null;
@@ -27,10 +25,7 @@ export class CourseCreateComponent implements OnInit {
     errorMessage: string | null = null;
 
     ngOnInit() {
-        this.courses$ = this.authFacade.user$.pipe(
-            map(user => user?.role || 'teacher'),
-            switchMap(role => this.courseService.getCanvasCourses(role))
-        );
+        this.courses$ = this.courseService.getCanvasCourses()
     }
 
     selectCourse(course: Course) {
@@ -43,8 +38,6 @@ export class CourseCreateComponent implements OnInit {
         this.isLoading = true;
         this.successMessage = null;
         this.errorMessage = null;
-
-        this.selectedCourse.canvasCourseId = this.selectedCourse.id;
 
         this.courseService.createCourse(this.selectedCourse).subscribe({
             next: (response) => {

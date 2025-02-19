@@ -11,7 +11,7 @@
                     <button
                         *ngFor="let course of courses"
                         class="course-btn"
-                        [class.selected]="selectedCourse?.id === course.id"
+                        [class.selected]="selectedCourse?.canvasCourseId === course.canvasCourseId"
                         (click)="selectCourse(course)">
                         {{ course.name }}
                     </button>

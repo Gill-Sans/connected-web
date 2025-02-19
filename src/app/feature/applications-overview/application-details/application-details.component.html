@@ -13,8 +13,8 @@
             <div class="action-container" *ngIf="(isOwner$ | async) && (application.status == ApplicationStatusEnum.PENDING)">
                 <h4>Manage Application</h4>
                 <div class="action-buttons">
-                <app-button label="Approve" type="Approve" (click)="approveApplication(application.id)"></app-button>
-                <app-button label="Reject" type="Reject" (click)="rejectApplication(application.id)"></app-button>
+                <app-button label="Approve" type="Approve" (click)="reviewApplication(application.id, ApplicationStatusEnum.APPROVED)"></app-button>
+                <app-button label="Reject" type="Reject" (click)="reviewApplication(application.id, ApplicationStatusEnum.REJECTED)"></app-button>
                 </div>
             </div>
             <div class="details-section">

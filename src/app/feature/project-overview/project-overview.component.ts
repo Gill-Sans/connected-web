@@ -31,18 +31,15 @@ export class ProjectOverviewComponent implements OnInit, OnDestroy {
     private readonly authorizationService: AuthorizationService = inject(AuthorizationService);
     protected readonly ProjectStatusEnum = ProjectStatusEnum;
 
-    user$: Observable<User | null> = this.authFacade.user$;
     projects$: Observable<Project[]> | null = null;
+    public isTeacher$: Observable<boolean> = this.authorizationService.isTeacher$();
+
     activeAssignment: ActiveAssignment | null = this.activeAssignmentService.getActiveAssignment();
     selectedTab: string = 'all';
-
-    // New properties for teacher role and view toggle
     viewType: 'card' | 'table' = 'card';
 
     // Subscription to listen to active assignment changes
     private activeAssignmentSub?: Subscription;
-    private userSub?: Subscription;
-    public isTeacher$!: Observable<boolean>;
 
     ngOnInit(): void {
         // Subscribe to changes in the active assignment
@@ -57,27 +54,14 @@ export class ProjectOverviewComponent implements OnInit, OnDestroy {
         );
 
         // Subscribe to user changes to check for teacher role
-        this.userSub = this.user$.subscribe((user) => {
-            this.isTeacher$ = this.authorizationService.isTeacher$();
-            this.isTeacher$.subscribe(isTeacher => {
-                // If the user is a teacher, start on the list view (table view)
-                this.viewType = isTeacher ? 'table' : 'card';
-                // Reload projects if necessary
-                if (this.activeAssignment && this.activeAssignment.assignment) {
-                    this.loadProjects();
-                }
-            });
-            // After detecting the role, reload projects if necessary
-            if (this.activeAssignment && this.activeAssignment.assignment) {
-                this.loadProjects();
-            }
+        this.isTeacher$.subscribe(isTeacher => {
+            this.viewType = isTeacher ? 'table' : 'card';
         });
     }
 
     ngOnDestroy(): void {
         // Clean up subscriptions to avoid memory leaks.
         this.activeAssignmentSub?.unsubscribe();
-        this.userSub?.unsubscribe();
     }
 
     navigateToProjectCreate(): void {
