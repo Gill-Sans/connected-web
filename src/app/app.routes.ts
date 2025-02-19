@@ -15,6 +15,7 @@ import { WelcomeComponent } from './feature/welcome/welcome.component';
 import { NotfoundComponent } from './feature/notfound/notfound.component';
 import { ApplicationDetailsComponent } from './feature/applications-overview/application-details/application-details.component';
 import { ApplicationsCreateComponent } from './feature/applications-create/applications-create.component';
+import {DeadlineOverviewComponent} from './feature/deadline-overview/deadline-overview.component';
 
 export const routes: Routes = [
     {
@@ -39,6 +40,7 @@ export const routes: Routes = [
                     { path: 'projects/create', component: ProjectCreateComponent },
                     { path: 'projects', children: projectDetailsRoutes },
                     { path: 'projects/:id/apply', component: ApplicationsCreateComponent },
+                    { path: 'deadlines', component: DeadlineOverviewComponent },
                     { path: 'applications', component: ApplicationsOverviewComponent },
                     { path: 'applications/:id', component: ApplicationDetailsComponent },
                     { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
