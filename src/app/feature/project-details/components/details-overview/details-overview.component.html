@@ -49,10 +49,13 @@
             <div class="members-section">
                 <h3>Members</h3>
                 <ul>
-                    <li class="owner-section">
+                    <li class="owner-section" *ngIf="project.createdBy; else noOwner">
                         <img class="avatar" [src]="'img/lucas.jpeg'" alt="avatar"/>
                         <span class="owner-name">{{ project.createdBy.firstName }} {{ project.createdBy.lastName }}</span>
                     </li>
+                    <ng-template #noOwner>
+                        <li class="no-owner">No product owner</li>
+                    </ng-template>
                     <li *ngFor="let member of getFilteredMembers(project.members || [], project.createdBy)">
                         <img class="avatar" [src]="'img/lucas.jpeg'" alt="avatar"/>
                         <span>{{ member?.firstName || "" }} {{ member?.lastName || "" }}</span>

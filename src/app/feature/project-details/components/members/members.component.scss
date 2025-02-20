@@ -4,6 +4,14 @@
     justify-content: center;
     margin-top: 20px;
 
+    .delete-btn {
+        border: none;
+        color: red;
+        background-color: transparent;
+        font-size: 1rem;
+        cursor: pointer;
+    }
+
     table {
         width: 100%;
         border-collapse: collapse;

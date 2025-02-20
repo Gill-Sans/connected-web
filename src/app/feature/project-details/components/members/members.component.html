@@ -4,6 +4,7 @@
         <tr>
             <th>Name</th>
             <th>Role</th>
+            <th *ngIf="(isTeacher$ | async)">Actions</th>
         </tr>
         </thead>
         <tbody>
@@ -12,6 +13,9 @@
                 {{ member.firstName }} {{ member.lastName }}
             </td>
             <td>{{ member.role.charAt(0) + member.role.substring(1).toLowerCase() }}</td>
+            <td *ngIf="(isTeacher$ | async)">
+                <button class="delete-btn" (click)="removeMember(i)">X</button>
+            </td>
         </tr>
         </tbody>
     </table>
