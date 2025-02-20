@@ -1,0 +1,31 @@
+<div class="calendar-container">
+    <ng-container *ngIf="(isTeacher$ | async)">
+        <div class="button-container">
+            <app-button type="normal" label="Create Deadline" (click)="navigateToDeadlineCreate()"></app-button>
+        </div>
+    </ng-container>
+    <div *ngIf="deadlines$ | async as deadlines; else loadingDeadlines">
+        <div *ngIf="deadlines.length > 0; else noDeadlines">
+            <div class="deadline-container">
+                <h2>Deadlines</h2>
+                <div *ngFor="let deadline of deadlines" class="deadline-card">
+                    <h3>{{ deadline.title }}</h3>
+                    <p class="due-date">
+                        {{ convertToTimeZone(deadline.dueDate, deadline.timeZone) | date: 'EEE MMM d' }} at
+                        {{ convertToTimeZone(deadline.dueDate, deadline.timeZone) | date: 'h:mm a' }}
+                    </p>
+                    <p class="description">{{ deadline.description }}</p>
+                    <p class="restriction" [ngClass]="deadline.restriction.toLowerCase()">
+                        <span class="badge">{{ deadline.restriction.replace('_', ' ').toLowerCase() }}</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <ng-template #loadingDeadlines>
+        <p>Loading deadlines...</p>
+    </ng-template>
+    <ng-template #noDeadlines>
+        <p>No deadlines available.</p>
+    </ng-template>
+</div>
