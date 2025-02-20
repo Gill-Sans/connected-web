@@ -1,45 +1,45 @@
 <app-button
     type="post"
     label="Import a course"
-    (click)="openModal()"
-></app-button>
+    (click)="openCourseImportModal()">
+</app-button>
 
-<app-course-create
+<!-- Course import modal uses the courses$ observable -->
+<app-canvas-import-modal
     *ngIf="showImportCourseModal"
-    (closeModal)="showImportCourseModal = false"
-    (courseCreated)="onCourseCreated($event)"
->
-</app-course-create>
+    [type]="'course'"
+    [items$]="canvasCourses$"
+    (closeModal)="closeCourseModal()"
+    (create)="handleCourseCreate($event)">
+</app-canvas-import-modal>
 
-<app-assignment-create
+<app-canvas-import-modal
     *ngIf="showImportAssignmentModal"
-    [courseId]="selectedCourseId ?? 0"
-    (closeModal)="showImportAssignmentModal = false"
-    (assignmentCreated)="onAssignmentCreated()"
-></app-assignment-create>
+    [type]="'assignment'"
+    [courseId]="courseIdInput"
+    [items$]="assignmentItems$"
+    (closeModal)="closeAssignmentModal()"
+    (create)="handleAssignmentCreate($event)">
+</app-canvas-import-modal>
 
 <div class="courses-list">
     <ng-container *ngIf="courses$ | async as courses; else loading">
         <div *ngFor="let course of courses" class="course-item">
             <h2>{{ course.name }}</h2>
-
             <div *ngFor="let assignment of course.assignments">
                 <div class="assignment-card">
                     <h4>{{ assignment.name }}</h4>
                     <div>Default Team Size: {{ assignment.defaultTeamSize }}</div>
                 </div>
             </div>
-
             <button
-                (click)="openAssignmentImportModal(course)"
-                class="import-assignment-button"
-            >
+                (click)="openAssignmentImportModal(course.id)"
+                class="import-assignment-button">
                 <img src="icons/file-import.svg" alt="import an assignment"/>
                 <p>Import an assignment</p>
             </button>
         </div>
     </ng-container>
-
     <ng-template #loading>
         <div>Loading...</div>
     </ng-template>
