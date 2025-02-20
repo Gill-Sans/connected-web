@@ -22,7 +22,7 @@ import {switchMap } from 'rxjs/operators';
         ClickOutsideDirective,
     ],
     templateUrl: './topnav.component.html',
-    styleUrl: './topnav.component.scss',
+    styleUrls: ['./topnav.component.scss'],
     standalone: true
 })
 export class TopnavComponent implements OnInit{
@@ -84,10 +84,10 @@ export class TopnavComponent implements OnInit{
 
     toggleNotifications() {
         this.isHiddenNotifications = !this.isHiddenNotifications;
-        
+
         // Fetch notifications when the dropdown is opened
         if (!this.isHiddenNotifications) {
-            //fetch notifications based on user id 
+            //fetch notifications based on user id
             this.authFacade.user$.pipe(
                 switchMap(user => {
                     if (user) {
@@ -108,7 +108,7 @@ export class TopnavComponent implements OnInit{
     }
 
     deleteNotification(notificationId: number){
-       
+
         if (notificationId === undefined) {
             console.error('Notification ID is undefined!');
             return;
@@ -119,7 +119,7 @@ export class TopnavComponent implements OnInit{
             const currentNotifications = this.notificationService.notifications$.getValue();
             const updatedNotifications = currentNotifications.filter(n => n.notificationId !== notificationId);
             this.notificationService.notifications$.next(updatedNotifications);
-        }, 
+        },
         error: (error) => {
             console.error('Error deleting notification:', error);
         }
@@ -132,8 +132,8 @@ export class TopnavComponent implements OnInit{
             next: () => {
                 //update notification status in local list
                 const currentNotifications = this.notificationService.notifications$.getValue();
-                const updatedNotifications = currentNotifications.map(n => n.notificationId === notification.notificationId 
-                    ? {...n, isRead: true} 
+                const updatedNotifications = currentNotifications.map(n => n.notificationId === notification.notificationId
+                    ? {...n, isRead: true}
                     : n);
 
             this.notificationService.notifications$.next(updatedNotifications);
@@ -190,7 +190,7 @@ export class TopnavComponent implements OnInit{
             .replace(/[\s\W-]+/g, '-');  // Replace spaces and non-word characters with a dash
     }
 
-   
+
 
 
 

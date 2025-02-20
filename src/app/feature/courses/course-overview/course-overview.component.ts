@@ -1,53 +1,90 @@
-import {Component, inject, OnInit} from '@angular/core';
-import {ButtonComponent} from '../../../shared/components/button/button.component';
-import {CommonModule} from '@angular/common';
-import {CourseCreateComponent} from '../course-create/course-create.component';
-import {CourseService} from '../../../core/services/course.service';
-import {BehaviorSubject, Observable} from 'rxjs';
-import {Course} from '../../../shared/models/course.model';
-import {AssignmentCreateComponent} from '../../assignments/assignment-create/assignment-create.component';
+import { Component, OnInit, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ButtonComponent } from '../../../shared/components/button/button.component';
+import { CourseService } from '../../../core/services/course.service';
+import { Observable } from 'rxjs';
+import { Course } from '../../../shared/models/course.model';
+import { AssignmentService } from '../../../core/services/assignment.service';
+import {CanvasImportModalComponent} from '../../../shared/components/canvas-import-modal/canvas-import-modal.component';
+import {Assignment} from '../../../shared/models/assignment.model';
 
 @Component({
     selector: 'app-course-overview',
+    standalone: true,
     imports: [
         CommonModule,
         ButtonComponent,
-        CourseCreateComponent,
-        AssignmentCreateComponent
+        CanvasImportModalComponent
     ],
     templateUrl: './course-overview.component.html',
-    styleUrl: './course-overview.component.scss'
+    styleUrls: ['./course-overview.component.scss']
 })
 export class CourseOverviewComponent implements OnInit {
     private courseService = inject(CourseService);
-    // Use the shared observable from CourseService.
+    private assignmentService = inject(AssignmentService);
+
+    // courses$ already holds the Canvas courses (filtered in the backend)
     courses$: Observable<Course[]> = this.courseService.courses$;
+    canvasCourses$: Observable<Course[]> = this.courseService.getCanvasCourses();
+    assignmentItems$: Observable<Assignment[]> | null = null;
 
-    selectedCourseId: number | null = null;
-    showImportCourseModal = false;
-    showImportAssignmentModal = false;
+    // Flags to control the visibility of the two modals.
+    showImportCourseModal: boolean = false;
+    showImportAssignmentModal: boolean = false;
 
-    ngOnInit() {
-        // Optionally refresh courses if needed.
+    // When opening the assignment import modal, we pass the course ID directly.
+    courseIdInput: number | null = null;
+
+    ngOnInit(): void {
         this.courseService.refreshCourses();
     }
 
-    onCourseCreated(newCourse: Course) {
-        this.courseService.refreshCourses();
-        this.showImportCourseModal = false;
-    }
-
-    onAssignmentCreated() {
-        this.courseService.refreshCourses();
-        this.showImportAssignmentModal = false;
-    }
-
-    openModal() {
+    openCourseImportModal(): void {
         this.showImportCourseModal = true;
     }
 
-    openAssignmentImportModal(course: Course) {
-        this.selectedCourseId = course.id;
+    closeCourseModal(): void {
+        this.showImportCourseModal = false;
+    }
+
+    openAssignmentImportModal(courseId: number): void {
+        this.courseIdInput = courseId;
+        this.assignmentItems$ = this.assignmentService.getCanvasAssignments(courseId);
         this.showImportAssignmentModal = true;
+    }
+
+    closeAssignmentModal(): void {
+        this.showImportAssignmentModal = false;
+    }
+
+    /**
+     * Handles creation of a course.
+     * @param course The course data returned from the modal.
+     */
+    handleCourseCreate(course: Course): void {
+        this.courseService.createCourse(course)
+            .subscribe({
+                next: () => {
+                    this.courseService.refreshCourses();
+                    this.closeCourseModal();
+                },
+                error: (err) => console.error('Course creation error:', err)
+            });
+    }
+
+    /**
+     * Handles creation of an assignment.
+     * @param data The data returned from the modal; expected format is
+     *             { item: Assignment, defaultTeamSize: number }.
+     */
+    handleAssignmentCreate(data: any): void {
+        this.assignmentService.createAssignment(data.item)
+            .subscribe({
+                next: () => {
+                    this.courseService.refreshCourses();
+                    this.closeAssignmentModal();
+                },
+                error: (err) => console.error('Assignment creation error:', err)
+            });
     }
 }

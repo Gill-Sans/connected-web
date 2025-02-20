@@ -3,7 +3,6 @@ import { AuthFacade } from '../../auth/store/auth.facade';
 import { Observable, combineLatest, map } from 'rxjs';
 import { Project } from '../../shared/models/project.model';
 import { Role } from '../../auth/models/role.model';
-import {tap} from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class AuthorizationService {
@@ -23,7 +22,7 @@ export class AuthorizationService {
      */
     isOwner$(project: Project): Observable<boolean> {
         return this.authFacade.user$.pipe(
-            map(user => !!user && project.createdBy.id === user.id)
+            map(user => !!user && project.createdBy && project.createdBy.id === user.id)
         );
     }
 

@@ -9,9 +9,6 @@ import {ToastService} from '../../core/services/toast.service';
 import {ActiveAssignmentService} from '../../core/services/active-assignment.service';
 import {ActiveAssignment} from '../../shared/models/activeAssignment.model';
 import {ActiveAssignmentRoutingService} from '../../core/services/active-assignment-routing.service';
-import {User} from '../../auth/models/user.model';
-import {AuthFacade} from '../../auth/store/auth.facade';
-import {Role} from '../../auth/models/role.model';
 import {ProjectStatusEnum} from '../../shared/models/ProjectStatus.enum';
 import {AuthorizationService} from '../../core/services/authorization.service';
 
@@ -25,8 +22,7 @@ export class ProjectOverviewComponent implements OnInit, OnDestroy {
     private readonly projectService: ProjectService = inject(ProjectService);
     private readonly activeAssignmentService: ActiveAssignmentService = inject(ActiveAssignmentService);
     private readonly activeAssignmentRoutingService = inject(ActiveAssignmentRoutingService);
-    private router: Router = inject(Router);
-    private readonly authFacade = inject(AuthFacade);
+    private readonly router: Router = inject(Router);
     private readonly toastService = inject(ToastService);
     private readonly authorizationService: AuthorizationService = inject(AuthorizationService);
     protected readonly ProjectStatusEnum = ProjectStatusEnum;
