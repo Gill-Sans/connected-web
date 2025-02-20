@@ -8,7 +8,7 @@ import {catchError} from 'rxjs/operators';
     providedIn: 'root'
 })
 export class UserService {
-    private readonly baseUrl = 'http://localhost:8080/users';
+    private readonly baseUrl = 'http://localhost:8080/api/users';
 
     constructor(private http: HttpClient) {
     }
@@ -38,10 +38,6 @@ export class UserService {
                 throw error;
             })
         );
-    }
-
-    getAllUsers(): Observable<User[]> {
-        return this.http.get<User[]>(this.baseUrl);
     }
 
 }

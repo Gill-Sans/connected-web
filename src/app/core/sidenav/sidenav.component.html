@@ -27,14 +27,14 @@
         <img class="icon" src="icons/clipboard-solid.svg" alt="Applications" />
         <span>Applications</span>
     </a>
-<!--    <a [routerLink]="getRoute('students')"-->
-<!--       routerLinkActive="active-link"-->
-<!--       [routerLinkActiveOptions]="{ exact: false }"-->
-<!--       class="nav-link"-->
-<!--       *hasRole="Role.Teacher">-->
-<!--        <img class="icon" src="icons/user-group-solid.svg" alt="Students" />-->
-<!--        <span>Students</span>-->
-<!--    </a>-->
+    <a [routerLink]="getRoute('students')"
+       routerLinkActive="active-link"
+       [routerLinkActiveOptions]="{ exact: false }"
+       class="nav-link"
+       *hasRole="Role.Teacher">
+        <img class="icon" src="icons/user-group-solid.svg" alt="Students" />
+        <span>Students</span>
+    </a>
     <a [routerLink]="getRoute('courses')"
        routerLinkActive="active-link"
        [routerLinkActiveOptions]="{ exact: false }"
