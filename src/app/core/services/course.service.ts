@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {Course} from '../../shared/models/course.model';
 import {environment} from '../../../environments/environment';
+import {User} from '../../auth/models/user.model';
 
 @Injectable({providedIn: 'root'})
 export class CourseService {
@@ -36,5 +37,9 @@ export class CourseService {
 
     getAllEnrolledCourses(): Observable<Course[]> {
         return this.http.get<Course[]>(`${environment.apiBaseUrl}/api/courses/enrolled`, {withCredentials: true});
+    }
+
+    getAllEnrolledStudentsByCourseId(courseId: string): Observable<User[]> {
+        return this.http.get<User[]>(`${environment.apiBaseUrl}/api/courses/${courseId}/students`, {withCredentials: true});
     }
 }
