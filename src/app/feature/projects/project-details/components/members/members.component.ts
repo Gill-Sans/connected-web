@@ -1,8 +1,8 @@
 import {Component, inject, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {Observable} from 'rxjs';
-import {Project} from '../../../../shared/models/project.model';
-import {ProjectService} from '../../../../core/services/project.service';
+import {Project} from '../../../../../shared/models/project.model';
+import {ProjectService} from '../../../../../core/services/project.service';
 import {ActivatedRoute} from '@angular/router';
 
 @Component({

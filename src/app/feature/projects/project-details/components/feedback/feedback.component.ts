@@ -1,15 +1,15 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { ConversationcardComponent } from "../../../../shared/components/conversationcard/conversationcard.component";
+import { ConversationcardComponent } from "../../../../../shared/components/conversationcard/conversationcard.component";
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ButtonComponent } from '../../../../shared/components/button/button.component';
+import { ButtonComponent } from '../../../../../shared/components/button/button.component';
 import { Observable } from 'rxjs';
-import { Project } from '../../../../shared/models/project.model';
+import { Project } from '../../../../../shared/models/project.model';
 import { ActivatedRoute } from '@angular/router';
-import { ProjectService } from '../../../../core/services/project.service';
-import { createFeedback, Feedback } from '../../../../shared/models/feedback.model';
-import { ToastService } from '../../../../core/services/toast.service';
-import {AuthorizationService} from '../../../../core/services/authorization.service';
+import { ProjectService } from '../../../../../core/services/project.service';
+import { createFeedback, Feedback } from '../../../../../shared/models/feedback.model';
+import { ToastService } from '../../../../../core/services/toast.service';
+import {AuthorizationService} from '../../../../../core/services/authorization.service';
 
 @Component({
     selector: 'app-feedback',

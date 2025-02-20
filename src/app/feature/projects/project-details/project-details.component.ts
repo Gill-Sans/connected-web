@@ -1,11 +1,11 @@
 import {Component, inject, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { ActiveAssignmentRoutingService } from '../../core/services/active-assignment-routing.service';
+import { ActiveAssignmentRoutingService } from '../../../core/services/active-assignment-routing.service';
 import {Observable} from 'rxjs';
-import {Project} from '../../shared/models/project.model';
-import {ProjectService} from '../../core/services/project.service';
-import {AuthorizationService} from '../../core/services/authorization.service';
+import {Project} from '../../../shared/models/project.model';
+import {ProjectService} from '../../../core/services/project.service';
+import {AuthorizationService} from '../../../core/services/authorization.service';
 
 @Component({
     selector: 'app-project-details',

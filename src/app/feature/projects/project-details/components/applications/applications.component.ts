@@ -1,13 +1,13 @@
 import {Component, inject, OnInit} from '@angular/core';
-import {StatuscardComponent} from '../../../../shared/components/statuscard/statuscard.component';
+import {StatuscardComponent} from '../../../../../shared/components/statuscard/statuscard.component';
 import {CommonModule} from '@angular/common';
-import {ApplicationStatusEnum} from '../../../../shared/models/ApplicationStatus.enum';
-import {Application} from '../../../../shared/models/application.model';
-import {ProjectService} from '../../../../core/services/project.service';
+import {ApplicationStatusEnum} from '../../../../../shared/models/ApplicationStatus.enum';
+import {Application} from '../../../../../shared/models/application.model';
+import {ProjectService} from '../../../../../core/services/project.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Observable} from 'rxjs';
-import {ActiveAssignmentRoutingService} from '../../../../core/services/active-assignment-routing.service';
-import {ToastService} from '../../../../core/services/toast.service';
+import {ActiveAssignmentRoutingService} from '../../../../../core/services/active-assignment-routing.service';
+import {ToastService} from '../../../../../core/services/toast.service';
 
 
 @Component({
