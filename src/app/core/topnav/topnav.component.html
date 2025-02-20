@@ -32,6 +32,7 @@
     <div class="right">
         <div class="nav-name">Projects</div>
         <div class="nav-icons">
+    <div class="notifications">
         <div class="notifications-container">
             <div class="notification-icon">
                 <img
@@ -39,7 +40,7 @@
                     alt="Notifications"
                     (click)="toggleNotifications()"
                 />
-                <span class="notification-badge" *ngIf="notifications$ | async as notifications">
+                <span class="notifications-badge" *ngIf="notifications$ | async as notifications">
                     {{notifications.length}}
                 </span>
             </div>
@@ -68,6 +69,7 @@
                 </ng-container>
             </div>
         </div>
+    </div>
 
             <div *ngIf="user$ | async as user; else loadingUser">
                 <span class="nav-name">Welcome, {{ user.email + " - " + user.role }}</span>

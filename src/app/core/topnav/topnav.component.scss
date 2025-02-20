@@ -202,6 +202,18 @@ dd {
         img {
             cursor: pointer;
         }
+
+        .delete-notification {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+            margin-left: 8px;
+            img {
+                width: 12px;
+                height: 12px;
+            }
+        }
     }
 
     &-dropdown {
@@ -221,7 +233,7 @@ dd {
         }
     }
 
-    &-item {
+    .notification-item {
         display: flex;
         justify-content: space-between;
         align-items: flex-start;
@@ -235,7 +247,7 @@ dd {
         }
     }
 
-    &-content {
+    .notification-content {
         flex: 1;
         .notification-text {
             display: flex;
@@ -264,21 +276,11 @@ dd {
         }
     }
 
-    .delete-notification {
-        background: none;
-        border: none;
-        cursor: pointer;
-        padding: 4px;
-        margin-left: 8px;
-        img {
-            width: 12px;
-            height: 12px;
-        }
-    }
 
     .no-notifications {
         padding: 12px;
         text-align: center;
         color: #666;
     }
+
 }
