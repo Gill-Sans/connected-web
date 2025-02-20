@@ -1,6 +1,6 @@
 import {AuthFacade} from '../../auth/store/auth.facade';
 import {CommonModule} from '@angular/common';
-import {Component, inject} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {Role} from '../../auth/models/role.model';
 import {ClickOutsideDirective} from '../../shared/directives/click-outside.directive';
@@ -13,7 +13,8 @@ import {Assignment} from '../../shared/models/assignment.model';
 import { ActiveAssignment } from '../../shared/models/activeAssignment.model';
 import { NotificationService } from '../services/notifications.service';
 import { Notification } from '../../shared/models/notification.model';
-import { switchMap } from 'rxjs/operators';
+import {switchMap } from 'rxjs/operators';
+
 @Component({
     selector: 'app-topnav',
     imports: [
@@ -24,22 +25,38 @@ import { switchMap } from 'rxjs/operators';
     styleUrl: './topnav.component.scss',
     standalone: true
 })
-export class TopnavComponent{
+export class TopnavComponent implements OnInit{
     private readonly authFacade: AuthFacade = inject(AuthFacade);
     private readonly router: Router = inject(Router);
     private readonly courseService: CourseService = inject(CourseService);
     private readonly activeAssignmentService: ActiveAssignmentService = inject(ActiveAssignmentService);
-    private readonly notificationService: NotificationService = inject(NotificationService);
 
     public activeAssignment$: Observable<ActiveAssignment | null> = this.activeAssignmentService.activeAssignment$;
     public courses$: Observable<Course[]> = this.courseService.courses$;
     readonly user$: Observable<User | null> = this.authFacade.user$;
-    public notifications$: Observable<Notification[]>= this.notificationService.notifications$;
+    public notifications$: Observable<Notification[]>;
 
     public Role: typeof Role = Role;
     isHiddenAssignments: boolean = true;
     isHiddenProfile: boolean = true;
     isHiddenNotifications: boolean = true;
+
+    constructor(private notificationService: NotificationService) {
+        this.notifications$ = this.notificationService.notifications$; // Koppel de notifications$ aan de component
+    }
+
+    ngOnInit() {
+        this.authFacade.user$.pipe(
+            switchMap(user => {
+                if (user) {
+                    this.notificationService.initializeWebSocket(user.id); // Initialiseer de WebSocket-verbinding met userId
+                    return this.notificationService.notifications$; // Retourneer de notifications$ Observable
+                }
+                return []; // Zorg ervoor dat je hier een Observable retourneert
+            })
+        ).subscribe(); // Abonneer op de Observable
+    }
+
     toggleAssignmentsHidden() {
         this.isHiddenAssignments = !this.isHiddenAssignments;
     }
@@ -80,7 +97,9 @@ export class TopnavComponent{
                 })
             ).subscribe(notifications => {
                 this.notificationService.notifications$.next(notifications);
-            });
+                
+            }
+        );
         }
     }
 
