@@ -3,7 +3,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { Project } from '../../shared/models/project.model';
-import { response } from 'express';
 import { Application } from '../../shared/models/application.model';
 import { ApplicationCreate } from '../../shared/models/application.model';
 import {ProjectStatusEnum} from '../../shared/models/ProjectStatus.enum';
@@ -97,6 +96,12 @@ export class ProjectService {
         return this.http.post<Project>(`${environment.apiBaseUrl}/api/projects/${projectId}/apply`, application, {
             withCredentials: true,
             headers: headers
+        });
+    }
+
+    removeMember(projectId: string, memberId: string): Observable<void> {
+        return this.http.delete<void>(`${environment.apiBaseUrl}/api/projects/${projectId}/members/${memberId}`, {
+            withCredentials: true
         });
     }
 }
