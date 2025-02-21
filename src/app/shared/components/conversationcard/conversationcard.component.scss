@@ -34,4 +34,15 @@
         color: #555;
         line-height: 1.5;
     }
+
+    .button-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 8px;
+
+        button {
+            margin-right: 8px;
+        }
+    }
 }

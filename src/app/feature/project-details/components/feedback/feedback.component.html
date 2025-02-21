@@ -22,6 +22,12 @@
                     [lastName]="feedback.user.lastName || ''"
                     [createdAt]="feedback.createdAt"
                     [comment]="feedback.comment"
+                    [feedbackId]="feedback.id"
+                    [isEditing]="!!(editingFeedback && editingFeedback.id === feedback.id)"
+                    (edit)="updateFeedback(feedback)"
+                    (delete)="deleteFeedback(feedback)"
+                    (confirmEdit)="confirmEdit($event.id, $event.comment)"
+                    (cancelEdit)="cancelEdit(feedback.id)"
                 >
                 </app-conversationcard>
             </ng-container>

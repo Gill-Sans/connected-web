@@ -73,6 +73,18 @@ export class ProjectService {
         });
     }
 
+    updateFeedbackByTeacher(feedbackId: number, feedback: Feedback): Observable<Feedback>{
+        return this.http.put<Feedback>(`${environment.apiBaseUrl}/api/feedback/${feedbackId}`, feedback, {
+            withCredentials: true
+        });
+    }
+
+    deleteFeedbackByTeacher(feedbackId: number): Observable<void>{
+        return this.http.delete<void>(`${environment.apiBaseUrl}/api/feedback/${feedbackId}`, {
+            withCredentials: true
+        });
+    }
+
     updateProjectStatus(projectId: number, status: ProjectStatusEnum): Observable<Project>{
         const headers: HttpHeaders = new HttpHeaders()
             .set('status', status);
