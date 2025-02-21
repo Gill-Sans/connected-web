@@ -68,7 +68,7 @@ export class FeedbackComponent implements OnInit {
     
     deleteFeedback(feedback: Feedback) {
         console.log('Deleting feedback with ID:', feedback.id);
-        this.projectService.deleteFeedbackByTeacher(this.projectId, feedback.id).subscribe(() => {
+        this.projectService.deleteFeedbackByTeacher(feedback.id).subscribe(() => {
             this.toastService.showToast('success', 'Feedback deleted!');
             this.loadFeedback();
         });
@@ -90,7 +90,7 @@ export class FeedbackComponent implements OnInit {
             id: this.editingFeedback.id // Ensure id is explicitly set
         };
 
-        this.projectService.updateFeedbackByTeacher(this.projectId, feedbackId, updatedFeedback).subscribe(() => {
+        this.projectService.updateFeedbackByTeacher(feedbackId, updatedFeedback).subscribe(() => {
             this.toastService.showToast('success', 'Feedback updated!');
             this.loadFeedback();
             this.editingFeedback = null; // Reset editingFeedback after update

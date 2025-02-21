@@ -73,14 +73,14 @@ export class ProjectService {
         });
     }
 
-    updateFeedbackByTeacher(projectId: string, feedbackId: number, feedback: Feedback): Observable<Feedback>{
-        return this.http.put<Feedback>(`${environment.apiBaseUrl}/api/projects/${projectId}/feedback/${feedbackId}`, feedback, {
+    updateFeedbackByTeacher(feedbackId: number, feedback: Feedback): Observable<Feedback>{
+        return this.http.put<Feedback>(`${environment.apiBaseUrl}/api/feedback/${feedbackId}`, feedback, {
             withCredentials: true
         });
     }
 
-    deleteFeedbackByTeacher(projectId: string, feedbackId: number): Observable<void>{
-        return this.http.delete<void>(`${environment.apiBaseUrl}/api/projects/${projectId}/feedback/${feedbackId}`, {
+    deleteFeedbackByTeacher(feedbackId: number): Observable<void>{
+        return this.http.delete<void>(`${environment.apiBaseUrl}/api/feedback/${feedbackId}`, {
             withCredentials: true
         });
     }
