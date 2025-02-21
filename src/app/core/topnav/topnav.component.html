@@ -49,7 +49,7 @@
                 [ngClass]="{'hidden': isHiddenNotifications}"
             >
                 <ng-container *ngIf="notifications$ | async as notifications">
-                    <div class="notification-item" *ngFor="let notification of notifications">
+                    <div class="notification-item" *ngFor="let notification of notifications.reverse()">
                         <div class="notification-content"
                             (click)="navigateToNotification(notification)"
                             [ngClass]="{'unread': !notification.isRead}">
