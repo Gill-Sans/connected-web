@@ -40,7 +40,7 @@ export class DetailsOverviewComponent implements OnInit {
             const id = params['id'];
             if (id) {
                 this.projectId = id;
-                this.project$ = this.projectService.getProject(id);
+                this.project$ = this.projectService.getProjectById(id);
 
                 // Combine the project stream with the authorization check
                 this.project$.subscribe(project => {

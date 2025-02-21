@@ -35,7 +35,13 @@ export class ProjectService {
         });
     }
 
-    getProject(projectId: string): Observable<Project> {
+    updateProject(projectId: number, projectData: Project): Observable<Project> {
+        return this.http.patch<Project>(`${environment.apiBaseUrl}/api/projects/${projectId}`, projectData, {
+            withCredentials: true
+        });
+    }
+
+    getProjectById(projectId: string): Observable<Project> {
         if (!projectId) {
             throw new Error('Project ID is required');
         }

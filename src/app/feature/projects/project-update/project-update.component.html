@@ -1,1 +1,58 @@
-<p>project-update works!</p>
+<div class="update-project-container">
+    <h2>Update Project</h2>
+    <form [formGroup]="projectForm" (ngSubmit)="onSubmit()">
+        <!-- Title Input -->
+        <div class="form-group">
+            <label for="title">Title</label>
+            <p class="input-description">
+                The title of your project should be a short, inviting sentence that describes your project.
+            </p>
+            <input
+                id="title"
+                class="title"
+                type="text"
+                formControlName="title"
+                placeholder="Title of your project" />
+        </div>
+
+        <!-- Short Description -->
+        <div class="form-group">
+            <label>Short Description</label>
+            <p class="input-description">
+                Describe your project. ({{ charCount }}/500 characters)
+            </p>
+            <textarea
+                id="shortDescription"
+                class="short-description"
+                formControlName="shortDescription"
+                placeholder="Description of your project"
+                maxlength="500"
+                rows="7"
+                (input)="updateCharCount()">
+      </textarea>
+        </div>
+
+        <!-- Detailed Description with Markdown Editor -->
+        <div class="form-group">
+            <label for="description">Project Description</label>
+            <p class="input-description">
+                Describe your project in detail. You can style your explanation using markdown.
+            </p>
+            <md-editor
+                name="Content"
+                formControlName="description"
+                [height]="'500px'">
+                <slot custom-btns>
+                    <button md-button (click)="toggleFullScreen()">
+                        <i class="fas fa-expand"></i>
+                    </button>
+                </slot>
+            </md-editor>
+        </div>
+
+        <!-- Submit Button -->
+        <button class="update-project-btn" type="submit">
+            Update Project
+        </button>
+    </form>
+</div>

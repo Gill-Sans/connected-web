@@ -22,7 +22,7 @@ export class MembersComponent implements OnInit {
             const id = params['id'];
             if (id) {
                 this.projectId = id;
-                this.project$ = this.projectService.getProject(this.projectId);
+                this.project$ = this.projectService.getProjectById(this.projectId);
             }
         });
     }

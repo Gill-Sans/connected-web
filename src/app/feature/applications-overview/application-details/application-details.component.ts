@@ -43,7 +43,7 @@ export class ApplicationDetailsComponent implements OnInit {
         console.log('Pending Status Enum:', ApplicationStatusEnum.PENDING);
       this.projectId = application.project.id;
 
-        this.project$ = this.projectService.getProject(this.projectId.toString());
+        this.project$ = this.projectService.getProjectById(this.projectId.toString());
 
         this.project$.subscribe(project => {
             this.isOwner$ = this.authorizationService.isOwner$(project);

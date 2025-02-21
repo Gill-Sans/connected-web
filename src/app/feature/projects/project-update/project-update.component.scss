@@ -1,0 +1,64 @@
+h2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.input-description {
+    font-size: 14px;
+    color: #7c7a7a;
+    margin-bottom: 8px;
+}
+
+.title,
+.short-description {
+    max-width: 40%;
+    min-width: 400px;
+}
+
+.title {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    box-sizing: border-box;
+    background: #e8e7e7;
+}
+
+.short-description {
+    width: 50%;
+    font-size: 1rem;
+    border: none;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 20px;
+    background: #e8e7e7;
+    resize: none;
+}
+
+.update-project-btn {
+    background: #6200ea;
+    color: white;
+    border: none;
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 33%;
+    transition: 0.3s;
+
+    &:hover {
+        background: #4b00c2;
+    }
+}
