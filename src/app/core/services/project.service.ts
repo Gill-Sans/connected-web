@@ -96,12 +96,13 @@ export class ProjectService {
 
     publishAllProjects(assignmentId: number): Observable<Project[]> {
         const headers: HttpHeaders = new HttpHeaders().set('assignmentId', assignmentId.toString());
-        return this.http.post<Project[]>(`${environment.apiBaseUrl}/api/assignments/${assignmentId}/projects/publish`, {}, {
+        return this.http.post<Project[]>(`${environment.apiBaseUrl}/api/projects/${assignmentId}/publish`, {}, {
             withCredentials: true,
             headers: headers
         });
     }
 
+    
     applyForProject(projectId: string, application: ApplicationCreate): Observable<Project> {
         const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
