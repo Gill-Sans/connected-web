@@ -58,6 +58,12 @@ export class ProjectService {
         });
     }
 
+    joinProject(applicationId: number): Observable<Application> {
+        return this.http.post<Application>(`${environment.apiBaseUrl}/api/applications/${applicationId}/join`, {}, {
+            withCredentials: true
+        });
+    }
+
     getFeedback(projectId: string): Observable<Feedback[]> {
         return this.http.get<Feedback[]>(`${environment.apiBaseUrl}/api/projects/${projectId}/feedback`, {
             withCredentials: true
