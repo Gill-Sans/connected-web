@@ -47,9 +47,10 @@ export class ProjectCreateComponent implements OnInit {
 
     onSubmit() {
         const assignmentId = this.activeAssignmentService.getActiveAssignment()?.assignment.id;
+        const defaultTeamSize = this.activeAssignmentService.getActiveAssignment()?.assignment.defaultTeamSize;
         if (this.projectForm.valid && assignmentId) {
             let project: Project = this.projectForm.value as Project;
-            project.teamSize = 3;
+            project.teamSize = defaultTeamSize ?? 3;
             project.tags = [];
             this.projectService.createProject(assignmentId, project).subscribe(project => {
                 console.log('Project created:', project);
