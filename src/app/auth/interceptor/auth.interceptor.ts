@@ -1,26 +1,37 @@
-import { Injectable } from '@angular/core';
-import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse } from '@angular/common/http';
+import { inject } from '@angular/core';
+import {
+    HttpInterceptorFn,
+    HttpRequest,
+    HttpHandler,
+    HttpEvent,
+    HttpErrorResponse, HttpEventType, HttpHandlerFn, HttpResponse
+} from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import {catchError, tap} from 'rxjs/operators';
 import { AuthFacade } from '../store/auth.facade';
 
-@Injectable()
-export class AuthInterceptor implements HttpInterceptor {
-    constructor(private authFacade: AuthFacade) {}
+export function authInterceptor(
+    req: HttpRequest<unknown>,
+    next: HttpHandlerFn
+): Observable<HttpEvent<unknown>> {
+    const authFacade: AuthFacade = inject(AuthFacade);
+    console.log('intercepting request', req);
 
-    intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        return next.handle(request).pipe(
-            catchError((error: HttpErrorResponse) => {
-                if (error.status === 401) {
-                    this.deleteCookie('JSESSIONID');
-                    this.authFacade.redirectToLogin();
-                }
-                return throwError(() => error);
-            })
-        );
-    }
-
-    private deleteCookie(name: string): void {
-        document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
-    }
+    return next(req).pipe(
+        tap(event => {
+            // Only log the successful response
+            if (event instanceof HttpResponse) {
+                console.log('intercepted response', event);
+            }
+        }),
+        catchError((error: HttpErrorResponse) => {
+            if (error.status === 401) {
+                console.log('401 error, redirecting to login');
+                document.cookie = `JSESSIONID=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+                authFacade.redirectToLogin();
+            }
+            // Propagate the error so that any subscribers can handle it
+            return throwError(() => error);
+        })
+    );
 }
