@@ -33,18 +33,17 @@ export class ApplicationDetailsComponent implements OnInit {
     projectId: number | null = null;
     public isOwner$!: Observable<boolean>;
     public isMember$!: Observable<boolean>;
+    public isApplicationOwner$!: Observable<boolean>;
     public project$: Observable<Project> | null = null;
     protected readonly ApplicationStatusEnum = ApplicationStatusEnum;
     private readonly toastService: ToastService = inject(ToastService);
 
   ngOnInit() {
     this.application$.subscribe(application => {
-        console.log('Application:', application);
-        console.log('Application Status:', application.status);
-        console.log('Pending Status Enum:', ApplicationStatusEnum.PENDING);
-      this.projectId = application.project.id;
 
-        this.project$ = this.projectService.getProjectById(this.projectId.toString());
+      this.projectId = application.project.id;
+      this.isApplicationOwner$ = this.authorizationService.isApplicationOwner$(application);
+      this.project$ = this.projectService.getProjectById(this.projectId.toString());
 
         this.project$.subscribe(project => {
             this.isOwner$ = this.authorizationService.isOwner$(project);

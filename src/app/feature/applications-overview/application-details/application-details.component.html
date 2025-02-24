@@ -17,7 +17,7 @@
                     <app-button label="Reject" type="Reject" (click)="reviewApplication(application.id, ApplicationStatusEnum.REJECTED)"></app-button>
                 </div>
             </div>
-            <div class="action-container" *ngIf="(isOwner$ | async) && (application.status == ApplicationStatusEnum.APPROVED) && !(isMember$ | async)">
+            <div class="action-container" *ngIf="(isApplicationOwner$ | async) && (application.status == ApplicationStatusEnum.APPROVED) && !(isMember$ | async)">
                 <app-button label="Join Project" type="normal" (click)="joinProject(application.id)"></app-button>
             </div>
             <div class="details-section">
