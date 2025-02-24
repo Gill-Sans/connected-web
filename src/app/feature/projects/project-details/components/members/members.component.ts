@@ -1,11 +1,11 @@
 import {Component, inject, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {Observable} from 'rxjs';
-import {Project} from '../../../../shared/models/project.model';
-import {ProjectService} from '../../../../core/services/project.service';
+import {Project} from '../../../../../shared/models/project.model';
+import {ProjectService} from '../../../../../core/services/project.service';
 import {ActivatedRoute} from '@angular/router';
-import {AuthorizationService} from '../../../../core/services/authorization.service';
-import {ToastService} from '../../../../core/services/toast.service';
+import {AuthorizationService} from '../../../../../core/services/authorization.service';
+import {ToastService} from '../../../../../core/services/toast.service';
 
 @Component({
     selector: 'app-members',
@@ -30,7 +30,7 @@ export class MembersComponent implements OnInit {
             const id = params['id'];
             if (id) {
                 this.projectId = id;
-                this.project$ = this.projectService.getProject(this.projectId);
+                this.project$ = this.projectService.getProjectById(this.projectId);
             }
         });
     }
@@ -40,7 +40,7 @@ export class MembersComponent implements OnInit {
             const memberId = project.members[index].id.toString();
             this.projectService.removeMember(this.projectId, memberId).subscribe(() => {
                 this.toastService.showToast('success', 'Member removed successfully');
-                this.project$ = this.projectService.getProject(this.projectId);
+                this.project$ = this.projectService.getProjectById(this.projectId);
             });
         });
     }

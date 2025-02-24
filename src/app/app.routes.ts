@@ -1,11 +1,11 @@
 import { Routes } from '@angular/router';
-import { ProjectOverviewComponent } from './feature/project-overview/project-overview.component';
+import { ProjectOverviewComponent } from './feature/projects/project-overview/project-overview.component';
 import { LoginComponent } from './auth/login/login.component';
 import { MainLayoutComponent } from './feature/main-layout/main-layout.component';
 import { AuthGuard } from './auth/guards/auht.guard';
 import { AuthLayoutComponent } from './feature/auth-layout/auth-layout.component';
-import { ProjectCreateComponent } from './feature/project-create/project-create.component';
-import { projectDetailsRoutes } from './feature/project-details/project-details.routes';
+import { ProjectCreateComponent } from './feature/projects/project-create/project-create.component';
+import { projectDetailsRoutes } from './feature/projects/project-details/project-details.routes';
 import { CourseOverviewComponent } from './feature/courses/course-overview/course-overview.component';
 import { ProfilepageComponent } from './feature/profilepage/profilepage.component';
 import { ApplicationsOverviewComponent } from './feature/applications-overview/applications-overview.component';

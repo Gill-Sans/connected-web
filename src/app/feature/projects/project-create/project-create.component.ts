@@ -3,11 +3,11 @@ import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MarkdownModule } from 'ngx-markdown';
 import { LMarkdownEditorModule } from 'ngx-markdown-editor';
-import { ProjectService } from '../../core/services/project.service';
-import { ActiveAssignmentService } from '../../core/services/active-assignment.service';
+import { ProjectService } from '../../../core/services/project.service';
+import { ActiveAssignmentService } from '../../../core/services/active-assignment.service';
 import { Router } from '@angular/router';
-import { Project } from '../../shared/models/project.model';
-import {ActiveAssignmentRoutingService} from '../../core/services/active-assignment-routing.service';
+import { Project } from '../../../shared/models/project.model';
+import {ActiveAssignmentRoutingService} from '../../../core/services/active-assignment-routing.service';
 
 @Component({
     selector: 'app-project-create',

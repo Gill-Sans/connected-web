@@ -1,11 +1,11 @@
 import {Component, inject, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { ActiveAssignmentRoutingService } from '../../core/services/active-assignment-routing.service';
+import { ActiveAssignmentRoutingService } from '../../../core/services/active-assignment-routing.service';
 import {Observable} from 'rxjs';
-import {Project} from '../../shared/models/project.model';
-import {ProjectService} from '../../core/services/project.service';
-import {AuthorizationService} from '../../core/services/authorization.service';
+import {Project} from '../../../shared/models/project.model';
+import {ProjectService} from '../../../core/services/project.service';
+import {AuthorizationService} from '../../../core/services/authorization.service';
 
 @Component({
     selector: 'app-project-details',
@@ -22,6 +22,7 @@ export class ProjectDetailsComponent implements OnInit {
 
     public project$: Observable<Project> | null = null;
     public canManageProject$!: Observable<boolean>;
+    public isOwner$!: Observable<boolean>;
 
     private projectId: string = 'undefined';
 
@@ -33,10 +34,10 @@ export class ProjectDetailsComponent implements OnInit {
             const id = params['id'];
             if (id) {
                 this.projectId = id;
-                this.project$ = this.projectService.getProject(id);
+                this.project$ = this.projectService.getProjectById(id);
 
-                // Combine the project stream with the authorization check
                 this.project$.subscribe(project => {
+                    this.isOwner$ = this.authorizationService.isOwner$(project);
                     this.canManageProject$ = this.authorizationService.canManageProject$(project);
                     console.log(this.canManageProject$);
                 });

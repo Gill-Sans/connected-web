@@ -1,13 +1,28 @@
+@import "../../../../styles/mixins.scss";
+
 .project-details-container {
-    margin: auto;
     padding: 20px;
     border-radius: 8px;
 }
 
 .project-tabs {
     display: flex;
+    justify-content: space-between;
     border-bottom: 2px solid #ddd;
     margin-bottom: 2rem;
+
+    &__left,
+    &__right {
+        display: flex;
+        transform: translateY(2px);
+    }
+
+    img {
+        @include text-color-filter;
+        width: 24px;
+        height: 24px;
+    }
+
 
     a {
         padding: 10px 15px;
@@ -15,7 +30,7 @@
         text-decoration: none;
         color: #333;
         border-bottom: 3px solid transparent;
-        transition: all 0.3s ease-in-out;
+        transition: all 0.2s ease-in-out;
 
         &:hover {
             color: #6200ea;

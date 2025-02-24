@@ -1,16 +1,16 @@
 import {Component, inject, OnDestroy, OnInit} from '@angular/core';
-import {ProjectcardComponent} from '../../shared/components/projectcard/projectcard.component';
+import {ProjectcardComponent} from '../../../shared/components/projectcard/projectcard.component';
 import {CommonModule} from '@angular/common';
 import {Router, RouterOutlet} from '@angular/router';
 import {Observable, Subscription} from 'rxjs';
-import {Project} from '../../shared/models/project.model';
-import {ProjectService} from '../../core/services/project.service';
-import {ToastService} from '../../core/services/toast.service';
-import {ActiveAssignmentService} from '../../core/services/active-assignment.service';
-import {ActiveAssignment} from '../../shared/models/activeAssignment.model';
-import {ActiveAssignmentRoutingService} from '../../core/services/active-assignment-routing.service';
-import {ProjectStatusEnum} from '../../shared/models/ProjectStatus.enum';
-import {AuthorizationService} from '../../core/services/authorization.service';
+import {Project} from '../../../shared/models/project.model';
+import {ProjectService} from '../../../core/services/project.service';
+import {ToastService} from '../../../core/services/toast.service';
+import {ActiveAssignmentService} from '../../../core/services/active-assignment.service';
+import {ActiveAssignment} from '../../../shared/models/activeAssignment.model';
+import {ActiveAssignmentRoutingService} from '../../../core/services/active-assignment-routing.service';
+import {ProjectStatusEnum} from '../../../shared/models/ProjectStatus.enum';
+import {AuthorizationService} from '../../../core/services/authorization.service';
 
 @Component({
     selector: 'app-project-overview',
