@@ -13,7 +13,8 @@ import {AuthorizationService} from '../../../../../core/services/authorization.s
 
 @Component({
     selector: 'app-feedback',
-    imports: [ConversationcardComponent, CommonModule, FormsModule, ButtonComponent],
+    imports: [ConversationcardComponent, CommonModule, FormsModule, ButtonComponent
+    ],
     templateUrl: './feedback.component.html',
     styleUrls: ['./feedback.component.scss']
 })
@@ -28,6 +29,7 @@ export class FeedbackComponent implements OnInit {
     public feedbackList$: Observable<Feedback[]> | null = null;
     public isTeacher$!: Observable<boolean>;
     public newFeedback: string = '';
+    public editingFeedback: Feedback | null = null;
 
     ngOnInit() {
         this.isTeacher$ = this.authorizationService.isTeacher$();
@@ -57,6 +59,41 @@ export class FeedbackComponent implements OnInit {
             this.toastService.showToast('success', 'Your feedback has been submitted!');
             this.newFeedback = '';
             this.loadFeedback();
+        });
+    }
+
+    updateFeedback(feedback: Feedback) {
+        this.editingFeedback = feedback;
+    }
+    
+    deleteFeedback(feedback: Feedback) {
+        console.log('Deleting feedback with ID:', feedback.id);
+        this.projectService.deleteFeedbackByTeacher(feedback.id).subscribe(() => {
+            this.toastService.showToast('success', 'Feedback deleted!');
+            this.loadFeedback();
+        });
+    }
+    
+    cancelEdit(feedbackId: number) {
+        this.editingFeedback = null;
+    }
+
+    confirmEdit(feedbackId: number, comment: string) {
+        if (!this.editingFeedback || this.editingFeedback.id === undefined) {
+            console.error('Editing feedback is not defined or has no ID.');
+            return; // Exit if editingFeedback is not valid
+        }
+
+        const updatedFeedback: Feedback = { 
+            ...this.editingFeedback, 
+            comment, 
+            id: this.editingFeedback.id // Ensure id is explicitly set
+        };
+
+        this.projectService.updateFeedbackByTeacher(feedbackId, updatedFeedback).subscribe(() => {
+            this.toastService.showToast('success', 'Feedback updated!');
+            this.loadFeedback();
+            this.editingFeedback = null; // Reset editingFeedback after update
         });
     }
 }

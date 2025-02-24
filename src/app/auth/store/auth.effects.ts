@@ -5,13 +5,15 @@ import * as AuthActions from './auth.actions';
 import {AuthService} from '../auth.service';
 import {catchError, map, mergeMap, of, tap} from 'rxjs';
 import {environment} from '../../../environments/environment';
+import {Router} from '@angular/router';
 
 
 @Injectable()
 export class AuthEffects {
-    private readonly actions$ = inject(Actions);
-    private readonly authService = inject(AuthService);
-    private readonly PLATFORM_ID = inject(PLATFORM_ID);
+    private readonly actions$: Actions = inject(Actions);
+    private readonly router: Router = inject(Router);
+    private readonly authService: AuthService = inject(AuthService);
+    private readonly PLATFORM_ID: Object = inject(PLATFORM_ID);
 
     // Effect to load the current session by calling /auth/user
     readonly loadSession$ = createEffect(() =>
@@ -29,22 +31,22 @@ export class AuthEffects {
     );
 
 
-    // // Effect to redirect to the login page
-    // readonly redirectToLogin$ = createEffect(
-    //   () =>
-    //     this.actions$.pipe(
-    //       ofType(AuthActions.redirectToLogin),
-    //       tap(() => {
-    //         // Only navigate if running in the browser.
-    //         if (isPlatformBrowser(this.PLATFORM_ID)) {
-    //           this.router.navigate(['/login']);
-    //         } else {
-    //           console.warn('Server-side rendering active: Skipping redirect to login.');
-    //         }
-    //       })
-    //     ),
-    //   { dispatch: false }
-    // );
+    // Effect to redirect to the login page
+    readonly redirectToLogin$ = createEffect(
+      () =>
+        this.actions$.pipe(
+          ofType(AuthActions.redirectToLogin),
+          tap(() => {
+            // Only navigate if running in the browser.
+            if (isPlatformBrowser(this.PLATFORM_ID)) {
+              this.router.navigate(['/login']);
+            } else {
+              console.warn('Server-side rendering active: Skipping redirect to login.');
+            }
+          })
+        ),
+      { dispatch: false }
+    );
 
     // Effect to redirect to the OAuth2 authorization endpoint if needed
     readonly redirectToCanvasLogin$ = createEffect(

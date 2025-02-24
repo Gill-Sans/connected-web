@@ -64,6 +64,12 @@ export class ProjectService {
         });
     }
 
+    joinProject(applicationId: number): Observable<Application> {
+        return this.http.post<Application>(`${environment.apiBaseUrl}/api/applications/${applicationId}/join`, {}, {
+            withCredentials: true
+        });
+    }
+
     getFeedback(projectId: string): Observable<Feedback[]> {
         return this.http.get<Feedback[]>(`${environment.apiBaseUrl}/api/projects/${projectId}/feedback`, {
             withCredentials: true
@@ -79,6 +85,18 @@ export class ProjectService {
         });
     }
 
+    updateFeedbackByTeacher(feedbackId: number, feedback: Feedback): Observable<Feedback>{
+        return this.http.put<Feedback>(`${environment.apiBaseUrl}/api/feedback/${feedbackId}`, feedback, {
+            withCredentials: true
+        });
+    }
+
+    deleteFeedbackByTeacher(feedbackId: number): Observable<void>{
+        return this.http.delete<void>(`${environment.apiBaseUrl}/api/feedback/${feedbackId}`, {
+            withCredentials: true
+        });
+    }
+
     updateProjectStatus(projectId: number, status: ProjectStatusEnum): Observable<Project>{
         const headers: HttpHeaders = new HttpHeaders()
             .set('status', status);
@@ -90,18 +108,25 @@ export class ProjectService {
 
     publishAllProjects(assignmentId: number): Observable<Project[]> {
         const headers: HttpHeaders = new HttpHeaders().set('assignmentId', assignmentId.toString());
-        return this.http.post<Project[]>(`${environment.apiBaseUrl}/api/assignments/${assignmentId}/projects/publish`, {}, {
+        return this.http.post<Project[]>(`${environment.apiBaseUrl}/api/projects/${assignmentId}/publish`, {}, {
             withCredentials: true,
             headers: headers
         });
     }
 
+    
     applyForProject(projectId: string, application: ApplicationCreate): Observable<Project> {
         const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
         return this.http.post<Project>(`${environment.apiBaseUrl}/api/projects/${projectId}/apply`, application, {
             withCredentials: true,
             headers: headers
+        });
+    }
+
+    removeMember(projectId: string, memberId: string): Observable<void> {
+        return this.http.delete<void>(`${environment.apiBaseUrl}/api/projects/${projectId}/members/${memberId}`, {
+            withCredentials: true
         });
     }
 }

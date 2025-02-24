@@ -1,7 +1,22 @@
 <div class="conversation-card">
     <div class="user-info">
-        <strong class="user-name">{{ firstName }} {{ lastName }}</strong>
-        <span class="timestamp">{{ createdAt | date : "short" }}</span>
+        <span class="user-name">{{ firstName }} {{ lastName }}</span>
+        <span class="timestamp">{{ createdAt | date }}</span>
     </div>
-    <p class="message">{{ comment }}</p>
+    <div class="message">
+        <ng-container *ngIf="isEditing; else viewMode">
+            <textarea [(ngModel)]="editedComment"></textarea>
+            <button (click)="onConfirm()">Confirm</button>
+            <button (click)="onCancel()">Cancel</button>
+        </ng-container>
+        <ng-template #viewMode>
+            <p>{{ comment }}</p>
+            <div class="button-container">
+                <ng-container *ngIf="showEditDelete">
+                    <button (click)="onEdit()">Bewerken</button>
+                    <button (click)="onDelete()">Verwijderen</button>
+                </ng-container>
+            </div>
+        </ng-template>
+    </div>
 </div>

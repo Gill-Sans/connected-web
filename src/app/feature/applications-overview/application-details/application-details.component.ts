@@ -32,6 +32,7 @@ export class ApplicationDetailsComponent implements OnInit {
     application$: Observable<Application> = this.applicationService.getApplication(this.applicationId);
     projectId: number | null = null;
     public isOwner$!: Observable<boolean>;
+    public isMember$!: Observable<boolean>;
     public project$: Observable<Project> | null = null;
     protected readonly ApplicationStatusEnum = ApplicationStatusEnum;
     private readonly toastService: ToastService = inject(ToastService);
@@ -47,6 +48,7 @@ export class ApplicationDetailsComponent implements OnInit {
 
         this.project$.subscribe(project => {
             this.isOwner$ = this.authorizationService.isOwner$(project);
+            this.isMember$ = this.authorizationService.isMember$(project);
         });
     });
   }
@@ -67,5 +69,15 @@ export class ApplicationDetailsComponent implements OnInit {
           this.toastService.showToast("error", "Failed to review application");
       }
 
+    }
+
+    joinProject(applicationId: number) {
+        try {
+            this.application$ = this.projectService.joinProject(applicationId);
+            this.toastService.showToast("success", "Joined project successfully");
+        }
+        catch (error) {
+            this.toastService.showToast("error", "Failed to join project");
+        }
     }
 }
