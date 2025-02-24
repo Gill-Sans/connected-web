@@ -16,6 +16,7 @@ export class ConversationcardComponent {
     @Input() comment!: string;
     @Input() feedbackId!: number;
     @Input() isEditing: boolean = false;
+    @Input() showEditDelete: boolean = false;
 
     @Output() edit = new EventEmitter<void>();
     @Output() delete = new EventEmitter<void>();

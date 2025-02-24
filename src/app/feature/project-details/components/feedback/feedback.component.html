@@ -24,6 +24,7 @@
                     [comment]="feedback.comment"
                     [feedbackId]="feedback.id"
                     [isEditing]="!!(editingFeedback && editingFeedback.id === feedback.id)"
+                    [showEditDelete]="!!(isTeacher$ | async)"
                     (edit)="updateFeedback(feedback)"
                     (delete)="deleteFeedback(feedback)"
                     (confirmEdit)="confirmEdit($event.id, $event.comment)"
