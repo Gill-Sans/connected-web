@@ -1,4 +1,4 @@
-import {ApplicationConfig, importProvidersFrom, provideZoneChangeDetection} from '@angular/core';
+import {ApplicationConfig, provideZoneChangeDetection} from '@angular/core';
 import {provideRouter} from '@angular/router';
 import {provideMarkdown} from 'ngx-markdown';
 
@@ -17,9 +17,7 @@ export const appConfig: ApplicationConfig = {
         provideZoneChangeDetection({eventCoalescing: true}),
         provideRouter(routes),
         provideClientHydration(withEventReplay()),
-        //
         provideHttpClient(withFetch(), withInterceptors([authInterceptor])),
-
         provideStore({auth: authReducer}),
         provideEffects([AuthEffects]),
         provideMarkdown(),
