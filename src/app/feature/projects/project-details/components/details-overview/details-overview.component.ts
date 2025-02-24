@@ -30,6 +30,7 @@ export class DetailsOverviewComponent implements OnInit {
     public canManageProject$!: Observable<boolean>;
     public isMember$!: Observable<boolean>;
     public isTeacher$!: Observable<boolean>;
+    public hasApplied$!: Observable<boolean>;
 
     private projectId: number | null = null;
 
@@ -47,6 +48,7 @@ export class DetailsOverviewComponent implements OnInit {
                     this.canManageProject$ = this.authorizationService.canManageProject$(project);
                     this.isMember$ = this.authorizationService.isMember$(project);
                     this.isTeacher$ = this.authorizationService.isTeacher$();
+                    this.hasApplied$ = this.authorizationService.hasApplied$(project);
                 });
             }
         });
