@@ -14,6 +14,7 @@ import { ActiveAssignment } from '../../shared/models/activeAssignment.model';
 import { NotificationService } from '../services/notifications.service';
 import { Notification } from '../../shared/models/notification.model';
 import {switchMap } from 'rxjs/operators';
+import {AuthService} from '../../auth/auth.service';
 
 @Component({
     selector: 'app-topnav',
@@ -30,6 +31,7 @@ export class TopnavComponent implements OnInit{
     private readonly router: Router = inject(Router);
     private readonly courseService: CourseService = inject(CourseService);
     private readonly activeAssignmentService: ActiveAssignmentService = inject(ActiveAssignmentService);
+    public readonly authService: AuthService = inject(AuthService);
 
     public activeAssignment$: Observable<ActiveAssignment | null> = this.activeAssignmentService.activeAssignment$;
     public courses$: Observable<Course[]> = this.courseService.courses$;
@@ -78,8 +80,9 @@ export class TopnavComponent implements OnInit{
         this.router.navigate(['/profile']);
     }
 
-    logout() {
-        console.log('logout!');
+    logout(): void {
+        console.log('Logging out...');
+        this.authService.logout();
     }
 
     toggleNotifications() {
@@ -97,7 +100,7 @@ export class TopnavComponent implements OnInit{
                 })
             ).subscribe(notifications => {
                 this.notificationService.notifications$.next(notifications);
-                
+
             }
         );
         }
