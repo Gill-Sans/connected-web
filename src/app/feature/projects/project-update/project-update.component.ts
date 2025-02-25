@@ -28,8 +28,9 @@ export class ProjectUpdateComponent implements OnInit {
         title: new FormControl('', [Validators.required]),
         description: new FormControl(''),
         shortDescription: new FormControl('', [Validators.required]),
-        teamSize: new FormControl(this.activeAssignmentService.getActiveAssignment()?.assignment.defaultTeamSize, [Validators.required])
-
+        teamSize: new FormControl(this.activeAssignmentService.getActiveAssignment()?.assignment.defaultTeamSize, [Validators.required]),
+        repositoryUrl: new FormControl('', [Validators.required]),
+        boardUrl: new FormControl('', [Validators.required])
     });
 
     charCount: number = 0;
@@ -55,7 +56,9 @@ export class ProjectUpdateComponent implements OnInit {
                 title: project.title,
                 description: project.description,
                 shortDescription: project.shortDescription,
-                teamSize : project.teamSize
+                teamSize : project.teamSize,
+                repositoryUrl: project.repositoryUrl,
+                boardUrl : project.boardUrl
             });
             this.charCount = project.shortDescription?.length || 0;
         });
@@ -73,7 +76,7 @@ export class ProjectUpdateComponent implements OnInit {
                 ...this.projectData,
                 ...this.projectForm.value
             };
-            console.log("dit is de geupdate project:", this.projectData.teamSize)
+            console.log("dit is de geupdate project:", this.projectData)
             this.projectService.updateProject(updatedProject.id, updatedProject).subscribe(
                 project => {
                     console.log('Project bijgewerkt:', project); // Controleer of het project correct is bijgewerkt
