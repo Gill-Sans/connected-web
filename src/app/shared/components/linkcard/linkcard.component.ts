@@ -9,17 +9,14 @@ import { ProjectService } from '../../../core/services/project.service';
     styleUrls: ['./linkcard.component.scss']
 })
 export class LinkcardComponent {
-    private readonly projectService : ProjectService = inject(ProjectService);
     @Input() repositoryUrl: string = '' ; 
     @Input() boardUrl : string = '';
     // Mapping tussen linkType en de juiste icon URL
     private iconMapping: { [key: string]: string } = {
         'Github': 'icons/links/Github.svg',
         'Trello': 'icons/links/Trello.svg',
-       
     };
 
-    
 
     // Methode om de juiste icon URL te krijgen
     getIconUrl(linkType: string): string {
