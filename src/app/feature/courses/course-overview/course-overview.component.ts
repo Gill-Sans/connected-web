@@ -34,13 +34,18 @@ export class CourseOverviewComponent implements OnInit, OnDestroy {
     private subscriptions: Subscription[] = [];
 
     ngOnInit(): void {
-        const refreshCoursesSubscription = this.courseService.refreshCourses().subscribe(() => {
-        });
-        this.subscriptions.push(refreshCoursesSubscription);
+        this.refreshCourses();
     }
 
     ngOnDestroy(): void {
         this.subscriptions.forEach(subscription => subscription.unsubscribe());
+    }
+
+    refreshCourses(): void {
+        const refreshCoursesSubscription = this.courseService.refreshCourses().subscribe(() => {
+            this.courses$ = this.courseService.courses$;
+        });
+        this.subscriptions.push(refreshCoursesSubscription);
     }
 
     openCourseImportModal(): void {
@@ -71,7 +76,7 @@ export class CourseOverviewComponent implements OnInit, OnDestroy {
         const createCourseSubscription = this.courseService.createCourse(course)
             .subscribe({
                 next: () => {
-                    this.courseService.refreshCourses();
+                    this.refreshCourses();
                     this.closeCourseModal();
                 },
                 error: (err) => console.error('Course creation error:', err)
@@ -83,7 +88,7 @@ export class CourseOverviewComponent implements OnInit, OnDestroy {
         const createAssignmentSubscription = this.assignmentService.createAssignment(data.item)
             .subscribe({
                 next: () => {
-                    this.courseService.refreshCourses();
+                    this.refreshCourses();
                     this.closeAssignmentModal();
                 },
                 error: (err) => console.error('Assignment creation error:', err)
