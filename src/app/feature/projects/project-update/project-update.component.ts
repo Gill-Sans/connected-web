@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import {Component, OnInit, inject, OnDestroy} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MarkdownModule } from 'ngx-markdown';
@@ -8,6 +8,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Project } from '../../../shared/models/project.model';
 import { ActiveAssignmentRoutingService } from '../../../core/services/active-assignment-routing.service';
 import { ActiveAssignmentService } from '../../../core/services/active-assignment.service';
+import {Subscription} from 'rxjs';
 
 @Component({
     selector: 'app-project-update',
@@ -16,7 +17,7 @@ import { ActiveAssignmentService } from '../../../core/services/active-assignmen
     templateUrl: './project-update.component.html',
     styleUrls: ['./project-update.component.scss']
 })
-export class ProjectUpdateComponent implements OnInit {
+export class ProjectUpdateComponent implements OnInit, OnDestroy {
     private projectService = inject(ProjectService);
     private readonly activeAssignmentService : ActiveAssignmentService = inject(ActiveAssignmentService);
     private router = inject(Router);
@@ -29,15 +30,14 @@ export class ProjectUpdateComponent implements OnInit {
         description: new FormControl(''),
         shortDescription: new FormControl('', [Validators.required]),
         teamSize: new FormControl(this.activeAssignmentService.getActiveAssignment()?.assignment.defaultTeamSize, [Validators.required])
-
     });
 
     charCount: number = 0;
     projectId!: number;
     projectData!: Project;
+    private subscriptions: Subscription[] = [];
 
     ngOnInit(): void {
-        // Use the parent route's paramMap if available.
         const parentParams = this.route.parent ? this.route.parent.snapshot.paramMap : this.route.snapshot.paramMap;
         const idParam = parentParams.get('id');
         if (!idParam) {
@@ -49,7 +49,7 @@ export class ProjectUpdateComponent implements OnInit {
             console.error("Project id is NaN");
             return;
         }
-        this.projectService.getProjectById(this.projectId.toString()).subscribe(project => {
+        const projectSubscription = this.projectService.getProjectById(this.projectId.toString()).subscribe(project => {
             this.projectData = project;
             this.projectForm.patchValue({
                 title: project.title,
@@ -59,6 +59,11 @@ export class ProjectUpdateComponent implements OnInit {
             });
             this.charCount = project.shortDescription?.length || 0;
         });
+        this.subscriptions.push(projectSubscription);
+    }
+
+    ngOnDestroy(): void {
+        this.subscriptions.forEach(subscription => subscription.unsubscribe());
     }
 
     updateCharCount(): void {
@@ -68,17 +73,17 @@ export class ProjectUpdateComponent implements OnInit {
 
     onSubmit(): void {
         if (this.projectForm.valid) {
-            // Create an updated project object by merging original project data with form values
             const updatedProject: Project = {
                 ...this.projectData,
                 ...this.projectForm.value
             };
-            console.log("dit is de geupdate project:", this.projectData.teamSize)
-            this.projectService.updateProject(updatedProject.id, updatedProject).subscribe(
+            const updateSubscription = this.projectService.updateProject(updatedProject.id, updatedProject).subscribe(
                 project => {
-                    console.log('Project bijgewerkt:', project); // Controleer of het project correct is bijgewerkt
-                this.router.navigate(this.activeAssignmentRoutingService.buildRoute('projects', project.id.toString()));
-            });
+                    console.log('Project bijgewerkt:', project);
+                    this.router.navigate(this.activeAssignmentRoutingService.buildRoute('projects', project.id.toString()));
+                }
+            );
+            this.subscriptions.push(updateSubscription);
         }
     }
 
