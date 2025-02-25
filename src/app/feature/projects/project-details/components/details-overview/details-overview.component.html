@@ -3,7 +3,11 @@
         <!-- Left section with text -->
         <div class="left-content">
             <div>
-                <h2>{{ project.title || "Untitled Project" }}</h2>
+                <h2>{{ project.title || "Untitled Project" }}
+                    <span class="creator-name" *ngIf="project.createdBy">
+                        (Created by {{ project.createdBy.firstName }} {{ project.createdBy.lastName }})
+                    </span>
+                </h2>
                 <div *ngIf="(canManageProject$ | async)" class="status-section" [ngClass]="project.status.toString().toLowerCase()">
                     <div class="status-container">
                         <div class="status-icon"></div>
@@ -47,16 +51,16 @@
                 ></app-button>
             </div>
             <div class="members-section">
-                <h3>Members <span style="font-size: small; color: gray; font-weight: 300; ">{{project.members.length || 0}}/{{project.teamSize}} members</span></h3>
+                <h3>Members <span style="color: gray;">{{project.members.length || 0}}/{{project.teamSize}}</span></h3>
                 <ul>
-                    <li class="owner-section" *ngIf="project.createdBy; else noOwner">
+                    <li class="owner-section" *ngIf="project.productOwner; else noOwner">
                         <img class="avatar" [src]="'img/lucas.jpeg'" alt="avatar"/>
-                        <span class="owner-name">{{ project.createdBy.firstName }} {{ project.createdBy.lastName }}</span>
+                        <span class="owner-name">{{ project.productOwner.firstName }} {{ project.productOwner.lastName }}</span>
                     </li>
                     <ng-template #noOwner>
                         <li class="no-owner">No product owner</li>
                     </ng-template>
-                    <li *ngFor="let member of getFilteredMembers(project.members || [], project.createdBy)">
+                    <li *ngFor="let member of getFilteredMembers(project.members || [], project.productOwner)">
                         <img class="avatar" [src]="'img/lucas.jpeg'" alt="avatar"/>
                         <span>{{ member?.firstName || "" }} {{ member?.lastName || "" }}</span>
                     </li>
