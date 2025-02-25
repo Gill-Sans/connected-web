@@ -12,7 +12,6 @@ import {AuthorizationService} from '../../../../../core/services/authorization.s
 import {ProjectStatusEnum} from '../../../../../shared/models/ProjectStatus.enum';
 import { tag } from '../../../../../shared/models/tag.model';
 import { TagcardComponent } from "../../../../../shared/components/tagcard/tagcard.component";
-//TODO: add check if image of user is empty --> placeholderpic.svg
 
 @Component({
     selector: 'app-details-overview',
