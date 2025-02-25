@@ -51,6 +51,21 @@
             </md-editor>
         </div>
 
+        <div class="form-group">
+            <label for="teamSize"> Set the Team Size for your project</label>
+            <p class="input-description">
+                If no Team size is given for your project, the default Team Size for the assignment will be implemented.
+            </p>
+            <input
+                id="teamSize"
+                type="number"
+                formControlName="teamSize"
+                min="1"
+                max="{{assignmentDefaultTeamSize}}"
+                placeholder= "{{assignmentDefaultTeamSize}}"
+            />
+        </div>
+
         <!-- Submit Button -->
         <button class="create-project-btn" type="submit">Create project</button>
     </form>

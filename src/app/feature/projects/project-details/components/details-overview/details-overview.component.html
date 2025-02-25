@@ -64,7 +64,7 @@
                 </ng-template>
             </div>
             <div class="members-section">
-                <h3>Members <span style="color: gray;">{{project.members.length || 0}}/{{project.teamSize}}</span></h3>
+                <h3>Members <span style="font-size: small; color: gray; font-weight: 300; ">{{project.members.length || 0}}/{{project.teamSize}}</span></h3>
                 <ul>
                     <li class="owner-section" *ngIf="project.productOwner; else noOwner">
                         <img class="avatar" [src]="'img/lucas.jpeg'" alt="avatar"/>

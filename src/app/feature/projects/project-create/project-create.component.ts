@@ -21,7 +21,7 @@ export class ProjectCreateComponent implements OnInit {
     private readonly activeAssignmentService: ActiveAssignmentService = inject(ActiveAssignmentService);
     private readonly activeAssignmentRoutingService: ActiveAssignmentRoutingService = inject(ActiveAssignmentRoutingService);
     private readonly router: Router = inject(Router);
-
+    assignmentDefaultTeamSize = this.activeAssignmentService.getActiveAssignment()?.assignment.defaultTeamSize;
     ngOnInit() {
     }
 
@@ -29,6 +29,7 @@ export class ProjectCreateComponent implements OnInit {
         title: new FormControl('', [Validators.required]),
         description: new FormControl(''),
         shortDescription: new FormControl('', [Validators.required]),
+        teamSize: new FormControl(this.activeAssignmentService.getActiveAssignment()?.assignment.defaultTeamSize, [Validators.required])
     });
 
 
@@ -47,10 +48,8 @@ export class ProjectCreateComponent implements OnInit {
 
     onSubmit() {
         const assignmentId = this.activeAssignmentService.getActiveAssignment()?.assignment.id;
-        const defaultTeamSize = this.activeAssignmentService.getActiveAssignment()?.assignment.defaultTeamSize;
         if (this.projectForm.valid && assignmentId) {
             let project: Project = this.projectForm.value as Project;
-            project.teamSize = defaultTeamSize ?? 3;
             project.tags = [];
             this.projectService.createProject(assignmentId, project).subscribe(project => {
                 console.log('Project created:', project);

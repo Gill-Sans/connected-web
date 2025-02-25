@@ -7,6 +7,7 @@ import { ProjectService } from '../../../core/services/project.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Project } from '../../../shared/models/project.model';
 import { ActiveAssignmentRoutingService } from '../../../core/services/active-assignment-routing.service';
+import { ActiveAssignmentService } from '../../../core/services/active-assignment.service';
 
 @Component({
     selector: 'app-project-update',
@@ -17,14 +18,18 @@ import { ActiveAssignmentRoutingService } from '../../../core/services/active-as
 })
 export class ProjectUpdateComponent implements OnInit {
     private projectService = inject(ProjectService);
+    private readonly activeAssignmentService : ActiveAssignmentService = inject(ActiveAssignmentService);
     private router = inject(Router);
     private route = inject(ActivatedRoute);
     private activeAssignmentRoutingService = inject(ActiveAssignmentRoutingService);
+    assignmentDefaultTeamSize = this.activeAssignmentService.getActiveAssignment()?.assignment.defaultTeamSize;
 
     projectForm: FormGroup = new FormGroup({
         title: new FormControl('', [Validators.required]),
         description: new FormControl(''),
-        shortDescription: new FormControl('', [Validators.required])
+        shortDescription: new FormControl('', [Validators.required]),
+        teamSize: new FormControl(this.activeAssignmentService.getActiveAssignment()?.assignment.defaultTeamSize, [Validators.required])
+
     });
 
     charCount: number = 0;
@@ -49,7 +54,8 @@ export class ProjectUpdateComponent implements OnInit {
             this.projectForm.patchValue({
                 title: project.title,
                 description: project.description,
-                shortDescription: project.shortDescription
+                shortDescription: project.shortDescription,
+                teamSize : project.teamSize
             });
             this.charCount = project.shortDescription?.length || 0;
         });
@@ -67,7 +73,10 @@ export class ProjectUpdateComponent implements OnInit {
                 ...this.projectData,
                 ...this.projectForm.value
             };
-            this.projectService.updateProject(updatedProject.id, updatedProject).subscribe(project => {
+            console.log("dit is de geupdate project:", this.projectData.teamSize)
+            this.projectService.updateProject(updatedProject.id, updatedProject).subscribe(
+                project => {
+                    console.log('Project bijgewerkt:', project); // Controleer of het project correct is bijgewerkt
                 this.router.navigate(this.activeAssignmentRoutingService.buildRoute('projects', project.id.toString()));
             });
         }
