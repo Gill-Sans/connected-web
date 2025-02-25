@@ -11,7 +11,7 @@ import { AuthFacade } from '../../auth/store/auth.facade';
 })
 export class NotificationService {
     private http = inject(HttpClient);
-    public notifications$: BehaviorSubject<Notification[]> = new BehaviorSubject<Notification[]>([]); 
+    public notifications$: BehaviorSubject<Notification[]> = new BehaviorSubject<Notification[]>([]);
     private authFacade = inject(AuthFacade);
     private user$ = this.authFacade.user$;
     private stompClient: any;
@@ -38,9 +38,7 @@ export class NotificationService {
     //reconnect logic
     private connectStomp(userId: number) {
         this.stompClient.connect({}, (frame: any) => {
-            console.log('STOMP connection established:', frame);
             this.stompClient.subscribe(`/user/${userId}/notifications`, (message: any) => {
-                console.log('Received notification: ' + message.body);
                 const currentNotifications = this.notifications$.getValue();
                 currentNotifications.push(JSON.parse(message.body));
                 this.notifications$.next(currentNotifications);
@@ -59,20 +57,20 @@ export class NotificationService {
 
     getNotificationsByUserId(userId: number): Observable<Notification[]> {
         return this.http.get<Notification[]>(
-            `${environment.apiBaseUrl}/api/notifications/user/${userId}`, 
+            `${environment.apiBaseUrl}/api/notifications/user/${userId}`,
             {withCredentials: true}
         );
     }
 
     // Update the notification as read and redirect to the destinationUrl
-    updateNotificationAsRead(notificationId: number): Observable<Notification> {
-        return this.http.put<Notification>(`${environment.apiBaseUrl}/api/notifications/${notificationId}`,{isRead: true}, {withCredentials: true});
+    markNotificationAsRead(notificationId: number): Observable<Notification> {
+        return this.http.put<Notification>(`${environment.apiBaseUrl}/api/notifications/${notificationId}/read`,{}, {withCredentials: true});
     }
 
     deleteNotification(notificationId: number): Observable<void>{
         return this.http.delete<void>(`${environment.apiBaseUrl}/api/notifications/${notificationId}`, {withCredentials: true});
     }
-   
+
 }
 
 function switchMap(arg0: (user: any) => Observable<Notification[]>): import("rxjs").OperatorFunction<import("../../auth/models/user.model").User | null, unknown> {

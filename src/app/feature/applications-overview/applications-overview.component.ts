@@ -1,4 +1,4 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {StatuscardComponent} from '../../shared/components/statuscard/statuscard.component';
 import {Router} from '@angular/router';
@@ -16,7 +16,7 @@ import {ActiveAssignmentRoutingService} from '../../core/services/active-assignm
     templateUrl: './applications-overview.component.html',
     styleUrl: './applications-overview.component.scss'
 })
-export class ApplicationsOverviewComponent implements OnInit {
+export class ApplicationsOverviewComponent implements OnInit, OnDestroy {
     private router: Router = inject(Router);
     private assignmentService: AssignmentService = inject(AssignmentService);
     private activeAssignmentService: ActiveAssignmentService = inject(ActiveAssignmentService);
@@ -41,8 +41,14 @@ export class ApplicationsOverviewComponent implements OnInit {
         );
     }
 
+    ngOnDestroy(): void {
+        if (this.activeAssignmentSub) {
+            this.activeAssignmentSub.unsubscribe();
+        }
+    }
+
     loadApplications() {
-        //ophalen van assignment id uit de activeassignment 
+        //ophalen van assignment id uit de activeassignment
         const assignmentId = this.activeAssignmentService.getActiveAssignment()?.assignment.id;
         //als assignment id bestaat, dan ophalen van alle applicaties van deze assignment
         if (assignmentId) {

@@ -1,24 +1,24 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import { LinkcardComponent } from '../../../../../shared/components/linkcard/linkcard.component';
 import { CommonModule } from '@angular/common';
 import { MarkdownModule } from 'ngx-markdown';
 import { ProjectService } from '../../../../../core/services/project.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import { Project } from '../../../../../shared/models/project.model';
 import { ButtonComponent } from '../../../../../shared/components/button/button.component';
 import { ActiveAssignmentRoutingService } from '../../../../../core/services/active-assignment-routing.service';
 import {AuthorizationService} from '../../../../../core/services/authorization.service';
 import {ProjectStatusEnum} from '../../../../../shared/models/ProjectStatus.enum';
 //TODO: add check if image of user is empty --> placeholderpic.svg
+
 @Component({
     selector: 'app-details-overview',
     imports: [LinkcardComponent, CommonModule, MarkdownModule, ButtonComponent],
     templateUrl: './details-overview.component.html',
     styleUrl: './details-overview.component.scss'
 })
-export class DetailsOverviewComponent implements OnInit {
-    //NOTE: als een tab inzet voor de markdown, dan wordt de markdown niet goed weergegeven
+export class DetailsOverviewComponent implements OnInit, OnDestroy {
     private readonly projectService: ProjectService = inject(ProjectService);
     private readonly route: ActivatedRoute = inject(ActivatedRoute);
     public authorizationService: AuthorizationService = inject(AuthorizationService);
@@ -35,18 +35,16 @@ export class DetailsOverviewComponent implements OnInit {
     public boardUrl: string = '';
 
     private projectId: number | null = null;
-
+    private subscriptions: Subscription[] = [];
 
     ngOnInit() {
-        // Get project ID from parent route parameters
-        this.route.parent?.params.subscribe(params => {
+        const routeSubscription = this.route.parent?.params.subscribe(params => {
             const id = params['id'];
             if (id) {
                 this.projectId = id;
                 this.project$ = this.projectService.getProjectById(id);
 
-                // Combine the project stream with the authorization check
-                this.project$.subscribe(project => {
+                const projectSubscription = this.project$.subscribe(project => {
                     this.canManageProject$ = this.authorizationService.canManageProject$(project);
                     this.isMember$ = this.authorizationService.isMember$(project);
                     this.isTeacher$ = this.authorizationService.isTeacher$();
@@ -55,8 +53,18 @@ export class DetailsOverviewComponent implements OnInit {
                     this.boardUrl = project.boardUrl;
 
                 });
+
+                this.subscriptions.push(projectSubscription);
             }
         });
+
+        if (routeSubscription) {
+            this.subscriptions.push(routeSubscription);
+        }
+    }
+
+    ngOnDestroy(): void {
+        this.subscriptions.forEach(subscription => subscription.unsubscribe());
     }
 
     applyForProject() {
