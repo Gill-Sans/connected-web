@@ -47,7 +47,7 @@
                 ></app-button>
             </div>
             <div class="members-section">
-                <h3>Members <span style="font-size: small; color: gray; font-weight: 300; ">{{project.members.length || 0}}/{{project.teamSize}} members</span></h3>
+                <h3>Members <span style="font-size: small; color: gray; font-weight: 300; ">{{project.members.length || 0}}/{{project.teamSize}}</span></h3>
                 <ul>
                     <li class="owner-section" *ngIf="project.createdBy; else noOwner">
                         <img class="avatar" [src]="'img/lucas.jpeg'" alt="avatar"/>
