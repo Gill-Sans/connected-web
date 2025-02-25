@@ -9,10 +9,14 @@ import { Router } from '@angular/router';
 import { Project } from '../../../shared/models/project.model';
 import {ActiveAssignmentRoutingService} from '../../../core/services/active-assignment-routing.service';
 import {Subscription} from 'rxjs';
+import { TagcardComponent } from '../../../shared/components/tagcard/tagcard.component';
+import { TagSearchComponentComponent } from '../../../shared/tag-search-component/tag-search-component.component';
+import { tag } from '../../../shared/models/tag.model';
+import { select } from '@ngrx/store';
 
 @Component({
     selector: 'app-project-create',
-    imports: [CommonModule, MarkdownModule, ReactiveFormsModule, LMarkdownEditorModule],
+    imports: [CommonModule, MarkdownModule, ReactiveFormsModule, LMarkdownEditorModule,TagcardComponent, TagSearchComponentComponent],
     templateUrl: './project-create.component.html',
     styleUrl: "./project-create.component.scss"
 })
@@ -25,6 +29,11 @@ export class ProjectCreateComponent implements OnInit, OnDestroy {
     assignmentDefaultTeamSize = this.activeAssignmentService.getActiveAssignment()?.assignment.defaultTeamSize;
     private subscriptions: Subscription[] = [];
 
+    tag: tag | null = null;
+    tagList: tag[] = [];// array to hold the selected tags
+    newTag: string = '';
+    showTagInput: boolean = false;
+
     ngOnInit() {
     }
 
@@ -32,7 +41,8 @@ export class ProjectCreateComponent implements OnInit, OnDestroy {
         title: new FormControl('', [Validators.required]),
         description: new FormControl(''),
         shortDescription: new FormControl('', [Validators.required]),
-        teamSize: new FormControl(this.activeAssignmentService.getActiveAssignment()?.assignment.defaultTeamSize, [Validators.required])
+        teamSize: new FormControl(this.activeAssignmentService.getActiveAssignment()?.assignment.defaultTeamSize, [Validators.required]),
+        tags : new FormControl()
     });
 
     charCount: number = 0;
@@ -51,7 +61,6 @@ export class ProjectCreateComponent implements OnInit, OnDestroy {
         const assignmentId = this.activeAssignmentService.getActiveAssignment()?.assignment.id;
         if (this.projectForm.valid && assignmentId) {
             let project: Project = this.projectForm.value as Project;
-            project.tags = [];
             const createProjectSubscription = this.projectService.createProject(assignmentId, project).subscribe(project => {
                 console.log('Project created:', project);
                 this.router.navigate(this.activeAssignmentRoutingService.buildRoute('projects'));
@@ -59,6 +68,18 @@ export class ProjectCreateComponent implements OnInit, OnDestroy {
             this.subscriptions.push(createProjectSubscription);
             console.log('Project submitted:', this.projectForm.value);
         }
+    }
+
+    addTagToProject(selectedTag: tag){
+       if(!this.tagList.some(t => t.id === selectedTag.id)){
+        this.tagList.push(selectedTag);
+        this.projectForm.patchValue({tags : this.tagList});
+       }
+    }
+
+    removeTag(tagId: number){
+        this.tagList = this.tagList.filter(tag => tag.id != tagId);
+        this.projectForm.patchValue({tags: this.tagList})
     }
 
     toggleFullScreen() {
