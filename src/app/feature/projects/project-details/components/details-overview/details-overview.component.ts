@@ -31,6 +31,8 @@ export class DetailsOverviewComponent implements OnInit, OnDestroy {
     public isMember$!: Observable<boolean>;
     public isTeacher$!: Observable<boolean>;
     public hasApplied$!: Observable<boolean>;
+    public repositoryUrl: string = '';
+    public boardUrl: string = '';
 
     private projectId: number | null = null;
     private subscriptions: Subscription[] = [];
@@ -47,6 +49,9 @@ export class DetailsOverviewComponent implements OnInit, OnDestroy {
                     this.isMember$ = this.authorizationService.isMember$(project);
                     this.isTeacher$ = this.authorizationService.isTeacher$();
                     this.hasApplied$ = this.authorizationService.hasApplied$(project);
+                    this.repositoryUrl = project.repositoryUrl;
+                    this.boardUrl = project.boardUrl;
+
                 });
 
                 this.subscriptions.push(projectSubscription);

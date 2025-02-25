@@ -29,7 +29,9 @@ export class ProjectUpdateComponent implements OnInit, OnDestroy {
         title: new FormControl('', [Validators.required]),
         description: new FormControl(''),
         shortDescription: new FormControl('', [Validators.required]),
-        teamSize: new FormControl(this.activeAssignmentService.getActiveAssignment()?.assignment.defaultTeamSize, [Validators.required])
+        teamSize: new FormControl(this.activeAssignmentService.getActiveAssignment()?.assignment.defaultTeamSize, [Validators.required]),
+        repositoryUrl: new FormControl('', [Validators.required]),
+        boardUrl: new FormControl('', [Validators.required])
     });
 
     charCount: number = 0;
@@ -38,6 +40,7 @@ export class ProjectUpdateComponent implements OnInit, OnDestroy {
     private subscriptions: Subscription[] = [];
 
     ngOnInit(): void {
+        // Use the parent route's paramMap if available.
         const parentParams = this.route.parent ? this.route.parent.snapshot.paramMap : this.route.snapshot.paramMap;
         const idParam = parentParams.get('id');
         if (!idParam) {
@@ -55,7 +58,9 @@ export class ProjectUpdateComponent implements OnInit, OnDestroy {
                 title: project.title,
                 description: project.description,
                 shortDescription: project.shortDescription,
-                teamSize : project.teamSize
+                teamSize : project.teamSize,
+                repositoryUrl: project.repositoryUrl,
+                boardUrl : project.boardUrl
             });
             this.charCount = project.shortDescription?.length || 0;
         });
@@ -73,6 +78,7 @@ export class ProjectUpdateComponent implements OnInit, OnDestroy {
 
     onSubmit(): void {
         if (this.projectForm.valid) {
+            // Create an updated project object by merging original project data with form values
             const updatedProject: Project = {
                 ...this.projectData,
                 ...this.projectForm.value
