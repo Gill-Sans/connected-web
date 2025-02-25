@@ -38,4 +38,9 @@
         text-align: center;
         font-weight: 500;
     }
+
+    .link-card.disabled {
+        opacity: 0.5;
+        pointer-events: none;
+    }
 }

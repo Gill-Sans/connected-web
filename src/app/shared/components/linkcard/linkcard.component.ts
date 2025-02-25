@@ -1,5 +1,6 @@
 import {CommonModule} from '@angular/common';
-import {Component} from '@angular/core';
+import {Component, inject, Input} from '@angular/core';
+import { ProjectService } from '../../../core/services/project.service';
 
 @Component({
     selector: 'app-linkcard',
@@ -8,22 +9,17 @@ import {Component} from '@angular/core';
     styleUrls: ['./linkcard.component.scss']
 })
 export class LinkcardComponent {
+    private readonly projectService : ProjectService = inject(ProjectService);
+    @Input() repositoryUrl: string = '' ; 
+    @Input() boardUrl : string = '';
     // Mapping tussen linkType en de juiste icon URL
     private iconMapping: { [key: string]: string } = {
         'Github': 'icons/links/Github.svg',
         'Trello': 'icons/links/Trello.svg',
-        'Jira': 'icons/links/Jira.svg',
-        'Slack': 'icons/links/Slack.svg'
+       
     };
 
-    // De backend stuurt nu alleen een `linkType` en `url`
-    //NOTE: Lucas past dit aan zodra dynmic data beschikbaar is
-    links = [
-        {url: 'https://github.com', linkType: 'Github'},
-        {url: 'https://trello.com', linkType: 'Trello'},
-        {url: 'https://jira.com', linkType: 'Jira'},
-        {url: 'https://slack.com', linkType: 'Slack'}
-    ];
+    
 
     // Methode om de juiste icon URL te krijgen
     getIconUrl(linkType: string): string {
