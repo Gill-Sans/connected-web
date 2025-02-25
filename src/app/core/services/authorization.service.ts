@@ -23,7 +23,7 @@ export class AuthorizationService {
      */
     isOwner$(project: Project): Observable<boolean> {
         return this.authFacade.user$.pipe(
-            map(user => !!user && project.createdBy && project.createdBy.id === user.id)
+            map(user => !!user && project.productOwner && project.productOwner.id === user.id)
         );
     }
 
