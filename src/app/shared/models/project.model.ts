@@ -17,5 +17,6 @@ export interface Project {
     assignment: Assignment;
     tags: tag[];
     createdBy: User;
+    productOwner: User;
     members: User[];
 }
