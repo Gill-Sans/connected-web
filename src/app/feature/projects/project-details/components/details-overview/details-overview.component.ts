@@ -10,11 +10,13 @@ import { ButtonComponent } from '../../../../../shared/components/button/button.
 import { ActiveAssignmentRoutingService } from '../../../../../core/services/active-assignment-routing.service';
 import {AuthorizationService} from '../../../../../core/services/authorization.service';
 import {ProjectStatusEnum} from '../../../../../shared/models/ProjectStatus.enum';
+import { tag } from '../../../../../shared/models/tag.model';
+import { TagcardComponent } from "../../../../../shared/components/tagcard/tagcard.component";
 //TODO: add check if image of user is empty --> placeholderpic.svg
 
 @Component({
     selector: 'app-details-overview',
-    imports: [LinkcardComponent, CommonModule, MarkdownModule, ButtonComponent],
+    imports: [LinkcardComponent, CommonModule, MarkdownModule, ButtonComponent, TagcardComponent],
     templateUrl: './details-overview.component.html',
     styleUrl: './details-overview.component.scss'
 })
@@ -33,6 +35,7 @@ export class DetailsOverviewComponent implements OnInit, OnDestroy {
     public hasApplied$!: Observable<boolean>;
     public repositoryUrl: string = '';
     public boardUrl: string = '';
+    public tags: tag[] = [];
 
     private projectId: number | null = null;
     private subscriptions: Subscription[] = [];
@@ -51,6 +54,7 @@ export class DetailsOverviewComponent implements OnInit, OnDestroy {
                     this.hasApplied$ = this.authorizationService.hasApplied$(project);
                     this.repositoryUrl = project.repositoryUrl;
                     this.boardUrl = project.boardUrl;
+                    this.tags = project.tags;
 
                 });
 

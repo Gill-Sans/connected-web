@@ -80,7 +80,18 @@
                 </ul>
             </div>
             <!-- Links component -->
-            <app-linkcard [repositoryUrl]="repositoryUrl" [boardUrl]="boardUrl"></app-linkcard> <!-- Update deze regel -->
+            <app-linkcard [repositoryUrl]="repositoryUrl" [boardUrl]="boardUrl"></app-linkcard>
+
+            <div class="tag-section">
+                <h3>Tags</h3>
+                <div class="tags-container">
+                    <app-tagcard
+                        *ngFor="let tag of tags"
+                        [tag]="tag"
+                        [showDelete]="false"
+                    ></app-tagcard>
+                </div>
+            </div>
         </div>
     </div>
 </div>
