@@ -85,6 +85,25 @@
             />
         </div>
 
+         <!-- Tags Section -->
+         <div class="form-group">
+            <div class="skillset">
+                <p>Tags</p>
+                <div class="tags-container">
+                    <app-tagcard
+                        *ngFor="let tag of tagList"
+                        [tag]="tag"
+                        [showDelete]="true"
+                        (deleteTag)="removeTag(tag.id)"
+                    >
+                    </app-tagcard>
+                </div>
+                <app-tag-search-component
+                    (tagSelected)="addTagToProject($event)"
+                ></app-tag-search-component>
+            </div>
+        </div>
+
         <!-- Submit Button -->
         <button class="update-project-btn" type="submit">
             Update Project
