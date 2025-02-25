@@ -1,7 +1,6 @@
 import {AuthFacade} from '../../auth/store/auth.facade';
 import {CommonModule} from '@angular/common';
 import {Router} from '@angular/router';
-import {Role} from '../../auth/models/role.model';
 import {ClickOutsideDirective} from '../../shared/directives/click-outside.directive';
 import {Observable} from 'rxjs';
 import {User} from '../../auth/models/user.model';
