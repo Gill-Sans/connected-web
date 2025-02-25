@@ -70,6 +70,12 @@ export class ProjectService {
         });
     }
 
+    claimProject(projectId: number): Observable<Project> {
+        return this.http.post<Project>(`${environment.apiBaseUrl}/api/projects/${projectId}/claim`, {}, {
+            withCredentials: true
+        });
+    }
+
     getFeedback(projectId: string): Observable<Feedback[]> {
         return this.http.get<Feedback[]>(`${environment.apiBaseUrl}/api/projects/${projectId}/feedback`, {
             withCredentials: true
@@ -114,7 +120,7 @@ export class ProjectService {
         });
     }
 
-    
+
     applyForProject(projectId: string, application: ApplicationCreate): Observable<Project> {
         const headers = new HttpHeaders().set('Content-Type', 'application/json');
 

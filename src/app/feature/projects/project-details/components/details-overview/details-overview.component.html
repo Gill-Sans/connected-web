@@ -39,16 +39,29 @@
                 </div>
             </div>
             <div class="apply-section" *ngIf="!(canManageProject$ | async) && !(isMember$ | async)">
-                <p>
-                    Press this button to apply for this project. By applying,
-                    you express your interest in contributing to this project
-                    and collaborating with the team.
+                <p *ngIf="project.members.length === 0; else applyText">
+                    Press this button to claim this project. By claiming, you take ownership of this project.
                 </p>
+                <ng-template #applyText>
+                    <p>
+                        Press this button to apply for this project. By applying,
+                        you express your interest in contributing to this project
+                        and collaborating with the team.
+                    </p>
+                </ng-template>
                 <app-button
-                    label="Apply for this project"
+                    *ngIf="project.members.length === 0; else applyButton"
+                    label="Claim Project"
                     type="normal"
-                    (click)="applyForProject()"
+                    (click)="claimProject()"
                 ></app-button>
+                <ng-template #applyButton>
+                    <app-button
+                        label="Apply for this project"
+                        type="normal"
+                        (click)="applyForProject()"
+                    ></app-button>
+                </ng-template>
             </div>
             <div class="members-section">
                 <h3>Members <span style="color: gray;">{{project.members.length || 0}}/{{project.teamSize}}</span></h3>
