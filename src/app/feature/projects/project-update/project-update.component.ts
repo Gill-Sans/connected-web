@@ -12,6 +12,7 @@ import {Subscription} from 'rxjs';
 import { TagSearchComponentComponent } from '../../../shared/tag-search-component/tag-search-component.component';
 import { TagcardComponent } from '../../../shared/components/tagcard/tagcard.component';
 import { tag } from '../../../shared/models/tag.model';
+import { ProjectStatusEnum } from '../../../shared/models/ProjectStatus.enum';
 
 @Component({
     selector: 'app-project-update',
@@ -45,6 +46,7 @@ export class ProjectUpdateComponent implements OnInit, OnDestroy {
     projectId!: number;
     projectData!: Project;
     private subscriptions: Subscription[] = [];
+    projectStatus: ProjectStatusEnum | undefined ;
 
     ngOnInit(): void {
         // Use the parent route's paramMap if available.
@@ -61,6 +63,7 @@ export class ProjectUpdateComponent implements OnInit, OnDestroy {
         }
         const projectSubscription = this.projectService.getProjectById(this.projectId.toString()).subscribe(project => {
             this.projectData = project;
+            this.projectStatus = project.status;
             this.projectForm.patchValue({
                 title: project.title,
                 description: project.description,
