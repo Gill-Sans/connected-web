@@ -1,6 +1,6 @@
 import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import { ConversationcardComponent } from "../../../../../shared/components/conversationcard/conversationcard.component";
-import { CommonModule } from '@angular/common';
+import {CommonModule, NgOptimizedImage} from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ButtonComponent } from '../../../../../shared/components/button/button.component';
 import {Observable, Subscription} from 'rxjs';
@@ -10,10 +10,13 @@ import { ProjectService } from '../../../../../core/services/project.service';
 import { createFeedback, Feedback } from '../../../../../shared/models/feedback.model';
 import { ToastService } from '../../../../../core/services/toast.service';
 import {AuthorizationService} from '../../../../../core/services/authorization.service';
+import {ReviewService} from '../../../../../core/services/review.service';
+import {CreateReview, Review} from '../../../../../shared/models/review.model';
+import {ReviewStatusEnum} from '../../../../../shared/models/ReviewStatus.enum';
 
 @Component({
     selector: 'app-feedback',
-    imports: [ConversationcardComponent, CommonModule, FormsModule, ButtonComponent],
+    imports: [ConversationcardComponent, CommonModule, FormsModule, ButtonComponent, NgOptimizedImage],
     templateUrl: './feedback.component.html',
     styleUrls: ['./feedback.component.scss']
 })
@@ -22,10 +25,12 @@ export class FeedbackComponent implements OnInit, OnDestroy {
     private readonly route: ActivatedRoute = inject(ActivatedRoute);
     private readonly toastService: ToastService = inject(ToastService);
     public authorizationService: AuthorizationService = inject(AuthorizationService);
+    private readonly reviewService: ReviewService = inject(ReviewService);
 
     private projectId: string = 'undefined';
     public project$: Observable<Project> | null = null;
     public feedbackList$: Observable<Feedback[]> | null = null;
+    public reviewList$: Observable<Review[]> | null = null;
     public isTeacher$!: Observable<boolean>;
     public newFeedback: string = '';
     public editingFeedback: Feedback | null = null;
@@ -40,6 +45,7 @@ export class FeedbackComponent implements OnInit, OnDestroy {
                 this.projectId = id;
                 this.project$ = this.projectService.getProjectById(this.projectId);
                 this.loadFeedback();
+                this.loadReviews();
             }
         });
 
@@ -54,6 +60,10 @@ export class FeedbackComponent implements OnInit, OnDestroy {
 
     loadFeedback() {
         this.feedbackList$ = this.projectService.getFeedback(this.projectId);
+    }
+
+    loadReviews() {
+        this.reviewList$ = this.reviewService.getReviewsByProjectId(this.projectId);
     }
 
     submitFeedback() {
@@ -109,5 +119,19 @@ export class FeedbackComponent implements OnInit, OnDestroy {
         });
 
         this.subscriptions.push(updateSubscription);
+    }
+
+    updateReviewStatus(status: 'thumbs_up' | 'thumbs_down') {
+        const review: CreateReview = {
+            status: status === 'thumbs_up' ? ReviewStatusEnum.THUMBS_UP : ReviewStatusEnum.THUMBS_DOWN
+        };
+        console.log(this.projectId, review);
+
+        const reviewSubscription = this.reviewService.createReview(this.projectId, review).subscribe(() => {
+            this.toastService.showToast('success', `Review ${status.replace('_', ' ')} submitted!`);
+            this.loadReviews();
+        });
+
+        this.subscriptions.push(reviewSubscription);
     }
 }
