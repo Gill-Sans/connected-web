@@ -9,11 +9,14 @@ import { Project } from '../../../shared/models/project.model';
 import { ActiveAssignmentRoutingService } from '../../../core/services/active-assignment-routing.service';
 import { ActiveAssignmentService } from '../../../core/services/active-assignment.service';
 import {Subscription} from 'rxjs';
+import { TagSearchComponentComponent } from '../../../shared/tag-search-component/tag-search-component.component';
+import { TagcardComponent } from '../../../shared/components/tagcard/tagcard.component';
+import { tag } from '../../../shared/models/tag.model';
 
 @Component({
     selector: 'app-project-update',
     standalone: true,
-    imports: [CommonModule, ReactiveFormsModule, MarkdownModule, LMarkdownEditorModule],
+    imports: [CommonModule, ReactiveFormsModule, MarkdownModule, LMarkdownEditorModule, TagSearchComponentComponent, TagcardComponent],
     templateUrl: './project-update.component.html',
     styleUrls: ['./project-update.component.scss']
 })
@@ -25,13 +28,17 @@ export class ProjectUpdateComponent implements OnInit, OnDestroy {
     private activeAssignmentRoutingService = inject(ActiveAssignmentRoutingService);
     assignmentDefaultTeamSize = this.activeAssignmentService.getActiveAssignment()?.assignment.defaultTeamSize;
 
+    tagList: tag[] = [];// array to hold the selected tags
+
+
     projectForm: FormGroup = new FormGroup({
         title: new FormControl('', [Validators.required]),
         description: new FormControl(''),
         shortDescription: new FormControl('', [Validators.required]),
         teamSize: new FormControl(this.activeAssignmentService.getActiveAssignment()?.assignment.defaultTeamSize, [Validators.required]),
-        repositoryUrl: new FormControl('', [Validators.required]),
-        boardUrl: new FormControl('', [Validators.required])
+        repositoryUrl: new FormControl('', ),
+        boardUrl: new FormControl('', ),
+        tags: new FormControl()
     });
 
     charCount: number = 0;
@@ -60,9 +67,11 @@ export class ProjectUpdateComponent implements OnInit, OnDestroy {
                 shortDescription: project.shortDescription,
                 teamSize : project.teamSize,
                 repositoryUrl: project.repositoryUrl,
-                boardUrl : project.boardUrl
+                boardUrl : project.boardUrl,
+                tagList: project.tags
             });
             this.charCount = project.shortDescription?.length || 0;
+            this.tagList = project.tags;
         });
         this.subscriptions.push(projectSubscription);
     }
@@ -76,12 +85,25 @@ export class ProjectUpdateComponent implements OnInit, OnDestroy {
         this.charCount = shortDescriptionControl?.value ? shortDescriptionControl.value.length : 0;
     }
 
+    addTagToProject(selectedTag: tag){
+        if(!this.tagList.some(t => t.id === selectedTag.id)){
+            this.tagList.push(selectedTag);
+        }
+    }
+
+    removeTag(tagId: number){
+        this.tagList = this.tagList.filter(tag => tag.id !== tagId);
+        this.projectForm.patchValue({ tags: this.tagList }); // Zorg ervoor dat de form control wordt bijgewerkt
+
+    }
+
     onSubmit(): void {
         if (this.projectForm.valid) {
             // Create an updated project object by merging original project data with form values
             const updatedProject: Project = {
                 ...this.projectData,
-                ...this.projectForm.value
+                ...this.projectForm.value,
+                tags: this.tagList
             };
             const updateSubscription = this.projectService.updateProject(updatedProject.id, updatedProject).subscribe(
                 project => {
