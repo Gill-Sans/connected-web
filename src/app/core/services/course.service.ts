@@ -16,15 +16,11 @@ export class CourseService {
         this.refreshCourses();
     }
 
-    refreshCourses(): Observable<void> {
-        return new Observable<void>(observer => {
-            this.http.get<Course[]>(`${environment.apiBaseUrl}/api/courses/enrolled`, { withCredentials: true })
-                .subscribe(courses => {
-                    this.coursesSubject.next(courses);
-                    observer.next();
-                    observer.complete();
-                });
-        });
+    refreshCourses(): void {
+        this.http.get<Course[]>(`${environment.apiBaseUrl}/api/courses/enrolled`, { withCredentials: true })
+            .subscribe(courses => {
+                this.coursesSubject.next(courses);
+            });
     }
 
     getCanvasCourses(): Observable<any[]> {
