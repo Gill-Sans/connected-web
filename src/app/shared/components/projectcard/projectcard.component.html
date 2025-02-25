@@ -22,5 +22,12 @@
     <div class="card-body">
         <h3 class="card-title">{{ project.title }}</h3>
         <p class="description">{{ project.shortDescription }}</p>
+        <div class="tags">
+            <app-tagcard
+            *ngFor="let tag of project.tags | slice:0:2"
+            [tag]="tag"
+            [showDelete]="false"
+        ></app-tagcard>
+        </div>
     </div>
 </div>
