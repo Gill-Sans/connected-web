@@ -1,7 +1,7 @@
 <div class="conversation-card">
     <div class="user-info">
         <span class="user-name">{{ firstName }} {{ lastName }}</span>
-        <span class="timestamp">{{ createdAt | date }}</span>
+        <span class="timestamp">{{ createdAt | date:'short' }}</span>
     </div>
     <div class="message">
         <ng-container *ngIf="isEditing; else viewMode">
