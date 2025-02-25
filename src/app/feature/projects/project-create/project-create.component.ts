@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MarkdownModule } from 'ngx-markdown';
@@ -8,6 +8,7 @@ import { ActiveAssignmentService } from '../../../core/services/active-assignmen
 import { Router } from '@angular/router';
 import { Project } from '../../../shared/models/project.model';
 import {ActiveAssignmentRoutingService} from '../../../core/services/active-assignment-routing.service';
+import {Subscription} from 'rxjs';
 
 @Component({
     selector: 'app-project-create',
@@ -15,13 +16,15 @@ import {ActiveAssignmentRoutingService} from '../../../core/services/active-assi
     templateUrl: './project-create.component.html',
     styleUrl: "./project-create.component.scss"
 })
-export class ProjectCreateComponent implements OnInit {
+export class ProjectCreateComponent implements OnInit, OnDestroy {
 
     private readonly projectService: ProjectService = inject(ProjectService);
     private readonly activeAssignmentService: ActiveAssignmentService = inject(ActiveAssignmentService);
     private readonly activeAssignmentRoutingService: ActiveAssignmentRoutingService = inject(ActiveAssignmentRoutingService);
     private readonly router: Router = inject(Router);
     assignmentDefaultTeamSize = this.activeAssignmentService.getActiveAssignment()?.assignment.defaultTeamSize;
+    private subscriptions: Subscription[] = [];
+
     ngOnInit() {
     }
 
@@ -31,7 +34,6 @@ export class ProjectCreateComponent implements OnInit {
         shortDescription: new FormControl('', [Validators.required]),
         teamSize: new FormControl(this.activeAssignmentService.getActiveAssignment()?.assignment.defaultTeamSize, [Validators.required])
     });
-
 
     charCount: number = 0;
     markdownPreview = '';
@@ -45,20 +47,19 @@ export class ProjectCreateComponent implements OnInit {
         this.charCount = shortDescriptionControl?.value ? shortDescriptionControl.value?.length : 0;
     }
 
-
     onSubmit() {
         const assignmentId = this.activeAssignmentService.getActiveAssignment()?.assignment.id;
         if (this.projectForm.valid && assignmentId) {
             let project: Project = this.projectForm.value as Project;
             project.tags = [];
-            this.projectService.createProject(assignmentId, project).subscribe(project => {
+            const createProjectSubscription = this.projectService.createProject(assignmentId, project).subscribe(project => {
                 console.log('Project created:', project);
                 this.router.navigate(this.activeAssignmentRoutingService.buildRoute('projects'));
             });
+            this.subscriptions.push(createProjectSubscription);
             console.log('Project submitted:', this.projectForm.value);
         }
     }
-
 
     toggleFullScreen() {
         const editorElement = document.querySelector('md-editor');
@@ -67,5 +68,9 @@ export class ProjectCreateComponent implements OnInit {
         } else {
             document.exitFullscreen();
         }
+    }
+
+    ngOnDestroy() {
+        this.subscriptions.forEach(subscription => subscription.unsubscribe());
     }
 }

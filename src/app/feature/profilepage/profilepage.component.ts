@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import { AuthFacade } from '../../auth/store/auth.facade';
 import { User } from '../../auth/models/user.model';
 import { ButtonComponent } from '../../shared/components/button/button.component';
@@ -10,6 +10,7 @@ import { tag } from '../../shared/models/tag.model';
 import { TagSearchComponentComponent } from '../../shared/tag-search-component/tag-search-component.component';
 import e from 'express';
 import { ToastService } from '../../core/services/toast.service';
+import {Subscription} from 'rxjs';
 
 @Component({
     selector: 'app-profilepage',
@@ -17,7 +18,7 @@ import { ToastService } from '../../core/services/toast.service';
     templateUrl: './profilepage.component.html',
     styleUrl: './profilepage.component.scss'
 })
-export class ProfilepageComponent implements OnInit {
+export class ProfilepageComponent implements OnInit, OnDestroy {
     user: User | null = null;
     tag: tag | null = null;
     isEditing = false;
@@ -28,6 +29,7 @@ export class ProfilepageComponent implements OnInit {
     newTag: string = '';
     showTagInput: boolean = false;
     private currentUser: User | null = null;
+    private subscriptions: Subscription[] = [];
 
     constructor(
         private userService: UserService
@@ -35,23 +37,26 @@ export class ProfilepageComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.authFacade.user$.subscribe(user => {
+        const userSubscription = this.authFacade.user$.subscribe(user => {
             this.currentUser = user;
             if (user != null) {
-                this.userService.getUserProfile(user.id).subscribe(userDetails => {
+                const userDetailsSubscription = this.userService.getUserProfile(user.id).subscribe(userDetails => {
                     this.user = userDetails;
                 });
+                this.subscriptions.push(userDetailsSubscription);
             } else {
                 console.log("ingelogde user vanuit state: ", user);
             }
-        })
+        });
+        this.subscriptions.push(userSubscription);
     }
 
+    ngOnDestroy(): void {
+        this.subscriptions.forEach(subscription => subscription.unsubscribe());
+    }
 
     get canEditProfile(): boolean {
-
         return this.user?.id === this.currentUser?.id;
-
     }
 
     addTagToUser(selectedTag: tag) {
@@ -64,17 +69,12 @@ export class ProfilepageComponent implements OnInit {
         }
     }
 
-
     removeTag(tagIdToRemove: number) {
         if (!this.user?.tags) return;
 
-        // Filter de specifieke tag eruit
-        // Update de user tags
         this.user.tags = this.user.tags.filter(tag => tag.id !== tagIdToRemove);
     }
 
-
-    //save the user profile
     saveProfile() {
         if (!this.user) return;
 

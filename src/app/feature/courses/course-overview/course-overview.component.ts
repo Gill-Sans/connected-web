@@ -1,8 +1,8 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ButtonComponent } from '../../../shared/components/button/button.component';
 import { CourseService } from '../../../core/services/course.service';
-import { Observable } from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import { Course } from '../../../shared/models/course.model';
 import { AssignmentService } from '../../../core/services/assignment.service';
 import {CanvasImportModalComponent} from '../../../shared/components/canvas-import-modal/canvas-import-modal.component';
@@ -19,24 +19,28 @@ import {Assignment} from '../../../shared/models/assignment.model';
     templateUrl: './course-overview.component.html',
     styleUrls: ['./course-overview.component.scss']
 })
-export class CourseOverviewComponent implements OnInit {
+export class CourseOverviewComponent implements OnInit, OnDestroy {
     private courseService = inject(CourseService);
     private assignmentService = inject(AssignmentService);
 
-    // courses$ already holds the Canvas courses (filtered in the backend)
     courses$: Observable<Course[]> = this.courseService.courses$;
     canvasCourses$: Observable<Course[]> = this.courseService.getCanvasCourses();
     assignmentItems$: Observable<Assignment[]> | null = null;
 
-    // Flags to control the visibility of the two modals.
     showImportCourseModal: boolean = false;
     showImportAssignmentModal: boolean = false;
-
-    // When opening the assignment import modal, we pass the course ID directly.
     courseIdInput: number | null = null;
 
+    private subscriptions: Subscription[] = [];
+
     ngOnInit(): void {
-        this.courseService.refreshCourses();
+        const refreshCoursesSubscription = this.courseService.refreshCourses().subscribe(() => {
+        });
+        this.subscriptions.push(refreshCoursesSubscription);
+    }
+
+    ngOnDestroy(): void {
+        this.subscriptions.forEach(subscription => subscription.unsubscribe());
     }
 
     openCourseImportModal(): void {
@@ -49,7 +53,13 @@ export class CourseOverviewComponent implements OnInit {
 
     openAssignmentImportModal(courseId: number): void {
         this.courseIdInput = courseId;
-        this.assignmentItems$ = this.assignmentService.getCanvasAssignments(courseId);
+        const assignmentItemsSubscription = this.assignmentService.getCanvasAssignments(courseId).subscribe(assignments => {
+            this.assignmentItems$ = new Observable<Assignment[]>(observer => {
+                observer.next(assignments);
+                observer.complete();
+            });
+        });
+        this.subscriptions.push(assignmentItemsSubscription);
         this.showImportAssignmentModal = true;
     }
 
@@ -57,12 +67,8 @@ export class CourseOverviewComponent implements OnInit {
         this.showImportAssignmentModal = false;
     }
 
-    /**
-     * Handles creation of a course.
-     * @param course The course data returned from the modal.
-     */
     handleCourseCreate(course: Course): void {
-        this.courseService.createCourse(course)
+        const createCourseSubscription = this.courseService.createCourse(course)
             .subscribe({
                 next: () => {
                     this.courseService.refreshCourses();
@@ -70,15 +76,11 @@ export class CourseOverviewComponent implements OnInit {
                 },
                 error: (err) => console.error('Course creation error:', err)
             });
+        this.subscriptions.push(createCourseSubscription);
     }
 
-    /**
-     * Handles creation of an assignment.
-     * @param data The data returned from the modal; expected format is
-     *             { item: Assignment, defaultTeamSize: number }.
-     */
     handleAssignmentCreate(data: any): void {
-        this.assignmentService.createAssignment(data.item)
+        const createAssignmentSubscription = this.assignmentService.createAssignment(data.item)
             .subscribe({
                 next: () => {
                     this.courseService.refreshCourses();
@@ -86,5 +88,6 @@ export class CourseOverviewComponent implements OnInit {
                 },
                 error: (err) => console.error('Assignment creation error:', err)
             });
+        this.subscriptions.push(createAssignmentSubscription);
     }
 }

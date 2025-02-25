@@ -1,8 +1,8 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ActiveAssignmentRoutingService } from '../../../core/services/active-assignment-routing.service';
-import {Observable} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import {Project} from '../../../shared/models/project.model';
 import {ProjectService} from '../../../core/services/project.service';
 import {AuthorizationService} from '../../../core/services/authorization.service';
@@ -13,7 +13,7 @@ import {AuthorizationService} from '../../../core/services/authorization.service
     templateUrl: './project-details.component.html',
     styleUrl: './project-details.component.scss'
 })
-export class ProjectDetailsComponent implements OnInit {
+export class ProjectDetailsComponent implements OnInit, OnDestroy {
     private readonly router: Router = inject(Router);
     private readonly activeAssignmentService: ActiveAssignmentRoutingService = inject(ActiveAssignmentRoutingService);
     private readonly projectService: ProjectService = inject(ProjectService);
@@ -25,29 +25,36 @@ export class ProjectDetailsComponent implements OnInit {
     public isOwner$!: Observable<boolean>;
 
     private projectId: string = 'undefined';
+    private subscriptions: Subscription[] = [];
 
     ngOnInit() {
         console.log('ProjectDetailsComponent initialized');
         // Get project ID from parent route parameters
-        this.route.params.subscribe(params => {
+        const routeSubscription = this.route.params.subscribe(params => {
             console.log('Route params:', params);
             const id = params['id'];
             if (id) {
                 this.projectId = id;
                 this.project$ = this.projectService.getProjectById(id);
 
-                this.project$.subscribe(project => {
+                const projectSubscription = this.project$.subscribe(project => {
                     this.isOwner$ = this.authorizationService.isOwner$(project);
                     this.canManageProject$ = this.authorizationService.canManageProject$(project);
                     console.log(this.canManageProject$);
                 });
+
+                this.subscriptions.push(projectSubscription);
             }
         });
+
+        this.subscriptions.push(routeSubscription);
+    }
+
+    ngOnDestroy() {
+        this.subscriptions.forEach(subscription => subscription.unsubscribe());
     }
 
     navigateBack() {
         this.router.navigate(this.activeAssignmentService.buildRoute('projects'));
     }
-
-
 }

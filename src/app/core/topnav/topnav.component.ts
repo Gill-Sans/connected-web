@@ -1,6 +1,5 @@
 import {AuthFacade} from '../../auth/store/auth.facade';
 import {CommonModule} from '@angular/common';
-import {Component, inject, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {Role} from '../../auth/models/role.model';
 import {ClickOutsideDirective} from '../../shared/directives/click-outside.directive';
@@ -15,6 +14,8 @@ import { NotificationService } from '../services/notifications.service';
 import { Notification } from '../../shared/models/notification.model';
 import {switchMap } from 'rxjs/operators';
 import {AuthService} from '../../auth/auth.service';
+import {Component, inject, OnInit, OnDestroy} from '@angular/core';
+import {Subscription} from 'rxjs';
 
 @Component({
     selector: 'app-topnav',
@@ -26,7 +27,7 @@ import {AuthService} from '../../auth/auth.service';
     styleUrls: ['./topnav.component.scss'],
     standalone: true
 })
-export class TopnavComponent implements OnInit{
+export class TopnavComponent implements OnInit, OnDestroy {
     private readonly authFacade: AuthFacade = inject(AuthFacade);
     private readonly router: Router = inject(Router);
     private readonly courseService: CourseService = inject(CourseService);
@@ -38,25 +39,32 @@ export class TopnavComponent implements OnInit{
     readonly user$: Observable<User | null> = this.authFacade.user$;
     public notifications$: Observable<Notification[]>;
 
-    public Role: typeof Role = Role;
     isHiddenAssignments: boolean = true;
     isHiddenProfile: boolean = true;
     isHiddenNotifications: boolean = true;
+
+    private subscriptions: Subscription[] = [];
 
     constructor(private notificationService: NotificationService) {
         this.notifications$ = this.notificationService.notifications$; // Koppel de notifications$ aan de component
     }
 
     ngOnInit() {
-        this.authFacade.user$.pipe(
+        const userSubscription = this.authFacade.user$.pipe(
             switchMap(user => {
                 if (user) {
-                    this.notificationService.initializeWebSocket(user.id); // Initialiseer de WebSocket-verbinding met userId
-                    return this.notificationService.notifications$; // Retourneer de notifications$ Observable
+                    this.notificationService.initializeWebSocket(user.id);
+                    return this.notificationService.notifications$;
                 }
-                return []; // Zorg ervoor dat je hier een Observable retourneert
+                return [];
             })
-        ).subscribe(); // Abonneer op de Observable
+        ).subscribe();
+
+        this.subscriptions.push(userSubscription);
+    }
+
+    ngOnDestroy() {
+        this.subscriptions.forEach(subscription => subscription.unsubscribe());
     }
 
     toggleAssignmentsHidden() {
@@ -71,7 +79,6 @@ export class TopnavComponent implements OnInit{
         this.isHiddenProfile = !this.isHiddenProfile;
     }
 
-    // This method is called when a click is detected outside the dropdown.
     closeProfileDropdown() {
         this.isHiddenProfile = true;
     }
@@ -88,10 +95,8 @@ export class TopnavComponent implements OnInit{
     toggleNotifications() {
         this.isHiddenNotifications = !this.isHiddenNotifications;
 
-        // Fetch notifications when the dropdown is opened
         if (!this.isHiddenNotifications) {
-            //fetch notifications based on user id
-            this.authFacade.user$.pipe(
+            const notificationsSubscription = this.authFacade.user$.pipe(
                 switchMap(user => {
                     if (user) {
                         return this.notificationService.getNotificationsByUserId(user.id);
@@ -100,9 +105,9 @@ export class TopnavComponent implements OnInit{
                 })
             ).subscribe(notifications => {
                 this.notificationService.notifications$.next(notifications);
+            });
 
-            }
-        );
+            this.subscriptions.push(notificationsSubscription);
         }
     }
 
@@ -111,91 +116,76 @@ export class TopnavComponent implements OnInit{
     }
 
     deleteNotification(notificationId: number){
-
         if (notificationId === undefined) {
             console.error('Notification ID is undefined!');
             return;
         }
-       this.notificationService.deleteNotification(notificationId).subscribe({
-        next: () => {
-            //refresh notifications
-            const currentNotifications = this.notificationService.notifications$.getValue();
-            const updatedNotifications = currentNotifications.filter(n => n.notificationId !== notificationId);
-            this.notificationService.notifications$.next(updatedNotifications);
-        },
-        error: (error) => {
-            console.error('Error deleting notification:', error);
-        }
-       })
+        const deleteSubscription = this.notificationService.deleteNotification(notificationId).subscribe({
+            next: () => {
+                const currentNotifications = this.notificationService.notifications$.getValue();
+                const updatedNotifications = currentNotifications.filter(n => n.notificationId !== notificationId);
+                this.notificationService.notifications$.next(updatedNotifications);
+            },
+            error: (error) => {
+                console.error('Error deleting notification:', error);
+            }
+        });
+
+        this.subscriptions.push(deleteSubscription);
     }
 
     navigateToNotification(notification: Notification){
-        //mark notification as read
-        this.notificationService.updateNotificationAsRead(notification.notificationId).subscribe({
+        const updateSubscription = this.notificationService.markNotificationAsRead(notification.notificationId).subscribe({
             next: () => {
-                //update notification status in local list
                 const currentNotifications = this.notificationService.notifications$.getValue();
                 const updatedNotifications = currentNotifications.map(n => n.notificationId === notification.notificationId
                     ? {...n, isRead: true}
                     : n);
 
-            this.notificationService.notifications$.next(updatedNotifications);
+                this.notificationService.notifications$.next(updatedNotifications);
 
-            //navigate to destination url
-            console.log('Navigating to:', notification.destinationUrl);
-            this.router.navigate([notification.destinationUrl]);
+                console.log('Navigating to:', notification.destinationUrl);
+                this.router.navigate([notification.destinationUrl]);
 
-            //close notifications dropdown
-            this.closeNotificationsDropdown();
+                this.closeNotificationsDropdown();
             },
             error: (error) => {
                 console.error('Error updating notification:', error);
-                //even if the update fails, navigate to the destination url
                 this.router.navigate([notification.destinationUrl]);
             }
-        })
+        });
+
+        this.subscriptions.push(updateSubscription);
     }
 
-
     selectAssignment(assignment: Assignment, course: Course): void {
-        // Set the active assignment in the service.
         this.activeAssignmentService.setActiveAssignment({ assignment, course });
         this.isHiddenAssignments = true;
 
-        // Create URL-friendly slugs.
         const courseSlug = this.slugify(course.name);
         const assignmentSlug = this.slugify(assignment.name);
 
-        // Get the current URL (e.g., "/java-advanced/doesitwork/projects").
         const currentUrl = this.router.url;
-        // Split into segments, filtering out any empty segments.
         const segments = currentUrl.split('/').filter(segment => segment !== '');
 
         if (segments.length >= 3) {
-            // Assume the first two segments are the active assignment context.
             segments[0] = courseSlug;
             segments[1] = assignmentSlug;
-            // Navigate to the updated URL (e.g., "/new-course-slug/new-assignment-slug/projects").
             this.router.navigate(['/' + segments.join('/')]);
         } else {
-            // If no active assignment context is found in the URL, navigate to the default dashboard.
             this.router.navigate(['/', courseSlug, assignmentSlug, 'dashboard']);
         }
     }
-
-
 
     private slugify(text: string): string {
         return text
             .toString()
             .toLowerCase()
             .trim()
-            .replace(/[\s\W-]+/g, '-');  // Replace spaces and non-word characters with a dash
+            .replace(/[\s\W-]+/g, '-');
     }
 
-
-
-
-
-
+    closeNotifications() {
+        this.isHiddenNotifications = true;
+    }
 }

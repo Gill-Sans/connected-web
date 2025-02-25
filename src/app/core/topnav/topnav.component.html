@@ -32,13 +32,12 @@
     <div class="right">
         <div class="nav-name">Projects</div>
         <div class="nav-icons">
-    <div class="notifications">
+    <div class="notifications" (clickOutside)="closeNotifications()" (click)="toggleNotifications()">
         <div class="notifications-container">
             <div class="notification-icon">
                 <img
                     src="icons/bell-regular.svg"
                     alt="Notifications"
-                    (click)="toggleNotifications()"
                 />
                 <span class="notifications-badge" *ngIf="notifications$ | async as notifications">
                     {{notifications.length}}
@@ -50,21 +49,19 @@
             >
                 <ng-container *ngIf="notifications$ | async as notifications">
                     <div class="notification-item" *ngFor="let notification of notifications.reverse()">
-                        <div class="notification-content"
-                            (click)="navigateToNotification(notification)"
-                            [ngClass]="{'unread': !notification.isRead}">
+                        <div class="notification-content" (click)="navigateToNotification(notification)">
                             <div class="notification-text">
                                 <span class="unread-dot" *ngIf="!notification.isRead"></span>
                                 <p>{{ notification.message }}</p>
                             </div>
-                            <span class="notification-date">{{ notification.timestamp| date }}</span>
+                            <span class="notification-date">{{ notification.timestamp | date:'short' }}</span>
                         </div>
                         <button class="delete-notification" (click)="deleteNotification(notification.notificationId)">
                             <img src="icons/delete-icon.svg" alt="Delete notification" />
                         </button>
                     </div>
                     <div *ngIf="notifications.length === 0" class="no-notifications">
-                        Geen notificaties
+                        No notifications
                     </div>
                 </ng-container>
             </div>
