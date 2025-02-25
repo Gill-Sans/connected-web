@@ -4,10 +4,11 @@ import {Router, RouterModule} from '@angular/router';
 import {ActiveAssignmentRoutingService} from '../../../core/services/active-assignment-routing.service';
 import { MarkdownModule } from 'ngx-markdown';
 import {Project} from '../../models/project.model';
+import { TagcardComponent } from '../tagcard/tagcard.component';
 
 @Component({
     selector: 'app-projectcard',
-    imports: [CommonModule, RouterModule, MarkdownModule],
+    imports: [CommonModule, RouterModule, MarkdownModule,TagcardComponent],
     templateUrl: './projectcard.component.html',
     styleUrl: './projectcard.component.scss'
 })
