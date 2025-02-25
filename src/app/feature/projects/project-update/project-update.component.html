@@ -2,6 +2,7 @@
     <h2>Update Project</h2>
     <form [formGroup]="projectForm" (ngSubmit)="onSubmit()">
         <!-- Title Input -->
+    <div *ngIf="projectStatus === 'PENDING'">
         <div class="form-group">
             <label for="title">Title</label>
             <p class="input-description">
@@ -64,6 +65,8 @@
                 placeholder= "{{assignmentDefaultTeamSize}}"
             />
         </div>
+
+    </div>
         <!-- Repository Url -->
         <div class="form-group">
             <label for="repositoryUrl"> Paste your repository Url right here.</label>
