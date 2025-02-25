@@ -73,4 +73,14 @@ export class DetailsOverviewComponent implements OnInit {
             );
         }
     }
+
+    claimProject() {
+        if (this.projectId) {
+            this.projectService.claimProject(this.projectId).subscribe(
+                (updatedProject: Project) => {
+                    this.project$ = new Observable<Project>(subscriber => subscriber.next(updatedProject));
+                }
+            );
+        }
+    }
 }
