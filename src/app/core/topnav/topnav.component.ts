@@ -194,8 +194,7 @@ export class TopnavComponent implements OnInit{
     }
 
 
-
-
-
-
+    navigateToSettings() {
+        this.router.navigate(['/settings']);
+    }
 }
