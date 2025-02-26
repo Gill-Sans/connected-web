@@ -1,10 +1,8 @@
 import { inject } from '@angular/core';
 import {
-    HttpInterceptorFn,
     HttpRequest,
-    HttpHandler,
     HttpEvent,
-    HttpErrorResponse, HttpEventType, HttpHandlerFn, HttpResponse
+    HttpErrorResponse, HttpHandlerFn, HttpResponse
 } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import {catchError, tap} from 'rxjs/operators';
