@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
+import {ToastService} from '../../core/services/toast.service';
 
 @Component({
     selector: 'app-settings',
@@ -15,6 +16,7 @@ import {FormsModule} from '@angular/forms';
 })
 export class SettingsComponent {
     private readonly http = inject(HttpClient);
+    private readonly toastService = inject(ToastService);
     inviteLink: string = '';
     isLoading: boolean = false;
     errorMessage: string = '';
@@ -39,7 +41,7 @@ export class SettingsComponent {
     copyInviteLink(): void {
         if (this.inviteLink) {
             navigator.clipboard.writeText(this.inviteLink).then(() => {
-                console.log('Invitation link copied to clipboard');
+                this.toastService.showToast('info', 'Link copied to clipboard');
             }).catch(err => {
                 console.error('Failed to copy the link!', err);
             });
