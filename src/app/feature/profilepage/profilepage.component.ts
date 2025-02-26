@@ -43,8 +43,6 @@ export class ProfilepageComponent implements OnInit, OnDestroy {
                     this.user = userDetails;
                 });
                 this.subscriptions.push(userDetailsSubscription);
-            } else {
-                console.log("ingelogde user vanuit state: ", user);
             }
         });
         this.subscriptions.push(userSubscription);
@@ -63,8 +61,6 @@ export class ProfilepageComponent implements OnInit, OnDestroy {
 
         if (!this.user.tags.some(t => t.id === selectedTag.id)) {
             this.user.tags?.push(selectedTag);
-        } else {
-            console.log("Tag is already added to user");
         }
     }
 
@@ -93,7 +89,6 @@ export class ProfilepageComponent implements OnInit, OnDestroy {
                 this.isEditing = false;
                 this.loading = false;
                 this.toastService.showToast('success', 'Profile updated successfully');
-                console.log("Profile updated successfully:", updatedUser);
             },
             error => {
                 console.error('Error updating profile:', error);

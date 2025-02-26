@@ -62,11 +62,9 @@ export class ProjectCreateComponent implements OnInit, OnDestroy {
         if (this.projectForm.valid && assignmentId) {
             let project: Project = this.projectForm.value as Project;
             const createProjectSubscription = this.projectService.createProject(assignmentId, project).subscribe(project => {
-                console.log('Project created:', project);
                 this.router.navigate(this.activeAssignmentRoutingService.buildRoute('projects'));
             });
             this.subscriptions.push(createProjectSubscription);
-            console.log('Project submitted:', this.projectForm.value);
         }
     }
 

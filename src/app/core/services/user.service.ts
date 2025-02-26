@@ -14,13 +14,11 @@ export class UserService {
     }
 
     getUserProfile(id: number): Observable<User> {
-        console.log("API call: Fetch user with ID:", id);
         return this.http.get<User>(`${this.baseUrl}/${id}`, {withCredentials: true});
     }
 
     //TODO change any type to userupdate type
     updateUserProfile(updatedUser: Partial<User>): Observable<User> {
-        console.log('UserService - Sending update request:', updatedUser);
 
         return this.http.patch<User>(
             `${this.baseUrl}/update`,

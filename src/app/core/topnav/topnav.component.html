@@ -1,5 +1,5 @@
 <div class="topnav">
-    <div class="left">
+    <div class="left" *hasRole="[Role.Teacher, Role.Student]">
         <div class="left-content" (click)="toggleAssignmentsHidden()" (clickOutside)="closeAssignmentsDropdown()">
             <div class="course-icon"></div>
             <div class="course-info" *ngIf="activeAssignment$ | async as active; else defaultInfo">
@@ -30,52 +30,48 @@
         </div>
     </div>
     <div class="right">
-        <div class="nav-name">Projects</div>
+        <div class="left" *hasRole="[Role.Teacher]">TEACHER</div>
+        <div class="left" *hasRole="[Role.Student]">STUDENT</div>
+        <div class="left" *hasRole="[Role.Researcher]">RESEARCHER</div>
         <div class="nav-icons">
-    <div class="notifications" (clickOutside)="closeNotifications()" (click)="toggleNotifications()">
-        <div class="notifications-container">
-            <div class="notification-icon">
-                <img
-                    src="icons/bell-regular.svg"
-                    alt="Notifications"
-                />
-                <span class="notifications-badge" *ngIf="notifications$ | async as notifications">
-                    {{notifications.length}}
+            <div class="notifications" (clickOutside)="closeNotifications()" (click)="toggleNotifications()">
+                <div class="notifications-container">
+                    <div class="notification-icon">
+                        <img
+                            src="icons/bell-regular.svg"
+                            alt="Notifications"
+                        />
+                        <span class="notifications-badge" *ngIf="notifications$ | async as notifications">
+                    {{ notifications.length }}
                 </span>
-            </div>
-            <div
-                class="notifications-dropdown"
-                [ngClass]="{'hidden': isHiddenNotifications}"
-            >
-                <ng-container *ngIf="notifications$ | async as notifications">
-                    <div class="notification-item" *ngFor="let notification of notifications">
-                        <div class="notification-content" (click)="navigateToNotification(notification)">
-                            <div class="unread-dot" *ngIf="!notification.isRead"></div>
-                            <div class="notification-text">
-                                <p>{{ notification.message }}</p>
-                                <span class="notification-date">{{ notification.timestamp | date:'short' }}</span>
+                    </div>
+                    <div
+                        class="notifications-dropdown"
+                        [ngClass]="{'hidden': isHiddenNotifications}"
+                    >
+                        <ng-container *ngIf="notifications$ | async as notifications">
+                            <div class="notification-item" *ngFor="let notification of notifications">
+                                <div class="notification-content" (click)="navigateToNotification(notification)">
+                                    <div class="unread-dot" *ngIf="!notification.isRead"></div>
+                                    <div class="notification-text">
+                                        <p>{{ notification.message }}</p>
+                                        <span
+                                            class="notification-date">{{ notification.timestamp | date:'short' }}</span>
+                                    </div>
+                                </div>
+                                <div class="delete-notification">
+                                    <button (click)="deleteNotification(notification.notificationId)">
+                                        <img src="icons/delete-icon.svg" alt="Delete notification"/>
+                                    </button>
+                                </div>
                             </div>
-                        </div>
-                        <div class="delete-notification">
-                            <button (click)="deleteNotification(notification.notificationId)">
-                                <img src="icons/delete-icon.svg" alt="Delete notification" />
-                            </button>
-                        </div>
+                            <div *ngIf="notifications.length === 0" class="no-notifications">
+                                No notifications
+                            </div>
+                        </ng-container>
                     </div>
-                    <div *ngIf="notifications.length === 0" class="no-notifications">
-                        No notifications
-                    </div>
-                </ng-container>
+                </div>
             </div>
-        </div>
-    </div>
-
-            <div *ngIf="user$ | async as user; else loadingUser">
-                <span class="nav-name">Welcome, {{ user.email + " - " + user.role }}</span>
-            </div>
-            <ng-template #loadingUser>
-                Loading...
-            </ng-template>
             <div class="user-icon" (click)="toggleHiddenprofile()" (clickOutside)="closeProfileDropdown()"></div>
             <div class="dropdownProfile" [hidden]="isHiddenProfile">
                 <ul>

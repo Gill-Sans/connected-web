@@ -29,6 +29,7 @@ export class ProjectOverviewComponent implements OnInit, OnDestroy {
 
     projects$: Observable<Project[]> | null = null;
     public isTeacher$: Observable<boolean> = this.authorizationService.isTeacher$();
+    public isResearcher$: Observable<boolean> = this.authorizationService.isResearcher$();
 
     activeAssignment: ActiveAssignment | null = this.activeAssignmentService.getActiveAssignment();
     selectedTab: string = 'all';
@@ -39,15 +40,20 @@ export class ProjectOverviewComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         // Subscribe to changes in the active assignment
-        this.activeAssignmentSub = this.activeAssignmentService.activeAssignment$.subscribe(
-            (activeAssignment) => {
-                this.activeAssignment = activeAssignment;
-                // Only reload projects if an active assignment exists.
-                if (activeAssignment && activeAssignment.assignment) {
-                    this.loadProjects();
-                }
+        this.isResearcher$.subscribe(isResearcher => {
+            if (isResearcher) {
+                this.loadGlobalProjects();
+            } else {
+                this.activeAssignmentSub = this.activeAssignmentService.activeAssignment$.subscribe((activeAssignment) => {
+                    this.activeAssignment = activeAssignment;
+                    // Only reload projects if an active assignment exists.
+                    if (activeAssignment && activeAssignment.assignment) {
+                        this.loadProjects();
+                    }
+                });
             }
-        );
+        });
+
 
         // Subscribe to user changes to check for teacher role
         this.isTeacher$.subscribe(isTeacher => {
@@ -66,7 +72,7 @@ export class ProjectOverviewComponent implements OnInit, OnDestroy {
     }
 
     tabOptions = [
-        { label: 'All projects', value: 'all' },
+        {label: 'All projects', value: 'all'},
     ];
 
     changeTab(tab: string): void {
@@ -88,6 +94,10 @@ export class ProjectOverviewComponent implements OnInit, OnDestroy {
                 }
             });
         }
+    }
+
+    loadGlobalProjects(): void {
+        this.projects$ = this.projectService.getAllGlobalProjects();
     }
 
     updateProjectStatus(project: Project, status: ProjectStatusEnum): void {

@@ -87,7 +87,6 @@ export class FeedbackComponent implements OnInit, OnDestroy {
     }
 
     deleteFeedback(feedback: Feedback) {
-        console.log('Deleting feedback with ID:', feedback.id);
         const deleteSubscription = this.projectService.deleteFeedbackByTeacher(feedback.id).subscribe(() => {
             this.toastService.showToast('success', 'Feedback deleted!');
             this.loadFeedback();
@@ -125,7 +124,6 @@ export class FeedbackComponent implements OnInit, OnDestroy {
         const review: CreateReview = {
             status: status === 'thumbs_up' ? ReviewStatusEnum.THUMBS_UP : ReviewStatusEnum.THUMBS_DOWN
         };
-        console.log(this.projectId, review);
 
         const reviewSubscription = this.reviewService.createReview(this.projectId, review).subscribe(() => {
             this.toastService.showToast('success', `Review ${status.replace('_', ' ')} submitted!`);

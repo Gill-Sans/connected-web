@@ -34,29 +34,17 @@ export class AuthService {
     }
 
     logout(): void {
-        console.log('logging out');
         this.ngZone.run(() => {
             this.http.post(`${environment.apiBaseUrl}/auth/logout`, {}, { withCredentials: true }).subscribe({
                 next: () => {
-                    console.log('logout successful');
-                    console.log('removing JSESSIONID cookie');
                     this.deleteCookie('JSESSIONID');
-                    console.log('removed cookie, redirecting to login');
                     this.authFacade.redirectToLogin();
-                },
-                error: (err) => {
-                    console.error('Logout failed', err);
-                },
-                complete: () => {
-                    console.log('HTTP request completed');
                 }
             });
         });
     }
 
     private deleteCookie(name: string): void {
-        console.log(`Deleting cookie: ${name}`);
         document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
-        console.log(`Cookie ${name} deleted`);
     }
 }

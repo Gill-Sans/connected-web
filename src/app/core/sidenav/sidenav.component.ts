@@ -1,8 +1,9 @@
-import { Component, inject } from '@angular/core';
-import {Router, RouterModule} from '@angular/router';
+import {Component, inject, OnInit} from '@angular/core';
+import {RouterModule} from '@angular/router';
 import { Role } from '../../auth/models/role.model';
 import { HasRoleDirective } from '../../shared/directives/HasRole.directive';
 import {ActiveAssignmentRoutingService} from '../services/active-assignment-routing.service';
+import {AuthorizationService} from '../services/authorization.service';
 
 @Component({
     selector: 'app-sidenav',
@@ -13,12 +14,23 @@ import {ActiveAssignmentRoutingService} from '../services/active-assignment-rout
     templateUrl: './sidenav.component.html',
     styleUrl: './sidenav.component.scss'
 })
-export class SidenavComponent {
+export class SidenavComponent implements OnInit {
     public Role: typeof Role = Role;
     private assignmentRoutingService:ActiveAssignmentRoutingService = inject(ActiveAssignmentRoutingService);
+    private authorizationService:AuthorizationService = inject(AuthorizationService);
+    private readonly isResearcher$ = this.authorizationService.isResearcher$();
+    private excludedRoutes: string[] = [];
 
-    // List of routes that should NOT include the active assignment context
-    private excludedRoutes: string[] = ['courses', 'profile'];
+    ngOnInit() {
+        this.isResearcher$.subscribe((isResearcher) => {
+            if (isResearcher) {
+                this.excludedRoutes = ['projects', 'courses', 'dashboard'];
+            } else {
+                this.excludedRoutes = ['courses', 'profile']
+            }
+
+        });
+    }
 
     /**
      * Returns the proper router link for the given route.
@@ -26,6 +38,7 @@ export class SidenavComponent {
      */
     getRoute(route: string | string[]): string[] {
         let segments: string[];
+
         if (typeof route === 'string') {
             segments = [route];
         } else {

@@ -12,10 +12,6 @@ export class CourseService {
     private coursesSubject = new BehaviorSubject<Course[]>([]);
     public courses$ = this.coursesSubject.asObservable();
 
-    constructor() {
-        this.refreshCourses();
-    }
-
     refreshCourses(): void {
         this.http.get<Course[]>(`${environment.apiBaseUrl}/api/courses/enrolled`, { withCredentials: true })
             .subscribe(courses => {

@@ -110,7 +110,6 @@ export class ProjectUpdateComponent implements OnInit, OnDestroy {
             };
             const updateSubscription = this.projectService.updateProject(updatedProject.id, updatedProject).subscribe(
                 project => {
-                    console.log('Project bijgewerkt:', project);
                     this.router.navigate(this.activeAssignmentRoutingService.buildRoute('projects', project.id.toString()));
                 }
             );
