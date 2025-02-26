@@ -1,0 +1,35 @@
+.invite-section {
+    margin-bottom: 20px;
+}
+
+.invite-link-container {
+    display: flex;
+    align-items: center;
+}
+
+.invite-link-field {
+    flex: 1;
+    padding: 8px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    padding: 8px 12px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:disabled {
+    background-color: #999;
+    cursor: not-allowed;
+}
+
+.error {
+    color: red;
+    margin-top: 10px;
+}

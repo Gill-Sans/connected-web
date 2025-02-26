@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { ProjectOverviewComponent } from './feature/projects/project-overview/project-overview.component';
-import { LoginComponent } from './auth/login/login.component';
+import { LoginComponent } from './auth/components/login/login.component';
 import { MainLayoutComponent } from './feature/main-layout/main-layout.component';
 import { AuthGuard } from './auth/guards/auht.guard';
 import { AuthLayoutComponent } from './feature/auth-layout/auth-layout.component';
@@ -18,6 +18,9 @@ import { ApplicationsCreateComponent } from './feature/applications-create/appli
 import {DeadlineOverviewComponent} from './feature/deadline-overview/deadline-overview.component';
 import {DeadlineCreateComponent} from './feature/deadline-create/deadline-create.component';
 import {StudentOverviewComponent} from './feature/student-overview/student-overview.component';
+import {PasswordLoginComponent} from './auth/components/password-login/password-login.component';
+import {RegisterComponent} from './auth/components/register/register.component';
+import {SettingsComponent} from './feature/settings/settings.component';
 
 export const routes: Routes = [
     {
@@ -31,6 +34,7 @@ export const routes: Routes = [
             { path: 'profile', component: ProfilepageComponent },
             { path: '', component: WelcomeComponent },
             { path: '404', component: NotfoundComponent },
+            { path: 'settings', component: SettingsComponent},
 
             // Routes that DO require an active assignment context:
             {
@@ -54,10 +58,15 @@ export const routes: Routes = [
     },
     {
         // Unauthenticated routes
-        path: 'login',
+        path: '',
         component: AuthLayoutComponent,
         children: [
-            { path: '', component: LoginComponent }
+            // Default route: canvas login page.
+            { path: 'login', component: LoginComponent },
+            // Password login for researchers.
+            { path: 'guest', component: PasswordLoginComponent },
+            // Register route (special registration logic for researchers).
+            { path: 'register', component: RegisterComponent }
         ]
     },
     { path: '**', redirectTo: '' }

@@ -30,7 +30,6 @@ export class AuthEffects {
         )
     );
 
-
     // Effect to redirect to the login page
     readonly redirectToLogin$ = createEffect(
       () =>
@@ -64,5 +63,52 @@ export class AuthEffects {
             )
     );
 
+    readonly login$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(AuthActions.login),
+            mergeMap(({ username, password }) =>
+                this.authService.login(username, password).pipe(
+                    // Once login is successful, load the current session.
+                    mergeMap(() => [
+                        AuthActions.loginSuccess(), // you could dispatch this action
+                        AuthActions.loadSession() // trigger load of user details
+                    ]),
+                    catchError(error => of(AuthActions.loginFailure({ error })))
+                )
+            )
+        )
+    );
 
+    readonly loginRedirect$ = createEffect(() =>
+            this.actions$.pipe(
+                ofType(AuthActions.loginSuccess),
+                tap(() => console.log('Login success action received – redirecting to /')),
+                tap(() => {
+                    this.router.navigate(['/']);
+                })
+            ),
+        { dispatch: false }
+    );
+
+    readonly register$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(AuthActions.register),
+            mergeMap(({ request }) =>
+                this.authService.register(request).pipe(
+                    map(user => AuthActions.registerSuccess({ user })),
+                    catchError(error => of(AuthActions.registerFailure({ error })))
+                )
+            )
+        )
+    );
+
+    readonly registerRedirect$ = createEffect(() =>
+            this.actions$.pipe(
+                ofType(AuthActions.registerSuccess),
+                tap(() => {
+                    this.router.navigate(['/guest']);
+                })
+            ),
+        { dispatch: false }
+    );
 }

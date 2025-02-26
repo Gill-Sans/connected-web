@@ -21,7 +21,7 @@ export function authInterceptor(
             }
         }),
         catchError((error: HttpErrorResponse) => {
-            if (error.status === 401) {
+            if (error.status == 401) {
                 console.log('401 error, redirecting to login');
                 document.cookie = `JSESSIONID=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
                 authFacade.redirectToLogin();

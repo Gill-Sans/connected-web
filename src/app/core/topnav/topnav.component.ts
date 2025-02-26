@@ -187,4 +187,8 @@ export class TopnavComponent implements OnInit, OnDestroy {
     closeNotifications() {
         this.isHiddenNotifications = true;
     }
+
+    navigateToSettings() {
+        this.router.navigate(['/settings']);
+    }
 }

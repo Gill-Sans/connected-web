@@ -1,4 +1,4 @@
-@import "../../../../styles/mixins.scss";
+@use "../../../../styles/mixins.scss" as *;
 
 .project-details-container {
     padding: 20px;
