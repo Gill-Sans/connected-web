@@ -12,6 +12,11 @@ import {ActiveAssignmentRoutingService} from '../../../core/services/active-assi
 import {ProjectStatusEnum} from '../../../shared/models/ProjectStatus.enum';
 import {AuthorizationService} from '../../../core/services/authorization.service';
 
+interface TabOption {
+    label: string;
+    value: string;
+}
+
 @Component({
     selector: 'app-project-overview',
     imports: [ProjectcardComponent, CommonModule, RouterOutlet],
@@ -38,20 +43,34 @@ export class ProjectOverviewComponent implements OnInit, OnDestroy {
     // Subscription to listen to active assignment changes
     private activeAssignmentSub?: Subscription;
 
+
+
+    tabOptions: TabOption[] = [];
+
     ngOnInit(): void {
         // Subscribe to changes in the active assignment
         this.isResearcher$.subscribe(isResearcher => {
             if (isResearcher) {
+                this.tabOptions = [{label: 'Global projects', value: 'global'}];
+                this.selectedTab = "global";
                 this.loadGlobalProjects();
             } else {
+                this.tabOptions = [
+                    {label: 'All projects', value: 'all'},
+                    {label: 'Global projects', value: 'global'}
+                ];
                 this.activeAssignmentSub = this.activeAssignmentService.activeAssignment$.subscribe((activeAssignment) => {
                     this.activeAssignment = activeAssignment;
                     // Only reload projects if an active assignment exists.
                     if (activeAssignment && activeAssignment.assignment) {
+
                         this.loadProjects();
+
                     }
                 });
             }
+
+
         });
 
 
@@ -71,12 +90,13 @@ export class ProjectOverviewComponent implements OnInit, OnDestroy {
         this.router.navigate(builtRoute);
     }
 
-    tabOptions = [
-        {label: 'All projects', value: 'all'},
-    ];
-
     changeTab(tab: string): void {
         this.selectedTab = tab;
+        if (tab === 'all') {
+            this.loadProjects();
+        } else if (tab === 'global') {
+            this.loadGlobalProjects();
+        }
     }
 
     toggleView(): void {

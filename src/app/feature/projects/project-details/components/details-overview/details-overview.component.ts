@@ -12,6 +12,9 @@ import {AuthorizationService} from '../../../../../core/services/authorization.s
 import {ProjectStatusEnum} from '../../../../../shared/models/ProjectStatus.enum';
 import { tag } from '../../../../../shared/models/tag.model';
 import { TagcardComponent } from "../../../../../shared/components/tagcard/tagcard.component";
+import {ActiveAssignmentService} from '../../../../../core/services/active-assignment.service';
+import {ActiveAssignment} from '../../../../../shared/models/activeAssignment.model';
+import {ToastService} from '../../../../../core/services/toast.service';
 
 @Component({
     selector: 'app-details-overview',
@@ -25,6 +28,8 @@ export class DetailsOverviewComponent implements OnInit, OnDestroy {
     public authorizationService: AuthorizationService = inject(AuthorizationService);
     private readonly activeAssignmentRoutingService: ActiveAssignmentRoutingService = inject(ActiveAssignmentRoutingService);
     private readonly router: Router = inject(Router);
+    private readonly activeAssignmentService: ActiveAssignmentService = inject(ActiveAssignmentService);
+    private readonly toastService: ToastService = inject(ToastService);
     protected readonly ProjectStatusEnum = ProjectStatusEnum;
 
     public project$: Observable<Project> | null = null;
@@ -35,6 +40,8 @@ export class DetailsOverviewComponent implements OnInit, OnDestroy {
     public repositoryUrl: string = '';
     public boardUrl: string = '';
     public tags: tag[] = [];
+
+    private activeAssignment: ActiveAssignment | null = null;
 
     private projectId: number | null = null;
     private subscriptions: Subscription[] = [];
@@ -64,6 +71,15 @@ export class DetailsOverviewComponent implements OnInit, OnDestroy {
         if (routeSubscription) {
             this.subscriptions.push(routeSubscription);
         }
+
+        // get assignmentId
+        const activeAssignmentSubscription = this.activeAssignmentService.activeAssignment$.subscribe(activeAssignment => {
+            if (activeAssignment) {
+                this.activeAssignment = activeAssignment;
+            }
+        });
+        this.subscriptions.push(activeAssignmentSubscription);
+
     }
 
     ngOnDestroy(): void {
@@ -95,6 +111,17 @@ export class DetailsOverviewComponent implements OnInit, OnDestroy {
             this.projectService.claimProject(this.projectId).subscribe(
                 (updatedProject: Project) => {
                     this.project$ = new Observable<Project>(subscriber => subscriber.next(updatedProject));
+                }
+            );
+        }
+    }
+
+    importProject() {
+        if (this.projectId && this.activeAssignment?.assignment.id) {
+            this.projectService.importProject(this.projectId, this.activeAssignment?.assignment.id).subscribe(
+                (updatedProject: Project) => {
+                    this.toastService.showToast('success', 'Project imported successfully');
+                    this.router.navigate(this.activeAssignmentRoutingService.buildRoute('projects', updatedProject.id.toString()));
                 }
             );
         }
