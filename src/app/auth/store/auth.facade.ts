@@ -3,7 +3,8 @@ import {Store} from '@ngrx/store';
 import * as AuthActions from './auth.actions'; // Actions like loadSession, redirectToLogin, logout
 import * as AuthSelectors from './auth.selectors';
 import {filter, take} from 'rxjs/operators';
-import {firstValueFrom, map} from 'rxjs'; // Selectors like selectUser, selectIsAuthenticated, etc.
+import {firstValueFrom, map} from 'rxjs';
+import {RegistrationRequest} from '../models/registration-request.model'; // Selectors like selectUser, selectIsAuthenticated, etc.
 
 @Injectable({providedIn: 'root'})
 export class AuthFacade {
@@ -37,6 +38,13 @@ export class AuthFacade {
         this.store.dispatch(AuthActions.redirectToCanvasLogin());
     }
 
+    login(username: string, password: string): void {
+        this.store.dispatch(AuthActions.login({ username, password }));
+    }
+
+    register(request: RegistrationRequest): void {
+        this.store.dispatch(AuthActions.register({ request }));
+    }
 
     // TODO: Implement logout functionality
     // logout(): void {
