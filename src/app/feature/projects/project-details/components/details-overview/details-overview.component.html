@@ -39,10 +39,10 @@
                 </div>
             </div>
             <div class="apply-section" *ngIf="!(canManageProject$ | async) && !(isMember$ | async)">
-                <p *ngIf="project.members.length === 0; else applyText">
+                <p *ngIf="project.members.length === 0 && project.assignmentId != null">
                     Press this button to claim this project. By claiming, you take ownership of this project.
                 </p>
-                <ng-template #applyText>
+                <ng-template [ngIf]="project.members.length === 0 && project.assignmentId != null">
                     <p>
                         Press this button to apply for this project. By applying,
                         you express your interest in contributing to this project
@@ -50,18 +50,24 @@
                     </p>
                 </ng-template>
                 <app-button
-                    *ngIf="project.members.length === 0; else applyButton"
+                    *ngIf="project.members.length === 0 && project.assignmentId != null"
                     label="Claim Project"
                     type="normal"
                     (click)="claimProject()"
                 ></app-button>
-                <ng-template #applyButton>
+                <ng-template [ngIf]="project.members.length === 0 && project.assignmentId != null">
                     <app-button
                         label="Apply for this project"
                         type="normal"
                         (click)="applyForProject()"
                     ></app-button>
                 </ng-template>
+                <app-button
+                    *ngIf="project.assignmentId == null"
+                    label="Import Project"
+                    type="normal"
+                    (click)="importProject()"
+                ></app-button>
             </div>
             <div class="members-section">
                 <h3>Members <span style="font-size: small; color: gray; font-weight: 300; ">{{project.members.length || 0}}/{{project.teamSize}}</span></h3>
