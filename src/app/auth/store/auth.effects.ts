@@ -82,7 +82,6 @@ export class AuthEffects {
     readonly loginRedirect$ = createEffect(() =>
             this.actions$.pipe(
                 ofType(AuthActions.loginSuccess),
-                tap(() => console.log('Login success action received – redirecting to /')),
                 tap(() => {
                     this.router.navigate(['/']);
                 })

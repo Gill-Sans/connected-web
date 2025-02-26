@@ -18,6 +18,12 @@ export class AuthorizationService {
         );
     }
 
+    isResearcher$(): Observable<boolean> {
+        return this.authFacade.user$.pipe(
+            map(user => user?.role === Role.Researcher)
+        );
+    }
+
     /**
      * Returns an observable that emits true if the current user is the owner of the given project.
      */
