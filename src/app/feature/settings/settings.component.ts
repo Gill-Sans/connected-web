@@ -26,7 +26,6 @@ export class SettingsComponent {
         this.errorMessage = '';
         this.http.post<{ code: string }>(`${environment.apiBaseUrl}/api/invitations/generate`, {}, { withCredentials: true }).subscribe({
             next: (response) => {
-                console.log('Invitation code generated', response.code);
                 this.inviteLink = `${environment.baseUrl}/register?invitation-code=${response.code}`;
                 this.isLoading = false;
             },

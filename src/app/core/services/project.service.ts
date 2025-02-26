@@ -1,15 +1,15 @@
-import { inject, Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { environment } from '../../../environments/environment';
-import { Project } from '../../shared/models/project.model';
-import { Application } from '../../shared/models/application.model';
-import { ApplicationCreate } from '../../shared/models/application.model';
+import {inject, Injectable} from '@angular/core';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {environment} from '../../../environments/environment';
+import {Project} from '../../shared/models/project.model';
+import {Application} from '../../shared/models/application.model';
+import {ApplicationCreate} from '../../shared/models/application.model';
 import {ProjectStatusEnum} from '../../shared/models/ProjectStatus.enum';
-import { createFeedback, Feedback } from '../../shared/models/feedback.model';
+import {createFeedback, Feedback} from '../../shared/models/feedback.model';
 import {ApplicationStatusEnum} from '../../shared/models/ApplicationStatus.enum';
 
-@Injectable({ providedIn: 'root' })
+@Injectable({providedIn: 'root'})
 export class ProjectService {
     private http = inject(HttpClient);
 
@@ -17,6 +17,13 @@ export class ProjectService {
         return this.http.get<Project[]>(`${environment.apiBaseUrl}/api/projects/assignment/${assignmentId.toString()}`, {
             withCredentials: true
         });
+    }
+
+    getAllGlobalProjects(): Observable<Project[]> {
+        return this.http.get<Project[]>(`${environment.apiBaseUrl}/api/projects/global`, {
+                withCredentials: true
+            }
+        );
     }
 
     getAllPublishedProjects(assignmentId: number): Observable<Project[]> {
@@ -91,22 +98,22 @@ export class ProjectService {
         });
     }
 
-    updateFeedbackByTeacher(feedbackId: number, feedback: Feedback): Observable<Feedback>{
+    updateFeedbackByTeacher(feedbackId: number, feedback: Feedback): Observable<Feedback> {
         return this.http.put<Feedback>(`${environment.apiBaseUrl}/api/feedback/${feedbackId}`, feedback, {
             withCredentials: true
         });
     }
 
-    deleteFeedbackByTeacher(feedbackId: number): Observable<void>{
+    deleteFeedbackByTeacher(feedbackId: number): Observable<void> {
         return this.http.delete<void>(`${environment.apiBaseUrl}/api/feedback/${feedbackId}`, {
             withCredentials: true
         });
     }
 
-    updateProjectStatus(projectId: number, status: ProjectStatusEnum): Observable<Project>{
+    updateProjectStatus(projectId: number, status: ProjectStatusEnum): Observable<Project> {
         const headers: HttpHeaders = new HttpHeaders()
             .set('status', status);
-        return this.http.post<Project>(`${environment.apiBaseUrl}/api/projects/${projectId}/status`,   {}, {
+        return this.http.post<Project>(`${environment.apiBaseUrl}/api/projects/${projectId}/status`, {}, {
             withCredentials: true,
             headers: headers
         });

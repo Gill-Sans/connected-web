@@ -21,6 +21,7 @@ import {StudentOverviewComponent} from './feature/student-overview/student-overv
 import {PasswordLoginComponent} from './auth/components/password-login/password-login.component';
 import {RegisterComponent} from './auth/components/register/register.component';
 import {SettingsComponent} from './feature/settings/settings.component';
+import {ResearcherGuard} from './core/guards/researcher.guard';
 
 export const routes: Routes = [
     {
@@ -35,16 +36,26 @@ export const routes: Routes = [
             { path: '', component: WelcomeComponent },
             { path: '404', component: NotfoundComponent },
             { path: 'settings', component: SettingsComponent},
+            {
+                path: 'projects',
+                canActivate: [ResearcherGuard],
+                children: [
+                    { path: '', component: ProjectOverviewComponent },
+                    { path: 'create', component: ProjectCreateComponent },
+                    { path: '', children: projectDetailsRoutes },
+                    // You can add more researcher-specific routes here (like dashboard) if needed.
+                ]
+            },
 
             // Routes that DO require an active assignment context:
             {
-                path: ':courseSlug/:assignmentSlug',
+                path: 'course/:courseSlug/assignment/:assignmentSlug',
                 resolve: { activeAssignment: ActiveAssignmentResolver },
                 children: [
                     { path: 'dashboard', component: DashboardComponent },
                     { path: 'projects', component: ProjectOverviewComponent },
-                    { path: 'projects/create', component: ProjectCreateComponent },
                     { path: 'projects', children: projectDetailsRoutes },
+                    { path: 'projects/create', component: ProjectCreateComponent },
                     { path: 'projects/:id/apply', component: ApplicationsCreateComponent },
                     { path: 'deadlines', component: DeadlineOverviewComponent },
                     { path: 'deadlines/create', component: DeadlineCreateComponent },

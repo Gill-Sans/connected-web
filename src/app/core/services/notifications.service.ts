@@ -1,10 +1,10 @@
-import { inject, Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { Notification } from '../../shared/models/notification.model';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../environments/environment';
-import { Stomp } from '@stomp/stompjs';
-import { AuthFacade } from '../../auth/store/auth.facade';
+import {inject, Injectable} from '@angular/core';
+import {BehaviorSubject, Observable} from 'rxjs';
+import {Notification} from '../../shared/models/notification.model';
+import {HttpClient} from '@angular/common/http';
+import {environment} from '../../../environments/environment';
+import {Stomp} from '@stomp/stompjs';
+import {AuthFacade} from '../../auth/store/auth.facade';
 
 @Injectable({
     providedIn: 'root'
@@ -20,15 +20,10 @@ export class NotificationService {
 
     initializeWebSocket(userId: number) {
         const serverUrl = `${environment.apiBaseUrl.replace(/^http/, 'ws')}/ws`;
-        console.log('Preparing to connect to WebSocket at:', serverUrl);
 
         //  nieuwe WebSocket-instantie te creëren
         this.stompClient = Stomp.over(() => {
-            const ws = new WebSocket(serverUrl);
-            ws.onclose = () => {
-                console.log('WebSocket connection closed. Attempting to reconnect...');
-            };
-            return ws;
+            return new WebSocket(serverUrl);
         });
 
         // Probeer verbinding te maken met de STOMP-server

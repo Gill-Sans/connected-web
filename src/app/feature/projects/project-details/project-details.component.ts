@@ -28,10 +28,8 @@ export class ProjectDetailsComponent implements OnInit, OnDestroy {
     private subscriptions: Subscription[] = [];
 
     ngOnInit() {
-        console.log('ProjectDetailsComponent initialized');
         // Get project ID from parent route parameters
         const routeSubscription = this.route.params.subscribe(params => {
-            console.log('Route params:', params);
             const id = params['id'];
             if (id) {
                 this.projectId = id;

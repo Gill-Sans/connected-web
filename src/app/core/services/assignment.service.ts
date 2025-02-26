@@ -20,13 +20,4 @@ export class AssignmentService {
     getAllApplicationsFromAssignment(id: number): Observable<Application[]> {
         return this.http.get<Application[]>(`${environment.apiBaseUrl}/api/assignments/${id}/applications`, { withCredentials: true });
     }
-
-    getAllAssignments(courseId: number): Observable<Assignment[]> {
-        let response = this.http.get<Assignment[]>(`${environment.apiBaseUrl}/api/courses/${courseId}/assignments`, {withCredentials: true});
-        response.subscribe(assignment => {
-            console.log('Assignments:', assignment);
-        });
-        return response;
-    }
-
 }

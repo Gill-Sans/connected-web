@@ -2,25 +2,27 @@ import {AuthFacade} from '../../auth/store/auth.facade';
 import {CommonModule} from '@angular/common';
 import {Router} from '@angular/router';
 import {ClickOutsideDirective} from '../../shared/directives/click-outside.directive';
-import {Observable} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import {User} from '../../auth/models/user.model';
 import {CourseService} from '../services/course.service';
 import {Course} from '../../shared/models/course.model';
 import {ActiveAssignmentService} from '../services/active-assignment.service';
 import {Assignment} from '../../shared/models/assignment.model';
-import { ActiveAssignment } from '../../shared/models/activeAssignment.model';
-import { NotificationService } from '../services/notifications.service';
-import { Notification } from '../../shared/models/notification.model';
-import {switchMap } from 'rxjs/operators';
+import {ActiveAssignment} from '../../shared/models/activeAssignment.model';
+import {NotificationService} from '../services/notifications.service';
+import {Notification} from '../../shared/models/notification.model';
+import {switchMap} from 'rxjs/operators';
 import {AuthService} from '../../auth/auth.service';
-import {Component, inject, OnInit, OnDestroy} from '@angular/core';
-import {Subscription} from 'rxjs';
+import {Component, inject, OnDestroy, OnInit} from '@angular/core';
+import {Role} from '../../auth/models/role.model';
+import {HasRoleDirective} from '../../shared/directives/HasRole.directive';
 
 @Component({
     selector: 'app-topnav',
     imports: [
         CommonModule,
         ClickOutsideDirective,
+        HasRoleDirective,
     ],
     templateUrl: './topnav.component.html',
     styleUrls: ['./topnav.component.scss'],
@@ -33,7 +35,7 @@ export class TopnavComponent implements OnInit, OnDestroy {
     private readonly activeAssignmentService: ActiveAssignmentService = inject(ActiveAssignmentService);
     public readonly authService: AuthService = inject(AuthService);
 
-    public activeAssignment$: Observable<ActiveAssignment | null> = this.activeAssignmentService.activeAssignment$;
+    public activeAssignment$: Observable<ActiveAssignment | null> | null = null;
     public courses$: Observable<Course[]> = this.courseService.courses$;
     readonly user$: Observable<User | null> = this.authFacade.user$;
     public notifications$: Observable<Notification[]>;
@@ -53,6 +55,9 @@ export class TopnavComponent implements OnInit, OnDestroy {
             switchMap(user => {
                 if (user) {
                     this.notificationService.initializeWebSocket(user.id);
+                    if (user.role != Role.Researcher) {
+                       this.activeAssignment$ = this.activeAssignmentService.activeAssignment$;
+                    }
                     return this.notificationService.notifications$;
                 }
                 return [];
@@ -67,6 +72,7 @@ export class TopnavComponent implements OnInit, OnDestroy {
     }
 
     toggleAssignmentsHidden() {
+        this.courseService.refreshCourses();
         this.isHiddenAssignments = !this.isHiddenAssignments;
     }
 
@@ -87,7 +93,6 @@ export class TopnavComponent implements OnInit, OnDestroy {
     }
 
     logout(): void {
-        console.log('Logging out...');
         this.authService.logout();
     }
 
@@ -143,7 +148,6 @@ export class TopnavComponent implements OnInit, OnDestroy {
 
                 this.notificationService.notifications$.next(updatedNotifications);
 
-                console.log('Navigating to:', notification.destinationUrl);
                 this.router.navigate([notification.destinationUrl]);
 
                 this.closeNotificationsDropdown();
@@ -191,4 +195,6 @@ export class TopnavComponent implements OnInit, OnDestroy {
     navigateToSettings() {
         this.router.navigate(['/settings']);
     }
+
+    protected readonly Role = Role;
 }
