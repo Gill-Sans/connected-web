@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MarkdownModule } from 'ngx-markdown';
@@ -8,19 +8,31 @@ import { ActiveAssignmentService } from '../../../core/services/active-assignmen
 import { Router } from '@angular/router';
 import { Project } from '../../../shared/models/project.model';
 import {ActiveAssignmentRoutingService} from '../../../core/services/active-assignment-routing.service';
+import {Subscription} from 'rxjs';
+import { TagcardComponent } from '../../../shared/components/tagcard/tagcard.component';
+import { TagSearchComponentComponent } from '../../../shared/tag-search-component/tag-search-component.component';
+import { tag } from '../../../shared/models/tag.model';
+import { select } from '@ngrx/store';
 
 @Component({
     selector: 'app-project-create',
-    imports: [CommonModule, MarkdownModule, ReactiveFormsModule, LMarkdownEditorModule],
+    imports: [CommonModule, MarkdownModule, ReactiveFormsModule, LMarkdownEditorModule,TagcardComponent, TagSearchComponentComponent],
     templateUrl: './project-create.component.html',
     styleUrl: "./project-create.component.scss"
 })
-export class ProjectCreateComponent implements OnInit {
+export class ProjectCreateComponent implements OnInit, OnDestroy {
 
     private readonly projectService: ProjectService = inject(ProjectService);
     private readonly activeAssignmentService: ActiveAssignmentService = inject(ActiveAssignmentService);
     private readonly activeAssignmentRoutingService: ActiveAssignmentRoutingService = inject(ActiveAssignmentRoutingService);
     private readonly router: Router = inject(Router);
+    assignmentDefaultTeamSize = this.activeAssignmentService.getActiveAssignment()?.assignment.defaultTeamSize;
+    private subscriptions: Subscription[] = [];
+
+    tag: tag | null = null;
+    tagList: tag[] = [];// array to hold the selected tags
+    newTag: string = '';
+    showTagInput: boolean = false;
 
     ngOnInit() {
     }
@@ -29,8 +41,9 @@ export class ProjectCreateComponent implements OnInit {
         title: new FormControl('', [Validators.required]),
         description: new FormControl(''),
         shortDescription: new FormControl('', [Validators.required]),
+        teamSize: new FormControl(this.activeAssignmentService.getActiveAssignment()?.assignment.defaultTeamSize, [Validators.required]),
+        tags : new FormControl()
     });
-
 
     charCount: number = 0;
     markdownPreview = '';
@@ -44,21 +57,30 @@ export class ProjectCreateComponent implements OnInit {
         this.charCount = shortDescriptionControl?.value ? shortDescriptionControl.value?.length : 0;
     }
 
-
     onSubmit() {
         const assignmentId = this.activeAssignmentService.getActiveAssignment()?.assignment.id;
         if (this.projectForm.valid && assignmentId) {
             let project: Project = this.projectForm.value as Project;
-            project.teamSize = 3;
-            project.tags = [];
-            this.projectService.createProject(assignmentId, project).subscribe(project => {
+            const createProjectSubscription = this.projectService.createProject(assignmentId, project).subscribe(project => {
                 console.log('Project created:', project);
                 this.router.navigate(this.activeAssignmentRoutingService.buildRoute('projects'));
             });
+            this.subscriptions.push(createProjectSubscription);
             console.log('Project submitted:', this.projectForm.value);
         }
     }
 
+    addTagToProject(selectedTag: tag){
+       if(!this.tagList.some(t => t.id === selectedTag.id)){
+        this.tagList.push(selectedTag);
+        this.projectForm.patchValue({tags : this.tagList});
+       }
+    }
+
+    removeTag(tagId: number){
+        this.tagList = this.tagList.filter(tag => tag.id != tagId);
+        this.projectForm.patchValue({tags: this.tagList})
+    }
 
     toggleFullScreen() {
         const editorElement = document.querySelector('md-editor');
@@ -67,5 +89,9 @@ export class ProjectCreateComponent implements OnInit {
         } else {
             document.exitFullscreen();
         }
+    }
+
+    ngOnDestroy() {
+        this.subscriptions.forEach(subscription => subscription.unsubscribe());
     }
 }

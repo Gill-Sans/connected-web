@@ -51,6 +51,41 @@
             </md-editor>
         </div>
 
+        <div class="form-group">
+            <label for="teamSize"> Set the Team Size for your project</label>
+            <p class="input-description">
+                If no Team size is given for your project, the default Team Size for the assignment will be implemented.
+            </p>
+            <input
+                id="teamSize"
+                type="number"
+                formControlName="teamSize"
+                min="1"
+                max="{{assignmentDefaultTeamSize}}"
+                placeholder= "{{assignmentDefaultTeamSize}}"
+            />
+        </div>
+
+
+         <!-- Tags Section -->
+        <div class="form-group">
+            <div class="skillset">
+                <p>Skillset</p>
+                <div class="tags-container">
+                    <app-tagcard
+                        *ngFor="let tag of tagList"
+                        [tag]="tag"
+                        [showDelete]="true"
+                        (deleteTag)="removeTag(tag.id)"
+                    >
+                    </app-tagcard>
+                </div>
+                <app-tag-search-component
+                    (tagSelected)="addTagToProject($event)"
+                ></app-tag-search-component>
+            </div>
+        </div>
+
         <!-- Submit Button -->
         <button class="create-project-btn" type="submit">Create project</button>
     </form>

@@ -8,13 +8,13 @@ import { Application } from '../../shared/models/application.model';
 @Injectable({providedIn: 'root'})
 export class AssignmentService {
     private http = inject(HttpClient);
-    
-    getCanvasAssignments(courseId: number): Observable<any[]> {
-        return this.http.post<any[]>(`${environment.apiBaseUrl}/api/assignments/canvas/${courseId}`, {}, {withCredentials: true});
+
+    getCanvasAssignments(courseId: number): Observable<Assignment[]> {
+        return this.http.post<Assignment[]>(`${environment.apiBaseUrl}/api/assignments/canvas/${courseId}`, {}, {withCredentials: true});
     }
 
-    createAssignment(assignment: Assignment): Observable<any> {
-        return this.http.post<any>(`${environment.apiBaseUrl}/api/assignments/`, assignment, {withCredentials: true});
+    createAssignment(assignment: Assignment): Observable<Assignment> {
+        return this.http.post<Assignment>(`${environment.apiBaseUrl}/api/assignments/`, assignment, {withCredentials: true});
     }
 
     getAllApplicationsFromAssignment(id: number): Observable<Application[]> {

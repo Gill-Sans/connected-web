@@ -1,9 +1,10 @@
-import { Component, inject, OnInit, PLATFORM_ID } from '@angular/core';
+import {Component, inject, OnDestroy, OnInit, PLATFORM_ID} from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { AuthFacade } from './auth/store/auth.facade';
 import { FormsModule } from '@angular/forms';
 import { ToastComponent } from './shared/components/toast/toast.component';
+import {Subscription} from 'rxjs';
 
 
 @Component({
@@ -17,12 +18,14 @@ import { ToastComponent } from './shared/components/toast/toast.component';
     templateUrl: './app.component.html',
     styleUrl: './app.component.scss'
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
     title = 'connected-web';
 
     private readonly authFacade = inject(AuthFacade);
     readonly isLoading$ = this.authFacade.isLoading$;
     readonly platformId = inject(PLATFORM_ID);
+
+    private subscriptions: Subscription[] = [];
 
     ngOnInit(): void {
         this.authFacade.loadSession().then(() => {
@@ -34,5 +37,9 @@ export class AppComponent implements OnInit {
                 }
             }
         });
+    }
+
+    ngOnDestroy(): void {
+        this.subscriptions.forEach(subscription => subscription.unsubscribe());
     }
 }

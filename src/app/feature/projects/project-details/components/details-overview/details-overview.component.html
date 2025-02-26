@@ -3,7 +3,11 @@
         <!-- Left section with text -->
         <div class="left-content">
             <div>
-                <h2>{{ project.title || "Untitled Project" }}</h2>
+                <h2>{{ project.title || "Untitled Project" }}
+                    <span class="creator-name" *ngIf="project.createdBy">
+                        (Created by {{ project.createdBy.firstName }} {{ project.createdBy.lastName }})
+                    </span>
+                </h2>
                 <div *ngIf="(canManageProject$ | async)" class="status-section" [ngClass]="project.status.toString().toLowerCase()">
                     <div class="status-container">
                         <div class="status-icon"></div>
@@ -35,35 +39,59 @@
                 </div>
             </div>
             <div class="apply-section" *ngIf="!(canManageProject$ | async) && !(isMember$ | async)">
-                <p>
-                    Press this button to apply for this project. By applying,
-                    you express your interest in contributing to this project
-                    and collaborating with the team.
+                <p *ngIf="project.members.length === 0; else applyText">
+                    Press this button to claim this project. By claiming, you take ownership of this project.
                 </p>
+                <ng-template #applyText>
+                    <p>
+                        Press this button to apply for this project. By applying,
+                        you express your interest in contributing to this project
+                        and collaborating with the team.
+                    </p>
+                </ng-template>
                 <app-button
-                    label="Apply for this project"
+                    *ngIf="project.members.length === 0; else applyButton"
+                    label="Claim Project"
                     type="normal"
-                    (click)="applyForProject()"
+                    (click)="claimProject()"
                 ></app-button>
+                <ng-template #applyButton>
+                    <app-button
+                        label="Apply for this project"
+                        type="normal"
+                        (click)="applyForProject()"
+                    ></app-button>
+                </ng-template>
             </div>
             <div class="members-section">
-                <h3>Members</h3>
+                <h3>Members <span style="font-size: small; color: gray; font-weight: 300; ">{{project.members.length || 0}}/{{project.teamSize}}</span></h3>
                 <ul>
-                    <li class="owner-section" *ngIf="project.createdBy; else noOwner">
+                    <li class="owner-section" *ngIf="project.productOwner; else noOwner">
                         <img class="avatar" [src]="'img/lucas.jpeg'" alt="avatar"/>
-                        <span class="owner-name">{{ project.createdBy.firstName }} {{ project.createdBy.lastName }}</span>
+                        <span class="owner-name">{{ project.productOwner.firstName }} {{ project.productOwner.lastName }}</span>
                     </li>
                     <ng-template #noOwner>
                         <li class="no-owner">No product owner</li>
                     </ng-template>
-                    <li *ngFor="let member of getFilteredMembers(project.members || [], project.createdBy)">
+                    <li *ngFor="let member of getFilteredMembers(project.members || [], project.productOwner)">
                         <img class="avatar" [src]="'img/lucas.jpeg'" alt="avatar"/>
                         <span>{{ member?.firstName || "" }} {{ member?.lastName || "" }}</span>
                     </li>
                 </ul>
             </div>
             <!-- Links component -->
-            <app-linkcard></app-linkcard>
+            <app-linkcard [repositoryUrl]="repositoryUrl" [boardUrl]="boardUrl"></app-linkcard>
+
+            <div class="tag-section">
+                <h3>Tags</h3>
+                <div class="tags-container">
+                    <app-tagcard
+                        *ngFor="let tag of tags"
+                        [tag]="tag"
+                        [showDelete]="false"
+                    ></app-tagcard>
+                </div>
+            </div>
         </div>
     </div>
 </div>

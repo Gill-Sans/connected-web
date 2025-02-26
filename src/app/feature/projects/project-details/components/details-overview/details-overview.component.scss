@@ -6,6 +6,12 @@
     gap: 4rem;
 }
 
+.creator-name {
+    font-size: small; 
+    color: gray; 
+    font-weight: 300;
+}
+
 /* Left content: Text */
 .left-content {
     display: flex;
@@ -185,6 +191,10 @@ p {
         }
 
     }
+}
+
+.tags-container{
+    padding-top: 20px;
 }
 
 .update-status {

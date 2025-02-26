@@ -13,13 +13,11 @@ export function authInterceptor(
     next: HttpHandlerFn
 ): Observable<HttpEvent<unknown>> {
     const authFacade: AuthFacade = inject(AuthFacade);
-    console.log('intercepting request', req);
 
     return next(req).pipe(
         tap(event => {
             // Only log the successful response
             if (event instanceof HttpResponse) {
-                console.log('intercepted response', event);
             }
         }),
         catchError((error: HttpErrorResponse) => {
