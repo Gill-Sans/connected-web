@@ -7,6 +7,7 @@
     margin: $small-spacing;
     display: flex;
     box-shadow: $box-shadow;
+    min-height: 85px;
     z-index: 6;
 
     .left {

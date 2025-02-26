@@ -36,6 +36,7 @@ export const routes: Routes = [
             { path: '', component: WelcomeComponent },
             { path: '404', component: NotfoundComponent },
             { path: 'settings', component: SettingsComponent},
+            { path: 'dashboard', canActivate: [ResearcherGuard], component: DashboardComponent },
             {
                 path: 'projects',
                 canActivate: [ResearcherGuard],
@@ -54,8 +55,8 @@ export const routes: Routes = [
                 children: [
                     { path: 'dashboard', component: DashboardComponent },
                     { path: 'projects', component: ProjectOverviewComponent },
-                    { path: 'projects', children: projectDetailsRoutes },
                     { path: 'projects/create', component: ProjectCreateComponent },
+                    { path: 'projects', children: projectDetailsRoutes },
                     { path: 'projects/:id/apply', component: ApplicationsCreateComponent },
                     { path: 'deadlines', component: DeadlineOverviewComponent },
                     { path: 'deadlines/create', component: DeadlineCreateComponent },

@@ -1,6 +1,6 @@
 <nav class="sidenav">
     <a [routerLink]="getRoute('dashboard')"
-       *hasRole="[Role.Teacher, Role.Student]"
+       *hasRole="[Role.Teacher, Role.Student, Role.Researcher]"
        routerLinkActive="active-link"
        [routerLinkActiveOptions]="{ exact: false }"
        class="nav-link">
