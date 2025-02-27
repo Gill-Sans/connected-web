@@ -158,12 +158,12 @@ export class TopnavComponent implements OnInit, OnDestroy {
         const currentUrl = this.router.url;
         const segments = currentUrl.split('/').filter(segment => segment !== '');
 
-        if (segments.length >= 3) {
-            segments[0] = courseSlug;
-            segments[1] = assignmentSlug;
-            this.router.navigate(['/' + segments.join('/')]);
+        if (segments.length >= 5) {
+            segments[1] = courseSlug;
+            segments[3] = assignmentSlug;
+            this.router.navigate(['/', 'course', segments[1], 'assignment', segments[3], segments[4]]);
         } else {
-            this.router.navigate(['/', courseSlug, assignmentSlug, 'dashboard']);
+            this.router.navigate(['/', 'course', courseSlug, 'assignment', assignmentSlug, 'dashboard']);
         }
     }
 
