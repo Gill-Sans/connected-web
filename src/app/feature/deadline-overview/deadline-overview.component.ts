@@ -10,10 +10,11 @@ import {ButtonComponent} from '../../shared/components/button/button.component';
 import {ActiveAssignmentRoutingService} from '../../core/services/active-assignment-routing.service';
 import {Router} from '@angular/router';
 import {toZonedTime} from 'date-fns-tz';
+import {CalendarComponent} from '../../shared/components/calendar/calendar.component';
 
 @Component({
     selector: 'app-deadline-overview',
-    imports: [CommonModule, ButtonComponent],
+    imports: [CommonModule, ButtonComponent, CalendarComponent],
     templateUrl: './deadline-overview.component.html',
     styleUrl: './deadline-overview.component.scss'
 })

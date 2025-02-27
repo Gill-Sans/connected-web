@@ -1,4 +1,5 @@
 <div class="calendar-container">
+    <app-calendar></app-calendar>
     <ng-container *ngIf="(isTeacher$ | async)">
         <div class="button-container">
             <app-button type="normal" label="Create Deadline" (click)="navigateToDeadlineCreate()"></app-button>
