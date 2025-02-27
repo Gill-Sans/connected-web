@@ -58,11 +58,13 @@ export class TopnavComponent implements OnInit, OnDestroy {
                     if (user.role != Role.Researcher) {
                        this.activeAssignment$ = this.activeAssignmentService.activeAssignment$;
                     }
-                    return this.notificationService.notifications$;
+                    return this.notificationService.getNotificationsByUserId(user.id);
                 }
                 return [];
             })
-        ).subscribe();
+        ).subscribe(notifications => {
+            this.notificationService.notifications$.next(notifications);
+        });
 
         this.subscriptions.push(userSubscription);
     }
@@ -98,21 +100,6 @@ export class TopnavComponent implements OnInit, OnDestroy {
 
     toggleNotifications() {
         this.isHiddenNotifications = !this.isHiddenNotifications;
-
-        if (!this.isHiddenNotifications) {
-            const notificationsSubscription = this.authFacade.user$.pipe(
-                switchMap(user => {
-                    if (user) {
-                        return this.notificationService.getNotificationsByUserId(user.id);
-                    }
-                    return [];
-                })
-            ).subscribe(notifications => {
-                this.notificationService.notifications$.next(notifications);
-            });
-
-            this.subscriptions.push(notificationsSubscription);
-        }
     }
 
     closeNotificationsDropdown(){
@@ -171,12 +158,12 @@ export class TopnavComponent implements OnInit, OnDestroy {
         const currentUrl = this.router.url;
         const segments = currentUrl.split('/').filter(segment => segment !== '');
 
-        if (segments.length >= 3) {
-            segments[0] = courseSlug;
-            segments[1] = assignmentSlug;
-            this.router.navigate(['/' + segments.join('/')]);
+        if (segments.length >= 5) {
+            segments[1] = courseSlug;
+            segments[3] = assignmentSlug;
+            this.router.navigate(['/', 'course', segments[1], 'assignment', segments[3], segments[4]]);
         } else {
-            this.router.navigate(['/', courseSlug, assignmentSlug, 'dashboard']);
+            this.router.navigate(['/', 'course', courseSlug, 'assignment', assignmentSlug, 'dashboard']);
         }
     }
 
