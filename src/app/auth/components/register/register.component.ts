@@ -4,13 +4,15 @@ import {RegistrationRequest} from '../../models/registration-request.model';
 import {FormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
+import {ButtonComponent} from '../../../shared/components/button/button.component';
 
 
 @Component({
   selector: 'app-register',
   imports: [
       CommonModule,
-      FormsModule
+      FormsModule,
+      ButtonComponent
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'

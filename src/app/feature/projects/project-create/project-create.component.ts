@@ -14,10 +14,19 @@ import {TagSearchComponentComponent} from '../../../shared/tag-search-component/
 import {tag} from '../../../shared/models/tag.model';
 import {AuthorizationService} from '../../../core/services/authorization.service';
 import {ToastService} from '../../../core/services/toast.service';
+import {ButtonComponent} from '../../../shared/components/button/button.component';
 
 @Component({
     selector: 'app-project-create',
-    imports: [CommonModule, MarkdownModule, ReactiveFormsModule, LMarkdownEditorModule, TagcardComponent, TagSearchComponentComponent],
+    imports: [
+        CommonModule,
+        MarkdownModule,
+        ReactiveFormsModule,
+        LMarkdownEditorModule,
+        TagcardComponent,
+        TagSearchComponentComponent,
+        ButtonComponent
+    ],
     templateUrl: './project-create.component.html',
     styleUrl: "./project-create.component.scss"
 })

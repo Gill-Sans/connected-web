@@ -13,11 +13,20 @@ import { TagSearchComponentComponent } from '../../../shared/tag-search-componen
 import { TagcardComponent } from '../../../shared/components/tagcard/tagcard.component';
 import { tag } from '../../../shared/models/tag.model';
 import { ProjectStatusEnum } from '../../../shared/models/ProjectStatus.enum';
+import {ButtonComponent} from '../../../shared/components/button/button.component';
 
 @Component({
     selector: 'app-project-update',
     standalone: true,
-    imports: [CommonModule, ReactiveFormsModule, MarkdownModule, LMarkdownEditorModule, TagSearchComponentComponent, TagcardComponent],
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        MarkdownModule,
+        LMarkdownEditorModule,
+        TagSearchComponentComponent,
+        TagcardComponent,
+        ButtonComponent
+    ],
     templateUrl: './project-update.component.html',
     styleUrls: ['./project-update.component.scss']
 })

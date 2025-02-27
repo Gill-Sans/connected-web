@@ -7,8 +7,8 @@
 }
 
 .creator-name {
-    font-size: small; 
-    color: gray; 
+    font-size: small;
+    color: gray;
     font-weight: 300;
 }
 
@@ -49,6 +49,7 @@ p {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
 
     p {
         margin-bottom: 10px;

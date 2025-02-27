@@ -8,10 +8,15 @@ import { ActiveAssignmentRoutingService } from '../../core/services/active-assig
 import { Router } from '@angular/router';
 import { DeadlineService } from '../../core/services/deadline.service';
 import {ToastService} from '../../core/services/toast.service';
+import {ButtonComponent} from '../../shared/components/button/button.component';
 
 @Component({
     selector: 'app-deadline-create',
-    imports: [CommonModule, ReactiveFormsModule],
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        ButtonComponent
+    ],
     templateUrl: './deadline-create.component.html',
     styleUrl: './deadline-create.component.scss'
 })

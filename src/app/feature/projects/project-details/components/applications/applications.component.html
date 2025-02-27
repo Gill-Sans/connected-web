@@ -22,26 +22,9 @@
                 </td>
                 <td>
                     <div class="actions">
-                        <button
-                            class="btn btn-primary"
-                            (click)="approveApplication(application.id)"
-                            *ngIf="application.status === ApplicationStatusEnum.PENDING"
-                        >
-                            Accept
-                        </button>
-                        <button
-                            class="btn btn-danger"
-                            (click)="rejectApplication(application.id)"
-                            *ngIf="application.status === ApplicationStatusEnum.PENDING"
-                        >
-                            Deny
-                        </button>
-                        <button
-                            class="btn btn-secondary"
-                            (click)="navigateToApplication(application.id)"
-                        >
-                            View
-                        </button>
+                        <app-button variant="success" (click)="approveApplication(application.id)" *ngIf="application.status === ApplicationStatusEnum.PENDING">Accept</app-button>
+                        <app-button variant="danger" (click)="rejectApplication(application.id)" *ngIf="application.status === ApplicationStatusEnum.PENDING">Deny</app-button>
+                        <app-button variant="neutral"  (click)="navigateToApplication(application.id)">View</app-button>
                     </div>
                 </td>
             </tr>

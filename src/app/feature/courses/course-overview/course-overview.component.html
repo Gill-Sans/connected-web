@@ -1,8 +1,4 @@
-<app-button
-    type="post"
-    label="Import a course"
-    (click)="openCourseImportModal()">
-</app-button>
+<app-button variant="primary" (click)="openCourseImportModal()">Import a course</app-button>
 
 <!-- Course import modal uses the courses$ observable -->
 <app-canvas-import-modal
@@ -32,9 +28,7 @@
                     <div>Default Team Size: {{ assignment.defaultTeamSize }}</div>
                 </div>
             </div>
-            <button
-                (click)="openAssignmentImportModal(course.id)"
-                class="import-assignment-button">
+            <button (click)="openAssignmentImportModal(course.id)" class="import-assignment-button">
                 <img src="icons/file-import.svg" alt="import an assignment"/>
                 <p>Import an assignment</p>
             </button>

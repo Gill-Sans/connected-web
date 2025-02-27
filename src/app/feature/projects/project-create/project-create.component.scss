@@ -41,19 +41,3 @@ input {
     box-sizing: border-box;
     background: #e8e7e7;
 }
-
-.create-project-btn {
-    background: #6200ea;
-    color: white;
-    border: none;
-    padding: 12px;
-    font-size: 16px;
-    border-radius: 5px;
-    cursor: pointer;
-    width: 33%;
-    transition: 0.3s;
-
-    &:hover {
-        background: #4b00c2;
-    }
-}

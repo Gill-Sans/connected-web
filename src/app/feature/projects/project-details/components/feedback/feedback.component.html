@@ -6,11 +6,7 @@
                     [(ngModel)]="newFeedback"
                     placeholder="Enter your feedback here..."
                 ></textarea>
-                <app-button
-                    label="Post"
-                    type="normal"
-                    (click)="submitFeedback()"
-                ></app-button>
+                <app-button variant="primary" (click)="submitFeedback()">Post</app-button>
             </div>
 
             <div class="feedback-list">

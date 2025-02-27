@@ -13,6 +13,7 @@
     .left {
         border-right: 1px solid $border-color;
         width: 20%;
+        min-width: 300px;
         position: relative;
 
         .left-content {
@@ -167,7 +168,7 @@
     .user-icon {
         cursor: pointer;
         border-radius: 50%;
-        background-color: $highlight-color;
+        background-color: $primary-color;
         width: $icon-size;
         height: $icon-size;
     }
@@ -186,14 +187,14 @@ dd {
     }
 
     &.selected {
-        background-color: $highlight-color;
+        background-color: $primary-color;
         cursor: default;
     }
 }
 
 .selected {
     color: white;
-    background-color: $highlight-color;
+    background-color: $primary-color;
 }
 
 // Notifications styling grouped together using BEM naming

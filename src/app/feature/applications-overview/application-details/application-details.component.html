@@ -13,12 +13,12 @@
             <div class="action-container" *ngIf="(isOwner$ | async) && (application.status == ApplicationStatusEnum.PENDING)">
                 <h4>Manage Application</h4>
                 <div class="action-buttons">
-                    <app-button label="Approve" type="Approve" (click)="reviewApplication(application.id, ApplicationStatusEnum.APPROVED)"></app-button>
-                    <app-button label="Reject" type="Reject" (click)="reviewApplication(application.id, ApplicationStatusEnum.REJECTED)"></app-button>
+                    <app-button variant="success" (click)="reviewApplication(application.id, ApplicationStatusEnum.APPROVED)">Approve</app-button>
+                    <app-button variant="danger" (click)="reviewApplication(application.id, ApplicationStatusEnum.REJECTED)">Reject</app-button>
                 </div>
             </div>
             <div class="action-container" *ngIf="(isApplicationOwner$ | async) && (application.status == ApplicationStatusEnum.APPROVED) && !(isMember$ | async)">
-                <app-button label="Join Project" type="normal" (click)="joinProject(application.id)"></app-button>
+                <app-button variant="primary" (click)="joinProject(application.id)">Join Project</app-button>
             </div>
             <div class="details-section">
                 <h2>Applicant Details</h2>

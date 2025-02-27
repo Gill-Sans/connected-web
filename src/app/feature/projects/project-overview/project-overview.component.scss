@@ -54,22 +54,6 @@
         margin: 1rem 0;
     }
 }
-/* Styling for the Create Project button */
-.create-project-btn {
-    background-color: #007bff;
-    border: none;
-    padding: 0.5rem 1rem;
-    color: #fff;
-    font-size: 1rem;
-    cursor: pointer;
-    margin-left: 1rem;
-    border-radius: 4px;
-    transition: background-color 0.3s ease;
-
-    &:hover {
-        background-color: #0056b3;
-    }
-}
 
 /* Container wrapping the entire toggle */
 .toggle-container {

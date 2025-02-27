@@ -1,20 +1,9 @@
-<button
-    [ngClass]="{
-        add: type === 'add',
-        cancel: type === 'cancel',
-        confirm: type === 'confirm',
-        normal: type === 'normal',
-        post: type == 'post',
-        back: type === 'back',
-        edit: type === 'edit',
-        approve: type === 'Approve',
-        reject: type === 'Reject'
-    }"
-    [disabled]="disabled"
-    class="button"
->
-    <ng-container *ngIf="type === 'add'">
-        <img src="icons/plus-solid.svg" alt="icon" class="button-icon" />
+<button [attr.type]="buttonType"
+        [disabled]="disabled"
+        [ngClass]="variant"
+        (click)="buttonClick.emit()">
+    <ng-container *ngIf="icon">
+        <img [src]="icon" alt="icon" class="button-icon" />
     </ng-container>
-    {{ label }}
+    <ng-content></ng-content>
 </button>

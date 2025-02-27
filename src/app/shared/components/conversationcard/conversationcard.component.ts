@@ -5,7 +5,11 @@ import { ButtonComponent } from '../button/button.component';
 
 @Component({
     selector: 'app-conversationcard',
-    imports: [CommonModule, FormsModule],
+    imports: [
+        CommonModule,
+        FormsModule,
+        ButtonComponent
+    ],
     templateUrl: './conversationcard.component.html',
     styleUrl: './conversationcard.component.scss'
 })

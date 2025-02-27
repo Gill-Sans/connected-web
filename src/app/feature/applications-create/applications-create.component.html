@@ -1,10 +1,31 @@
 <form
     [formGroup]="applicationForm"
-    class="create-application-container"
+    class="application-form"
     (ngSubmit)="onSubmit()"
 >
-    <h2>Apply for project:</h2>
-    <md-editor name="Content" formControlName="motivationMd" [height]="'700px'">
-    </md-editor>
-    <button class="create-application-btn" type="submit">Apply</button>
+    <h2>Submit Your Application</h2>
+
+    <p class="instructions">
+        Please provide a clear and concise motivation for why you want to join this project. You can use Markdown to style your text.
+    </p>
+
+    <div class="editor-container">
+        <label for="motivationMd">Motivation</label>
+        <md-editor
+            id="motivationMd"
+            name="motivationMd"
+            formControlName="motivationMd"
+            [height]="'500px'"
+        >
+        </md-editor>
+    </div>
+
+    <div class="buttons-container">
+        <app-button variant="primary" type="submit">
+            Send Application
+        </app-button>
+        <app-button variant="neutral" (click)="return()">
+            Cancel
+        </app-button>
+    </div>
 </form>

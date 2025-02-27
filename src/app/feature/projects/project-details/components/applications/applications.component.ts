@@ -8,11 +8,16 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {Observable, Subscription} from 'rxjs';
 import {ActiveAssignmentRoutingService} from '../../../../../core/services/active-assignment-routing.service';
 import {ToastService} from '../../../../../core/services/toast.service';
+import {ButtonComponent} from '../../../../../shared/components/button/button.component';
 
 
 @Component({
     selector: 'app-applications',
-    imports: [CommonModule, StatuscardComponent],
+    imports: [
+        CommonModule,
+        StatuscardComponent,
+        ButtonComponent
+    ],
     templateUrl: './applications.component.html',
     styleUrl: './applications.component.scss'
 })

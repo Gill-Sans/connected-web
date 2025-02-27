@@ -11,6 +11,7 @@ import {ActiveAssignment} from '../../../shared/models/activeAssignment.model';
 import {ActiveAssignmentRoutingService} from '../../../core/services/active-assignment-routing.service';
 import {ProjectStatusEnum} from '../../../shared/models/ProjectStatus.enum';
 import {AuthorizationService} from '../../../core/services/authorization.service';
+import {ButtonComponent} from '../../../shared/components/button/button.component';
 
 interface TabOption {
     label: string;
@@ -19,7 +20,12 @@ interface TabOption {
 
 @Component({
     selector: 'app-project-overview',
-    imports: [ProjectcardComponent, CommonModule, RouterOutlet],
+    imports: [
+        ProjectcardComponent,
+        CommonModule,
+        RouterOutlet,
+        ButtonComponent
+    ],
     templateUrl: './project-overview.component.html',
     styleUrl: './project-overview.component.scss'
 })

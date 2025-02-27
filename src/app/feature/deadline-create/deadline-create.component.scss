@@ -37,17 +37,3 @@ input, textarea, select {
     border-radius: 4px;
     font-size: 1em;
 }
-
-button.create-deadline-btn {
-    border-radius: 4px;
-    color: rgba(255, 255, 255, 1);
-    background-color: $highlight-color;
-    border: none;
-    padding: 10px 25px;
-    font-size: 16px;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
-}

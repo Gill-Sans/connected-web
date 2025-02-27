@@ -25,10 +25,7 @@
                 </div>
             </ng-container>
 
-
-            <button class="create-project-btn" (click)="navigateToProjectCreate()">
-                Create Project
-            </button>
+            <app-button variant="primary" (click)="navigateToProjectCreate()">Create Project</app-button>
         </div>
     </div>
 
@@ -47,7 +44,7 @@
             </div>
         </div>
         <ng-template #tableView>
-            <button (click)="publishAllProjects()">Publish All</button>
+            <app-button variant="neutral" (click)="publishAllProjects()">Publish All</app-button>
             <table class="project-table">
                 <thead>
                 <tr>
@@ -61,8 +58,8 @@
                     <td (click)="navigateToProject(project)">{{ project.title }}</td>
                     <td><button [ngClass]="[project.status]" class="status-button">{{ project.status }}</button></td>
                     <td>
-                        <button *ngIf="project.status !== publishedStatus" class="publish-button" (click)="updateProjectStatus(project, ProjectStatusEnum.PUBLISHED)">Publish</button>
-                        <button *ngIf="project.status === publishedStatus" class="unpublish-button" (click)="updateProjectStatus(project, ProjectStatusEnum.PENDING)">Unpublish</button>
+                        <app-button variant="primary" (click)="updateProjectStatus(project, ProjectStatusEnum.PUBLISHED)"  *ngIf="project.status !== publishedStatus">Publish</app-button>
+                        <app-button variant="danger" (click)="updateProjectStatus(project, ProjectStatusEnum.PENDING)"  *ngIf="project.status === publishedStatus">Unpublish</app-button>
                     </td>
                 </tr>
                 </tbody>

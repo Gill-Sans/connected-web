@@ -1,19 +1,6 @@
 <div class="profilepage">
     <div class="profile-header">
-        <app-button
-            label="Back"
-            type="back"
-            class="back-btn"
-            routerLink="/projects"
-        ></app-button>
-        <app-button
-            label="confirm"
-            type="confirm"
-            class="edit-btn"
-            routerLink="/edit-profile"
-            (click)="saveProfile()"
-            [disabled]="loading"
-        ></app-button>
+        <app-button variant="primary" (click)="saveProfile()" [disabled]="loading">Save changes</app-button>
     </div>
     <div class="profile-info">
         <img

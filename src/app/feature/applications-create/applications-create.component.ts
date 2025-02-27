@@ -7,20 +7,28 @@ import { ToastService } from '../../core/services/toast.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ApplicationCreate } from '../../shared/models/application.model';
+import {ButtonComponent} from '../../shared/components/button/button.component';
+import {ActiveAssignmentRoutingService} from '../../core/services/active-assignment-routing.service';
 
 @Component({
   selector: 'app-applications-create',
-  imports: [MarkdownModule, LMarkdownEditorModule, CommonModule, ReactiveFormsModule],
+  imports: [
+      MarkdownModule,
+      LMarkdownEditorModule,
+      CommonModule,
+      ReactiveFormsModule,
+      ButtonComponent
+  ],
   templateUrl: './applications-create.component.html',
   styleUrl: './applications-create.component.scss'
 })
 export class ApplicationsCreateComponent {
-
   private readonly projectService: ProjectService = inject(ProjectService);
   private readonly toastService: ToastService = inject(ToastService);
-
+  private readonly assignmentRouting: ActiveAssignmentRoutingService = inject(ActiveAssignmentRoutingService);
   private readonly route: ActivatedRoute = inject(ActivatedRoute);
   private readonly router: Router = inject(Router);
+
   private projectId: string = 'undefined';
 
   applicationForm = new FormGroup({
@@ -47,4 +55,8 @@ export class ApplicationsCreateComponent {
       this.router.navigate(['/projects']);
     });
   }
+
+    return() {
+        this.router.navigate(this.assignmentRouting.buildRoute('projects', this.projectId.toString()));
+    }
 }

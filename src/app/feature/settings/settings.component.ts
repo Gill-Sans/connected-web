@@ -4,6 +4,7 @@ import { environment } from '../../../environments/environment';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {ToastService} from '../../core/services/toast.service';
+import {ButtonComponent} from '../../shared/components/button/button.component';
 
 @Component({
     selector: 'app-settings',
@@ -11,7 +12,8 @@ import {ToastService} from '../../core/services/toast.service';
     styleUrls: ['./settings.component.scss'],
     imports: [
         CommonModule,
-        FormsModule
+        FormsModule,
+        ButtonComponent
     ],
 })
 export class SettingsComponent {

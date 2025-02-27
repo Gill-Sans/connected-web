@@ -26,16 +26,8 @@
             <div class="update-status" *ngIf="(isTeacher$ | async) && project.status === ProjectStatusEnum.PENDING ">
                 <h3>Update status</h3>
                 <div class="update-status-buttons">
-                    <app-button
-                        label="Approve"
-                        type="confirm"
-                        (click)="updateProjectStatus(ProjectStatusEnum.APPROVED)"
-                    ></app-button>
-                    <app-button
-                        label="Reject"
-                        type="cancel"
-                        (click)="updateProjectStatus(ProjectStatusEnum.REJECTED)"
-                    ></app-button>
+                    <app-button variant="primary" (click)="updateProjectStatus(ProjectStatusEnum.APPROVED)">Approve</app-button>
+                    <app-button variant="neutral" (click)="updateProjectStatus(ProjectStatusEnum.REJECTED)">Reject</app-button>
                 </div>
             </div>
             <div class="apply-section" *ngIf="!(canManageProject$ | async) && !(isMember$ | async)">
@@ -49,25 +41,11 @@
                         and collaborating with the team.
                     </p>
                 </ng-template>
-                <app-button
-                    *ngIf="project.members.length === 0 && project.assignmentId != null"
-                    label="Claim Project"
-                    type="normal"
-                    (click)="claimProject()"
-                ></app-button>
-                <ng-template [ngIf]="project.assignmentId != null">
-                    <app-button
-                        label="Apply for this project"
-                        type="normal"
-                        (click)="applyForProject()"
-                    ></app-button>
+                <app-button variant="primary" (click)="claimProject()" *ngIf="project.members.length === 0 && project.assignmentId != null">Claim Project</app-button>
+                <ng-template [ngIf]="project.assignmentId != null && project.members.length > 0">
+                    <app-button variant="primary"  (click)="applyForProject()">Apply for this project</app-button>
                 </ng-template>
-                <app-button
-                    *ngIf="project.assignmentId == null"
-                    label="Import Project"
-                    type="normal"
-                    (click)="importProject()"
-                ></app-button>
+                <app-button variant="primary" (click)="importProject()" *ngIf="project.assignmentId == null">Import Project</app-button>
             </div>
             <div class="members-section">
                 <h3>Members <span style="font-size: small; color: gray; font-weight: 300; ">{{project.members.length || 0}}/{{project.teamSize}}</span></h3>
