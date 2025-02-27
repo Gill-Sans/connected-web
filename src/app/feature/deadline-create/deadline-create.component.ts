@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { DeadlineRestrictionEnum } from '../../shared/models/DeadlineRestriction.enum';
@@ -7,7 +7,8 @@ import { ActiveAssignmentService } from '../../core/services/active-assignment.s
 import { ActiveAssignmentRoutingService } from '../../core/services/active-assignment-routing.service';
 import { Router } from '@angular/router';
 import { DeadlineService } from '../../core/services/deadline.service';
-import {ToastService} from '../../core/services/toast.service';
+import { ToastService } from '../../core/services/toast.service';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-deadline-create',
@@ -15,7 +16,7 @@ import {ToastService} from '../../core/services/toast.service';
     templateUrl: './deadline-create.component.html',
     styleUrl: './deadline-create.component.scss'
 })
-export class DeadlineCreateComponent {
+export class DeadlineCreateComponent implements OnDestroy {
 
     private readonly deadlineService: DeadlineService = inject(DeadlineService);
     private readonly activeAssignmentService: ActiveAssignmentService = inject(ActiveAssignmentService);
@@ -33,6 +34,8 @@ export class DeadlineCreateComponent {
         timeZone: new FormControl('', [Validators.required])
     });
 
+    private subscriptions: Subscription[] = [];
+
     constructor() {
         this.deadlineForm.patchValue({
             timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
@@ -45,11 +48,16 @@ export class DeadlineCreateComponent {
             if (assignmentId) {
                 let deadline: Deadline = this.deadlineForm.value as Deadline;
 
-                this.deadlineService.createDeadline(assignmentId, deadline).subscribe(deadline => {
+                const createSub = this.deadlineService.createDeadline(assignmentId, deadline).subscribe(deadline => {
                     this.router.navigate(this.activeAssignmentRoutingService.buildRoute('deadlines'));
                     this.ToastService.showToast('success', 'Deadline created');
                 });
+                this.subscriptions.push(createSub);
             }
         }
+    }
+
+    ngOnDestroy() {
+        this.subscriptions.forEach(sub => sub.unsubscribe());
     }
 }
