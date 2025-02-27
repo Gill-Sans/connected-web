@@ -36,10 +36,10 @@ export class ProjectUpdateComponent implements OnInit, OnDestroy {
         title: new FormControl('', [Validators.required]),
         description: new FormControl(''),
         shortDescription: new FormControl('', [Validators.required]),
-        teamSize: new FormControl(this.activeAssignmentService.getActiveAssignment()?.assignment.defaultTeamSize, [Validators.required]),
-        repositoryUrl: new FormControl('', ),
-        boardUrl: new FormControl('', ),
-        tags: new FormControl()
+        teamSize: new FormControl('', [Validators.required]),
+        repositoryUrl: new FormControl(null),
+        boardUrl: new FormControl(null),
+        tags: new FormControl(null)
     });
 
     charCount: number = 0;
@@ -88,16 +88,16 @@ export class ProjectUpdateComponent implements OnInit, OnDestroy {
         this.charCount = shortDescriptionControl?.value ? shortDescriptionControl.value.length : 0;
     }
 
-    addTagToProject(selectedTag: tag){
-        if(!this.tagList.some(t => t.id === selectedTag.id)){
+    addTagToProject(selectedTag: tag): void {
+        if (!this.tagList.some(t => t.id === selectedTag.id)) {
             this.tagList.push(selectedTag);
+            this.projectForm.patchValue({ tags: this.tagList });
         }
     }
 
-    removeTag(tagId: number){
+    removeTag(tagId: number): void {
         this.tagList = this.tagList.filter(tag => tag.id !== tagId);
-        this.projectForm.patchValue({ tags: this.tagList }); // Zorg ervoor dat de form control wordt bijgewerkt
-
+        this.projectForm.patchValue({ tags: this.tagList });
     }
 
     onSubmit(): void {
