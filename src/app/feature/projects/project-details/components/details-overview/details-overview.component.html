@@ -34,21 +34,20 @@
                 <p *ngIf="project.members.length === 0 && project.assignmentId != null">
                     Press this button to claim this project. By claiming, you take ownership of this project.
                 </p>
-                <ng-template [ngIf]="project.assignmentId != null">
-                    <p>
-                        Press this button to apply for this project. By applying,
-                        you express your interest in contributing to this project
-                        and collaborating with the team.
-                    </p>
-                </ng-template>
                 <app-button variant="primary" (click)="claimProject()" *ngIf="project.members.length === 0 && project.assignmentId != null">Claim Project</app-button>
-                <ng-template [ngIf]="project.assignmentId != null && project.members.length > 0">
-                    <app-button variant="primary"  (click)="applyForProject()">Apply for this project</app-button>
-                </ng-template>
+                <p *ngIf="project.members.length > 0 && project.assignmentId != null">
+                    Press this button to apply for this project. By applying,
+                    you express your interest in contributing to this project
+                    and collaborating with the team.
+                </p>
+                <app-button variant="primary"  (click)="applyForProject()" *ngIf="project.assignmentId != null && project.members.length > 0">Apply for this project</app-button>
+                <p *ngIf="project.assignmentId == null">
+                    Importing a global project means that you will import it into your current assignment.
+                </p>
                 <app-button variant="primary" (click)="importProject()" *ngIf="project.assignmentId == null">Import Project</app-button>
             </div>
             <div class="members-section">
-                <h3>Members <span style="font-size: small; color: gray; font-weight: 300; ">{{project.members.length || 0}}/{{project.teamSize}}</span></h3>
+                <h3>Members <span style="font-size: small; color: rgb(128,128,128); font-weight: 300; ">{{project.members.length || 0}}/{{project.teamSize}}</span></h3>
                 <ul>
                     <li class="owner-section" *ngIf="project.productOwner; else noOwner">
                         <img class="avatar" [src]="'img/lucas.jpeg'" alt="avatar"/>
@@ -63,9 +62,12 @@
                     </li>
                 </ul>
             </div>
-            <!-- Links component -->
-            <app-linkcard [repositoryUrl]="repositoryUrl" [boardUrl]="boardUrl"></app-linkcard>
-
+            <div *ngIf="repositoryUrl">
+                <app-linkcard [repositoryUrl]="repositoryUrl"></app-linkcard>
+            </div>
+            <div *ngIf="boardUrl">
+                <app-linkcard [boardUrl]="boardUrl"></app-linkcard>
+            </div>
             <div class="tag-section">
                 <h3>Tags</h3>
                 <div class="tags-container">

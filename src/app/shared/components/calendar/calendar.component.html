@@ -1,0 +1,19 @@
+<div class="calendar-wrapper">
+    <div class="calendar-header">
+        <button (click)="previousMonth()">Previous Month</button>
+        <button (click)="goToToday()">Today</button>
+        <button (click)="nextMonth()">Next Month</button>
+    </div>
+    <mwl-calendar-month-view
+        [viewDate]="viewDate"
+        [events]="events"
+        [eventTitleTemplate]="eventTitleTemplate">
+    </mwl-calendar-month-view>
+
+    <ng-template #eventTitleTemplate let-event="event">
+        <div class="cal-event">
+            <div class="cal-event-dot"></div>
+            <div class="cal-event-title">{{ event.title }}</div>
+        </div>
+    </ng-template>
+</div>

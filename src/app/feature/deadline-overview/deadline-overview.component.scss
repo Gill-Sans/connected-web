@@ -1,59 +1,68 @@
 .calendar-container {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+    flex-direction: row;
     padding: 2rem;
 }
 
+.calendar {
+    flex: 3;
+}
+
+.right-sidebar {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding-left: 2rem;
+}
+
 .button-container {
+    display: flex;
+    justify-content: flex-end;
     margin-bottom: 1rem;
 }
 
 .deadline-container {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
-    background-color: #fff;
-    padding: 2rem;
-    border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    max-width: 800px;
-    width: 100%;
-    max-height: 500px;
-    overflow-y: auto;
-    scrollbar-width: thin;
+    gap: 1rem;
 }
 
 h2 {
-    font-size: 2rem;
+    font-size: 1.5rem;
     color: #333;
     margin-bottom: 1rem;
-    text-align: center;
 }
 
 .deadline-card {
-    background-color: #fff;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 1.5rem;
+    position: relative;
+    border-bottom: 1px solid #e0e0e0;
+    padding: 1rem 0;
 
     h3 {
-        margin-top: 0;
-        font-size: 1.75rem;
+        margin: 0;
+        font-size: 1.25rem;
         color: #333;
         font-weight: bold;
+    }
+
+    .delete-icon {
+        position: absolute;
+        top: 0;
+        right: 0;
+        color: red;
+        cursor: pointer;
+        font-size: 1rem; /* Smaller size */
+        padding: 0.5rem;
     }
 
     .due-date {
         color: gray;
         font-size: 0.875rem;
-        margin-bottom: 0.5rem;
     }
 
     .description {
-        color: black;
-        margin-bottom: 0.5rem;
+        color: #424242;
+        font-size: 1rem;
     }
 
     .restriction {
@@ -89,4 +98,39 @@ h2 {
         margin: 0.5rem 0;
         line-height: 1.5;
     }
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 1rem;
+}
+
+button {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
 }

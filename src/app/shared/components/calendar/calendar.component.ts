@@ -1,0 +1,62 @@
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import { CommonModule,registerLocaleData } from '@angular/common';
+import localeNl from '@angular/common/locales/nl';
+import {CalendarEvent, CalendarModule, CalendarView, CalendarUtils, DateAdapter, CalendarDateFormatter, CalendarA11y, CalendarEventTitleFormatter} from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import {DeadlineService} from '../../../core/services/deadline.service';
+import { addMonths, startOfToday, subMonths } from 'date-fns';
+import {Deadline} from '../../models/deadline.model';
+import {ActiveAssignmentService} from '../../../core/services/active-assignment.service';
+
+registerLocaleData(localeNl);
+
+@Component({
+  selector: 'app-calendar',
+  imports: [ CommonModule, CalendarModule ],
+    providers: [ { provide: DateAdapter, useFactory: adapterFactory,deps: [] }, CalendarUtils,  CalendarDateFormatter,
+        CalendarA11y,CalendarEventTitleFormatter ],
+  templateUrl: './calendar.component.html',
+  styleUrl: './calendar.component.scss',
+    encapsulation: ViewEncapsulation.None
+})
+export class CalendarComponent implements OnInit {
+    view: CalendarView = CalendarView.Month;
+    viewDate: Date = new Date();
+    events: CalendarEvent[] = [];
+
+    constructor(
+        private deadlineService: DeadlineService,
+        private activeAssignmentService: ActiveAssignmentService) {
+    }
+
+    ngOnInit(): void {
+        this.loadDeadlines();
+    }
+
+    loadDeadlines(): void {
+        const activeAssignment = this.activeAssignmentService.getActiveAssignment();
+        if (activeAssignment && activeAssignment.assignment) {
+            const assignmentId = activeAssignment.assignment.id;
+            this.deadlineService.getAllDeadlinesForAssignment(assignmentId).subscribe((deadlines: Deadline[]) => {
+                this.events = deadlines.map(deadline => ({
+                    start: new Date(deadline.dueDate),
+                    title: deadline.title,
+                    meta: deadline
+                }));
+            });
+        }
+    }
+
+    nextMonth(): void {
+        this.viewDate = addMonths(this.viewDate, 1);
+    }
+
+    previousMonth(): void {
+        this.viewDate = subMonths(this.viewDate, 1);
+    }
+
+    goToToday(): void {
+        this.viewDate = startOfToday();
+    }
+}
+

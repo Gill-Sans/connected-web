@@ -10,12 +10,13 @@ import {ButtonComponent} from '../../shared/components/button/button.component';
 import {ActiveAssignmentRoutingService} from '../../core/services/active-assignment-routing.service';
 import {Router} from '@angular/router';
 import {toZonedTime} from 'date-fns-tz';
+import {CalendarComponent} from '../../shared/components/calendar/calendar.component';
 
 @Component({
-  selector: 'app-deadline-overview',
-  imports: [CommonModule, ButtonComponent],
-  templateUrl: './deadline-overview.component.html',
-  styleUrl: './deadline-overview.component.scss'
+    selector: 'app-deadline-overview',
+    imports: [CommonModule, ButtonComponent, CalendarComponent],
+    templateUrl: './deadline-overview.component.html',
+    styleUrl: './deadline-overview.component.scss'
 })
 export class DeadlineOverviewComponent implements OnInit, OnDestroy {
 
@@ -32,6 +33,9 @@ export class DeadlineOverviewComponent implements OnInit, OnDestroy {
     activeAssignment: ActiveAssignment | null = this.activeAssignmentService.getActiveAssignment();
 
     private activeAssignmentSub?: Subscription;
+
+    selectedDeadline: Deadline | null = null;
+    showModal = false;
 
     ngOnInit(): void {
         // Subscribe to changes in the active assignment
@@ -62,8 +66,27 @@ export class DeadlineOverviewComponent implements OnInit, OnDestroy {
         this.router.navigate(builtRoute);
     }
 
-    convertToTimeZone(date: string, timeZone: string): Date {
-        const dateObj = new Date(date);
+    convertToTimeZone(date: string): Date {
+        const dateObj = new Date(date + 'Z');
+        const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
         return toZonedTime(dateObj, timeZone);
+    }
+
+    openDeleteModal(deadline: Deadline){
+        this.selectedDeadline = deadline;
+        this.showModal = true;
+    }
+    closeModal(){
+        this.showModal = false;
+        this.selectedDeadline = null;
+    }
+
+    confirmDelete(){
+        if(this.selectedDeadline){
+            this.deadlineService.deleteDeadline(this.selectedDeadline.id).subscribe(() => {
+                this.loadDeadlinesForAssignment();
+                this.closeModal();
+            })
+        }
     }
 }
