@@ -1,7 +1,18 @@
 .calendar-container {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     padding: 2rem;
+}
+
+.calendar {
+    flex: 3;
+}
+
+.right-sidebar {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding-left: 2rem;
 }
 
 .button-container {
