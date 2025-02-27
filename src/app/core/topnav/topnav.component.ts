@@ -58,11 +58,13 @@ export class TopnavComponent implements OnInit, OnDestroy {
                     if (user.role != Role.Researcher) {
                        this.activeAssignment$ = this.activeAssignmentService.activeAssignment$;
                     }
-                    return this.notificationService.notifications$;
+                    return this.notificationService.getNotificationsByUserId(user.id);
                 }
                 return [];
             })
-        ).subscribe();
+        ).subscribe(notifications => {
+            this.notificationService.notifications$.next(notifications);
+        });
 
         this.subscriptions.push(userSubscription);
     }
@@ -98,21 +100,6 @@ export class TopnavComponent implements OnInit, OnDestroy {
 
     toggleNotifications() {
         this.isHiddenNotifications = !this.isHiddenNotifications;
-
-        if (!this.isHiddenNotifications) {
-            const notificationsSubscription = this.authFacade.user$.pipe(
-                switchMap(user => {
-                    if (user) {
-                        return this.notificationService.getNotificationsByUserId(user.id);
-                    }
-                    return [];
-                })
-            ).subscribe(notifications => {
-                this.notificationService.notifications$.next(notifications);
-            });
-
-            this.subscriptions.push(notificationsSubscription);
-        }
     }
 
     closeNotificationsDropdown(){
