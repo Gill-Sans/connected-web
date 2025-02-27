@@ -1,0 +1,11 @@
+<div class="calendar-container">
+    <div class="calendar-header">
+        <button (click)="previousMonth()">Previous Month</button>
+        <button (click)="goToToday()">Today</button>
+        <button (click)="nextMonth()">Next Month</button>
+    </div>
+    <mwl-calendar-month-view
+        [viewDate]="viewDate"
+        [events]="events">
+    </mwl-calendar-month-view>
+</div>
