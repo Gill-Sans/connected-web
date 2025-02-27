@@ -1,7 +1,15 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {CalendarEvent, CalendarModule, CalendarView} from 'angular-calendar';
-import { DateAdapter } from '@angular/material/core';
+import {
+    CalendarEvent,
+    CalendarModule,
+    CalendarView,
+    CalendarUtils,
+    DateAdapter,
+    CalendarDateFormatter,
+    CalendarA11y,
+    CalendarEventTitleFormatter
+} from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import {DeadlineService} from '../../../core/services/deadline.service';
 import { addMonths, startOfToday, subMonths } from 'date-fns';
@@ -11,8 +19,9 @@ import {Deadline} from '../../models/deadline.model';
 @Component({
   selector: 'app-calendar',
   imports: [ CommonModule,
-      CalendarModule,
-      { provide: DateAdapter, useFactory: adapterFactory }],
+      CalendarModule ],
+    providers: [ { provide: DateAdapter, useFactory: adapterFactory }, CalendarUtils,  CalendarDateFormatter,
+        CalendarA11y,CalendarEventTitleFormatter ],
   templateUrl: './calendar.component.html',
   styleUrl: './calendar.component.scss'
 })
@@ -50,4 +59,4 @@ export class CalendarComponent {
         this.viewDate = startOfToday();
     }
 }
-}
+
