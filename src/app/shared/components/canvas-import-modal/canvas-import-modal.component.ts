@@ -49,10 +49,14 @@ export class CanvasImportModalComponent {
     }
 
     onCreate() {
-        if (!this.selectedItem) return;
+        if (this.isLoading || !this.selectedItem) {
+            return;
+        }
+        this.isLoading = true;
+
         if (this.type === 'assignment') {
             this.selectedItem.defaultTeamSize = this.defaultTeamSize;
-            this.create.emit({ item: this.selectedItem});
+            this.create.emit({ item: this.selectedItem });
         } else {
             this.create.emit(this.selectedItem);
         }

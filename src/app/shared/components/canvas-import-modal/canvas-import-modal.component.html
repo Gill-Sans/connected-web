@@ -44,6 +44,7 @@
             <button
                 class="continue-btn"
                 [class.disabled]="isLoading"
+                [disabled]="isLoading"
                 (click)="onCreate()">
                 {{ isLoading ? 'Processing...' : 'Continue' }}
             </button>
