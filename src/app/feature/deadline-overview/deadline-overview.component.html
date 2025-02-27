@@ -14,6 +14,9 @@
             <div class="deadline-container">
                 <div *ngFor="let deadline of deadlines" class="deadline-card">
                     <h3>{{ deadline.title }}</h3>
+                    <span *ngIf="(isTeacher$ | async)" class="delete-icon" (click)="openDeleteModal(deadline)">
+                                &#10060;
+                            </span>
                     <p class="due-date">
                         {{ convertToTimeZone(deadline.dueDate) | date: 'EEE MMM d' }} at
                         {{ convertToTimeZone(deadline.dueDate) | date: 'HH:mm' }}
@@ -32,5 +35,17 @@
     <ng-template #noDeadlines>
         <p>No deadlines available.</p>
     </ng-template>
+    </div>
+</div>
+
+
+<!-- Delete Confirmation Modal -->
+<div class="modal" *ngIf="showModal">
+    <div class="modal-content">
+        <h2> Delete this Deadline?</h2>
+        <div class="modal-actions">
+            <button (click)="closeModal()">Cancel</button>
+            <button (click)="confirmDelete()">Confirm</button>
+        </div>
     </div>
 </div>

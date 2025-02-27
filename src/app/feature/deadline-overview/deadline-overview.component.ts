@@ -34,6 +34,9 @@ export class DeadlineOverviewComponent implements OnInit, OnDestroy {
 
     private activeAssignmentSub?: Subscription;
 
+    selectedDeadline: Deadline | null = null;
+    showModal = false;
+
     ngOnInit(): void {
         // Subscribe to changes in the active assignment
         this.activeAssignmentSub = this.activeAssignmentService.activeAssignment$.subscribe(
@@ -67,5 +70,23 @@ export class DeadlineOverviewComponent implements OnInit, OnDestroy {
         const dateObj = new Date(date + 'Z');
         const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
         return toZonedTime(dateObj, timeZone);
+    }
+
+    openDeleteModal(deadline: Deadline){
+        this.selectedDeadline = deadline;
+        this.showModal = true;
+    }
+    closeModal(){
+        this.showModal = false;
+        this.selectedDeadline = null;
+    }
+
+    confirmDelete(){
+        if(this.selectedDeadline){
+            this.deadlineService.deleteDeadline(this.selectedDeadline.id).subscribe(() => {
+                this.loadDeadlinesForAssignment();
+                this.closeModal();
+            })
+        }
     }
 }
