@@ -6,13 +6,13 @@
     </ng-container>
     <div *ngIf="deadlines$ | async as deadlines; else loadingDeadlines">
         <div *ngIf="deadlines.length > 0; else noDeadlines">
+            <h2>Deadlines</h2>
             <div class="deadline-container">
-                <h2>Deadlines</h2>
                 <div *ngFor="let deadline of deadlines" class="deadline-card">
                     <h3>{{ deadline.title }}</h3>
                     <p class="due-date">
-                        {{ convertToTimeZone(deadline.dueDate, deadline.timeZone) | date: 'EEE MMM d' }} at
-                        {{ convertToTimeZone(deadline.dueDate, deadline.timeZone) | date: 'h:mm a' }}
+                        {{ convertToTimeZone(deadline.dueDate) | date: 'EEE MMM d' }} at
+                        {{ convertToTimeZone(deadline.dueDate) | date: 'HH:mm' }}
                     </p>
                     <p class="description">{{ deadline.description }}</p>
                     <p class="restriction" [ngClass]="deadline.restriction.toLowerCase()">

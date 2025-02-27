@@ -42,7 +42,7 @@
                 <p *ngIf="project.members.length === 0 && project.assignmentId != null">
                     Press this button to claim this project. By claiming, you take ownership of this project.
                 </p>
-                <ng-template [ngIf]="project.assignmentId != null">
+                <ng-template [ngIf]="project.members.length > 0 && project.assignmentId != null">
                     <p>
                         Press this button to apply for this project. By applying,
                         you express your interest in contributing to this project
@@ -55,13 +55,16 @@
                     type="normal"
                     (click)="claimProject()"
                 ></app-button>
-                <ng-template [ngIf]="project.assignmentId != null">
+                <ng-template [ngIf]="project.members.length > 0 && project.assignmentId != null">
                     <app-button
                         label="Apply for this project"
                         type="normal"
                         (click)="applyForProject()"
                     ></app-button>
                 </ng-template>
+                <p *ngIf="project.assignmentId == null">
+                    Importing a global project means that you will import it into your current assignment.
+                </p>
                 <app-button
                     *ngIf="project.assignmentId == null"
                     label="Import Project"
