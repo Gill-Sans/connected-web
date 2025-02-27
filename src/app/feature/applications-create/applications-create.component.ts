@@ -29,7 +29,7 @@ export class ApplicationsCreateComponent implements OnInit, OnDestroy {
     private readonly toastService: ToastService = inject(ToastService);
     private readonly route: ActivatedRoute = inject(ActivatedRoute);
     private readonly router: Router = inject(Router);
-    private activeAssignmentRoutingService = inject(ActiveAssignmentRoutingService);
+    private activeAssignmentRoutingService: ActiveAssignmentRoutingService = inject(ActiveAssignmentRoutingService);
     private projectId: string = 'undefined';
 
     applicationForm = new FormGroup({
@@ -63,9 +63,9 @@ export class ApplicationsCreateComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.subscriptions.forEach(sub => sub.unsubscribe());
-    }
+  }
 
     return() {
-        this.router.navigate(this.activeAssignmentRoutingService.buildRoute('projects', this.projectId));
+        this.router.navigate(this.assignmentRouting.buildRoute('projects', this.projectId.toString()));
     }
 }
