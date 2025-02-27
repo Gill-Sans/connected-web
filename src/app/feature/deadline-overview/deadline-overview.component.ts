@@ -12,10 +12,10 @@ import {Router} from '@angular/router';
 import {toZonedTime} from 'date-fns-tz';
 
 @Component({
-  selector: 'app-deadline-overview',
-  imports: [CommonModule, ButtonComponent],
-  templateUrl: './deadline-overview.component.html',
-  styleUrl: './deadline-overview.component.scss'
+    selector: 'app-deadline-overview',
+    imports: [CommonModule, ButtonComponent],
+    templateUrl: './deadline-overview.component.html',
+    styleUrl: './deadline-overview.component.scss'
 })
 export class DeadlineOverviewComponent implements OnInit, OnDestroy {
 
@@ -62,8 +62,9 @@ export class DeadlineOverviewComponent implements OnInit, OnDestroy {
         this.router.navigate(builtRoute);
     }
 
-    convertToTimeZone(date: string, timeZone: string): Date {
-        const dateObj = new Date(date);
+    convertToTimeZone(date: string): Date {
+        const dateObj = new Date(date + 'Z');
+        const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
         return toZonedTime(dateObj, timeZone);
     }
 }

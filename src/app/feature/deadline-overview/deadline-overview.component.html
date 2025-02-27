@@ -11,8 +11,8 @@
                 <div *ngFor="let deadline of deadlines" class="deadline-card">
                     <h3>{{ deadline.title }}</h3>
                     <p class="due-date">
-                        {{ convertToTimeZone(deadline.dueDate, deadline.timeZone) | date: 'EEE MMM d' }} at
-                        {{ convertToTimeZone(deadline.dueDate, deadline.timeZone) | date: 'HH:mm' }}
+                        {{ convertToTimeZone(deadline.dueDate) | date: 'EEE MMM d' }} at
+                        {{ convertToTimeZone(deadline.dueDate) | date: 'HH:mm' }}
                     </p>
                     <p class="description">{{ deadline.description }}</p>
                     <p class="restriction" [ngClass]="deadline.restriction.toLowerCase()">

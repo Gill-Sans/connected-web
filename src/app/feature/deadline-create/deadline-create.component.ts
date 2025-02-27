@@ -37,10 +37,18 @@ export class DeadlineCreateComponent implements OnDestroy {
     private subscriptions: Subscription[] = [];
 
     constructor() {
+        const now = new Date();
+
+        const localISOTime = new Date(now.getTime() - now.getTimezoneOffset() * 60000)
+            .toISOString()
+            .slice(0, 16);
+
         this.deadlineForm.patchValue({
+            dueDate: localISOTime,
             timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
         });
     }
+
 
     onSubmit() {
         if (this.deadlineForm.valid) {
