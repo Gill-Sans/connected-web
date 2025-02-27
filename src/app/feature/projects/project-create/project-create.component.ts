@@ -1,21 +1,23 @@
 import {Component, inject, OnDestroy, OnInit} from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MarkdownModule } from 'ngx-markdown';
-import { LMarkdownEditorModule } from 'ngx-markdown-editor';
-import { ProjectService } from '../../../core/services/project.service';
-import { ActiveAssignmentService } from '../../../core/services/active-assignment.service';
-import { Router } from '@angular/router';
-import { Project } from '../../../shared/models/project.model';
+import {CommonModule} from '@angular/common';
+import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import {MarkdownModule} from 'ngx-markdown';
+import {LMarkdownEditorModule} from 'ngx-markdown-editor';
+import {ProjectService} from '../../../core/services/project.service';
+import {ActiveAssignmentService} from '../../../core/services/active-assignment.service';
+import {Router} from '@angular/router';
+import {Project} from '../../../shared/models/project.model';
 import {ActiveAssignmentRoutingService} from '../../../core/services/active-assignment-routing.service';
 import {Subscription} from 'rxjs';
-import { TagcardComponent } from '../../../shared/components/tagcard/tagcard.component';
-import { TagSearchComponentComponent } from '../../../shared/tag-search-component/tag-search-component.component';
-import { tag } from '../../../shared/models/tag.model';
+import {TagcardComponent} from '../../../shared/components/tagcard/tagcard.component';
+import {TagSearchComponentComponent} from '../../../shared/tag-search-component/tag-search-component.component';
+import {tag} from '../../../shared/models/tag.model';
+import {AuthorizationService} from '../../../core/services/authorization.service';
+import {ToastService} from '../../../core/services/toast.service';
 
 @Component({
     selector: 'app-project-create',
-    imports: [CommonModule, MarkdownModule, ReactiveFormsModule, LMarkdownEditorModule,TagcardComponent, TagSearchComponentComponent],
+    imports: [CommonModule, MarkdownModule, ReactiveFormsModule, LMarkdownEditorModule, TagcardComponent, TagSearchComponentComponent],
     templateUrl: './project-create.component.html',
     styleUrl: "./project-create.component.scss"
 })
@@ -25,13 +27,13 @@ export class ProjectCreateComponent implements OnInit, OnDestroy {
     private readonly activeAssignmentService: ActiveAssignmentService = inject(ActiveAssignmentService);
     private readonly activeAssignmentRoutingService: ActiveAssignmentRoutingService = inject(ActiveAssignmentRoutingService);
     private readonly router: Router = inject(Router);
-    assignmentDefaultTeamSize = this.activeAssignmentService.getActiveAssignment()?.assignment.defaultTeamSize;
+    private readonly toastService: ToastService = inject(ToastService);
+    private readonly authorizationsService: AuthorizationService = inject(AuthorizationService);
+    private readonly isResearcher$ = this.authorizationsService.isResearcher$();
     private subscriptions: Subscription[] = [];
 
     tag: tag | null = null;
-    tagList: tag[] = [];// array to hold the selected tags
-    newTag: string = '';
-    showTagInput: boolean = false;
+    tagList: tag[] = [];
 
     ngOnInit() {
     }
@@ -40,8 +42,8 @@ export class ProjectCreateComponent implements OnInit, OnDestroy {
         title: new FormControl('', [Validators.required]),
         description: new FormControl(''),
         shortDescription: new FormControl('', [Validators.required]),
-        teamSize: new FormControl(this.activeAssignmentService.getActiveAssignment()?.assignment.defaultTeamSize, [Validators.required]),
-        tags : new FormControl()
+        teamSize: new FormControl(this.activeAssignmentService.getActiveAssignment()?.assignment.defaultTeamSize || 1, [Validators.required]),
+        tags: new FormControl()
     });
 
     charCount: number = 0;
@@ -58,23 +60,35 @@ export class ProjectCreateComponent implements OnInit, OnDestroy {
 
     onSubmit() {
         const assignmentId = this.activeAssignmentService.getActiveAssignment()?.assignment.id;
-        if (this.projectForm.valid && assignmentId) {
-            let project: Project = this.projectForm.value as Project;
-            const createProjectSubscription = this.projectService.createProject(assignmentId, project).subscribe(project => {
-                this.router.navigate(this.activeAssignmentRoutingService.buildRoute('projects'));
-            });
-            this.subscriptions.push(createProjectSubscription);
+        const isResearcherSubscription = this.isResearcher$.subscribe((isResearcher) => {
+            if (this.projectForm.valid && isResearcher) {
+                const createGlobalProjectSubscription = this.projectService.createGlobalProject(this.projectForm.value as Project).subscribe(project => {
+                    this.router.navigate(this.activeAssignmentRoutingService.buildRoute('projects'));
+                });
+                this.subscriptions.push(createGlobalProjectSubscription);
+            } else {
+                if (this.projectForm.valid && assignmentId) {
+                    let project: Project = this.projectForm.value as Project;
+                    const createProjectSubscription = this.projectService.createProject(assignmentId, project).subscribe(project => {
+                        this.router.navigate(this.activeAssignmentRoutingService.buildRoute('projects'));
+                    });
+                    this.subscriptions.push(createProjectSubscription);
+                } else {
+                    this.toastService.showToast('error', 'Please fill out all required fields');
+                }
+            }
+        });
+        this.subscriptions.push(isResearcherSubscription);
+    }
+
+    addTagToProject(selectedTag: tag) {
+        if (!this.tagList.some(t => t.id === selectedTag.id)) {
+            this.tagList.push(selectedTag);
+            this.projectForm.patchValue({tags: this.tagList});
         }
     }
 
-    addTagToProject(selectedTag: tag){
-       if(!this.tagList.some(t => t.id === selectedTag.id)){
-        this.tagList.push(selectedTag);
-        this.projectForm.patchValue({tags : this.tagList});
-       }
-    }
-
-    removeTag(tagId: number){
+    removeTag(tagId: number) {
         this.tagList = this.tagList.filter(tag => tag.id != tagId);
         this.projectForm.patchValue({tags: this.tagList})
     }

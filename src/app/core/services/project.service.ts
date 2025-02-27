@@ -47,6 +47,12 @@ export class ProjectService {
         });
     }
 
+    createGlobalProject(projectData: Project): Observable<Project> {
+        return this.http.post<Project>(`${environment.apiBaseUrl}/api/projects/global`, projectData, {
+            withCredentials: true
+        });
+    }
+
     updateProject(projectId: number, projectData: Project): Observable<Project> {
         return this.http.patch<Project>(`${environment.apiBaseUrl}/api/projects/${projectId}`, projectData, {
             withCredentials: true
