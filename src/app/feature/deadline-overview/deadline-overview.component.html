@@ -1,5 +1,8 @@
 <div class="calendar-container">
-    <app-calendar></app-calendar>
+    <div class="calendar">
+        <app-calendar></app-calendar>
+    </div>
+    <div class="right-sidebar">
     <ng-container *ngIf="(isTeacher$ | async)">
         <div class="button-container">
             <app-button type="normal" label="Create Deadline" (click)="navigateToDeadlineCreate()"></app-button>
@@ -29,4 +32,5 @@
     <ng-template #noDeadlines>
         <p>No deadlines available.</p>
     </ng-template>
+    </div>
 </div>
