@@ -19,13 +19,21 @@ export function authInterceptor(
     return next(req).pipe(
         tap(event => {
             if (event instanceof HttpResponse) {
+                // You can add any response handling here if needed.
             }
         }),
         catchError((error: HttpErrorResponse) => {
-            if (error.status == 401) {
-                toastService.showToast("error", 'Session expired, please login again');
+            if (error.status === 401) {
                 document.cookie = `JSESSIONID=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
-                authFacade.redirectToLogin();
+                const currentPath = window.location.pathname;
+                if (
+                    !currentPath.startsWith('/login') &&
+                    !currentPath.startsWith('/register') &&
+                    !currentPath.startsWith('/guest')
+                ) {
+                    toastService.showToast("error", 'Session expired, please login again');
+                    authFacade.redirectToLogin();
+                }
             } else {
                 toastService.showToast("error", 'Something went wrong, please try again');
             }
