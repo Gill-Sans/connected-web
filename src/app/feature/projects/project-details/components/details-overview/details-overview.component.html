@@ -23,11 +23,11 @@
 
         <!-- Right sidebar with Members & Links -->
         <div class="right-sidebar">
-            <div class="update-status" *ngIf="(isTeacher$ | async) && project.status === ProjectStatusEnum.PENDING ">
+            <div class="update-status" *ngIf="(isTeacher$ | async)">
                 <h3>Update status</h3>
                 <div class="update-status-buttons">
-                    <app-button variant="primary" (click)="updateProjectStatus(ProjectStatusEnum.APPROVED)">Approve</app-button>
-                    <app-button variant="neutral" (click)="updateProjectStatus(ProjectStatusEnum.REJECTED)">Reject</app-button>
+                    <app-button variant="primary" [disabled]="project.status === ProjectStatusEnum.APPROVED" (click)="updateProjectStatus(ProjectStatusEnum.APPROVED)">Approve</app-button>
+                    <app-button variant="neutral" [disabled]="project.status === ProjectStatusEnum.REJECTED" (click)="updateProjectStatus(ProjectStatusEnum.REJECTED)">Reject</app-button>
                 </div>
             </div>
             <div class="apply-section" *ngIf="!(canManageProject$ | async) && !(isMember$ | async)">
