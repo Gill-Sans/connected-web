@@ -12,7 +12,7 @@
                     <div *ngFor="let deadline of deadlines" class="deadline-card">
                         <h3>{{ deadline.title }}</h3>
                         <span *ngIf="(isTeacher$ | async)" class="delete-icon" (click)="openDeleteModal(deadline)">
-                            &#10060;
+                            X
                         </span>
                         <p class="due-date">
                             {{ convertToTimeZone(deadline.dueDate) | date: 'EEE MMM d' }} at
@@ -40,8 +40,8 @@
     <div class="modal-content">
         <h2>Delete this Deadline?</h2>
         <div class="modal-actions">
-            <app-button variant="primary" (click)="confirmDelete()">Confirm</app-button>
             <app-button variant="danger" (click)="closeModal()">Cancel</app-button>
+            <app-button variant="primary" (click)="confirmDelete()">Confirm</app-button>
         </div>
     </div>
 </div>
