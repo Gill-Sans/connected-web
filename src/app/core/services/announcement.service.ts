@@ -11,6 +11,14 @@ export class AnnouncementService {
     private http = inject(HttpClient);
 
     /**
+     * Get all announcements for a given assignment.
+     * GET to /api/assignments/{assignmentId}/announcements
+     */
+    getAnnouncements(assignmentId: number | string): Observable<Announcement[]> {
+        return this.http.get<Announcement[]>(`${environment.apiBaseUrl}/api/assignments/${assignmentId}/announcements`, {withCredentials: true});
+    }
+
+    /**
      * Create an announcement for a given assignment.
      * POST to /api/assignments/{assignmentId}/announcements
      */

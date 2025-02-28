@@ -54,10 +54,7 @@ export class AnnouncementCreateComponent implements OnInit, OnDestroy {
                 .subscribe({
                     next: (response) => {
                         this.toastService.showToast('success', 'Announcement created!');
-                        this.router.navigate([this.activeAssignmentRoutingService.buildRoute('announcements')]);
-                    },
-                    error: (err) => {
-                        console.error("Failed to create announcement", err);
+                        this.router.navigate(this.activeAssignmentRoutingService.buildRoute('announcements'));
                     }
                 })
         );

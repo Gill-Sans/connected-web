@@ -47,4 +47,12 @@
         <img class="icon" src="icons/book-open-solid.svg" alt="Courses" />
         <span>Courses</span>
     </a>
+    <a [routerLink]="getRoute('announcements')"
+       *hasRole="[Role.Teacher]"
+       routerLinkActive="active-link"
+       [routerLinkActiveOptions]="{ exact: false }"
+       class="nav-link">
+        <img class="icon" src="icons/bullhorn-solid.svg" alt="Announcements" />
+        <span>Announcements</span>
+    </a>
 </nav>
