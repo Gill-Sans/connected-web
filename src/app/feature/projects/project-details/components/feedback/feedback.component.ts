@@ -126,7 +126,6 @@ export class FeedbackComponent implements OnInit, OnDestroy {
         };
 
         const reviewSubscription = this.reviewService.createReview(this.projectId, review).subscribe(() => {
-            this.toastService.showToast('success', `Review ${status.replace('_', ' ')} submitted!`);
             this.loadReviews();
         });
 
