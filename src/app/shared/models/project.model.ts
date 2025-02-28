@@ -18,4 +18,6 @@ export interface Project {
     createdBy: User;
     productOwner: User;
     members: User[];
+    courseName?: string;
+    assignmentName?: string;
 }

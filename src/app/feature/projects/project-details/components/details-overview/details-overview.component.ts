@@ -15,6 +15,9 @@ import { TagcardComponent } from "../../../../../shared/components/tagcard/tagca
 import {ActiveAssignmentService} from '../../../../../core/services/active-assignment.service';
 import {ActiveAssignment} from '../../../../../shared/models/activeAssignment.model';
 import {ToastService} from '../../../../../core/services/toast.service';
+import {Role} from '../../../../../auth/models/role.model';
+import {AssignmentService} from '../../../../../core/services/assignment.service';
+import {Assignment} from '../../../../../shared/models/assignment.model';
 
 @Component({
     selector: 'app-details-overview',
@@ -41,6 +44,8 @@ export class DetailsOverviewComponent implements OnInit, OnDestroy {
     public repositoryUrl: string = '';
     public boardUrl: string = '';
     public tags: tag[] = [];
+    public assignment: Assignment | null = null;
+
 
     private activeAssignment: ActiveAssignment | null = null;
 
@@ -63,6 +68,8 @@ export class DetailsOverviewComponent implements OnInit, OnDestroy {
                     this.repositoryUrl = project.repositoryUrl;
                     this.boardUrl = project.boardUrl;
                     this.tags = project.tags;
+
+
 
                 });
 
@@ -128,4 +135,6 @@ export class DetailsOverviewComponent implements OnInit, OnDestroy {
             );
         }
     }
+
+    protected readonly Role = Role;
 }
