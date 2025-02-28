@@ -15,6 +15,8 @@ import { TagcardComponent } from "../../../../../shared/components/tagcard/tagca
 import {ActiveAssignmentService} from '../../../../../core/services/active-assignment.service';
 import {ActiveAssignment} from '../../../../../shared/models/activeAssignment.model';
 import {ToastService} from '../../../../../core/services/toast.service';
+import {Role} from '../../../../../auth/models/role.model';
+import {Assignment} from '../../../../../shared/models/assignment.model';
 
 @Component({
     selector: 'app-details-overview',
@@ -41,6 +43,9 @@ export class DetailsOverviewComponent implements OnInit, OnDestroy {
     public repositoryUrl: string = '';
     public boardUrl: string = '';
     public tags: tag[] = [];
+    public assignment: Assignment | null = null;
+    protected readonly Role = Role;
+
 
     private activeAssignment: ActiveAssignment | null = null;
 
@@ -52,7 +57,7 @@ export class DetailsOverviewComponent implements OnInit, OnDestroy {
             const id = params['id'];
             if (id) {
                 this.projectId = id;
-                this.projectService.getProjectById(id).subscribe({
+                const projectSubscription = this.projectService.getProjectById(id).subscribe({
                     next: project => {
                         this.project$ = new Observable<Project>(subscriber => subscriber.next(project));
                         this.canManageProject$ = this.authorizationService.canManageProject$(project);
@@ -68,6 +73,8 @@ export class DetailsOverviewComponent implements OnInit, OnDestroy {
                         this.router.navigate(this.activeAssignmentRoutingService.buildRoute('projects'));
                     }
                 });
+
+                this.subscriptions.push(projectSubscription);
             }
         });
 
