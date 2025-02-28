@@ -81,7 +81,7 @@
         }
 
         &::before {
-            content: attr(data-title) '\A' attr(data-date) '\A\A' attr(data-restriction) '\A' attr(data-description);
+            content: attr(data-title) ' ' attr(data-date) '\A\A' attr(data-description);
             position: absolute;
             bottom: calc(100% + 20px);
             left: 50%;
