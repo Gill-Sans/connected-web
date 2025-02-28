@@ -23,28 +23,28 @@
 
         <!-- Right sidebar with Members & Links -->
         <div class="right-sidebar">
-            <div class="update-status" *ngIf="(isTeacher$ | async) && project.status === ProjectStatusEnum.PENDING ">
+            <div class="update-status" *ngIf="(isTeacher$ | async)">
                 <h3>Update status</h3>
                 <div class="update-status-buttons">
-                    <app-button variant="primary" (click)="updateProjectStatus(ProjectStatusEnum.APPROVED)">Approve</app-button>
-                    <app-button variant="neutral" (click)="updateProjectStatus(ProjectStatusEnum.REJECTED)">Reject</app-button>
+                    <app-button variant="primary" [disabled]="project.status === ProjectStatusEnum.APPROVED" (click)="updateProjectStatus(ProjectStatusEnum.APPROVED)">Approve</app-button>
+                    <app-button variant="neutral" [disabled]="project.status === ProjectStatusEnum.REJECTED" (click)="updateProjectStatus(ProjectStatusEnum.REJECTED)">Reject</app-button>
                 </div>
             </div>
-            <div class="apply-section" *ngIf="!(canManageProject$ | async) && !(isMember$ | async)">
-                <p *ngIf="project.members.length === 0 && project.assignmentId != null">
+            <div class="apply-section" *ngIf="!(isResearcher$ | async) && !(canManageProject$ | async) && !(isMember$ | async)">
+                <p *ngIf="!(isResearcher$ | async) && project.members.length === 0 && project.assignmentId != null">
                     Press this button to claim this project. By claiming, you take ownership of this project.
                 </p>
                 <app-button variant="primary" (click)="claimProject()" *ngIf="project.members.length === 0 && project.assignmentId != null">Claim Project</app-button>
-                <p *ngIf="project.members.length > 0 && project.assignmentId != null">
+                <p *ngIf="!(isResearcher$ | async) && project.members.length > 0 && project.assignmentId != null">
                     Press this button to apply for this project. By applying,
                     you express your interest in contributing to this project
                     and collaborating with the team.
                 </p>
-                <app-button variant="primary"  (click)="applyForProject()" *ngIf="project.assignmentId != null && project.members.length > 0">Apply for this project</app-button>
-                <p *ngIf="project.assignmentId == null">
+                <app-button variant="primary"  (click)="applyForProject()" *ngIf="!(isResearcher$ | async) && project.assignmentId != null && project.members.length > 0">Apply for this project</app-button>
+                <p *ngIf="!(isResearcher$ | async) && project.assignmentId == null">
                     Importing a global project means that you will import it into your current assignment.
                 </p>
-                <app-button variant="primary" (click)="importProject()" *ngIf="project.assignmentId == null">Import Project</app-button>
+                <app-button variant="primary" (click)="importProject()" *ngIf="!(isResearcher$ | async) && project.assignmentId == null">Import Project</app-button>
             </div>
             <div class="members-section">
                 <h3>Members <span style="font-size: small; color: rgb(128,128,128); font-weight: 300; ">{{project.members.length || 0}}/{{project.teamSize}}</span></h3>

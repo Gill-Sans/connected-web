@@ -36,6 +36,7 @@ export class DetailsOverviewComponent implements OnInit, OnDestroy {
     public canManageProject$!: Observable<boolean>;
     public isMember$!: Observable<boolean>;
     public isTeacher$!: Observable<boolean>;
+    public isResearcher$!: Observable<boolean>;
     public hasApplied$!: Observable<boolean>;
     public repositoryUrl: string = '';
     public boardUrl: string = '';
@@ -57,6 +58,7 @@ export class DetailsOverviewComponent implements OnInit, OnDestroy {
                     this.canManageProject$ = this.authorizationService.canManageProject$(project);
                     this.isMember$ = this.authorizationService.isMember$(project);
                     this.isTeacher$ = this.authorizationService.isTeacher$();
+                    this.isResearcher$ = this.authorizationService.isResearcher$();
                     this.hasApplied$ = this.authorizationService.hasApplied$(project);
                     this.repositoryUrl = project.repositoryUrl;
                     this.boardUrl = project.boardUrl;
