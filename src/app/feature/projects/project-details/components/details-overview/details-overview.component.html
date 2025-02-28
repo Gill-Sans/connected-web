@@ -23,7 +23,7 @@
 
         <!-- Right sidebar with Members & Links -->
         <div class="right-sidebar">
-            <div class="update-status" *ngIf="(isTeacher$ | async)">
+            <div class="update-status" *ngIf="(isTeacher$ | async) && project.status !== ProjectStatusEnum.PUBLISHED">
                 <h3>Update status</h3>
                 <div class="update-status-buttons">
                     <app-button variant="primary" [disabled]="project.status === ProjectStatusEnum.APPROVED" (click)="updateProjectStatus(ProjectStatusEnum.APPROVED)">Approve</app-button>
