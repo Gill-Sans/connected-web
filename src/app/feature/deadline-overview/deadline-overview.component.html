@@ -1,6 +1,6 @@
 <div class="calendar-container">
     <div class="calendar">
-        <app-calendar></app-calendar>
+        <app-calendar [deadlines]="(deadlines$ | async) ?? []"></app-calendar>
     </div>
     <div class="right-sidebar">
         <ng-container *ngIf="(isTeacher$ | async)">
@@ -26,12 +26,12 @@
                 </div>
             </div>
         </div>
-            <ng-template #loadingDeadlines>
-                <p>Loading deadlines...</p>
-            </ng-template>
-            <ng-template #noDeadlines>
-                <p>No deadlines available.</p>
-            </ng-template>
+        <ng-template #loadingDeadlines>
+            <p>Loading deadlines...</p>
+        </ng-template>
+        <ng-template #noDeadlines>
+            <p>No deadlines available.</p>
+        </ng-template>
     </div>
 </div>
 

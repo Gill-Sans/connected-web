@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
 import {CommonModule, registerLocaleData} from '@angular/common';
 import localeNl from '@angular/common/locales/nl';
 import {
@@ -31,31 +31,25 @@ registerLocaleData(localeNl);
     encapsulation: ViewEncapsulation.None
 })
 export class CalendarComponent implements OnInit {
+    @Input() deadlines: Deadline[] = [];
     view: CalendarView = CalendarView.Month;
     viewDate: Date = new Date();
     events: CalendarEvent[] = [];
-
-    constructor(
-        private deadlineService: DeadlineService,
-        private activeAssignmentService: ActiveAssignmentService) {
-    }
 
     ngOnInit(): void {
         this.loadDeadlines();
     }
 
+    ngOnChanges(): void {
+        this.loadDeadlines();
+    }
+
     loadDeadlines(): void {
-        const activeAssignment = this.activeAssignmentService.getActiveAssignment();
-        if (activeAssignment && activeAssignment.assignment) {
-            const assignmentId = activeAssignment.assignment.id;
-            this.deadlineService.getAllDeadlinesForAssignment(assignmentId).subscribe((deadlines: Deadline[]) => {
-                this.events = deadlines.map(deadline => ({
-                    start: new Date(deadline.dueDate),
-                    title: deadline.title,
-                    meta: deadline
-                }));
-            });
-        }
+        this.events = this.deadlines.map(deadline => ({
+            start: new Date(deadline.dueDate),
+            title: deadline.title,
+            meta: deadline
+        }));
     }
 
     nextMonth(): void {
