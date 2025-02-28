@@ -14,34 +14,22 @@ button {
     cursor: pointer;
     transition: background-color 0.2s ease, box-shadow 0.2s ease;
 
-    &:hover {
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-    }
-
     &:disabled {
         opacity: 0.6;
         cursor: not-allowed;
     }
 
-    // Ripple/Bubble Effect
-    &::after {
-        content: "";
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 10px;
-        height: 10px;
-        background: rgba(255, 255, 255, 0.5);
-        border-radius: 50%;
-        transform: translate(-50%, -50%) scale(0);
-        opacity: 0;
-        pointer-events: none;
+    &.ripple {
+        background-position: center;
+        transition: background 0.8s;
     }
-
-    &:active::after {
-        transform: translate(-50%, -50%) scale(10);
-        opacity: 0;
-        transition: transform 0.5s ease-out, opacity 1s ease-out;
+    &:hover {
+        background: #47a7f5 radial-gradient(circle, transparent 1%, #47a7f5 1%) center/15000%;
+    }
+    &.ripple:active {
+        background-color: #6eb9f7;
+        background-size: 100%;
+        transition: background 0s;
     }
 }
 

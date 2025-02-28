@@ -35,10 +35,6 @@ export class ButtonComponent {
     @Input() icon: string | null = null;
 
 
-    /**
-     * (click) event emitter. Emits when the button is clicked.
-     * Use this to handle button clicks in the parent component.
-     */
     @Output('click') buttonClick = new EventEmitter<void>();
 
     onClick(event: Event) {
