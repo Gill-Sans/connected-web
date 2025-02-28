@@ -52,21 +52,22 @@ export class DetailsOverviewComponent implements OnInit, OnDestroy {
             const id = params['id'];
             if (id) {
                 this.projectId = id;
-                this.project$ = this.projectService.getProjectById(id);
-
-                const projectSubscription = this.project$.subscribe(project => {
-                    this.canManageProject$ = this.authorizationService.canManageProject$(project);
-                    this.isMember$ = this.authorizationService.isMember$(project);
-                    this.isTeacher$ = this.authorizationService.isTeacher$();
-                    this.isResearcher$ = this.authorizationService.isResearcher$();
-                    this.hasApplied$ = this.authorizationService.hasApplied$(project);
-                    this.repositoryUrl = project.repositoryUrl;
-                    this.boardUrl = project.boardUrl;
-                    this.tags = project.tags;
-
+                this.projectService.getProjectById(id).subscribe({
+                    next: project => {
+                        this.project$ = new Observable<Project>(subscriber => subscriber.next(project));
+                        this.canManageProject$ = this.authorizationService.canManageProject$(project);
+                        this.isMember$ = this.authorizationService.isMember$(project);
+                        this.isTeacher$ = this.authorizationService.isTeacher$();
+                        this.isResearcher$ = this.authorizationService.isResearcher$();
+                        this.hasApplied$ = this.authorizationService.hasApplied$(project);
+                        this.repositoryUrl = project.repositoryUrl;
+                        this.boardUrl = project.boardUrl;
+                        this.tags = project.tags;
+                    },
+                    error: () => {
+                        this.router.navigate(this.activeAssignmentRoutingService.buildRoute('projects'));
+                    }
                 });
-
-                this.subscriptions.push(projectSubscription);
             }
         });
 
@@ -74,14 +75,12 @@ export class DetailsOverviewComponent implements OnInit, OnDestroy {
             this.subscriptions.push(routeSubscription);
         }
 
-        // get assignmentId
         const activeAssignmentSubscription = this.activeAssignmentService.activeAssignment$.subscribe(activeAssignment => {
             if (activeAssignment) {
                 this.activeAssignment = activeAssignment;
             }
         });
         this.subscriptions.push(activeAssignmentSubscription);
-
     }
 
     ngOnDestroy(): void {
