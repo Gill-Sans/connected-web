@@ -79,11 +79,12 @@ export class ApplicationDetailsComponent implements OnInit, OnDestroy {
     }
 
     joinProject(applicationId: number) {
-        try {
-            this.application$ = this.projectService.joinProject(applicationId);
-            this.toastService.showToast("success", "Joined project successfully");
-        } catch (error) {
-            this.toastService.showToast("error", "Failed to join project");
-        }
+        const joinProjectSubscription = this.projectService.joinProject(applicationId).subscribe(
+            (application: Application) => {
+                this.router.navigate(this.activeAssignmentRouteService.buildRoute('projects', application.project.id.toString()));
+                this.toastService.showToast('success', 'Joined project successfully');
+            }
+        );
+        this.subscriptions.push(joinProjectSubscription);
     }
 }
