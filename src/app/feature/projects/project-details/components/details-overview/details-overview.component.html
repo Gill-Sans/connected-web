@@ -3,9 +3,9 @@
         <!-- Left section with text -->
         <div class="left-content">
             <div>
-                <div class="project-origin">
-                    <p *ngIf="project.courseName != null">{{ project.courseName }}</p>
-                    <p *ngIf="project.assignmentName != null">{{ project.assignmentName }}</p>
+                <div class="project-origin" *ngIf="project.courseName != null || project.assignmentName != null">
+                    <p>{{ project.courseName }}</p>
+                    <p>{{ project.assignmentName }}</p>
                 </div>
                 <h2>{{ project.title || "Untitled Project" }}
                     <span class="creator-name" *ngIf="project.createdBy">
