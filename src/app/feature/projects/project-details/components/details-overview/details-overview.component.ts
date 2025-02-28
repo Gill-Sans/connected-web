@@ -31,7 +31,6 @@ export class DetailsOverviewComponent implements OnInit, OnDestroy {
     public authorizationService: AuthorizationService = inject(AuthorizationService);
     private readonly activeAssignmentRoutingService: ActiveAssignmentRoutingService = inject(ActiveAssignmentRoutingService);
     private readonly router: Router = inject(Router);
-    private readonly assignmentService: AssignmentService = inject(AssignmentService);
     private readonly activeAssignmentService: ActiveAssignmentService = inject(ActiveAssignmentService);
     private readonly toastService: ToastService = inject(ToastService);
     protected readonly ProjectStatusEnum = ProjectStatusEnum;
