@@ -18,7 +18,7 @@
                      class="cal-event"
                      [attr.data-title]="event.title"
                      [attr.data-description]="event.meta.description"
-                     [attr.data-date]="event.start | date:'medium'"
+                     [attr.data-date]="event.start | date:'HH:mm'"
                      [attr.data-restriction]="event.meta.restriction.toLowerCase()">
                 </div>
             </div>
