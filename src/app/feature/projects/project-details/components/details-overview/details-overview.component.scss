@@ -18,6 +18,14 @@
     flex-direction: column;
     gap: 20px;
 
+    .project-origin{
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        font-size: 0.5rem;
+        color: #7a7a7a;
+    }
+
     h2 {
         font-size: 2rem;
         font-weight: 600;
@@ -28,10 +36,10 @@
 
 /* Paragraph styling for readability */
 p {
-    font-size: 1rem;
+    font-size: 0.8rem;
     line-height: 1.6;
     margin-bottom: 15px;
-    color: #444;
+    color: #666;
 }
 
 /* Right sidebar: Members & Links */
