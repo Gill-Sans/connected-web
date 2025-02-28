@@ -1,19 +1,27 @@
 <div class="calendar-wrapper">
     <div class="calendar-header">
-        <button (click)="previousMonth()">Previous Month</button>
-        <button (click)="goToToday()">Today</button>
-        <button (click)="nextMonth()">Next Month</button>
+        <app-button variant="neutral" (click)="previousMonth()">Previous Month</app-button>
+        <app-button variant="neutral" (click)="goToToday()">Today</app-button>
+        <app-button variant="neutral" (click)="nextMonth()">Next Month</app-button>
     </div>
     <mwl-calendar-month-view
         [viewDate]="viewDate"
         [events]="events"
-        [eventTitleTemplate]="eventTitleTemplate">
+        [cellTemplate]="cellTemplate">
     </mwl-calendar-month-view>
 
-    <ng-template #eventTitleTemplate let-event="event">
-        <div class="cal-event">
-            <div class="cal-event-dot"></div>
-            <div class="cal-event-title">{{ event.title }}</div>
+    <ng-template #cellTemplate let-day="day">
+        <div class="cal-day">
+            <div class="cal-day-number">{{ day.date | date: 'd' }}</div>
+            <div class="cal-events">
+                <div *ngFor="let event of day.events"
+                     class="cal-event"
+                     [attr.data-title]="event.title"
+                     [attr.data-description]="event.meta.description"
+                     [attr.data-date]="event.start | date:'HH:mm'"
+                     [attr.data-restriction]="event.meta.restriction.toLowerCase()">
+                </div>
+            </div>
         </div>
     </ng-template>
 </div>

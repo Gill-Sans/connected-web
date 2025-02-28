@@ -12,6 +12,7 @@ import {ActiveAssignmentRoutingService} from '../../../core/services/active-assi
 import {ProjectStatusEnum} from '../../../shared/models/ProjectStatus.enum';
 import {AuthorizationService} from '../../../core/services/authorization.service';
 import {ButtonComponent} from '../../../shared/components/button/button.component';
+import {StatuscardComponent} from '../../../shared/components/statuscard/statuscard.component';
 
 interface TabOption {
     label: string;
@@ -24,7 +25,8 @@ interface TabOption {
         ProjectcardComponent,
         CommonModule,
         RouterOutlet,
-        ButtonComponent
+        ButtonComponent,
+        StatuscardComponent
     ],
     templateUrl: './project-overview.component.html',
     styleUrl: './project-overview.component.scss'

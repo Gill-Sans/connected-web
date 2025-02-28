@@ -15,6 +15,8 @@ import { TagcardComponent } from "../../../../../shared/components/tagcard/tagca
 import {ActiveAssignmentService} from '../../../../../core/services/active-assignment.service';
 import {ActiveAssignment} from '../../../../../shared/models/activeAssignment.model';
 import {ToastService} from '../../../../../core/services/toast.service';
+import {Role} from '../../../../../auth/models/role.model';
+import {Assignment} from '../../../../../shared/models/assignment.model';
 
 @Component({
     selector: 'app-details-overview',
@@ -41,6 +43,9 @@ export class DetailsOverviewComponent implements OnInit, OnDestroy {
     public repositoryUrl: string = '';
     public boardUrl: string = '';
     public tags: tag[] = [];
+    public assignment: Assignment | null = null;
+    protected readonly Role = Role;
+
 
     private activeAssignment: ActiveAssignment | null = null;
 
@@ -52,18 +57,21 @@ export class DetailsOverviewComponent implements OnInit, OnDestroy {
             const id = params['id'];
             if (id) {
                 this.projectId = id;
-                this.project$ = this.projectService.getProjectById(id);
-
-                const projectSubscription = this.project$.subscribe(project => {
-                    this.canManageProject$ = this.authorizationService.canManageProject$(project);
-                    this.isMember$ = this.authorizationService.isMember$(project);
-                    this.isTeacher$ = this.authorizationService.isTeacher$();
-                    this.isResearcher$ = this.authorizationService.isResearcher$();
-                    this.hasApplied$ = this.authorizationService.hasApplied$(project);
-                    this.repositoryUrl = project.repositoryUrl;
-                    this.boardUrl = project.boardUrl;
-                    this.tags = project.tags;
-
+                const projectSubscription = this.projectService.getProjectById(id).subscribe({
+                    next: project => {
+                        this.project$ = new Observable<Project>(subscriber => subscriber.next(project));
+                        this.canManageProject$ = this.authorizationService.canManageProject$(project);
+                        this.isMember$ = this.authorizationService.isMember$(project);
+                        this.isTeacher$ = this.authorizationService.isTeacher$();
+                        this.isResearcher$ = this.authorizationService.isResearcher$();
+                        this.hasApplied$ = this.authorizationService.hasApplied$(project);
+                        this.repositoryUrl = project.repositoryUrl;
+                        this.boardUrl = project.boardUrl;
+                        this.tags = project.tags;
+                    },
+                    error: () => {
+                        this.router.navigate(this.activeAssignmentRoutingService.buildRoute('projects'));
+                    }
                 });
 
                 this.subscriptions.push(projectSubscription);
@@ -74,14 +82,12 @@ export class DetailsOverviewComponent implements OnInit, OnDestroy {
             this.subscriptions.push(routeSubscription);
         }
 
-        // get assignmentId
         const activeAssignmentSubscription = this.activeAssignmentService.activeAssignment$.subscribe(activeAssignment => {
             if (activeAssignment) {
                 this.activeAssignment = activeAssignment;
             }
         });
         this.subscriptions.push(activeAssignmentSubscription);
-
     }
 
     ngOnDestroy(): void {

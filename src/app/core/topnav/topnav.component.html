@@ -29,10 +29,8 @@
             </ng-template>
         </div>
     </div>
-    <div class="right">
-        <div class="left" *hasRole="[Role.Teacher]">TEACHER</div>
-        <div class="left" *hasRole="[Role.Student]">STUDENT</div>
-        <div class="left" *hasRole="[Role.Researcher]">RESEARCHER</div>
+    <div class="right" *ngIf="user$ | async as user">
+        <p>Welcome, {{ user.firstName }} {{ user.lastName }}</p>
         <div class="nav-icons">
             <div class="notifications" (clickOutside)="closeNotifications()" (click)="toggleNotifications()">
                 <div class="notifications-container">
