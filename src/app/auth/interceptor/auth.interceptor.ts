@@ -34,7 +34,10 @@ export function authInterceptor(
                     toastService.showToast("error", 'Session expired, please login again');
                     authFacade.redirectToLogin();
                 }
-            } else {
+            }else if (error.status === 404) {
+                toastService.showToast("error", 'Resource not found');
+            }
+            else {
                 toastService.showToast("error", 'Something went wrong, please try again');
             }
             return throwError(() => error);

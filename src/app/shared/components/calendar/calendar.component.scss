@@ -1,25 +1,104 @@
+@use '../../../../styles/variables' as *;
+
 .calendar-wrapper {
-    padding: 1rem;
+    padding: 1.5rem;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .calendar-header {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
+    padding: 0 0.5rem;
+}
 
-    button {
-        background-color: #007bff;
-        color: white;
-        border: none;
-        padding: 0.5rem 1rem;
-        border-radius: 4px;
-        cursor: pointer;
-        transition: background-color 0.3s;
+:host {
+    .cal-month-view {
+        .cal-cell-top {
+            min-height: unset;
+        }
 
-        &:hover {
-            background-color: #0056b3;
+        .cal-cell {
+            min-height: 120px;
+        }
+
+        .cal-header {
+            background-color: #f8f9fa;
+            padding: 0.75rem 0;
+            font-weight: 600;
+        }
+
+        .cal-out-month {
+            .cal-day-number {
+                opacity: 0.3;
+            }
         }
     }
 }
 
+.cal-month-view .cal-day-cell.cal-today {
+    background: $background-color;
+}
 
+.cal-month-view .cal-day-cell.cal-today .cal-day-number {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: $primary-color;
+}
+
+.cal-day {
+    font-size: 1.5rem;
+}
+
+.cal-events {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    overflow: visible;
+    padding: 2px;
+}
+
+.cal-event {
+    position: relative;
+    width: 24px;
+    height: 24px;
+    background-color: #007bff;
+    border-radius: 50%;
+    cursor: pointer;
+    flex-shrink: 0;
+
+    &:hover {
+        &::after {
+            content: '';
+            position: absolute;
+            bottom: calc(100% + 5px);
+            left: 50%;
+            transform: translateX(-50%);
+            border: 8px solid transparent;
+            border-top-color: rgba(33, 37, 41, 0.95);
+        }
+
+        &::before {
+            content: attr(data-title) ' at ' attr(data-date) '\A\A' attr(data-description);
+            position: absolute;
+            bottom: calc(100% + 20px);
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(33, 37, 41, 0.95);
+            color: white;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            white-space: pre-wrap;
+            z-index: 1000;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            min-width: 220px;
+            max-width: 300px;
+            text-align: left;
+            line-height: 1.5;
+            font-weight: normal;
+        }
+    }
+}

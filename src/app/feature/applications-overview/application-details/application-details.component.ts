@@ -41,17 +41,22 @@ export class ApplicationDetailsComponent implements OnInit, OnDestroy {
     private subscriptions: Subscription[] = [];
 
     ngOnInit() {
-        const applicationSubscription = this.application$.subscribe(application => {
-            this.projectId = application.project.id;
-            this.isApplicationOwner$ = this.authorizationService.isApplicationOwner$(application);
-            this.project$ = this.projectService.getProjectById(this.projectId.toString());
+        const applicationSubscription = this.application$.subscribe({
+            next: application => {
+                this.projectId = application.project.id;
+                this.isApplicationOwner$ = this.authorizationService.isApplicationOwner$(application);
+                this.project$ = this.projectService.getProjectById(this.projectId.toString());
 
-            const projectSubscription = this.project$.subscribe(project => {
-                this.isOwner$ = this.authorizationService.isOwner$(project);
-                this.isMember$ = this.authorizationService.isMember$(project);
-            });
+                const projectSubscription = this.project$.subscribe(project => {
+                    this.isOwner$ = this.authorizationService.isOwner$(project);
+                    this.isMember$ = this.authorizationService.isMember$(project);
+                });
 
-            this.subscriptions.push(projectSubscription);
+                this.subscriptions.push(projectSubscription);
+            },
+            error: () => {
+                this.router.navigate(this.activeAssignmentRouteService.buildRoute('applications'));
+            }
         });
 
         this.subscriptions.push(applicationSubscription);

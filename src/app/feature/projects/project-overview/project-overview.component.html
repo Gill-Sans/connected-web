@@ -56,7 +56,7 @@
                 <tbody>
                 <tr *ngFor="let project of projects">
                     <td (click)="navigateToProject(project)">{{ project.title }}</td>
-                    <td><button [ngClass]="[project.status]" class="status-button">{{ project.status }}</button></td>
+                    <td><app-statuscard status="{{ project.status }}">{{ project.status }}</app-statuscard></td>
                     <td>
                         <app-button variant="primary" (click)="updateProjectStatus(project, ProjectStatusEnum.PUBLISHED)"  *ngIf="project.status !== publishedStatus">Publish</app-button>
                         <app-button variant="danger" (click)="updateProjectStatus(project, ProjectStatusEnum.PENDING)"  *ngIf="project.status === publishedStatus">Unpublish</app-button>
