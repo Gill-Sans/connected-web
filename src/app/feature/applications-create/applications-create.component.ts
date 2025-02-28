@@ -66,6 +66,6 @@ export class ApplicationsCreateComponent implements OnInit, OnDestroy {
   }
 
     return() {
-        this.router.navigate(this.assignmentRouting.buildRoute('projects', this.projectId.toString()));
+        this.router.navigate(this.activeAssignmentRoutingService.buildRoute('projects', this.projectId.toString()));
     }
 }
