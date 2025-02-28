@@ -22,6 +22,10 @@ import {PasswordLoginComponent} from './auth/components/password-login/password-
 import {RegisterComponent} from './auth/components/register/register.component';
 import {SettingsComponent} from './feature/settings/settings.component';
 import {ResearcherGuard} from './core/guards/researcher.guard';
+import {AnnouncementCreateComponent} from './feature/announcements/announcement-create/announcement-create.component';
+import {
+    AnnouncementOverviewComponent
+} from './feature/announcements/announcement-overview/announcement-overview.component';
 
 export const routes: Routes = [
     {
@@ -63,6 +67,8 @@ export const routes: Routes = [
                     { path: 'applications', component: ApplicationsOverviewComponent },
                     { path: 'applications/:id', component: ApplicationDetailsComponent },
                     { path: 'students', component: StudentOverviewComponent },
+                    {path: 'announcements', component: AnnouncementOverviewComponent },
+                    { path: 'announcements/create', component: AnnouncementCreateComponent },
                     { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
                 ]
             }

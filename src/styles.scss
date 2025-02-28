@@ -30,6 +30,8 @@ textarea,
 label {
     font-family: inherit;
     color: $text-color;
+    word-wrap: break-word;
+    word-break: break-word;
 }
 
 h1 {

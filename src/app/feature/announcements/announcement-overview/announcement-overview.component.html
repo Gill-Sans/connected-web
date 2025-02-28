@@ -1,0 +1,25 @@
+<div class="announcement-overview-container">
+    <h2>Announcements</h2>
+    <app-button variant="primary" (click)="createAnnouncement()">Create Announcement</app-button>
+
+    <div *ngIf="announcements.length > 0; else noAnnouncements">
+        <div *ngFor="let announcement of announcements" class="announcement">
+            <div class="announcement-header">
+                <div class="announcement-user">
+                    <div class="placeholder-avatar"></div>
+                    <p class="announcement-author">{{ announcement.createdBy.firstName }} {{ announcement.createdBy.lastName }}</p>
+                </div>
+                <div class="announcement-date-container">
+                    <p class="announcement-time" *ngIf="announcement.createdAt">{{ announcement.createdAt | date: 'HH:mm ' }}</p>
+                    <p class="announcement-date">{{ announcement.createdAt | date: 'dd/MM/yyyy' }}</p>
+                </div>
+            </div>
+            <h4>{{ announcement.title }}</h4>
+            <p>{{ announcement.message }}</p>
+        </div>
+    </div>
+
+    <ng-template #noAnnouncements>
+        <p>No announcements available for this assignment.</p>
+    </ng-template>
+</div>
