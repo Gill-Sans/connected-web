@@ -1,6 +1,6 @@
 <div class="settings-container">
     <h2>Settings</h2>
-    <div class="invite-section">
+    <div class="invite-section" *hasRole="Role.Teacher">
         <app-button variant="primary"  (click)="generateInviteLink()" [disabled]="isLoading">{{ isLoading ? 'Generating...' : 'Generate Invite Link' }}</app-button>
     </div>
 
