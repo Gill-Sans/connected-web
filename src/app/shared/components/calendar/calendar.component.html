@@ -16,11 +16,14 @@
             <div class="cal-day-number">{{ day.date | date: 'd' }}</div>
             <div class="cal-events">
                 <div *ngFor="let event of day.events"
-                     class="cal-event"
-                     [attr.data-title]="event.title"
-                     [attr.data-description]="event.meta.description"
-                     [attr.data-date]="event.start | date:'HH:mm'"
-                     [attr.data-restriction]="event.meta.restriction.toLowerCase()">
+                     class="cal-event">
+                    <div class="tooltip">
+                        <div class="tooltip-header">
+                            <span class="title">{{ event.title }}</span>
+                            <span class="date">{{ event.start | date:'HH:mm' }}</span>
+                        </div>
+                        <span class="description">{{ event.meta.description }}</span>
+                    </div>
                 </div>
             </div>
         </div>

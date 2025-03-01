@@ -69,43 +69,69 @@
 
 .cal-event {
     position: relative;
-    width: 24px;
-    height: 24px;
+    width: 15px !important;
+    height: 15px !important;
     background-color: $primary-color !important;
     border-radius: 50%;
     cursor: pointer;
     flex-shrink: 0;
 
-    &:hover {
-        &::after {
-            content: '';
-            position: absolute;
-            bottom: calc(100% + 5px);
-            left: 50%;
-            transform: translateX(-50%);
-            border: 8px solid transparent;
-            border-top-color: $primary-color;
-        }
-
-        &::before {
-            content: attr(data-title) ' at ' attr(data-date) '\A\A' attr(data-description);
-            position: absolute;
-            bottom: calc(100% + 20px);
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: $primary-color;
-            color: white;
-            padding: 12px;
-            border-radius: 6px;
-            font-size: 0.875rem;
-            white-space: pre-wrap;
-            z-index: 1000;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            min-width: 220px;
-            max-width: 300px;
-            text-align: left;
-            line-height: 1.5;
-            font-weight: normal;
-        }
+    &:hover .tooltip {
+        display: flex;
     }
+}
+
+.tooltip {
+    display: none;
+    position: absolute;
+    bottom: calc(100% + 10px);
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: $background-color;
+    padding: 12px;
+    border-radius: 6px;
+    z-index: 1000;
+    min-width: 220px;
+    max-width: 300px;
+    flex-direction: column;
+    gap: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    color: white;
+
+    &::after {
+        content: '';
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        border-width: 6px;
+        border-style: solid;
+        border-color: $background-color transparent transparent transparent;
+    }
+}
+
+.tooltip-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.tooltip .title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: black;
+}
+
+.tooltip .date {
+    font-size: 0.875rem;
+    font-weight: 400;
+    color: black;
+}
+
+.tooltip .description {
+    font-size: 0.875rem;
+    font-weight: 400;
+    color: black;
+    line-height: 1rem;
 }
