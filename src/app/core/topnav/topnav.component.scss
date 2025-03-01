@@ -125,14 +125,21 @@
             ul {
                 padding: $small-spacing;
                 list-style: none;
+                .User-name{
+                    font-size: 14px;
+                    color: $primary-color;
+                    pointer-events: none;
+                }
 
                 li {
                     padding: 10px;
+                    justify-content: center;
                     cursor: pointer;
                     &:hover {
                         background-color: #f0f0f0;
                     }
                 }
+
             }
         }
     }
@@ -172,6 +179,8 @@
         width: $icon-size;
         height: $icon-size;
     }
+
+
 }
 
 // Global element styles for interactive elements
