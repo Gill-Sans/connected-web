@@ -71,7 +71,7 @@
     position: relative;
     width: 24px;
     height: 24px;
-    background-color: #007bff;
+    background-color: $primary-color !important;
     border-radius: 50%;
     cursor: pointer;
     flex-shrink: 0;
@@ -84,7 +84,7 @@
             left: 50%;
             transform: translateX(-50%);
             border: 8px solid transparent;
-            border-top-color: rgba(33, 37, 41, 0.95);
+            border-top-color: $primary-color;
         }
 
         &::before {
@@ -93,7 +93,7 @@
             bottom: calc(100% + 20px);
             left: 50%;
             transform: translateX(-50%);
-            background-color: rgba(33, 37, 41, 0.95);
+            background-color: $primary-color;
             color: white;
             padding: 12px;
             border-radius: 6px;
