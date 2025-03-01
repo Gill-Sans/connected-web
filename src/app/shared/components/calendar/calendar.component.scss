@@ -11,7 +11,14 @@
     display: flex;
     justify-content: space-between;
     margin-bottom: 1.5rem;
-    padding: 0 0.5rem;
+    padding: 1rem 0.5rem;
+}
+
+.calendar-wrapper span {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #333;
+    padding-left: 0.5rem;
 }
 
 :host {

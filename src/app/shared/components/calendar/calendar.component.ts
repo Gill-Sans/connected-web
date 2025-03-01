@@ -12,10 +12,8 @@ import {
     CalendarEventTitleFormatter
 } from 'angular-calendar';
 import {adapterFactory} from 'angular-calendar/date-adapters/date-fns';
-import {DeadlineService} from '../../../core/services/deadline.service';
-import {addMonths, startOfToday, subMonths} from 'date-fns';
+import {addMonths, format, startOfToday, subMonths} from 'date-fns';
 import {Deadline} from '../../models/deadline.model';
-import {ActiveAssignmentService} from '../../../core/services/active-assignment.service';
 import {ButtonComponent} from '../button/button.component';
 
 registerLocaleData(localeNl);
@@ -62,6 +60,10 @@ export class CalendarComponent implements OnInit {
 
     goToToday(): void {
         this.viewDate = startOfToday();
+    }
+
+    get formattedDate(): string {
+        return format(this.viewDate, 'MMMM yyyy');
     }
 }
 
