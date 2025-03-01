@@ -5,6 +5,8 @@ import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {ToastService} from '../../core/services/toast.service';
 import {ButtonComponent} from '../../shared/components/button/button.component';
+import {HasRoleDirective} from '../../shared/directives/HasRole.directive';
+import {Role} from '../../auth/models/role.model';
 
 @Component({
     selector: 'app-settings',
@@ -13,12 +15,14 @@ import {ButtonComponent} from '../../shared/components/button/button.component';
     imports: [
         CommonModule,
         FormsModule,
-        ButtonComponent
+        ButtonComponent,
+        HasRoleDirective
     ],
 })
 export class SettingsComponent {
     private readonly http = inject(HttpClient);
     private readonly toastService = inject(ToastService);
+    protected readonly Role = Role;
     inviteLink: string = '';
     isLoading: boolean = false;
     errorMessage: string = '';
@@ -48,4 +52,5 @@ export class SettingsComponent {
             });
         }
     }
+
 }
