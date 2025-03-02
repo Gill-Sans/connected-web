@@ -7,11 +7,16 @@ import {Router} from '@angular/router';
 import {Announcement} from '../../../shared/models/announcement.model';
 import {Subscription} from 'rxjs';
 import {ActiveAssignmentRoutingService} from '../../../core/services/active-assignment-routing.service';
+import {AnnouncementCardComponent} from '../../../shared/components/announcement-card/announcement-card.component';
 
 @Component({
     selector: 'app-announcement-overview',
     standalone: true,
-    imports: [CommonModule, ButtonComponent],
+    imports: [
+        CommonModule,
+        ButtonComponent,
+        AnnouncementCardComponent
+    ],
     templateUrl: './announcement-overview.component.html',
     styleUrls: ['./announcement-overview.component.scss']
 })

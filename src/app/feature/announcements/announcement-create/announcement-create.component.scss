@@ -1,3 +1,5 @@
+@use '../../../../styles/variables.scss' as *;
+
 .announcement-create-container {
     display: flex;
     flex-direction: column;
@@ -24,12 +26,13 @@ form {
         width: 100%;
         padding: 0.5rem;
         font-size: 1rem;
-        border: 1px solid #ccc;
-        border-radius: 4px;
+        border-radius: 8px;
+        border: none;
+        resize: none;
     }
 
     .error {
-        color: #e74c3c;
+        color: $danger-color;
         font-size: 0.85rem;
         margin-top: 0.25rem;
     }
