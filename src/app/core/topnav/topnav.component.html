@@ -73,6 +73,7 @@
             <div class="user-icon" (click)="toggleHiddenprofile()" (clickOutside)="closeProfileDropdown()"></div>
             <div class="dropdownProfile" [hidden]="isHiddenProfile">
                 <ul>
+                    <li class="User-name">{{user.firstName}} {{user.lastName}}</li>
                     <li (click)="navigateToSettings()">Settings</li>
                     <li (click)="navigateToProfile()">My profile</li>
                     <li (click)="logout()">Log out</li>
