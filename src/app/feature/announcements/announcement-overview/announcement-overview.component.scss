@@ -9,6 +9,9 @@
     width: 100%;
 
     .announcement-overview {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
         width: 100%;
     }
 }
