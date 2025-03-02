@@ -100,7 +100,7 @@ td {
         grid-row: 2 / -1;
         grid-column: 2 / -1;
         margin: 0 $small-spacing $small-spacing $small-spacing;
-        overflow-y: auto;
+        overflow-y: visible;
         scrollbar-width: thin;
     }
 }
