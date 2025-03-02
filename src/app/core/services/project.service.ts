@@ -68,6 +68,12 @@ export class ProjectService {
         });
     }
 
+    getProjectByUserAndAssignmentId(assignmentId: string): Observable<Project> {
+        return this.http.get<Project>(`${environment.apiBaseUrl}/api/projects/member/assignment/${assignmentId}`, {
+            withCredentials: true
+        });
+    }
+
     getProjectApplications(projectId: string): Observable<Application[]> {
         return this.http.get<Application[]>(`${environment.apiBaseUrl}/api/projects/${projectId}/applications`, {
             withCredentials: true
