@@ -121,20 +121,22 @@
             -4px 0px 12px rgba(0, 0, 0, 0.1),
             4px 0px 12px rgba(0, 0, 0, 0.1);
             z-index: 1000;
+            min-width: 200px;
 
             ul {
                 padding: $small-spacing;
                 list-style: none;
-                .User-name{
-                    font-size: 14px;
+                .user-name{
                     color: $primary-color;
                     pointer-events: none;
+                    font-weight: bold;
                 }
 
                 li {
                     padding: 10px;
                     justify-content: center;
                     cursor: pointer;
+                    border-radius: 8px;
                     &:hover {
                         background-color: #f0f0f0;
                     }

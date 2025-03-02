@@ -1,9 +1,6 @@
 @use "../../../../styles/variables" as *;
 
 .project-overview {
-    /* Project Overview cards styling */
-    padding: 20px;
-
     .card-container {
         display: grid;
         grid-template-columns: repeat(3, 1fr); /* 3 cards per row */

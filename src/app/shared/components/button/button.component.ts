@@ -23,7 +23,7 @@ export class ButtonComponent {
      * 'neutral' (gray) for neutral actions,
      * 'success' (green) for successful outcomes.
      */
-    @Input() variant: 'primary' | 'danger' | 'neutral' | 'success' = 'primary';
+    @Input() variant: 'primary' | 'danger' | 'neutral' | 'success' | 'link' = 'primary';
 
     /** Disable the button if true */
     @Input() disabled: boolean = false;
