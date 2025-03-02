@@ -11,6 +11,19 @@
         </ng-template>
     </main>
     <aside>
+        <div class="project-container">
+            <h4>My project</h4>
+            <div class="project" *ngIf="project != null; else noProject">
+                <app-projectcard [project]="project"></app-projectcard>
+            </div>
+            <ng-template #noProject>
+                <div class="no-project">
+                    <p>you are not part of a project yet in this assignment.</p>
+                    <app-button variant="link" (click)="navigateToProjects()">Browse projects</app-button>
+                </div>
+            </ng-template>
+
+        </div>
         <div class="calendar-container">
             <app-calendar></app-calendar>
         </div>
