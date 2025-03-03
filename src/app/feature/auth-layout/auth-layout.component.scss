@@ -1,0 +1,19 @@
+.auth-container{
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    height: 100vh;
+    min-width: 100%;
+
+    .auth-layout-footer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2rem;
+
+        img {
+            width: 200px;
+        }
+    }
+}
