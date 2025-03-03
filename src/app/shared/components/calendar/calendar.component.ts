@@ -1,5 +1,5 @@
 import {Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
-import {CommonModule, registerLocaleData} from '@angular/common';
+import {CommonModule, NgOptimizedImage, registerLocaleData} from '@angular/common';
 import localeNl from '@angular/common/locales/nl';
 import {
     CalendarEvent,
@@ -21,7 +21,7 @@ registerLocaleData(localeNl);
 
 @Component({
     selector: 'app-calendar',
-    imports: [CommonModule, CalendarModule, ButtonComponent],
+    imports: [CommonModule, CalendarModule, ButtonComponent, NgOptimizedImage],
     providers: [{provide: DateAdapter, useFactory: adapterFactory, deps: []}, CalendarUtils, CalendarDateFormatter,
         CalendarA11y, CalendarEventTitleFormatter],
     templateUrl: './calendar.component.html',

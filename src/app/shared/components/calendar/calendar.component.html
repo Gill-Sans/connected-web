@@ -1,9 +1,12 @@
 <div class="calendar-wrapper">
-    <span>{{ formattedDate }}</span>
     <div class="calendar-header">
-        <app-button variant="neutral" (click)="previousMonth()">Previous Month</app-button>
         <app-button variant="neutral" (click)="goToToday()">Today</app-button>
-        <app-button variant="neutral" (click)="nextMonth()">Next Month</app-button>
+        <div class="buttons">
+            <img ngSrc="icons/play.svg" alt="previous" height="30" width="30" (click)="previousMonth()"
+                 class="previous-button"/>
+            <img ngSrc="icons/play.svg" alt="next" height="30" width="30" (click)="nextMonth()"/>
+        </div>
+        <span>{{ formattedDate }}</span>
     </div>
     <mwl-calendar-month-view
         [viewDate]="viewDate"
