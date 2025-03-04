@@ -14,9 +14,11 @@ import {AuthorizationService} from '../../../core/services/authorization.service
 import {ButtonComponent} from '../../../shared/components/button/button.component';
 import {StatuscardComponent} from '../../../shared/components/statuscard/statuscard.component';
 
+type TabValue = 'all' | 'global';
+
 interface TabOption {
     label: string;
-    value: string;
+    value: TabValue;
 }
 
 @Component({
@@ -98,7 +100,7 @@ export class ProjectOverviewComponent implements OnInit, OnDestroy {
         this.router.navigate(builtRoute);
     }
 
-    changeTab(tab: String): void {
+    changeTab(tab: TabValue): void {
         if (tab === 'all') {
             this.selectedTab = 'all';
             this.loadProjects();
