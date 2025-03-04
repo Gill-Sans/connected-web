@@ -14,9 +14,11 @@ import {AuthorizationService} from '../../../core/services/authorization.service
 import {ButtonComponent} from '../../../shared/components/button/button.component';
 import {StatuscardComponent} from '../../../shared/components/statuscard/statuscard.component';
 
+type TabValue = 'all' | 'global';
+
 interface TabOption {
     label: string;
-    value: string;
+    value: TabValue;
 }
 
 @Component({
@@ -45,7 +47,7 @@ export class ProjectOverviewComponent implements OnInit, OnDestroy {
     public isResearcher$: Observable<boolean> = this.authorizationService.isResearcher$();
 
     activeAssignment: ActiveAssignment | null = this.activeAssignmentService.getActiveAssignment();
-    selectedTab: string = 'all';
+    selectedTab: 'all' | 'global' = 'all';
     viewType: 'card' | 'table' = 'card';
 
     // Subscription to listen to active assignment changes
@@ -98,11 +100,12 @@ export class ProjectOverviewComponent implements OnInit, OnDestroy {
         this.router.navigate(builtRoute);
     }
 
-    changeTab(tab: string): void {
-        this.selectedTab = tab;
+    changeTab(tab: TabValue): void {
         if (tab === 'all') {
+            this.selectedTab = 'all';
             this.loadProjects();
         } else if (tab === 'global') {
+            this.selectedTab = 'global';
             this.loadGlobalProjects();
         }
     }

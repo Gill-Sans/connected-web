@@ -8,18 +8,18 @@ import {Observable, Subscription} from 'rxjs';
 import {CommonModule} from '@angular/common';
 import {AnnouncementCardComponent} from '../../shared/components/announcement-card/announcement-card.component';
 import {ActiveAssignment} from '../../shared/models/activeAssignment.model';
-import {CalendarComponent} from '../../shared/components/calendar/calendar.component';
 import {ButtonComponent} from '../../shared/components/button/button.component';
 import {ProjectService} from '../../core/services/project.service';
 import {Project} from '../../shared/models/project.model';
 import {ProjectcardComponent} from '../../shared/components/projectcard/projectcard.component';
+import {CalendarSmallComponent} from '../../shared/components/calendar-small/calendar-small.component';
 
 @Component({
   selector: 'app-dashboard',
   imports: [
       CommonModule,
       AnnouncementCardComponent,
-      CalendarComponent,
+      CalendarSmallComponent,
       ButtonComponent,
       ProjectcardComponent
   ],
