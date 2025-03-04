@@ -5,12 +5,13 @@
     background-color: white;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
 }
 
 .calendar-header {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 16px;
     margin-bottom: 1.5rem;
     padding: 1rem 0.5rem;
     img {
@@ -39,14 +40,6 @@
 
 :host {
     .cal-month-view {
-        .cal-cell-top {
-            min-height: unset;
-        }
-
-        .cal-cell {
-            min-height: 120px;
-        }
-
         .cal-header {
             background-color: #f8f9fa;
             padding: 0.75rem 0;
@@ -66,13 +59,13 @@
 }
 
 .cal-month-view .cal-day-cell.cal-today .cal-day-number {
-    font-size: 1.8rem;
+    font-size: 1.3rem;
     font-weight: bold;
     color: $primary-color;
 }
 
 .cal-day {
-    font-size: 1.5rem;
+    font-size: 1rem;
 }
 
 .cal-events {
