@@ -20,7 +20,13 @@ import {Assignment} from '../../../../../shared/models/assignment.model';
 
 @Component({
     selector: 'app-details-overview',
-    imports: [LinkcardComponent, CommonModule, MarkdownModule, ButtonComponent, TagcardComponent],
+    imports: [
+        LinkcardComponent,
+        CommonModule,
+        MarkdownModule,
+        ButtonComponent,
+        TagcardComponent,
+    ],
     templateUrl: './details-overview.component.html',
     styleUrl: './details-overview.component.scss'
 })
