@@ -1,0 +1,34 @@
+<div class="calendar-wrapper">
+    <div class="calendar-header">
+        <app-button variant="neutral" (click)="goToToday()">Today</app-button>
+        <div class="buttons">
+            <img ngSrc="icons/play.svg" alt="previous" height="30" width="30" (click)="previousMonth()"
+                 class="previous-button"/>
+            <img ngSrc="icons/play.svg" alt="next" height="30" width="30" (click)="nextMonth()"/>
+        </div>
+        <span>{{ formattedDate }}</span>
+    </div>
+    <mwl-calendar-month-view
+        [viewDate]="viewDate"
+        [events]="events"
+        [cellTemplate]="cellTemplate">
+    </mwl-calendar-month-view>
+
+    <ng-template #cellTemplate let-day="day">
+        <div class="cal-day">
+            <div class="cal-day-number">{{ day.date | date:'d' }}</div>
+            <div class="cal-events">
+                <div *ngFor="let event of day.events"
+                     class="cal-event">
+                    <div class="tooltip">
+                        <div class="tooltip-header">
+                            <span class="title">{{ event.title }}</span>
+                            <span class="date">{{ event.start | date:'HH:mm' }}</span>
+                        </div>
+                        <span class="description">{{ event.meta.description }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</div>
