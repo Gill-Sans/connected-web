@@ -7,6 +7,7 @@ import {ToastService} from '../../core/services/toast.service';
 import {ButtonComponent} from '../../shared/components/button/button.component';
 import {HasRoleDirective} from '../../shared/directives/HasRole.directive';
 import {Role} from '../../auth/models/role.model';
+import {ConfirmClickDirective} from '../../shared/directives/confirmClick.directive';
 
 @Component({
     selector: 'app-settings',
@@ -16,12 +17,13 @@ import {Role} from '../../auth/models/role.model';
         CommonModule,
         FormsModule,
         ButtonComponent,
-        HasRoleDirective
+        HasRoleDirective,
+        ConfirmClickDirective
     ],
 })
 export class SettingsComponent {
-    private readonly http = inject(HttpClient);
-    private readonly toastService = inject(ToastService);
+    private readonly http: HttpClient = inject(HttpClient);
+    private readonly toastService: ToastService = inject(ToastService);
     protected readonly Role = Role;
     inviteLink: string = '';
     isLoading: boolean = false;
@@ -53,4 +55,19 @@ export class SettingsComponent {
         }
     }
 
+    requestAccountDeletion(){
+        this.isLoading = true;
+        this.errorMessage = '';
+        this.http.post(`${environment.apiBaseUrl}/api/users/request-delete`, {}, { withCredentials: true }).subscribe({
+            next: () => {
+                this.toastService.showToast('info', 'Account deletion requested');
+                this.isLoading = false;
+            },
+            error: (error) => {
+                console.error('Error requesting account deletion', error);
+                this.errorMessage = 'Error requesting account deletion';
+                this.isLoading = false;
+            }
+        });
+    }
 }

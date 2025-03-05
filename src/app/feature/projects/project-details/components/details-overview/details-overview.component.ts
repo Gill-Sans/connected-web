@@ -17,6 +17,7 @@ import {ActiveAssignment} from '../../../../../shared/models/activeAssignment.mo
 import {ToastService} from '../../../../../core/services/toast.service';
 import {Role} from '../../../../../auth/models/role.model';
 import {Assignment} from '../../../../../shared/models/assignment.model';
+import { ICONS } from '../../../../../shared/constants/icons';
 
 @Component({
     selector: 'app-details-overview',
