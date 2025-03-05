@@ -1,10 +1,3 @@
-.create-project-container {
-    max-width: 700px;
-    margin: auto;
-    padding: 20px;
-    border-radius: 8px;
-}
-
 h2 {
     font-size: 24px;
     font-weight: bold;
@@ -23,13 +16,9 @@ label {
 }
 
 .input-description {
-    font-size: 14px;
+    font-size: 1rem;
     color: #7c7a7a;
     margin-bottom: 8px;
-}
-
-#shortDescription {
-    margin-bottom: 20px;
 }
 
 input {
@@ -40,4 +29,32 @@ input {
     font-size: 16px;
     box-sizing: border-box;
     background: #e8e7e7;
+}
+
+.input {
+    max-width: 40%;
+    min-width: 400pxs;
+}
+
+.title {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    box-sizing: border-box;
+    background: #e8e7e7;
+}
+
+.short-description {
+    font-size: 1rem;
+    border: none;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 20px;
+    background: #e8e7e7;
+    resize: none;
+}
+
+.team-size {
+    width: min-content;
 }

@@ -40,6 +40,10 @@
                     </app-button>
                 </div>
             </div>
+
+
+
+
             <div class="apply-section"
                  *ngIf="!(isResearcher$ | async) && !(canManageProject$ | async) && !(isMember$ | async)">
                 <p *ngIf="!(isResearcher$ | async) && project.members.length === 0 && project.assignmentId != null">
@@ -64,6 +68,10 @@
                             *ngIf="!(isResearcher$ | async) && project.assignmentId == null">Import Project
                 </app-button>
             </div>
+
+
+
+
             <div class="members-section">
                 <h3>Members <span
                     style="font-size: small; color: rgb(128,128,128); font-weight: 300; ">{{ project.members.length || 0 }}

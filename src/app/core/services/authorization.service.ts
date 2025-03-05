@@ -7,7 +7,7 @@ import {Application} from '../../shared/models/application.model';
 
 @Injectable({ providedIn: 'root' })
 export class AuthorizationService {
-    private readonly authFacade = inject(AuthFacade);
+    private readonly authFacade: AuthFacade = inject(AuthFacade);
 
     /**
      * Returns an observable that emits true if the current user is a teacher.
