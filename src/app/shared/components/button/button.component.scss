@@ -53,14 +53,11 @@ button.success {
 button.link {
     background-color: transparent;
     color: $text-color;
-    border-bottom: 2px solid $text-color;
     padding: 0 0 2px 0;
-    border-radius: 0;
+    text-decoration: underline;
 
     &:hover {
-        background: transparent;
         color: $primary-color;
-        border-bottom: 2px solid $primary-color;
         transition: 0.2s ease;
 
         .button-icon {
