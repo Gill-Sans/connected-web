@@ -15,6 +15,7 @@ import {adapterFactory} from 'angular-calendar/date-adapters/date-fns';
 import {addMonths, format, startOfToday, subMonths} from 'date-fns';
 import {Deadline} from '../../models/deadline.model';
 import {ButtonComponent} from '../button/button.component';
+import {toZonedTime} from 'date-fns-tz';
 
 registerLocaleData(localeNl);
 
@@ -64,6 +65,12 @@ export class CalendarComponent implements OnInit {
 
     get formattedDate(): string {
         return format(this.viewDate, 'MMMM yyyy');
+    }
+
+    convertToTimeZone(date: string): Date {
+        const dateObj = new Date(date + 'Z');
+        const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        return toZonedTime(dateObj, timeZone);
     }
 }
 

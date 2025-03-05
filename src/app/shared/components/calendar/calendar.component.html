@@ -23,7 +23,7 @@
                     <div class="tooltip">
                         <div class="tooltip-header">
                             <span class="title">{{ event.title }}</span>
-                            <span class="date">{{ event.start | date:'HH:mm' }}</span>
+                            <span class="date">{{ convertToTimeZone(event.start) | date:'HH:mm' }}</span>
                         </div>
                         <span class="description">{{ event.meta.description }}</span>
                     </div>
