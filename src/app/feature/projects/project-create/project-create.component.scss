@@ -1,24 +1,24 @@
-h2 {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 20px;
+@use '../../../../styles/variables' as *;
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
 }
 
 .form-group {
     display: flex;
     flex-direction: column;
-    margin-bottom: 20px;
+    gap: 1rem;
 }
 
 label {
     font-weight: bold;
-    margin-bottom: 5px;
 }
 
 .input-description {
     font-size: 1rem;
-    color: #7c7a7a;
-    margin-bottom: 8px;
+    color: $text-color-light;
 }
 
 input {
@@ -26,35 +26,28 @@ input {
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 8px;
-    font-size: 16px;
-    box-sizing: border-box;
-    background: #e8e7e7;
+    background: $background-color-input;
 }
 
 .input {
     max-width: 40%;
     min-width: 400pxs;
-}
-
-.title {
     padding: 10px;
-    border: 1px solid #ddd;
     border-radius: 8px;
-    font-size: 16px;
-    box-sizing: border-box;
-    background: #e8e7e7;
+    font-size: 1rem;
+    background: $background-color-input;
+    border: none;
 }
 
 .short-description {
-    font-size: 1rem;
-    border: none;
-    border-radius: 8px;
-    padding: 10px;
-    margin-bottom: 20px;
-    background: #e8e7e7;
     resize: none;
 }
 
 .team-size {
     width: min-content;
+}
+
+.error {
+    color: red;
+    font-size: 0.9rem;
 }

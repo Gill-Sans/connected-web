@@ -1,19 +1,43 @@
-import {Component, OnInit, inject, OnDestroy} from '@angular/core';
+import { Component, OnInit, inject, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { MarkdownModule } from 'ngx-markdown';
 import { LMarkdownEditorModule } from 'ngx-markdown-editor';
 import { ProjectService } from '../../../core/services/project.service';
-import { Router, ActivatedRoute } from '@angular/router';
+import {Router, ActivatedRoute, ParamMap} from '@angular/router';
 import { Project } from '../../../shared/models/project.model';
 import { ActiveAssignmentRoutingService } from '../../../core/services/active-assignment-routing.service';
 import { ActiveAssignmentService } from '../../../core/services/active-assignment.service';
-import {Subscription} from 'rxjs';
-import { TagSearchComponentComponent } from '../../../shared/tag-search-component/tag-search-component.component';
+import { Subscription } from 'rxjs';
 import { TagcardComponent } from '../../../shared/components/tagcard/tagcard.component';
+import { TagSearchComponentComponent } from '../../../shared/tag-search-component/tag-search-component.component';
 import { tag } from '../../../shared/models/tag.model';
 import { ProjectStatusEnum } from '../../../shared/models/ProjectStatus.enum';
-import {ButtonComponent} from '../../../shared/components/button/button.component';
+import { ButtonComponent } from '../../../shared/components/button/button.component';
+import {ToastService} from '../../../core/services/toast.service';
+
+// Validator to check minimum number of words
+function minWordsValidator(minWords: number) {
+    return (control: AbstractControl): ValidationErrors | null => {
+        const value: string = control.value || '';
+        if (!value.trim()) {
+            return null;
+        }
+        const wordCount = value.trim().split(/\s+/).length;
+        return wordCount < minWords ? { minWords: { required: minWords, actual: wordCount } } : null;
+    };
+}
+
+// Validator to ensure at least one tag is added
+function minTagsValidator(min: number) {
+    return (control: AbstractControl): ValidationErrors | null => {
+        const tags = control.value;
+        if (Array.isArray(tags) && tags.length < min) {
+            return { minTags: { requiredTags: min, actualTags: tags.length } };
+        }
+        return null;
+    };
+}
 
 @Component({
     selector: 'app-project-update',
@@ -31,36 +55,47 @@ import {ButtonComponent} from '../../../shared/components/button/button.componen
     styleUrls: ['./project-update.component.scss']
 })
 export class ProjectUpdateComponent implements OnInit, OnDestroy {
-    private projectService = inject(ProjectService);
-    private readonly activeAssignmentService : ActiveAssignmentService = inject(ActiveAssignmentService);
-    private router = inject(Router);
-    private route = inject(ActivatedRoute);
-    private activeAssignmentRoutingService = inject(ActiveAssignmentRoutingService);
-    assignmentDefaultTeamSize = this.activeAssignmentService.getActiveAssignment()?.assignment.defaultTeamSize;
+    private readonly projectService: ProjectService = inject(ProjectService);
+    private readonly activeAssignmentService: ActiveAssignmentService = inject(ActiveAssignmentService);
+    private readonly router: Router = inject(Router);
+    private readonly route: ActivatedRoute = inject(ActivatedRoute);
+    private readonly activeAssignmentRoutingService: ActiveAssignmentRoutingService = inject(ActiveAssignmentRoutingService);
+    private readonly toastService: ToastService = inject(ToastService);
 
-    tagList: tag[] = [];// array to hold the selected tags
+    assignmentDefaultTeamSize: number | undefined = this.activeAssignmentService.getActiveAssignment()?.assignment.defaultTeamSize;
 
+    tagList: tag[] = [];
 
     projectForm: FormGroup = new FormGroup({
-        title: new FormControl('', [Validators.required]),
-        description: new FormControl(''),
-        shortDescription: new FormControl('', [Validators.required]),
-        teamSize: new FormControl('', [Validators.required]),
+        title: new FormControl('', [
+            Validators.required,
+            Validators.maxLength(255)
+        ]),
+        description: new FormControl('', [
+            Validators.required,
+            minWordsValidator(50)
+        ]),
+        shortDescription: new FormControl('', [
+            Validators.required,
+            Validators.maxLength(500)
+        ]),
+        teamSize: new FormControl(this.assignmentDefaultTeamSize || 1, [
+            Validators.required
+        ]),
         repositoryUrl: new FormControl(null),
         boardUrl: new FormControl(null),
-        tags: new FormControl(null)
+        tags: new FormControl([], [minTagsValidator(1)])
     });
 
     charCount: number = 0;
     projectId!: number;
     projectData!: Project;
+    projectStatus: ProjectStatusEnum | undefined;
     private subscriptions: Subscription[] = [];
-    projectStatus: ProjectStatusEnum | undefined ;
 
     ngOnInit(): void {
-        // Use the parent route's paramMap if available.
-        const parentParams = this.route.parent ? this.route.parent.snapshot.paramMap : this.route.snapshot.paramMap;
-        const idParam = parentParams.get('id');
+        const parentParams: ParamMap = this.route.parent ? this.route.parent.snapshot.paramMap : this.route.snapshot.paramMap;
+        const idParam: string | null = parentParams.get('id');
         if (!idParam) {
             console.error("No project id provided in route params");
             return;
@@ -70,17 +105,17 @@ export class ProjectUpdateComponent implements OnInit, OnDestroy {
             console.error("Project id is NaN");
             return;
         }
-        const projectSubscription = this.projectService.getProjectById(this.projectId.toString()).subscribe(project => {
+        const projectSubscription: Subscription = this.projectService.getProjectById(this.projectId.toString()).subscribe(project => {
             this.projectData = project;
             this.projectStatus = project.status;
             this.projectForm.patchValue({
                 title: project.title,
                 description: project.description,
                 shortDescription: project.shortDescription,
-                teamSize : project.teamSize,
+                teamSize: project.teamSize,
                 repositoryUrl: project.repositoryUrl,
-                boardUrl : project.boardUrl,
-                tagList: project.tags
+                boardUrl: project.boardUrl,
+                tags: project.tags
             });
             this.charCount = project.shortDescription?.length || 0;
             this.tagList = project.tags;
@@ -93,7 +128,7 @@ export class ProjectUpdateComponent implements OnInit, OnDestroy {
     }
 
     updateCharCount(): void {
-        const shortDescriptionControl = this.projectForm.get('shortDescription');
+        const shortDescriptionControl: AbstractControl | null  = this.projectForm.get('shortDescription');
         this.charCount = shortDescriptionControl?.value ? shortDescriptionControl.value.length : 0;
     }
 
@@ -111,7 +146,6 @@ export class ProjectUpdateComponent implements OnInit, OnDestroy {
 
     onSubmit(): void {
         if (this.projectForm.valid) {
-            // Create an updated project object by merging original project data with form values
             const updatedProject: Project = {
                 ...this.projectData,
                 ...this.projectForm.value,
@@ -123,6 +157,9 @@ export class ProjectUpdateComponent implements OnInit, OnDestroy {
                 }
             );
             this.subscriptions.push(updateSubscription);
+        } else {
+            this.toastService.showToast('error', 'Please fill out all required fields.');
+            this.projectForm.markAllAsTouched();
         }
     }
 

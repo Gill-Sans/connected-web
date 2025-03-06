@@ -1,111 +1,93 @@
 <div class="update-project-container">
     <h2>Update Project</h2>
     <form [formGroup]="projectForm" (ngSubmit)="onSubmit()">
-        <!-- Title Input -->
-    <div *ngIf="projectStatus === 'PENDING'">
+        <!-- Title Input (only editable if projectStatus is 'PENDING') -->
+        <ng-container *ngIf="projectStatus === 'PENDING'">
+            <div class="form-group">
+                <label for="title">Title</label>
+                <p class="input-description">
+                    The title of your project should be a short, inviting sentence that describes your project.
+                </p>
+                <input id="title" class="title input" type="text" formControlName="title" placeholder="Title of your project" />
+                <div *ngIf="projectForm.get('title')?.invalid && projectForm.get('title')?.touched" class="error">
+                    <span *ngIf="projectForm.get('title')?.errors?.['required']" class="error">Title is required.</span>
+                    <span *ngIf="projectForm.get('title')?.errors?.['maxLength']" class="error">Title cannot exceed 255 characters.</span>
+                </div>
+            </div>
+
+            <!-- Short Description -->
+            <div class="form-group">
+                <label>Short Description</label>
+                <p class="input-description">
+                    Describe your project. ({{ charCount }}/500 characters)
+                </p>
+                <textarea id="shortDescription" class="short-description input" formControlName="shortDescription" placeholder="Description of your project" maxlength="500" rows="7" (input)="updateCharCount()"></textarea>
+                <div *ngIf="projectForm.get('shortDescription')?.invalid && projectForm.get('shortDescription')?.touched" class="error">
+                    <span *ngIf="projectForm.get('shortDescription')?.errors?.['required']" class="error">Short description is required.</span>
+                    <span *ngIf="projectForm.get('shortDescription')?.errors?.['maxLength']" class="error">Short description cannot exceed 500 characters.</span>
+                </div>
+            </div>
+
+            <!-- Detailed Project Description -->
+            <div class="form-group">
+                <label for="description">Project Description</label>
+                <p class="input-description">
+                    Describe your project in detail. You can style your explanation using markdown.
+                </p>
+                <md-editor style="white-space: pre-line;" name="Content" formControlName="description" [height]="'500px'">
+                    <slot custom-btns>
+                        <button md-button (click)="toggleFullScreen()">
+                            <i class="fas fa-expand"></i>
+                        </button>
+                    </slot>
+                </md-editor>
+                <div *ngIf="projectForm.get('description')?.invalid && projectForm.get('description')?.touched" class="error">
+                    <span *ngIf="projectForm.get('description')?.errors?.['required']" class="error">Project description is required.</span>
+                    <span *ngIf="projectForm.get('description')?.errors?.['minWords']" class="error">
+            Project description must contain at least 50 words (currently {{ projectForm.get('description')?.errors?.['minWords'].actual }}).
+          </span>
+                </div>
+            </div>
+
+            <!-- Team Size -->
+            <div class="form-group">
+                <label for="teamSize">Set the Team Size for your project</label>
+                <p class="input-description">
+                    If no team size is given, the default team size for the assignment will be applied.
+                </p>
+                <input id="teamSize" class="team-size input" type="number" formControlName="teamSize" min="1" />
+                <div *ngIf="projectForm.get('teamSize')?.invalid && projectForm.get('teamSize')?.touched" class="error">
+                    Team size is required.
+                </div>
+            </div>
+        </ng-container>
+
+        <!-- Extra Fields for Update: Repository and Board URLs (Optional) -->
         <div class="form-group">
-            <label for="title">Title</label>
-            <p class="input-description">
-                The title of your project should be a short, inviting sentence that describes your project.
-            </p>
-            <input
-                id="title"
-                class="title input"
-                type="text"
-                formControlName="title"
-                placeholder="Title of your project" />
+            <label for="repositoryUrl">Repository URL</label>
+            <input id="repositoryUrl" class="repo-url input" type="text" formControlName="repositoryUrl" placeholder="https://github.com/your-repo" />
+        </div>
+        <div class="form-group">
+            <label for="boardUrl">Board URL</label>
+            <input id="boardUrl" class="input" type="text" formControlName="boardUrl" placeholder="https://trello.com/your-board" />
         </div>
 
-        <!-- Short Description -->
+        <!-- Tags Section -->
         <div class="form-group">
-            <label>Short Description</label>
-            <p class="input-description">
-                Describe your project. ({{ charCount }}/500 characters)
-            </p>
-            <textarea
-                id="shortDescription"
-                class="short-description input"
-                formControlName="shortDescription"
-                placeholder="Description of your project"
-                maxlength="500"
-                rows="7"
-                (input)="updateCharCount()">
-      </textarea>
-        </div>
-
-        <!-- Detailed Description with Markdown Editor -->
-        <div class="form-group">
-            <label>Project Description</label>
-            <p class="input-description">
-                Describe your project in detail. You can style your explanation using markdown.
-            </p>
-            <md-editor
-                style="white-space: pre-line;"
-                name="Content"
-                formControlName="description"
-                [height]="'500px'">
-                <slot custom-btns>
-                    <button md-button (click)="toggleFullScreen()">
-                        <i class="fas fa-expand"></i>
-                    </button>
-                </slot>
-            </md-editor>
-        </div>
-        <!-- team size -->
-        <div class="form-group">
-            <label for="teamSize"> Set the Team Size for your project</label>
-            <p class="input-description">
-                If no Team size is given for your project, the default Team Size for the assignment will be implemented.
-            </p>
-            <input
-                id="teamSize"
-                class="team-size input"
-                type="number"
-                formControlName="teamSize"
-                min="1"
-            />
-        </div>
-
-    </div>
-        <!-- Repository Url -->
-        <div class="form-group">
-            <label for="repositoryUrl"> Paste your repository Url right here.</label>
-            <input
-                id="repositoryUrl"
-                class="repo-url input"
-                type="string"
-                formControlName="repositoryUrl"
-                placeholder="https://Github.com"
-            />
-        </div>
-        <!-- board Url -->
-        <div class="form-group">
-            <label for="boardUrl"> Paste your board Url right here.</label>
-            <input
-                id="boardUrl"
-                class="input"
-                type="string"
-                formControlName="boardUrl"
-                placeholder=""
-            />
-        </div>
-
-         <!-- Tags Section -->
-         <div class="form-group">
             <div class="skillset">
-                <p>Tags</p>
+                <p>Skillset</p>
                 <div class="tags-container">
                     <app-tagcard
                         *ngFor="let tag of tagList"
                         [tag]="tag"
                         [showDelete]="true"
-                        (deleteTag)="removeTag(tag.id)"
-                    >
+                        (deleteTag)="removeTag(tag.id)">
                     </app-tagcard>
                 </div>
-                <app-tag-search-component
-                    (tagSelected)="addTagToProject($event)"
-                ></app-tag-search-component>
+                <app-tag-search-component (tagSelected)="addTagToProject($event)"></app-tag-search-component>
+                <div *ngIf="projectForm.get('tags')?.invalid && projectForm.get('tags')?.touched" class="error">
+                    Please add at least one tag.
+                </div>
             </div>
         </div>
 

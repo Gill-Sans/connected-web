@@ -6,15 +6,17 @@
     <div class="message">
         <ng-container *ngIf="isEditing; else viewMode">
             <textarea [(ngModel)]="editedComment"></textarea>
-            <app-button variant="success" (click)="onConfirm()">Confirm</app-button>
-            <app-button variant="danger" (click)="onCancel()">Cancel</app-button>
+            <div class="button-container__edit">
+                <app-button variant="success" (click)="onConfirm()">Confirm</app-button>
+                <app-button variant="danger" (click)="onCancel()">Cancel</app-button>
+            </div>
         </ng-container>
         <ng-template #viewMode>
             <p>{{ comment }}</p>
             <div class="button-container">
                 <ng-container *ngIf="showEditDelete">
-                    <app-button variant="primary" (click)="onEdit()">Bewerken</app-button>
-                    <app-button variant="danger"  (click)="onDelete()">Verwijderen</app-button>
+                    <app-button variant="primary" (click)="onEdit()">Edit</app-button>
+                    <app-button variant="link"  (click)="onDelete()">Delete</app-button>
                 </ng-container>
             </div>
         </ng-template>

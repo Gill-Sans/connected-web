@@ -5,16 +5,13 @@
         <div class="form-group">
             <label for="title">Title</label>
             <p class="input-description">
-                The title of your project should be a short inviting sentence
-                that describes your project
+                The title of your project should be a short, inviting sentence that describes your project.
             </p>
-            <input
-                id="title"
-                class="title input"
-                type="text"
-                formControlName="title"
-                placeholder="Title of your project"
-            />
+            <input id="title" class="title input" type="text" formControlName="title" placeholder="Title of your project" />
+            <div *ngIf="projectForm.get('title')?.invalid && projectForm.get('title')?.touched" class="error">
+                <span *ngIf="projectForm.get('title')?.errors?.['required']" class="error">Title is required.</span>
+                <span *ngIf="projectForm.get('title')?.errors?.['maxLength']" class="error">Title cannot exceed 255 characters.</span>
+            </div>
         </div>
 
         <!-- Project Description -->
@@ -23,53 +20,45 @@
             <p class="input-description">
                 Describe your project. ({{ charCount }}/500 characters)
             </p>
-            <textarea
-                id="shortDescription"
-                class="short-description input"
-                formControlName="shortDescription"
-                placeholder="Description of your project"
-                maxlength="500"
-                rows="7"
-                (input)="updateCharCount()"
-            ></textarea>
-
+            <textarea id="shortDescription" class="short-description input" formControlName="shortDescription" placeholder="Description of your project" maxlength="500" rows="7" (input)="updateCharCount()"></textarea>
+            <div *ngIf="projectForm.get('shortDescription')?.invalid && projectForm.get('shortDescription')?.touched" class="error">
+                <span *ngIf="projectForm.get('shortDescription')?.errors?.['required']" class="error">Short description is required.</span>
+                <span *ngIf="projectForm.get('shortDescription')?.errors?.['maxLength']" class="error">Short description cannot exceed 500 characters.</span>
+            </div>
+        </div>
+        <div class="form-group">
             <label for="description">Project Description</label>
             <p class="input-description">
-                Describe your project in a detailed way. You can style your
-                explanation by using markdown.
+                Describe your project in detail. You can style your explanation using markdown.
             </p>
-
-            <!-- Markdown Textarea -->
-            <md-editor
-                style="white-space: pre-line;"
-                name="Content"
-                formControlName="description"
-                [height]="'500px'"
-            >
+            <md-editor style="white-space: pre-line;" name="Content" formControlName="description" [height]="'500px'">
                 <slot custom-btns>
                     <button md-button (click)="toggleFullScreen()">
                         <i class="fas fa-expand"></i>
                     </button>
                 </slot>
             </md-editor>
+            <div *ngIf="projectForm.get('description')?.invalid && projectForm.get('description')?.touched" class="error">
+                <span *ngIf="projectForm.get('description')?.errors?.['required']" class="error">Project description is required.</span>
+                <span *ngIf="projectForm.get('description')?.errors?.['minWords']" class="error">
+          Project description must contain at least 50 words (currently {{ projectForm.get('description')?.errors?.['minWords'].actual }}).
+        </span>
+            </div>
         </div>
 
+        <!-- Team Size -->
         <div class="form-group">
-            <label for="teamSize"> Set the Team Size for your project</label>
+            <label for="teamSize">Set the Team Size for your project</label>
             <p class="input-description">
-                If no Team size is given for your project, the default Team Size for the assignment will be implemented.
+                If no team size is given, the default team size for the assignment will be applied.
             </p>
-            <input
-                id="teamSize"
-                class="team-size input"
-                type="number"
-                formControlName="teamSize"
-                min="1"
-            />
+            <input id="teamSize" class="team-size input" type="number" formControlName="teamSize" min="1" />
+            <div *ngIf="projectForm.get('teamSize')?.invalid && projectForm.get('teamSize')?.touched" class="error">
+                Team size is required.
+            </div>
         </div>
 
-
-         <!-- Tags Section -->
+        <!-- Tags Section -->
         <div class="form-group">
             <div class="skillset">
                 <p>Skillset</p>
@@ -78,13 +67,13 @@
                         *ngFor="let tag of tagList"
                         [tag]="tag"
                         [showDelete]="true"
-                        (deleteTag)="removeTag(tag.id)"
-                    >
+                        (deleteTag)="removeTag(tag.id)">
                     </app-tagcard>
                 </div>
-                <app-tag-search-component
-                    (tagSelected)="addTagToProject($event)"
-                ></app-tag-search-component>
+                <app-tag-search-component (tagSelected)="addTagToProject($event)"></app-tag-search-component>
+                <div *ngIf="projectForm.get('tags')?.invalid && projectForm.get('tags')?.touched" class="error">
+                    Please add at least one tag.
+                </div>
             </div>
         </div>
 
