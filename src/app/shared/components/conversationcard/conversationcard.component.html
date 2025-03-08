@@ -7,7 +7,7 @@
         <ng-container *ngIf="isEditing; else viewMode">
             <textarea [(ngModel)]="editedComment"></textarea>
             <div class="button-container__edit">
-                <app-button variant="success" (click)="onConfirm()">Confirm</app-button>
+                <app-button variant="neutral" (click)="onConfirm()">Confirm</app-button>
                 <app-button variant="danger" (click)="onCancel()">Cancel</app-button>
             </div>
         </ng-container>
@@ -15,7 +15,7 @@
             <p>{{ comment }}</p>
             <div class="button-container">
                 <ng-container *ngIf="showEditDelete">
-                    <app-button variant="primary" (click)="onEdit()">Edit</app-button>
+                    <app-button variant="link" (click)="onEdit()">Edit</app-button>
                     <app-button variant="link"  (click)="onDelete()">Delete</app-button>
                 </ng-container>
             </div>

@@ -1,0 +1,75 @@
+@use "../../../styles/variables.scss" as *;
+
+.profilepage {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 20px;
+}
+
+.profile-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.profile-info {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+
+    .user-image {
+        border-radius: 50%;
+        width: 100px;
+        height: 100px;
+        border: 2px solid #abaaac;
+    }
+
+    .profile-name {
+        font-size: 22px;
+        font-weight: bold;
+    }
+}
+
+h4 {
+    margin-bottom: 1rem;
+}
+
+
+.about-me-text,
+.field-of-study-input,
+.linkedin-link {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1rem;
+    background: $background-color-input;
+    border: none;
+    border-radius: 8px;
+    resize: none;
+}
+
+.about-me-text:focus,
+.field-of-study-input:focus,
+.linkedin-link:focus {
+    outline: $primary-color-light 2px solid;
+}
+
+.tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+
+.about-me {
+    .about-me-text {
+        min-height: 300px;
+    }
+}
+
+/* Read-only view styling */
+.view-text {
+    background-color: transparent !important;
+    min-height: fit-content !important;
+    padding: 0 !important;
+}

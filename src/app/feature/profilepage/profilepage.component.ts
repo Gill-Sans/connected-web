@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import {Component, inject, OnDestroy, OnInit} from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { AuthFacade } from '../../auth/store/auth.facade';
 import { User } from '../../auth/models/user.model';
 import { ButtonComponent } from '../../shared/components/button/button.component';
@@ -9,7 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { tag } from '../../shared/models/tag.model';
 import { TagSearchComponentComponent } from '../../shared/tag-search-component/tag-search-component.component';
 import { ToastService } from '../../core/services/toast.service';
-import {Subscription} from 'rxjs';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-profilepage',
@@ -30,10 +30,7 @@ export class ProfilepageComponent implements OnInit, OnDestroy {
     private currentUser: User | null = null;
     private subscriptions: Subscription[] = [];
 
-    constructor(
-        private userService: UserService
-    ) {
-    }
+    constructor(private userService: UserService) {}
 
     ngOnInit() {
         const userSubscription = this.authFacade.user$.subscribe(user => {
@@ -56,17 +53,25 @@ export class ProfilepageComponent implements OnInit, OnDestroy {
         return this.user?.id === this.currentUser?.id;
     }
 
+    // Enables editing mode.
+    startEditing() {
+        this.isEditing = true;
+    }
+
+    // Always valid so empty fields can be submitted.
+    get isProfileValid(): boolean {
+        return true;
+    }
+
     addTagToUser(selectedTag: tag) {
         if (!this.user || !this.user.tags) return;
-
         if (!this.user.tags.some(t => t.id === selectedTag.id)) {
-            this.user.tags?.push(selectedTag);
+            this.user.tags.push(selectedTag);
         }
     }
 
     removeTag(tagIdToRemove: number) {
         if (!this.user?.tags) return;
-
         this.user.tags = this.user.tags.filter(tag => tag.id !== tagIdToRemove);
     }
 

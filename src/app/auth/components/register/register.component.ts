@@ -1,34 +1,37 @@
-import {Component, inject, OnInit} from '@angular/core';
-import {AuthFacade} from '../../store/auth.facade';
-import {RegistrationRequest} from '../../models/registration-request.model';
-import {FormsModule} from '@angular/forms';
-import {CommonModule} from '@angular/common';
+import { Component, OnInit, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import {ButtonComponent} from '../../../shared/components/button/button.component';
-
+import { ButtonComponent } from '../../../shared/components/button/button.component';
+import { AuthFacade } from '../../store/auth.facade';
+import { RegistrationRequest } from '../../models/registration-request.model';
 
 @Component({
-  selector: 'app-register',
-  imports: [
-      CommonModule,
-      FormsModule,
-      ButtonComponent
-  ],
-  templateUrl: './register.component.html',
-  styleUrl: './register.component.scss'
+    selector: 'app-register',
+    standalone: true,
+    imports: [CommonModule, ReactiveFormsModule, ButtonComponent],
+    templateUrl: './register.component.html',
+    styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit {
-    email: string = '';
-    password: string  = '';
-    firstName: string  = '';
-    lastName: string  = '';
-    invitationCode: string = '';
-    errorMessage: string  = '';
-
     private readonly authFacade: AuthFacade = inject(AuthFacade);
     private readonly route: ActivatedRoute = inject(ActivatedRoute);
     private readonly router: Router = inject(Router);
 
+    // Build the reactive form with validators.
+    registerForm: FormGroup = new FormGroup({
+        email: new FormControl('', [Validators.required, Validators.email]),
+        password: new FormControl('', [
+            Validators.required,
+            // Password must contain at least 8 characters, one uppercase letter, one number, and one special character.
+            Validators.pattern(/^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/)
+        ]),
+        firstName: new FormControl('', [Validators.required]),
+        lastName: new FormControl('', [Validators.required])
+    });
+
+    invitationCode: string = '';
+    errorMessage: string = '';
 
     ngOnInit(): void {
         const code = this.route.snapshot.queryParamMap.get('invitation-code');
@@ -40,13 +43,18 @@ export class RegisterComponent implements OnInit {
     }
 
     onSubmit(): void {
-        const request: RegistrationRequest = {
-            email: this.email,
-            password: this.password,
-            firstName: this.firstName,
-            lastName: this.lastName,
-            invitationCode: this.invitationCode
-        };
-        this.authFacade.register(request);
+        if (this.registerForm.valid) {
+            const request: RegistrationRequest = {
+                email: this.registerForm.value.email,
+                password: this.registerForm.value.password,
+                firstName: this.registerForm.value.firstName,
+                lastName: this.registerForm.value.lastName,
+                invitationCode: this.invitationCode
+            };
+            this.authFacade.register(request);
+        } else {
+            this.registerForm.markAllAsTouched();
+            this.errorMessage = 'Please fill out all required fields correctly.';
+        }
     }
 }

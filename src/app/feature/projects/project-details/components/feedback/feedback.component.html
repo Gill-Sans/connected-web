@@ -1,18 +1,20 @@
 <div class="tab-content">
     <div class="feedback-container">
         <div class="feedback-section">
-            <div class="feedback-box" *ngIf="(isTeacher$ | async)">
-                <textarea
-                    [(ngModel)]="newFeedback"
-                    placeholder="Enter your feedback here..."
-                ></textarea>
-                <app-button variant="primary" (click)="submitFeedback()">Post</app-button>
+            <div class="feedback-box" *ngIf="(isTeacher$ | async) || false">
+                <form [formGroup]="feedbackForm" (ngSubmit)="submitFeedback()">
+          <textarea
+              formControlName="feedback"
+              placeholder="Enter your feedback here..."
+          ></textarea>
+                    <app-button variant="primary" type="submit" [disabled]="feedbackForm.invalid">
+                        Post
+                    </app-button>
+                </form>
             </div>
 
             <div class="feedback-list">
-                <ng-container
-                    *ngIf="feedbackList$ | async as feedbackList; else loading"
-                >
+                <ng-container *ngIf="feedbackList$ | async as feedbackList; else loading">
                     <app-conversationcard
                         *ngFor="let feedback of feedbackList"
                         [firstName]="feedback.user.firstName || ''"
@@ -20,8 +22,8 @@
                         [createdAt]="feedback.createdAt"
                         [comment]="feedback.comment"
                         [feedbackId]="feedback.id"
-                        [isEditing]="!!(editingFeedback && editingFeedback.id === feedback.id)"
-                        [showEditDelete]="!!(isTeacher$ | async)"
+                        [isEditing]="(editingFeedback && editingFeedback.id === feedback.id) || false"
+                        [showEditDelete]="(isTeacher$ | async) || false"
                         (edit)="updateFeedback(feedback)"
                         (delete)="deleteFeedback(feedback)"
                         (confirmEdit)="confirmEdit($event.id, $event.comment)"
@@ -35,14 +37,28 @@
             </div>
         </div>
 
-        <div class="review-section" *ngIf="(isTeacher$ | async)" >
+        <div class="review-section" *ngIf="(isTeacher$ | async) || false">
             <p class="teacher-only">Only visible to teachers</p>
             <div class="review-buttons">
                 <div class="thumb-button" title="Thumbs Up">
-                    <img ngSrc="icons/thumb-up.svg" class="thumbs-up" alt="Thumbs Up" height="25" width="25" (click)="updateReviewStatus('thumbs_up')">
+                    <img
+                        ngSrc="icons/thumb-up.svg"
+                        class="thumbs-up"
+                        alt="Thumbs Up"
+                        height="25"
+                        width="25"
+                        (click)="updateReviewStatus('thumbs_up')"
+                    >
                 </div>
                 <div class="thumb-button" title="Thumbs Down">
-                    <img ngSrc="icons/thumb-down.svg" class="thumbs-down" alt="Thumbs Down" height="25" width="25" (click)="updateReviewStatus('thumbs_down')">
+                    <img
+                        ngSrc="icons/thumb-down.svg"
+                        class="thumbs-down"
+                        alt="Thumbs Down"
+                        height="25"
+                        width="25"
+                        (click)="updateReviewStatus('thumbs_down')"
+                    >
                 </div>
             </div>
 
@@ -50,9 +66,20 @@
                 <ng-container *ngIf="reviewList$ | async as reviewList; else loadingReviews">
                     <div class="review-item" *ngFor="let review of reviewList">
                         <p>{{ review.reviewer.firstName }} {{ review.reviewer.lastName }}: </p>
-                        <img class="thumbs-up" *ngIf="review.status === 'THUMBS_UP'" ngSrc="icons/thumb-up.svg" alt="Thumbs Up" height="25" width="25">
-                        <img class="thumbs-down" *ngIf="review.status === 'THUMBS_DOWN'" ngSrc="icons/thumb-down.svg" alt="Thumbs Down" height="25" width="25">
-
+                        <img
+                            class="thumbs-up"
+                            *ngIf="review.status === 'THUMBS_UP'"
+                            ngSrc="icons/thumb-up.svg"
+                            alt="Thumbs Up"
+                            height="25"
+                            width="25">
+                        <img
+                            class="thumbs-down"
+                            *ngIf="review.status === 'THUMBS_DOWN'"
+                            ngSrc="icons/thumb-down.svg"
+                            alt="Thumbs Down"
+                            height="25"
+                            width="25">
                     </div>
                 </ng-container>
                 <ng-template #loadingReviews>
