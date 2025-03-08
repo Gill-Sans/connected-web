@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ViewEncapsulation, Injectable} from '@angular/core';
+import {Component, Input, OnInit, OnChanges, SimpleChanges, ViewEncapsulation, Injectable} from '@angular/core';
 import {ButtonComponent} from '../button/button.component';
 import {
     CalendarA11y,
@@ -33,13 +33,19 @@ class CustomDateFormatter extends CalendarNativeDateFormatter {
     styleUrls: ['node_modules/angular-calendar/dist/css/angular-calendar.css', './calendar-small.component.scss'],
     encapsulation: ViewEncapsulation.None
 })
-export class CalendarSmallComponent implements OnInit {
+export class CalendarSmallComponent implements OnInit, OnChanges {
     @Input() deadlines: Deadline[] = [];
     viewDate: Date = new Date();
     events: CalendarEvent[] = [];
 
     ngOnInit(): void {
         this.loadDeadlines();
+    }
+
+    ngOnChanges(changes: SimpleChanges): void {
+        if (changes['deadlines']) {
+            this.loadDeadlines();
+        }
     }
 
     loadDeadlines(): void {
