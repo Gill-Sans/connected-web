@@ -1,16 +1,16 @@
 import {Component, inject, OnDestroy, OnInit} from '@angular/core';
-import {Deadline} from '../../shared/models/deadline.model';
+import {Deadline} from '../../../shared/models/deadline.model';
 import {Observable, Subscription} from 'rxjs';
-import {DeadlineService} from '../../core/services/deadline.service';
-import {ActiveAssignmentService} from '../../core/services/active-assignment.service';
-import {ActiveAssignment} from '../../shared/models/activeAssignment.model';
+import {DeadlineService} from '../../../core/services/deadline.service';
+import {ActiveAssignmentService} from '../../../core/services/active-assignment.service';
+import {ActiveAssignment} from '../../../shared/models/activeAssignment.model';
 import {CommonModule} from '@angular/common';
-import {AuthorizationService} from '../../core/services/authorization.service';
-import {ButtonComponent} from '../../shared/components/button/button.component';
-import {ActiveAssignmentRoutingService} from '../../core/services/active-assignment-routing.service';
+import {AuthorizationService} from '../../../core/services/authorization.service';
+import {ButtonComponent} from '../../../shared/components/button/button.component';
+import {ActiveAssignmentRoutingService} from '../../../core/services/active-assignment-routing.service';
 import {Router} from '@angular/router';
 import {toZonedTime} from 'date-fns-tz';
-import {CalendarComponent} from '../../shared/components/calendar/calendar.component';
+import {CalendarComponent} from '../../../shared/components/calendar/calendar.component';
 
 @Component({
     selector: 'app-deadline-overview',

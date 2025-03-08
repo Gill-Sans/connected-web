@@ -1,14 +1,14 @@
 import { Component, inject, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { DeadlineRestrictionEnum } from '../../shared/models/DeadlineRestriction.enum';
-import { Deadline } from '../../shared/models/deadline.model';
-import { ActiveAssignmentService } from '../../core/services/active-assignment.service';
-import { ActiveAssignmentRoutingService } from '../../core/services/active-assignment-routing.service';
+import { DeadlineRestrictionEnum } from '../../../shared/models/DeadlineRestriction.enum';
+import { Deadline } from '../../../shared/models/deadline.model';
+import { ActiveAssignmentService } from '../../../core/services/active-assignment.service';
+import { ActiveAssignmentRoutingService } from '../../../core/services/active-assignment-routing.service';
 import { Router } from '@angular/router';
-import { DeadlineService } from '../../core/services/deadline.service';
-import {ToastService} from '../../core/services/toast.service';
-import {ButtonComponent} from '../../shared/components/button/button.component';
+import { DeadlineService } from '../../../core/services/deadline.service';
+import {ToastService} from '../../../core/services/toast.service';
+import {ButtonComponent} from '../../../shared/components/button/button.component';
 import { Subscription } from 'rxjs';
 
 @Component({
