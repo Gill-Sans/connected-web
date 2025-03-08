@@ -63,7 +63,6 @@ export const routes: Routes = [
                     { path: 'projects', children: projectDetailsRoutes },
                     { path: 'projects/:id/apply', component: ApplicationsCreateComponent },
                     { path: 'deadlines', component: DeadlineOverviewComponent },
-                    { path: 'deadlines/create', component: DeadlineCreateComponent },
                     { path: 'applications', component: ApplicationsOverviewComponent },
                     { path: 'applications/:id', component: ApplicationDetailsComponent },
                     { path: 'students', component: StudentOverviewComponent },

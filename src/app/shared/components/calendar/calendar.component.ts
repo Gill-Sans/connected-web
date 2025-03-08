@@ -9,7 +9,7 @@ import {
     DateAdapter,
     CalendarDateFormatter,
     CalendarA11y,
-    CalendarEventTitleFormatter
+    CalendarEventTitleFormatter, CalendarMonthViewDay
 } from 'angular-calendar';
 import {adapterFactory} from 'angular-calendar/date-adapters/date-fns';
 import {addMonths, format, startOfToday, subMonths} from 'date-fns';
@@ -71,6 +71,11 @@ export class CalendarComponent implements OnInit {
         const dateObj = new Date(date + 'Z');
         const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
         return toZonedTime(dateObj, timeZone);
+    }
+
+    onDayClick(day: CalendarMonthViewDay): void {
+        console.log('Day clicked:', day.date);
+        // Here you can log additional information like day.events or day.isToday
     }
 }
 
