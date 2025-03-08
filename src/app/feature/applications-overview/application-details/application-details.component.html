@@ -4,9 +4,7 @@
         <div class="motivation-section">
             <h2>Motivation</h2>
             <div class="motivation-content">
-                <markdown
-                    style="white-space: pre-line;"
-                    class="md-editor-container" [data]="application.motivationMd"></markdown>
+                <div class="rich-content" [innerHTML]="application.motivationMd"></div>
             </div>
         </div>
 

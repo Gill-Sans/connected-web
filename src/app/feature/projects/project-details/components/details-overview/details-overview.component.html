@@ -20,11 +20,7 @@
                     </div>
                 </div>
             </div>
-            <markdown
-                style="white-space: pre-line;"
-                class="md-editor-container"
-                [data]="project.description || ''"
-            ></markdown>
+            <div class="rich-content" [innerHTML]="project.description"></div>
         </div>
 
         <!-- Right sidebar with Members & Links -->
@@ -91,11 +87,12 @@
                     </li>
                 </ul>
             </div>
+            <h3>Links</h3>
             <div *ngIf="repositoryUrl">
-                <app-linkcard [repositoryUrl]="repositoryUrl"></app-linkcard>
+                <app-linkcard [url]="repositoryUrl" variant="Github"></app-linkcard>
             </div>
             <div *ngIf="boardUrl">
-                <app-linkcard [boardUrl]="boardUrl"></app-linkcard>
+                <app-linkcard [url]="boardUrl" variant="Trello"></app-linkcard>
             </div>
             <div class="tag-section">
                 <h3>Tags</h3>

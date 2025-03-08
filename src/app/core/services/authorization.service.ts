@@ -49,6 +49,12 @@ export class AuthorizationService {
         );
     }
 
+    isCreatedByTeacher$(project: Project): Observable<boolean> {
+        return this.authFacade.user$.pipe(
+            map(user => !!user && project.createdBy && project.createdBy.id === user.id && user.role === Role.Teacher)
+        );
+    }
+
     /**
      * Returns an observable that emits true if the current user is a member of the project.
      * Assumes `project.members` is an array of users with an 'id' property.

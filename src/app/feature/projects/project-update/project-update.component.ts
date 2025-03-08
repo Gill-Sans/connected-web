@@ -8,13 +8,15 @@ import {Router, ActivatedRoute, ParamMap} from '@angular/router';
 import { Project } from '../../../shared/models/project.model';
 import { ActiveAssignmentRoutingService } from '../../../core/services/active-assignment-routing.service';
 import { ActiveAssignmentService } from '../../../core/services/active-assignment.service';
-import { Subscription } from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import { TagcardComponent } from '../../../shared/components/tagcard/tagcard.component';
 import { TagSearchComponentComponent } from '../../../shared/tag-search-component/tag-search-component.component';
 import { tag } from '../../../shared/models/tag.model';
 import { ProjectStatusEnum } from '../../../shared/models/ProjectStatus.enum';
 import { ButtonComponent } from '../../../shared/components/button/button.component';
 import {ToastService} from '../../../core/services/toast.service';
+import {AuthorizationService} from '../../../core/services/authorization.service';
+import {MdEditorComponent} from '../../../shared/components/md-editor/md-editor.component';
 
 // Validator to check minimum number of words
 function minWordsValidator(minWords: number) {
@@ -49,7 +51,8 @@ function minTagsValidator(min: number) {
         LMarkdownEditorModule,
         TagSearchComponentComponent,
         TagcardComponent,
-        ButtonComponent
+        ButtonComponent,
+        MdEditorComponent
     ],
     templateUrl: './project-update.component.html',
     styleUrls: ['./project-update.component.scss']
@@ -61,6 +64,9 @@ export class ProjectUpdateComponent implements OnInit, OnDestroy {
     private readonly route: ActivatedRoute = inject(ActivatedRoute);
     private readonly activeAssignmentRoutingService: ActiveAssignmentRoutingService = inject(ActiveAssignmentRoutingService);
     private readonly toastService: ToastService = inject(ToastService);
+    private readonly authorizationService: AuthorizationService = inject(AuthorizationService);
+
+    public isCreatedByTeacher$!: Observable<boolean>;
 
     assignmentDefaultTeamSize: number | undefined = this.activeAssignmentService.getActiveAssignment()?.assignment.defaultTeamSize;
 
@@ -108,6 +114,7 @@ export class ProjectUpdateComponent implements OnInit, OnDestroy {
         const projectSubscription: Subscription = this.projectService.getProjectById(this.projectId.toString()).subscribe(project => {
             this.projectData = project;
             this.projectStatus = project.status;
+            this.isCreatedByTeacher$ = this.authorizationService.isCreatedByTeacher$(project);
             this.projectForm.patchValue({
                 title: project.title,
                 description: project.description,

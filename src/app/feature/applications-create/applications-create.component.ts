@@ -10,16 +10,18 @@ import {Application, ApplicationCreate} from '../../shared/models/application.mo
 import {ActiveAssignmentRoutingService} from '../../core/services/active-assignment-routing.service';
 import {Subscription} from 'rxjs';
 import {ButtonComponent} from '../../shared/components/button/button.component';
+import {MdEditorComponent} from "../../shared/components/md-editor/md-editor.component";
 
 @Component({
   selector: 'app-applications-create',
-  imports: [
-      MarkdownModule,
-      LMarkdownEditorModule,
-      CommonModule,
-      ReactiveFormsModule,
-      ButtonComponent
-  ],
+    imports: [
+        MarkdownModule,
+        LMarkdownEditorModule,
+        CommonModule,
+        ReactiveFormsModule,
+        ButtonComponent,
+        MdEditorComponent
+    ],
   templateUrl: './applications-create.component.html',
   styleUrl: './applications-create.component.scss'
 })

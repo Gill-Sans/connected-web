@@ -17,7 +17,6 @@ import {ActiveAssignment} from '../../../../../shared/models/activeAssignment.mo
 import {ToastService} from '../../../../../core/services/toast.service';
 import {Role} from '../../../../../auth/models/role.model';
 import {Assignment} from '../../../../../shared/models/assignment.model';
-import { ICONS } from '../../../../../shared/constants/icons';
 
 @Component({
     selector: 'app-details-overview',
@@ -116,6 +115,7 @@ export class DetailsOverviewComponent implements OnInit, OnDestroy {
             this.projectService.updateProjectStatus(this.projectId, status).subscribe(
                 (updatedProject: Project) => {
                     this.project$ = new Observable<Project>(subscriber => subscriber.next(updatedProject));
+                    this.toastService.showToast('success', 'Project status set to ' + status.toLowerCase());
                 }
             );
         }
