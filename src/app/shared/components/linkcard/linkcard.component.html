@@ -1,26 +1,7 @@
-<h3>Links</h3>
 <div class="links-container">
-    <ng-container *ngIf="repositoryUrl; else noRepoLink">
-        <a [href]="repositoryUrl" class="link-card" target="_blank" rel="noreferrer">
-            <img [src]="getIconUrl('Github')" alt="GitHub Link" class="link-icon" />
+    <ng-container *ngIf="url && url.trim()">
+        <a [href]="url" class="link-card" target="_blank" rel="noreferrer">
+            {{ variant }}
         </a>
     </ng-container>
-    <ng-template #noRepoLink>
-        <div class="link-card disabled">
-            <img [src]="getIconUrl('Github')" alt="GitHub Link" class="link-icon" />
-            <span>Geen link </span>
-        </div>
-    </ng-template>
-
-    <ng-container *ngIf="boardUrl; else noBoardLink">
-        <a [href]="boardUrl" class="link-card" target="_blank" rel="noreferrer">
-            <img [src]="getIconUrl('Trello')" alt="Trello Link" class="link-icon" />
-        </a>
-    </ng-container>
-    <ng-template #noBoardLink>
-        <div class="link-card disabled">
-            <img [src]="getIconUrl('Trello')" alt="Trello Link" class="link-icon" />
-            <span>Geen link</span>
-        </div>
-    </ng-template>
 </div>
