@@ -4,7 +4,6 @@
 @import "../node_modules/angular-calendar/css/angular-calendar.css";
 
 
-
 * {
     box-sizing: border-box;
 }
@@ -53,6 +52,14 @@ h4 {
     font-size: 1.33333rem;
     font-weight: bold;
 }
+h5 {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+h6 {
+    font-size: 1.1rem;
+    font-weight: bold;
+}
 
 p {
     font-size: 1rem;
@@ -68,6 +75,85 @@ td {
     padding: 1em 1em 1em 0;
 }
 
+.rich-content {
+    p:empty {
+        min-height: 1rem;
+    }
+
+    code {
+        font-family: monospace;
+        font-size: 0.9em;
+        background: #f4f4f4;
+        padding: 0.4em 0.5em;
+        border-radius: 4px;
+    }
+
+
+    p {
+        font-size: 16px;
+        line-height: 1.5;
+    }
+
+    strong {
+        font-weight: bold;
+    }
+
+    em {
+        font-style: italic;
+    }
+
+    blockquote {
+        margin: 0;
+        padding: 10px 20px;
+        background: #333;
+        border-left: 10px solid #555;
+
+        p {
+            color: #fff;
+        }
+    }
+
+    a {
+        color: #9a67ea;
+
+        &:hover {
+            color: #bb86fc;
+        }
+    }
+
+    ul {
+        padding-left: 20px;
+        list-style-type: disc;
+
+        li {
+            margin: 10px;
+        }
+    }
+
+    ol {
+        padding-left: 20px;
+        list-style-type: decimal;
+
+        li {
+            margin: 10px;
+        }
+    }
+
+    pre {
+        color: #d1d7e6;
+        padding: 1rem 2rem;
+        line-height: 1.5rem;
+        background: #282c34;
+        border-radius: 4px;
+        overflow-x: auto;
+        margin: 1rem 0;
+    }
+}
+
+
+
+
+
 .app-container,
 .auth-container {
     background-color: $background-color;
@@ -80,7 +166,6 @@ td {
     min-height: 100vh;
     width: 100%;
 }
-
 
 
 #splash-screen {
@@ -138,6 +223,7 @@ td {
             &:hover {
                 background-color: #f0f0f0;
             }
+
             &:disabled {
                 cursor: not-allowed;
                 background-color: #f0f0f0;

@@ -1,6 +1,5 @@
-import {ApplicationConfig, provideZoneChangeDetection} from '@angular/core';
+import {ApplicationConfig, importProvidersFrom, provideZoneChangeDetection} from '@angular/core';
 import {provideRouter} from '@angular/router';
-import {provideMarkdown} from 'ngx-markdown';
 
 import {routes} from './app.routes';
 import {provideClientHydration, withEventReplay} from '@angular/platform-browser';
@@ -11,6 +10,8 @@ import {provideEffects} from '@ngrx/effects';
 import {authReducer} from './auth/store/auth.reducer';
 import {AuthEffects} from './auth/store/auth.effects';
 import {authInterceptor} from './auth/interceptor/auth.interceptor';
+import {FormsModule} from '@angular/forms';
+import {NgxEditorModule} from 'ngx-editor';
 
 export const appConfig: ApplicationConfig = {
     providers: [
@@ -20,6 +21,41 @@ export const appConfig: ApplicationConfig = {
         provideHttpClient(withFetch(), withInterceptors([authInterceptor])),
         provideStore({auth: authReducer}),
         provideEffects([AuthEffects]),
-        provideMarkdown(),
+        importProvidersFrom(
+            FormsModule,
+            NgxEditorModule.forRoot({
+                locals: {
+                    bold: 'Bold',
+                    italic: 'Italic',
+                    code: 'Code',
+                    blockquote: 'Blockquote',
+                    underline: 'Underline',
+                    strike: 'Strike',
+                    bullet_list: 'Bullet List',
+                    ordered_list: 'Ordered List',
+                    heading: 'Heading',
+                    h1: 'Header 1',
+                    h2: 'Header 2',
+                    h3: 'Header 3',
+                    h4: 'Header 4',
+                    h5: 'Header 5',
+                    h6: 'Header 6',
+                    align_left: 'Left Align',
+                    align_center: 'Center Align',
+                    align_right: 'Right Align',
+                    align_justify: 'Justify',
+                    text_color: 'Text Color',
+                    background_color: 'Background Color',
+                    url: 'URL',
+                    text: 'Text',
+                    openInNewTab: 'Open in new tab',
+                    insert: 'Insert',
+                    altText: 'Alt Text',
+                    title: 'Title',
+                    remove: 'Remove',
+                    enterValidUrl: 'Please enter a valid URL',
+                },
+            })
+        ),
     ]
 };

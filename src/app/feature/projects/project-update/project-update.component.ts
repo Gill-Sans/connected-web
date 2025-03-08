@@ -16,6 +16,7 @@ import { ProjectStatusEnum } from '../../../shared/models/ProjectStatus.enum';
 import { ButtonComponent } from '../../../shared/components/button/button.component';
 import {ToastService} from '../../../core/services/toast.service';
 import {AuthorizationService} from '../../../core/services/authorization.service';
+import {MdEditorComponent} from '../../../shared/components/md-editor/md-editor.component';
 
 // Validator to check minimum number of words
 function minWordsValidator(minWords: number) {
@@ -50,7 +51,8 @@ function minTagsValidator(min: number) {
         LMarkdownEditorModule,
         TagSearchComponentComponent,
         TagcardComponent,
-        ButtonComponent
+        ButtonComponent,
+        MdEditorComponent
     ],
     templateUrl: './project-update.component.html',
     styleUrls: ['./project-update.component.scss']
