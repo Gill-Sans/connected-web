@@ -13,27 +13,31 @@ import {ProjectService} from '../../core/services/project.service';
 import {Project} from '../../shared/models/project.model';
 import {ProjectcardComponent} from '../../shared/components/projectcard/projectcard.component';
 import {CalendarSmallComponent} from '../../shared/components/calendar-small/calendar-small.component';
+import {Deadline} from '../../shared/models/deadline.model';
+import {DeadlineService} from '../../core/services/deadline.service';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [
-      CommonModule,
-      AnnouncementCardComponent,
-      CalendarSmallComponent,
-      ButtonComponent,
-      ProjectcardComponent
-  ],
+    imports: [
+        CommonModule,
+        AnnouncementCardComponent,
+        CalendarSmallComponent,
+        ButtonComponent,
+        ProjectcardComponent,
+    ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
 export class DashboardComponent implements OnInit, OnDestroy {
     private announcementService: AnnouncementService = inject(AnnouncementService);
+    private readonly deadlineService: DeadlineService = inject(DeadlineService);
     private readonly projectService: ProjectService = inject(ProjectService);
     private activeAssignmentService: ActiveAssignmentService = inject(ActiveAssignmentService);
     private activeAssignmentRoutingService: ActiveAssignmentRoutingService = inject(ActiveAssignmentRoutingService);
     private router: Router = inject(Router);
 
     announcements: Announcement[] = [];
+    deadlines$: Observable<Deadline[]> | null = null;
     activeAssignment$: Observable<ActiveAssignment | null> = this.activeAssignmentService.activeAssignment$;
     private subscriptions: Subscription[] = [];
     project: Project | null = null;
@@ -41,12 +45,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.subscriptions.push(this.activeAssignment$.subscribe({
             next: (activeAssignment) => {
-                console.log("Active assignment changed", activeAssignment);
                 if (activeAssignment) {
                     this.subscriptions.push(this.announcementService.getAnnouncements(activeAssignment.assignment.id)
                         .subscribe({
                             next: (announcements) => {
-                                console.log("Announcements loaded", announcements);
                                 this.announcements = announcements;
                             },
                             error: (err) => {
@@ -58,17 +60,27 @@ export class DashboardComponent implements OnInit, OnDestroy {
                     this.subscriptions.push(this.projectService.getProjectByUserAndAssignmentId(activeAssignment.assignment.id.toString())
                         .subscribe({
                             next: (project) => {
-                                console.log("Project loaded", project);
                                 this.project = project;
                             }
                         })
                     );
+
+                    // Call loadDeadlinesForAssignment after setting the active assignment
+                    this.loadDeadlinesForAssignment();
                 }
             },
             error: (err) => {
                 console.error("Failed to load active assignment", err);
             }
         }));
+    }
+
+    loadDeadlinesForAssignment(): void {
+        const activeAssignment = this.activeAssignmentService.getActiveAssignment();
+        const assignmentId = activeAssignment?.assignment.id;
+        if (assignmentId) {
+            this.deadlines$ = this.deadlineService.getAllDeadlinesForAssignment(assignmentId);
+        }
     }
 
     navigateToProjects(): void {
