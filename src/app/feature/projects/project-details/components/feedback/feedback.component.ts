@@ -1,22 +1,22 @@
-import {Component, inject, OnDestroy, OnInit} from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { ConversationcardComponent } from "../../../../../shared/components/conversationcard/conversationcard.component";
-import {CommonModule, NgOptimizedImage} from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
+import { FormsModule, ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ButtonComponent } from '../../../../../shared/components/button/button.component';
-import {Observable, Subscription} from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { Project } from '../../../../../shared/models/project.model';
 import { ActivatedRoute } from '@angular/router';
 import { ProjectService } from '../../../../../core/services/project.service';
 import { createFeedback, Feedback } from '../../../../../shared/models/feedback.model';
 import { ToastService } from '../../../../../core/services/toast.service';
-import {AuthorizationService} from '../../../../../core/services/authorization.service';
-import {ReviewService} from '../../../../../core/services/review.service';
-import {CreateReview, Review} from '../../../../../shared/models/review.model';
-import {ReviewStatusEnum} from '../../../../../shared/models/ReviewStatus.enum';
+import { AuthorizationService } from '../../../../../core/services/authorization.service';
+import { ReviewService } from '../../../../../core/services/review.service';
+import { CreateReview, Review } from '../../../../../shared/models/review.model';
+import { ReviewStatusEnum } from '../../../../../shared/models/ReviewStatus.enum';
 
 @Component({
     selector: 'app-feedback',
-    imports: [ConversationcardComponent, CommonModule, FormsModule, ButtonComponent, NgOptimizedImage],
+    imports: [ConversationcardComponent, CommonModule, FormsModule, ReactiveFormsModule, ButtonComponent, NgOptimizedImage],
     templateUrl: './feedback.component.html',
     styleUrls: ['./feedback.component.scss']
 })
@@ -32,12 +32,18 @@ export class FeedbackComponent implements OnInit, OnDestroy {
     public feedbackList$: Observable<Feedback[]> | null = null;
     public reviewList$: Observable<Review[]> | null = null;
     public isTeacher$!: Observable<boolean>;
-    public newFeedback: string = '';
+
+    // Reactive form for new feedback
+    public feedbackForm!: FormGroup;
     public editingFeedback: Feedback | null = null;
     private subscriptions: Subscription[] = [];
 
     ngOnInit() {
         this.isTeacher$ = this.authorizationService.isTeacher$();
+
+        this.feedbackForm = new FormGroup({
+            feedback: new FormControl('', Validators.required)
+        });
 
         const routeSubscription = this.route.parent?.params.subscribe(params => {
             const id = params['id'];
@@ -67,15 +73,15 @@ export class FeedbackComponent implements OnInit, OnDestroy {
     }
 
     submitFeedback() {
-        if (this.newFeedback.trim() === '') return;
+        if (this.feedbackForm.invalid) return;
 
         const feedback: createFeedback = {
-            comment: this.newFeedback,
+            comment: this.feedbackForm.value.feedback
         };
 
         const submitSubscription = this.projectService.submitFeedback(this.projectId, feedback).subscribe(() => {
             this.toastService.showToast('success', 'Your feedback has been submitted!');
-            this.newFeedback = '';
+            this.feedbackForm.reset();
             this.loadFeedback();
         });
 
@@ -100,6 +106,12 @@ export class FeedbackComponent implements OnInit, OnDestroy {
     }
 
     confirmEdit(feedbackId: number, comment: string) {
+        // Validate that the edited comment is not empty.
+        if (comment.trim() === '') {
+            this.toastService.showToast('error', 'Feedback cannot be empty');
+            return;
+        }
+
         if (!this.editingFeedback || this.editingFeedback.id === undefined) {
             console.error('Editing feedback is not defined or has no ID.');
             return; // Exit if editingFeedback is not valid

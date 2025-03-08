@@ -49,9 +49,10 @@
 
     .button-container {
         display: flex;
-        justify-content: space-between;
+        justify-content: flex-end;
         align-items: center;
         margin-top: 8px;
+        gap: 1rem;
 
         button {
             margin-right: 8px;
