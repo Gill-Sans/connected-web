@@ -31,13 +31,7 @@
             <p class="input-description">
                 Describe your project in detail. You can style your explanation using markdown.
             </p>
-            <md-editor style="white-space: pre-line;" name="Content" formControlName="description" [height]="'500px'">
-                <slot custom-btns>
-                    <button md-button (click)="toggleFullScreen()">
-                        <i class="fas fa-expand"></i>
-                    </button>
-                </slot>
-            </md-editor>
+            <app-md-editor [form]="projectForm" controlName="description"></app-md-editor>
             <div *ngIf="projectForm.get('description')?.invalid && projectForm.get('description')?.touched" class="error">
                 <span *ngIf="projectForm.get('description')?.errors?.['required']" class="error">Project description is required.</span>
                 <span *ngIf="projectForm.get('description')?.errors?.['minWords']" class="error">

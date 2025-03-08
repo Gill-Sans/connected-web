@@ -20,11 +20,7 @@
                     </div>
                 </div>
             </div>
-            <markdown
-                style="white-space: pre-line;"
-                class="md-editor-container"
-                [data]="project.description || ''"
-            ></markdown>
+            <div class="rich-content" [innerHTML]="project.description"></div>
         </div>
 
         <!-- Right sidebar with Members & Links -->

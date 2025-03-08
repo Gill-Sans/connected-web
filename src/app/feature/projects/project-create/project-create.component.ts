@@ -15,6 +15,7 @@ import { tag } from '../../../shared/models/tag.model';
 import { AuthorizationService } from '../../../core/services/authorization.service';
 import { ToastService } from '../../../core/services/toast.service';
 import { ButtonComponent } from '../../../shared/components/button/button.component';
+import {MdEditorComponent} from '../../../shared/components/md-editor/md-editor.component';
 
 function minWordsValidator(minWords: number) {
     return (control: AbstractControl): ValidationErrors | null => {
@@ -48,7 +49,8 @@ function minTagsValidator(min: number) {
         LMarkdownEditorModule,
         TagcardComponent,
         TagSearchComponentComponent,
-        ButtonComponent
+        ButtonComponent,
+        MdEditorComponent
     ],
     templateUrl: './project-create.component.html',
     styleUrls: ['./project-create.component.scss']
