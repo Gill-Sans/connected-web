@@ -11,13 +11,7 @@
 
     <div class="editor-container">
         <label for="motivationMd">Motivation</label>
-        <md-editor
-            style="white-space: pre-line;"
-            id="motivationMd"
-            name="motivationMd"
-            formControlName="motivationMd"
-        >
-        </md-editor>
+        <app-md-editor [form]="applicationForm" controlName="motivationMd"></app-md-editor>
     </div>
 
     <div class="buttons-container">

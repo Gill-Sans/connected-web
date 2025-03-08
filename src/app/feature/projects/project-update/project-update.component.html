@@ -32,7 +32,7 @@
             <div class="form-group">
                 <label for="description">Project Description</label>
                 <p class="input-description">
-                    Describe your project in detail. You can style your explanation using markdown.
+                    Describe your project in detail. Use the Rich Content Editor to format your text with headings, lists, bold, and more.
                 </p>
                 <app-md-editor [form]="projectForm" controlName="description"></app-md-editor>
                 <div *ngIf="projectForm.get('description')?.invalid && projectForm.get('description')?.touched" class="error">
