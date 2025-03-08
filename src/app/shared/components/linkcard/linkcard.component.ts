@@ -1,6 +1,5 @@
 import {CommonModule} from '@angular/common';
-import {Component, inject, Input} from '@angular/core';
-import { ProjectService } from '../../../core/services/project.service';
+import {Component, Input, OnInit} from '@angular/core';
 
 @Component({
     selector: 'app-linkcard',
@@ -8,18 +7,13 @@ import { ProjectService } from '../../../core/services/project.service';
     templateUrl: './linkcard.component.html',
     styleUrls: ['./linkcard.component.scss']
 })
-export class LinkcardComponent {
-    @Input() repositoryUrl: string = '' ; 
-    @Input() boardUrl : string = '';
-    // Mapping tussen linkType en de juiste icon URL
-    private iconMapping: { [key: string]: string } = {
-        'Github': 'icons/links/Github.svg',
-        'Trello': 'icons/links/Trello.svg',
-    };
+export class LinkcardComponent implements OnInit {
+    @Input() url: string = '';
+    @Input() variant!: string;
 
-
-    // Methode om de juiste icon URL te krijgen
-    getIconUrl(linkType: string): string {
-        return this.iconMapping[linkType] || 'icons/default.svg';
+    ngOnInit() {
+        if (this.url && !this.url.startsWith('http://') && !this.url.startsWith('https://')) {
+            this.url = 'http://' + this.url;
+        }
     }
 }
