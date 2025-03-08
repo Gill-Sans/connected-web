@@ -88,11 +88,13 @@
                 </ul>
             </div>
             <h3>Links</h3>
+            <div class="link-section">
             <div *ngIf="repositoryUrl">
                 <app-linkcard [url]="repositoryUrl" variant="Github"></app-linkcard>
             </div>
             <div *ngIf="boardUrl">
                 <app-linkcard [url]="boardUrl" variant="Trello"></app-linkcard>
+            </div>
             </div>
             <div class="tag-section">
                 <h3>Tags</h3>

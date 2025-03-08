@@ -25,7 +25,7 @@
 
         </div>
         <div class="calendar-container">
-            <app-calendar-small></app-calendar-small>
+            <app-calendar-small [deadlines]="(deadlines$ | async) ?? []"></app-calendar-small>
         </div>
     </aside>
 

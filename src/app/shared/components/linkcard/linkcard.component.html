@@ -1,7 +1,7 @@
 <div class="links-container">
     <ng-container *ngIf="url && url.trim()">
-        <a [href]="url" class="link-card" target="_blank" rel="noreferrer">
+        <app-button variant="neutral" (click)="openLink(url)">
             {{ variant }}
-        </a>
+        </app-button>
     </ng-container>
 </div>
