@@ -34,8 +34,8 @@
             <app-md-editor [form]="projectForm" controlName="description"></app-md-editor>
             <div *ngIf="projectForm.get('description')?.invalid && projectForm.get('description')?.touched" class="error">
                 <span *ngIf="projectForm.get('description')?.errors?.['required']" class="error">Project description is required.</span>
-                <span *ngIf="projectForm.get('description')?.errors?.['minWords']" class="error">
-          Project description must contain at least 50 words (currently {{ projectForm.get('description')?.errors?.['minWords'].actual }}).
+                <span *ngIf="projectForm.get('description')?.errors?.['minLength']" class="error">
+          Project description must contain at least 250 chars (currently {{ projectForm.get('description')?.errors?.['minLength'] }}).
         </span>
             </div>
         </div>
