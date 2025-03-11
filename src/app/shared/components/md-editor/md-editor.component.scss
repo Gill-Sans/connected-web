@@ -1,4 +1,8 @@
 .md-container {
     width: 80%;
     min-width: 400px;
+
+    ::ng-deep .NgxEditor {
+        min-height: 300px;
+    }
 }
