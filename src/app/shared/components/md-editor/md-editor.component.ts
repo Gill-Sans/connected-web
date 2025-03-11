@@ -1,4 +1,4 @@
-import {Component, Input, OnDestroy} from '@angular/core';
+import {Component, Input, OnDestroy, ViewEncapsulation} from '@angular/core';
 import {FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {Editor, NgxEditorModule, Toolbar} from 'ngx-editor';
 
@@ -9,7 +9,8 @@ import {Editor, NgxEditorModule, Toolbar} from 'ngx-editor';
         NgxEditorModule
     ],
   templateUrl: './md-editor.component.html',
-  styleUrl: './md-editor.component.scss'
+  styleUrl: './md-editor.component.scss',
+    encapsulation: ViewEncapsulation.None
 })
 export class MdEditorComponent implements OnDestroy {
     @Input() form!: FormGroup;

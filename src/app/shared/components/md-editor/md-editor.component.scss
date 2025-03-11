@@ -2,7 +2,10 @@
     width: 80%;
     min-width: 400px;
 
-    ::ng-deep .NgxEditor {
+    .NgxEditor {
         min-height: 300px;
+        max-height: 600px;
+        overflow-y: scroll;
+        scrollbar-width: thin;
     }
 }
