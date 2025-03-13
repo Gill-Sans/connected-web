@@ -30,7 +30,6 @@ export class ActiveAssignmentResolver implements Resolve<ActiveAssignment> {
                 if (isResearcher) {
                     return EMPTY;
                 } else {
-                    console.log("I am resolving in slugged projects");
                     return this.courseService.getAllEnrolledCourses().pipe(
                         mergeMap(courses => {
                             // Find course based on slug
