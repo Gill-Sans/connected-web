@@ -36,6 +36,8 @@ export function authInterceptor(
                 }
             }else if (error.status === 404) {
                 toastService.showToast("error", 'Resource not found');
+            } else if (error.status >= 400 && error.status < 500) {
+                toastService.showToast("error", error.error.message);
             }
             else {
                 toastService.showToast("error", 'Something went wrong, please try again');
