@@ -18,16 +18,16 @@ export class NotificationService {
 
 
 
+
     initializeWebSocket(userId: number) {
         const serverUrl = `${environment.apiBaseUrl.replace(/^http/, 'ws')}/ws`;
-
-        //  nieuwe WebSocket-instantie te creëren
+        //remove debugging logs
         this.stompClient = Stomp.over(() => {
             return new WebSocket(serverUrl);
         });
-
         // Probeer verbinding te maken met de STOMP-server
         this.connectStomp(userId);
+        this.stompClient.debug = () => {};
     }
 
     //reconnect logic

@@ -26,6 +26,7 @@ import {AnnouncementCreateComponent} from './feature/announcements/announcement-
 import {
     AnnouncementOverviewComponent
 } from './feature/announcements/announcement-overview/announcement-overview.component';
+import {TeacherGuard} from './core/guards/teacher.guard';
 
 export const routes: Routes = [
     {
@@ -35,7 +36,7 @@ export const routes: Routes = [
         canActivate: [AuthGuard],
         children: [
             // Routes that do NOT require an active assignment context:
-            { path: 'courses', component: CourseOverviewComponent },
+            { path: 'courses', canActivate: [TeacherGuard], component: CourseOverviewComponent },
             { path: 'profile', component: ProfilepageComponent },
             { path: '', component: WelcomeComponent },
             { path: '404', component: NotfoundComponent },
@@ -65,9 +66,9 @@ export const routes: Routes = [
                     { path: 'deadlines', component: DeadlineOverviewComponent },
                     { path: 'applications', component: ApplicationsOverviewComponent },
                     { path: 'applications/:id', component: ApplicationDetailsComponent },
-                    { path: 'students', component: StudentOverviewComponent },
-                    {path: 'announcements', component: AnnouncementOverviewComponent },
-                    { path: 'announcements/create', component: AnnouncementCreateComponent },
+                    { path: 'students', canActivate: [TeacherGuard], component: StudentOverviewComponent },
+                    {path: 'announcements', canActivate: [TeacherGuard],  component: AnnouncementOverviewComponent },
+                    { path: 'announcements/create', canActivate: [TeacherGuard],  component: AnnouncementCreateComponent },
                     { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
                 ]
             }
