@@ -1,5 +1,6 @@
 <nav class="sidenav">
     <a [routerLink]="getRoute('dashboard')"
+       *hasRole="[Role.Teacher, Role.Student]"
        routerLinkActive="active-link"
        [routerLinkActiveOptions]="{ exact: false }"
        class="nav-link">
@@ -7,40 +8,51 @@
         <span>Dashboard</span>
     </a>
     <a [routerLink]="getRoute('projects')"
+       *hasRole="[Role.Teacher, Role.Student, Role.Researcher]"
        routerLinkActive="active-link"
        [routerLinkActiveOptions]="{ exact: false }"
        class="nav-link">
         <img class="icon" src="icons/projects.svg" alt="Projects" />
         <span>Projects</span>
     </a>
-<!--    <a [routerLink]="getRoute('calendar')"-->
-<!--       routerLinkActive="active-link"-->
-<!--       [routerLinkActiveOptions]="{ exact: false }"-->
-<!--       class="nav-link">-->
-<!--        <img class="icon" src="icons/calendar-solid.svg" alt="Calendar" />-->
-<!--        <span>Calendar</span>-->
-<!--    </a>-->
+    <a [routerLink]="getRoute('deadlines')"
+       *hasRole="[Role.Teacher, Role.Student]"
+       routerLinkActive="active-link"
+       [routerLinkActiveOptions]="{ exact: false }"
+       class="nav-link">
+        <img class="icon" src="icons/calendar-solid.svg" alt="Calendar" />
+        <span>Calendar</span>
+    </a>
     <a [routerLink]="getRoute(['applications'])"
+       *hasRole="[Role.Teacher, Role.Student]"
        routerLinkActive="active-link"
        [routerLinkActiveOptions]="{ exact: false }"
        class="nav-link">
         <img class="icon" src="icons/clipboard-solid.svg" alt="Applications" />
         <span>Applications</span>
     </a>
-<!--    <a [routerLink]="getRoute('students')"-->
-<!--       routerLinkActive="active-link"-->
-<!--       [routerLinkActiveOptions]="{ exact: false }"-->
-<!--       class="nav-link"-->
-<!--       *hasRole="Role.Teacher">-->
-<!--        <img class="icon" src="icons/user-group-solid.svg" alt="Students" />-->
-<!--        <span>Students</span>-->
-<!--    </a>-->
-    <a [routerLink]="getRoute('courses')"
+    <a [routerLink]="getRoute('students')"
+       *hasRole="[Role.Teacher]"
        routerLinkActive="active-link"
        [routerLinkActiveOptions]="{ exact: false }"
-       class="nav-link"
-       *hasRole="Role.Teacher">
+       class="nav-link">
+        <img class="icon" src="icons/user-group-solid.svg" alt="Students" />
+        <span>Students</span>
+    </a>
+    <a [routerLink]="getRoute('courses')"
+       *hasRole="[Role.Teacher]"
+       routerLinkActive="active-link"
+       [routerLinkActiveOptions]="{ exact: false }"
+       class="nav-link">
         <img class="icon" src="icons/book-open-solid.svg" alt="Courses" />
         <span>Courses</span>
+    </a>
+    <a [routerLink]="getRoute('announcements')"
+       *hasRole="[Role.Teacher]"
+       routerLinkActive="active-link"
+       [routerLinkActiveOptions]="{ exact: false }"
+       class="nav-link">
+        <img class="icon" src="icons/bullhorn-solid.svg" alt="Announcements" />
+        <span>Announcements</span>
     </a>
 </nav>

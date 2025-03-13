@@ -1,0 +1,74 @@
+@use '../../../../styles/variables' as *;
+
+.login-modal {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.gdpr-checkbox {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    max-width: 400px;
+    font-size: 0.9rem;
+
+    .custom-checkbox {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        user-select: none;
+        position: relative;
+
+        input[type="checkbox"] {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+
+        .checkmark {
+            min-width: 20px;
+            min-height: 20px;
+            border: 2px solid #ccc;
+            border-radius: 6px;
+            transition: background-color 0.2s ease, border-color 0.2s ease;
+            position: relative;
+        }
+
+        input[type="checkbox"]:checked + .checkmark {
+            background-color: $primary-color;
+            border-color: $primary-color;
+        }
+
+        input[type="checkbox"]:checked + .checkmark::after {
+            content: '';
+            position: absolute;
+            left: 4px;
+            top: 1px;
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+    }
+    .error {
+        color: #e74c3c;
+        font-size: 0.85rem;
+        margin-top: 0.5rem;
+    }
+}
+
+.guest-login {
+    text-decoration: underline;
+    cursor: pointer;
+}

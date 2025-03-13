@@ -1,20 +1,317 @@
 @use "../../../styles/variables.scss" as *;
+@use "../../../styles/mixins.scss" as *;
 
+.topnav {
+    background-color: #fff;
+    border-radius: $border-radius;
+    margin: $small-spacing;
+    display: flex;
+    box-shadow: $box-shadow;
+    min-height: 85px;
+    z-index: 6;
+
+    .left {
+        border-right: 1px solid $border-color;
+        width: 20%;
+        min-width: 300px;
+        position: relative;
+
+        .left-content {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: $small-spacing;
+            padding: $small-spacing $spacing $small-spacing $small-spacing;
+            cursor: pointer;
+
+            .course-info {
+                display: flex;
+                flex-direction: column;
+                flex-grow: 1;
+                min-width: 0;
+                @include text-ellipsis;
+            }
+
+            .assignment-name {
+                font-size: 18px;
+                padding-bottom: 0;
+                margin: 0;
+                @include text-ellipsis;
+            }
+
+            .course-name {
+                color: gray;
+                font-size: 14px;
+                margin: 0;
+                @include text-ellipsis;
+            }
+
+            .course-icon {
+                background-color: $border-color;
+                min-width: $icon-size;
+                min-height: $icon-size;
+                border-radius: $border-radius;
+            }
+
+            .dropdown-icon {
+                width: 20px;
+                height: 20px;
+                cursor: pointer;
+            }
+        }
+
+        .dropdown {
+            position: absolute;
+            background-color: #fff;
+            width: 100%;
+            top: 4.7rem;
+            left: 0;
+            z-index: 5;
+            padding: $small-spacing 0;
+            border-radius: 0 0 $border-radius $border-radius;
+            box-shadow: 0 15px 12px rgba(0, 0, 0, 0.15);
+
+            dl {
+                padding: $small-spacing;
+                display: flex;
+                flex-direction: column;
+                gap: $small-spacing;
+
+                .course {
+                    display: flex;
+                    flex-direction: column;
+                    gap: .5rem;
+
+                    dt {
+                        font-size: 1rem;
+                        font-weight: bold;
+                    }
+                }
+            }
+        }
+    }
+
+    .right {
+        display: flex;
+        align-items: center;
+        gap: $spacing;
+        justify-content: space-between;
+        padding-left: $spacing;
+        padding-right: $small-spacing;
+        flex-grow: 1;
+
+        .nav-name {
+            font-size: 18px;
+        }
+
+        .nav-icons {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+        }
+
+        .dropdownProfile {
+            position: absolute;
+            top: 4.3rem;
+            right: -1.1rem;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15),
+            -4px 0px 12px rgba(0, 0, 0, 0.1),
+            4px 0px 12px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            min-width: 200px;
+
+            ul {
+                padding: $small-spacing;
+                list-style: none;
+                .user-name{
+                    color: $primary-color;
+                    pointer-events: none;
+                    font-weight: bold;
+                }
+
+                li {
+                    padding: 10px;
+                    justify-content: center;
+                    cursor: pointer;
+                    border-radius: 8px;
+                    &:hover {
+                        background-color: #f0f0f0;
+                    }
+                }
+
+            }
+        }
+    }
+
+    .notification-icon {
+        position: relative;
+        cursor: pointer;
+        img {
+            width: $notification-size;
+            height: $notification-size;
+            transform: rotate(30deg);
+            filter: invert(68%) sepia(9%) saturate(229%) hue-rotate(196deg)
+            brightness(90%) contrast(85%);
+        }
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            padding: 1px;
+            background-color: #fff;
+            color: #999aa3;
+            border: 1px solid #999aa3;
+            font-size: 1rem;
+            width: $badge-size;
+            height: $badge-size;
+            border-radius: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+
+    .user-icon {
+        cursor: pointer;
+        border-radius: 50%;
+        background-color: $primary-color;
+        width: $icon-size;
+        height: $icon-size;
+    }
+
+
+}
+
+// Global element styles for interactive elements
+dd,
 .left-content {
     cursor: pointer;
 }
-
 dd {
     padding: 1rem;
     border-radius: $border-radius;
-    cursor: pointer;
-
-    :hover {
+    &:hover {
         background-color: $background-color;
+    }
+
+    &.selected {
+        background-color: $primary-color;
+        cursor: default;
     }
 }
 
 .selected {
     color: white;
-    background-color: $highlight-color;
+    background-color: $primary-color;
+}
+
+// Notifications styling grouped together using BEM naming
+.notifications {
+    &-container {
+        position: relative;
+        img {
+            cursor: pointer;
+        }
+
+        .delete-notification {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+            margin-left: 8px;
+            img {
+                width: 12px;
+                height: 12px;
+            }
+        }
+    }
+
+    &-dropdown {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        background: white;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        min-width: 250px;
+        max-height: 400px;
+        overflow-y: auto;
+        z-index: 1000;
+        &.hidden {
+            display: none;
+        }
+    }
+
+    .notification-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+        &:last-child {
+            border-bottom: none;
+        }
+        &:hover {
+            background-color: #f9f9f9;
+        }
+
+        .notification-content {
+            display: flex;
+            align-items: flex-start;
+            cursor: pointer;
+            flex: 1;
+
+            .unread-dot {
+                min-width: 8px;
+                height: 8px;
+                background-color: red;
+                border-radius: 50%;
+                margin-right: 10px;
+                margin-top: 6px;
+            }
+
+            .notification-text {
+                display: flex;
+                flex-direction: column;
+                gap: 4px;
+
+                p {
+                    margin: 0;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+
+                .notification-date {
+                    font-size: 0.8em;
+                    color: #666;
+                }
+            }
+        }
+
+        .delete-notification {
+            display: flex;
+            align-items: center;
+            button {
+                background: none;
+                border: none;
+                cursor: pointer;
+                padding: 4px;
+                img {
+                    width: 12px;
+                    height: 12px;
+                }
+            }
+        }
+    }
+
+    .no-notifications {
+        padding: 12px;
+        text-align: center;
+        color: #666;
+    }
 }

@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {Course} from '../../shared/models/course.model';
 import {environment} from '../../../environments/environment';
+import {User} from '../../auth/models/user.model';
 
 @Injectable({providedIn: 'root'})
 export class CourseService {
@@ -11,10 +12,6 @@ export class CourseService {
     private coursesSubject = new BehaviorSubject<Course[]>([]);
     public courses$ = this.coursesSubject.asObservable();
 
-    constructor() {
-        this.refreshCourses();
-    }
-
     refreshCourses(): void {
         this.http.get<Course[]>(`${environment.apiBaseUrl}/api/courses/enrolled`, { withCredentials: true })
             .subscribe(courses => {
@@ -22,8 +19,8 @@ export class CourseService {
             });
     }
 
-    getCanvasCourses(role: string): Observable<any[]> {
-        return this.http.post<any[]>(`${environment.apiBaseUrl}/api/courses/canvas?EnrollmentType=${role}`, {}, {withCredentials: true});
+    getCanvasCourses(): Observable<any[]> {
+        return this.http.post<any[]>(`${environment.apiBaseUrl}/api/courses/canvas`, {}, {withCredentials: true});
     }
 
     createCourse(course: Course): Observable<any> {
@@ -36,5 +33,9 @@ export class CourseService {
 
     getAllEnrolledCourses(): Observable<Course[]> {
         return this.http.get<Course[]>(`${environment.apiBaseUrl}/api/courses/enrolled`, {withCredentials: true});
+    }
+
+    getAllEnrolledStudentsByCourseId(courseId: string): Observable<User[]> {
+        return this.http.get<User[]>(`${environment.apiBaseUrl}/api/courses/${courseId}/students`, {withCredentials: true});
     }
 }

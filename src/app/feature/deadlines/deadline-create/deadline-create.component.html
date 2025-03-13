@@ -1,0 +1,65 @@
+<div class="create-deadline-container">
+    <h2>Create a Deadline</h2>
+    <p class="page-description">
+        Use this form to add a new deadline to your project timeline. Provide clear details so everyone understands what needs to be done and by when.
+    </p>
+    <form [formGroup]="deadlineForm" (ngSubmit)="onSubmit()">
+        <!-- Deadline Title Input -->
+        <div class="form-group">
+            <label for="title">Deadline Title *</label>
+            <input
+                id="title"
+                type="text"
+                formControlName="title"
+                placeholder="E.g., 'Submit Project Proposal'" />
+            <div class="error" *ngIf="deadlineForm.get('title')?.invalid && deadlineForm.get('title')?.touched">
+                <span class="error" *ngIf="deadlineForm.get('title')?.errors?.['required']">Title is required.</span>
+                <span class="error" *ngIf="deadlineForm.get('title')?.errors?.['maxLength']">Title cannot exceed 100 characters.</span>
+            </div>
+        </div>
+
+        <!-- Deadline Description -->
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea
+                id="description"
+                formControlName="description"
+                placeholder="E.g., 'Submit your project proposal to the committee for review by the end of the month.'"></textarea>
+        </div>
+
+        <!-- Due Date -->
+        <div class="form-group">
+            <label for="dueDate">Due Date *</label>
+            <input
+                id="dueDate"
+                type="datetime-local"
+                formControlName="dueDate" />
+            <div class="error" *ngIf="deadlineForm.get('dueDate')?.invalid && deadlineForm.get('dueDate')?.touched">
+                <span class="error" *ngIf="deadlineForm.get('dueDate')?.errors?.['required']">Due date is required.</span>
+                <span class="error" *ngIf="deadlineForm.get('dueDate')?.errors?.['futureDate']">Due date must be in the future.</span>
+            </div>
+        </div>
+
+        <!-- Restriction -->
+        <div class="form-group">
+            <label for="restriction">Restriction</label>
+            <p class="input-description">
+                Choose the appropriate restriction level to categorize your deadline.
+            </p>
+            <select id="restriction" formControlName="restriction">
+                <option *ngFor="let restriction of deadlineRestrictions" [value]="restriction">
+                    {{ restriction | enumDisplay }}
+                </option>
+            </select>
+            <div class="error" *ngIf="deadlineForm.get('restriction')?.invalid && deadlineForm.get('restriction')?.touched">
+                <span *ngIf="deadlineForm.get('restriction')?.errors?.['required']">Restriction is required.</span>
+            </div>
+        </div>
+
+        <!-- Hidden TimeZone Input -->
+        <input type="hidden" formControlName="timeZone" />
+
+        <!-- Submit Button -->
+        <app-button variant="primary" type="submit">Create Deadline</app-button>
+    </form>
+</div>

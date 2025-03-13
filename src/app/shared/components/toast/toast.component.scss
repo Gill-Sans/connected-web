@@ -48,23 +48,23 @@
 
     &.success {
         border: 1px solid #3fb46a;
-        color: #3fb46a;
-        background-color: rgba(63, 180, 106, 0.1);
+        color: #2aad5b;
+        background-color: rgb(125, 217, 159);
     }
     &.error {
         border: 1px solid #e35050;
         color: #e35050;
-        background-color: rgba(227, 80, 80, 0.1);
+        background-color: rgb(227, 122, 122);
     }
     &.info {
         border: 1px solid #2563eb;
         color: #2563eb;
-        background-color: rgba(37, 99, 235, 0.1);
+        background-color: rgb(113, 146, 223);
     }
     &.warning {
         border: 1px solid #ca8a04;
         color: #ca8a04;
-        background-color: rgba(202, 138, 4, 0.1);
+        background-color: rgb(223, 178, 100);
     }
 
     .toast-header {

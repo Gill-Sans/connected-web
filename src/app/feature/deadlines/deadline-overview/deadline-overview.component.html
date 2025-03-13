@@ -1,0 +1,61 @@
+<div class="calendar-container">
+    <div class="calendar">
+        <app-calendar [deadlines]="(deadlines$ | async) ?? []"></app-calendar>
+    </div>
+    <div class="right-sidebar">
+        <ng-container *ngIf="(isTeacher$ | async)">
+            <!-- Changed button click from navigation to opening the modal -->
+            <app-button variant="primary" (click)="openCreateModal()">Create Deadline</app-button>
+        </ng-container>
+        <div *ngIf="deadlines$ | async as deadlines; else loadingDeadlines">
+            <div *ngIf="deadlines.length > 0; else noDeadlines">
+                <div class="deadline-container">
+                    <div *ngFor="let deadline of deadlines" class="deadline-card">
+                        <h3>{{ deadline.title }}</h3>
+                        <span *ngIf="(isTeacher$ | async)" class="delete-icon" (click)="openDeleteModal(deadline)">
+              X
+            </span>
+                        <p class="due-date">
+                            {{ convertToTimeZone(deadline.dueDate) | date: 'EEE MMM d' }} at
+                            {{ convertToTimeZone(deadline.dueDate) | date: 'HH:mm' }}
+                        </p>
+                        <p class="description">{{ deadline.description }}</p>
+                        <p class="restriction" [ngClass]="deadline.restriction.toLowerCase()">
+                            <span class="badge">{{ deadline.restriction.replace('_', ' ').toLowerCase() }}</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <ng-template #loadingDeadlines>
+            <p>Loading deadlines...</p>
+        </ng-template>
+        <ng-template #noDeadlines>
+            <p>No deadlines available.</p>
+        </ng-template>
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal (remains unchanged) -->
+<div class="modal" *ngIf="showModal">
+    <div class="modal-content">
+        <h2>Delete this Deadline?</h2>
+        <div class="modal-actions">
+            <app-button variant="danger" (click)="closeModal()">Cancel</app-button>
+            <app-button variant="primary" (click)="confirmDelete()">Confirm</app-button>
+        </div>
+    </div>
+</div>
+
+<!-- Create Deadline Modal Overlay -->
+<div class="modal" *ngIf="showCreateModal">
+    <div class="modal-content">
+        <!-- Close button for the modal overlay -->
+        <button class="close-button" (click)="closeCreateModal()">X</button>
+        <!-- Embed the create deadline component -->
+        <app-deadline-create
+            (deadlineCreated)="onDeadlineCreated()"
+            (closeModal)="closeCreateModal()">
+        </app-deadline-create>
+    </div>
+</div>

@@ -4,7 +4,7 @@
         <div class="motivation-section">
             <h2>Motivation</h2>
             <div class="motivation-content">
-                <markdown class="md-editor-container" [data]="application.motivationMd"></markdown>
+                <div class="rich-content" [innerHTML]="application.motivationMd"></div>
             </div>
         </div>
 
@@ -13,9 +13,12 @@
             <div class="action-container" *ngIf="(isOwner$ | async) && (application.status == ApplicationStatusEnum.PENDING)">
                 <h4>Manage Application</h4>
                 <div class="action-buttons">
-                <app-button label="Approve" type="Approve" (click)="approveApplication(application.id)"></app-button>
-                <app-button label="Reject" type="Reject" (click)="rejectApplication(application.id)"></app-button>
+                    <app-button variant="success" (click)="reviewApplication(application.id, ApplicationStatusEnum.APPROVED)">Approve</app-button>
+                    <app-button variant="danger" (click)="reviewApplication(application.id, ApplicationStatusEnum.REJECTED)">Reject</app-button>
                 </div>
+            </div>
+            <div class="action-container" *ngIf="(isApplicationOwner$ | async) && (application.status == ApplicationStatusEnum.APPROVED) && !(isMember$ | async)">
+                <app-button variant="primary" (click)="joinProject(application.id)">Join Project</app-button>
             </div>
             <div class="details-section">
                 <h2>Applicant Details</h2>

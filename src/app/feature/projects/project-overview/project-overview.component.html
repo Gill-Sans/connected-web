@@ -1,0 +1,71 @@
+<div class="project-overview">
+    <div class="tab-bar">
+        <div class="tabs">
+            <span
+                *ngFor="let tab of tabOptions"
+                class="tab"
+                [class.active]="selectedTab === tab.value"
+                (click)="changeTab(tab.value)"
+            >
+              {{ tab.label }}
+            </span>
+        </div>
+        <div class="tabs-right">
+            <ng-container *ngIf="(isTeacher$ | async)">
+                <div class="toggle-container" (click)="toggleView()">
+                    <div class="toggle-switch">
+                        <div class="toggle-highlight" [style.left]="viewType === 'card' ? '40px' : '0'"></div>
+                        <div class="icon icon-list">
+                            <img src="icons/list-solid.svg" alt="List View" />
+                        </div>
+                        <div class="icon icon-card">
+                            <img src="icons/projects.svg" alt="Card View" />
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+
+            <app-button variant="primary" (click)="navigateToProjectCreate()">Create Project</app-button>
+        </div>
+    </div>
+
+    <ng-template #loadingProject>
+        <p>Loading...</p>
+    </ng-template>
+
+    <!-- Render view based on the selected viewType -->
+    <div *ngIf="projects$ | async as projects; else loadingProject">
+        <div *ngIf="viewType === 'card'; else tableView">
+            <div class="card-container">
+                <app-projectcard
+                    *ngFor="let project of projects"
+                    [project]="project"
+                ></app-projectcard>
+            </div>
+        </div>
+        <ng-template #tableView>
+            <app-button variant="neutral" (click)="publishAllProjects()">Publish All</app-button>
+            <table class="project-table">
+                <thead>
+                <tr>
+                    <th>Title</th>
+                    <th style="width:20%">Status</th>
+                    <th *ngIf="selectedTab === 'all'" style="width:20%">publish</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let project of projects">
+                    <td (click)="navigateToProject(project)">{{ project.title }}</td>
+                    <td><app-statuscard status="{{ project.status }}">{{ project.status }}</app-statuscard></td>
+                    <td *ngIf="selectedTab === 'all'">
+                        <app-button variant="primary" (click)="updateProjectStatus(project, ProjectStatusEnum.PUBLISHED)"  *ngIf="project.status !== publishedStatus">Publish</app-button>
+                        <app-button variant="danger" (click)="updateProjectStatus(project, ProjectStatusEnum.PENDING)"  *ngIf="project.status === publishedStatus">Unpublish</app-button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </ng-template>
+    </div>
+
+    <router-outlet></router-outlet>
+</div>

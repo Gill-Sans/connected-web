@@ -1,7 +1,6 @@
 import { tag } from './tag.model';
 import { User } from '../../auth/models/user.model';
 import { ProjectStatusEnum } from "./ProjectStatus.enum"
-import { Assignment } from "./assignment.model"
 
 export interface Project {
     id: number;
@@ -12,9 +11,13 @@ export interface Project {
     repositoryUrl: string;
     boardUrl: string;
     backgroundImage: string;
+    teamSize: number;
 
-    assignment: Assignment;
+    assignmentId: number | null;
     tags: tag[];
     createdBy: User;
+    productOwner: User;
     members: User[];
+    courseName?: string;
+    assignmentName?: string;
 }
