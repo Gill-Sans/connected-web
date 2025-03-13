@@ -1,0 +1,12 @@
+<div class="announcement-overview-container">
+    <h2>Announcements</h2>
+    <app-button variant="primary" (click)="createAnnouncement()">Create Announcement</app-button>
+
+    <div *ngIf="announcements.length > 0; else noAnnouncements" class="announcement-overview">
+        <app-announcement-card *ngFor="let announcement of announcements" [announcement]="announcement"></app-announcement-card>
+    </div>
+
+    <ng-template #noAnnouncements>
+        <p>No announcements available for this assignment.</p>
+    </ng-template>
+</div>

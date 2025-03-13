@@ -1,3 +1,5 @@
+@use "../../../../styles/variables" as *;
+
 .conversation-card {
     background-color: #f9f9f9;
     border: 1px solid #e0e0e0;
@@ -33,5 +35,32 @@
         font-size: 14px;
         color: #555;
         line-height: 1.5;
+
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            background-color: $background-color-input;
+            color: $text-color;
+            resize: vertical;
+        }
+    }
+
+    .button-container {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        margin-top: 8px;
+        gap: 1rem;
+
+        button {
+            margin-right: 8px;
+        }
+    }
+
+    .button-container__edit {
+        display: flex;
+        gap: 1rem;
     }
 }

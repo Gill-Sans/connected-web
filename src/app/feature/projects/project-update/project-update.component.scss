@@ -1,0 +1,55 @@
+@use '../../../../styles/variables' as *;
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+label {
+    font-weight: bold;
+}
+
+.input-description {
+    font-size: 1rem;
+    color: $text-color-light;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    box-sizing: border-box;
+    background: $background-color-input;
+}
+
+.input {
+    max-width: 40%;
+    min-width: 400px;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 1rem;
+    background: $background-color-input;
+    border: none;
+}
+
+.short-description {
+    resize: none;
+}
+
+.team-size {
+    width: min-content;
+}
+
+.error {
+    color: red;
+    font-size: 0.9rem;
+}

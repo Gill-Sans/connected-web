@@ -21,7 +21,7 @@
         }
 
         &.active-link {
-            color: $highlight-color;
+            color: $primary-color;
 
             .icon {
                 filter: invert(33%) sepia(94%) saturate(1502%)
@@ -29,7 +29,7 @@
             }
 
             span {
-                color: $highlight-color;
+                color: $primary-color;
             }
         }
 

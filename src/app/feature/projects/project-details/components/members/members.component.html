@@ -1,0 +1,35 @@
+<div class="members-container">
+    <table>
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Role</th>
+            <th *ngIf="(isTeacher$ | async)">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let member of (project$ | async)?.members; let i = index">
+            <td>
+                {{ member.firstName }} {{ member.lastName }}
+            </td>
+            <td>{{ member.role.charAt(0) + member.role.substring(1).toLowerCase() }}</td>
+            <td *ngIf="(isTeacher$ | async)">
+                <button class="delete-btn" (click)="openDeleteModal(member)">X</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+
+<!-- Delete Confirmation Modal -->
+<div class="modal" *ngIf="showModal">
+    <div class="modal-content">
+        <h2>Delete this member?</h2>
+        <div class="modal-actions">
+            <app-button variant="danger" (click)="closeModal()">Cancel</app-button>
+            <app-button variant="primary" (click)="confirmDelete()">Confirm</app-button>
+        </div>
+    </div>
+</div>
+

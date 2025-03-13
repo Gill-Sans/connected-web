@@ -1,0 +1,21 @@
+<div class="project-details-container">
+    <app-button variant="link" class="back-button" (click)="navigateBack()" [icon]="icons.arrowLeft">Back</app-button>
+    <div class="project-tabs">
+        <div class="project-tabs__left">
+            <a routerLink="overview" routerLinkActive="active-tab">Project Overview</a>
+            <a routerLink="feedback" routerLinkActive="active-tab" *ngIf="(canManageProject$ | async)">Feedback</a>
+            <a routerLink="members" routerLinkActive="active-tab">Members</a>
+            <a routerLink="applications" routerLinkActive="active-tab" *ngIf="(canManageProject$ | async)">Applications</a>
+        </div>
+        <div class="project-tabs__right">
+            <a routerLink="edit" routerLinkActive="active-tab" *ngIf="(isOwner$ | async) || (isCreatedByTeacher$ | async)">
+                <img src="icons/gear.svg" alt="Edit Project"  class="icon"/>
+            </a>
+        </div>
+    </div>
+
+    <!-- Router Outlet to Load Child Components -->
+    <div class="project-content">
+        <router-outlet></router-outlet>
+    </div>
+</div>

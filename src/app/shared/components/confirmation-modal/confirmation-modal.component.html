@@ -1,0 +1,10 @@
+<div class="modal-backdrop">
+    <div class="modal">
+        <h2>{{ title }}</h2>
+        <p>{{ message }}</p>
+        <div class="modal-actions">
+            <app-button variant="danger" [disabled]="isProcessing" (click)="onCancel()">{{ cancelText }}</app-button>
+            <app-button variant="neutral" [disabled]="isProcessing" (click)="onConfirm()">{{ confirmText }}</app-button>
+        </div>
+    </div>
+</div>

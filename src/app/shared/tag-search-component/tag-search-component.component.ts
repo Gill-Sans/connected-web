@@ -28,8 +28,6 @@ export class TagSearchComponentComponent {
             distinctUntilChanged(),
             switchMap((term: string) => this.tagService.searchTags(term))
         );
-
-        this.tags$.subscribe(tags => console.log("Tags ontvangen:", tags));
     }
 
     onSearchInput(event: Event): void {
@@ -48,7 +46,6 @@ export class TagSearchComponentComponent {
             name: this.searchQuery,
         };
         this.tagService.createTag(newTag).subscribe(tag => {
-            console.log("Tag aangemaakt:", tag);
             this.isDropdownVisible = false;
             this.inputElement!.value = '';
             this.tagSelected.emit(tag);
@@ -57,7 +54,6 @@ export class TagSearchComponentComponent {
 
     selectTag(tag: tag): void {
 
-        console.log("Tag geselecteerd:", tag);
         this.tagSelected.emit(tag);
         this.isDropdownVisible = false;
         this.inputElement!.value = '';

@@ -21,6 +21,7 @@
 .assignment-card {
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     gap: 1rem;
     background: white;
     border-radius: 12px;
@@ -29,7 +30,6 @@
     transition: 0.3s ease-in-out;
     flex-grow: 1;
     height: 100%;
-    max-width: 600px;
 }
 
 .import-assignment-button {
@@ -37,6 +37,11 @@
     cursor: pointer;
     justify-content: center;
     align-items: center;
+    max-width: 250px;
+    padding: 1rem;
+    border: none;
+    border-radius: 8px;
+    background-color: $accent-color;
 
     img {
         width: 1.5rem;

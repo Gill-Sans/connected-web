@@ -1,80 +1,73 @@
-$highlight-color: rgba(118, 98, 246, 1);
+@use '../../../../styles/variables' as *;
+@use '../../../../styles/mixins' as *;
 
-.button {
+button {
+    position: relative;        // Needed for the ripple pseudo-element
+    overflow: hidden;          // Hide ripple overflow
     border-radius: 4px;
-    color: rgba(255, 255, 255, 1);
-    background-color: $highlight-color;
+    color: #fff;
     border: none;
     padding: 10px 25px;
     font-size: 16px;
-    font-weight: 700;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     gap: 8px;
     cursor: pointer;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
 
-    .button-icon {
-        filter: brightness(0) invert(1);
-        width: 16px;
-        height: 16px;
+    &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+
+    &.ripple {
+        background-position: center;
+        transition: background 0.8s;
+    }
+    &:hover {
+        background: #47a7f5 radial-gradient(circle, transparent 1%, #47a7f5 1%) center/15000%;
+    }
+    &.ripple:active {
+        background-color: #6eb9f7;
+        background-size: 100%;
+        transition: background 0s;
     }
 }
 
-.cancel {
-    background-color: rgba(246, 98, 100, 1);
-    font-weight: 400;
+button.primary {
+    background-color: $primary-color;
 }
 
-.confirm {
-    background-color: rgba(48, 149, 53, 1);
-    font-weight: 400;
+button.danger {
+    background-color: $danger-color;
 }
 
-.edit {
-    background-color: rgba(118, 98, 246, 1);
-    font-weight: 400;
+button.neutral {
+    background-color: $neutral-color;
 }
 
-
-.post {
-    background-color: rgba(118, 98, 246, 1);
-    font-weight: 100;
+button.success {
+    background-color: $success-color;
 }
 
-.back {
-    display: inline-flex;
-    align-items: center;
-    font-size: 14px;
-    font-weight: 500;
-    color: #6c757d; // Lichtgrijze kleur
-    text-decoration: none;
-    cursor: pointer;
-    background: transparent;
-    border: none;
-    padding: 5px 10px;
-    margin-left: 10px;
-
-    &::before {
-        content: "←";
-        margin-right: 5px;
-        font-size: 14px;
-    }
+button.link {
+    background-color: transparent;
+    color: $text-color;
+    padding: 0 0 2px 0;
+    text-decoration: underline;
 
     &:hover {
-        color: #5a6268; // Iets donkerdere grijstint bij hover
-        text-decoration: underline;
+        color: $primary-color;
+        transition: 0.2s ease;
+
+        .button-icon {
+            @include primary-color-filter;
+        }
     }
-
-
 }
 
-.approve {
-    background-color: $highlight-color;
-    font-weight: 400;
+.button-icon {
+    width: 16px;
+    height: 16px;
+    transition: 0.2s ease;
 }
-
-.reject {
-    background-color: #D9534F;
-    font-weight: 400;
-}
-

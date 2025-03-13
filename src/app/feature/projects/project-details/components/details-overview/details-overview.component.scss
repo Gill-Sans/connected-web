@@ -1,0 +1,229 @@
+@use "../../../../../../styles/variables.scss" as *;
+
+.page-container {
+    display: grid;
+    grid-template-columns: 2fr 1fr; /* 2/3 left, 1/3 right */
+    gap: 4rem;
+}
+
+.creator-name {
+    font-size: small;
+    color: gray;
+    font-weight: 300;
+}
+
+/* Left content: Text */
+.left-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+
+    .project-origin{
+        display: flex;
+        flex-direction: column;
+        color: #7a7a7a;
+        margin-bottom: 0.5rem;
+        p:nth-child(1){
+            font-size: 0.8rem;
+         }
+        p:nth-child(2){
+            font-weight: bold;
+            font-size: 1rem;
+        }
+    }
+
+    h2 {
+        font-size: 2rem;
+        font-weight: 600;
+        color: $text-color-dark;
+        margin-bottom: 10px;
+    }
+}
+
+/* Paragraph styling for readability */
+p {
+    font-size: 0.8rem;
+    line-height: 1.6;
+    color: #666;
+}
+
+/* Right sidebar: Members & Links */
+.right-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+/* Apply button section */
+.apply-section {
+    background: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    p {
+        margin-bottom: 10px;
+        font-size: 0.9rem;
+        color: #666;
+    }
+}
+
+/* Status section */
+.status-section {
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+
+    .status-container {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        border-radius: 999px;
+        padding: 6px;
+        border: 2px solid #ccc;
+    }
+
+    &.pending .status-container{
+        border-color: #ffc107;
+    }
+
+    &.approved .status-container{
+        border-color: #28a745;
+    }
+
+    &.rejected .status-container{
+        border-color: #dc3545;
+    }
+
+    &.published .status-container{
+        border-color: #354bdc;
+    }
+
+
+    .status-icon {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+    }
+
+    .status-label {
+        font-size: 0.9rem;
+    }
+
+    /* Status-specific styles */
+    &.pending .status-icon {
+        background-color: #ffc107; /* Yellow for pending */
+    }
+
+    &.approved .status-icon {
+        background-color: #28a745; /* Green for approved */
+    }
+
+    &.rejected .status-icon {
+        background-color: #dc3545; /* Red for rejected */
+    }
+
+    &.published .status-icon {
+        background-color: #354bdc; /* Blue for published */
+    }
+
+    &.pending .status-label {
+        color: #ffc107;
+    }
+
+    &.approved .status-label {
+        color: #28a745;
+    }
+
+    &.rejected .status-label {
+        color: #dc3545;
+    }
+
+    &.published .status-label {
+        color: #354bdc;
+    }
+}
+
+/* Members section */
+.members-section {
+
+    h3 {
+        margin-bottom: 1rem;
+    }
+
+    ul {
+        display: flex;
+        flex-direction: column;
+    }
+
+    li {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 8px;
+        border-radius: 6px;
+        transition: background-color 0.3s ease;
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        &:hover {
+            background-color: #f0f0f0;
+        }
+
+        &.owner-section {
+            font-weight: 600;
+
+            .owner-name {
+                display: flex;
+                align-items: center;
+            }
+
+            .owner-name::after {
+                content: "PO";
+                font-size: 0.7rem;
+                font-weight: bold;
+                color: white;
+                background-color: #ffcc00;
+                border-radius: 4px;
+                padding: 2px 5px;
+                margin-left: 6px;
+                text-transform: uppercase;
+                display: inline-block;
+                vertical-align: middle;
+            }
+        }
+
+    }
+}
+
+.tags-container{
+    padding-top: 20px;
+}
+
+.update-status {
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+
+    .update-status-buttons {
+        display: flex;
+        gap: 10px;
+    }
+}
+
+.link-section {
+    display: flex;
+    gap: 0.5rem;
+}

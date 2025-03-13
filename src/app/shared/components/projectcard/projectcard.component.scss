@@ -9,6 +9,7 @@
     transition: all 0.3s ease-in-out;
     max-width: 600px;
     border: 1px solid #e5e7eb;
+    height: 100%;
 
     &:hover {
         box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
@@ -72,7 +73,7 @@
 }
 
 .card-body {
-    padding: 20px 0;
+    padding-top: 10px;
     flex-grow: 1;
 
     .card-title {
@@ -86,6 +87,13 @@
         font-size: 14px;
         color: #4b5563;
         line-height: 1.5;
+    }
+
+    .tags{
+        margin-top: 20px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
     }
 }
 

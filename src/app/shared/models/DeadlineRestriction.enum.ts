@@ -1,0 +1,5 @@
+export enum DeadlineRestrictionEnum {
+    PROJECT_CREATION = 'PROJECT_CREATION',
+    APPLICATION_SUBMISSION = 'APPLICATION_SUBMISSION',
+    NONE = 'NONE',
+}

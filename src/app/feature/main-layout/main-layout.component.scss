@@ -1,0 +1,26 @@
+@use "../../../styles/variables.scss" as *;
+
+.app-container {
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    grid-template-rows: 120px 1fr;
+    gap: 8px;
+    height: 100vh;
+
+    app-topnav {
+        grid-column: 1 / -1;
+    }
+
+    app-sidenav {
+        grid-row: 2 / -1;
+    }
+
+    .content {
+        grid-row: 2 / -1;
+        grid-column: 2 / -1;
+        padding: 0 $small-spacing 4rem $small-spacing;
+        overflow-y: visible;
+        overflow-x: scroll;
+        scrollbar-width: thin;
+    }
+}

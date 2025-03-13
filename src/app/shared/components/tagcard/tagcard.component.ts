@@ -15,7 +15,6 @@ export class TagcardComponent {
     @Output() deleteTag = new EventEmitter<number>();
 
     onDelete() {
-        console.log('Verwijderen van tag:', this.tag);
         this.deleteTag.emit(this.tag.id);
     }
 }

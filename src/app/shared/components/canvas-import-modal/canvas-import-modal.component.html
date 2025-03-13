@@ -1,0 +1,53 @@
+<div class="overlay">
+    <div class="modal">
+        <button class="close-btn" (click)="close()">✖</button>
+        <h2>Import a {{ type }}</h2>
+        <p><strong>Import a {{ type }} from Canvas</strong></p>
+        <div class="items-container">
+            <ng-container *ngIf="items$ | async as items; else loading">
+                <ng-container *ngIf="items.length > 0; else noItems">
+                    <div class="{{ type }}-btn__container">
+                        <button
+                            *ngFor="let item of items"
+                            class="{{ type }}-btn"
+                            [class.selected]="selectedItem?.canvasId === item.canvasId"
+                            (click)="selectItem(item)"
+                        >
+                            {{ item.name }}
+                        </button>
+                    </div>
+                    <!-- For assignments, display the additional field -->
+                    <ng-container *ngIf="type === 'assignment'">
+                        <div class="select-container">
+                            <label>Default Team Size:</label>
+                            <input
+                                type="number"
+                                [(ngModel)]="defaultTeamSize"
+                                name="defaultTeamSize"
+                                min="1"
+                                max="50" />
+                        </div>
+                    </ng-container>
+                </ng-container>
+            </ng-container>
+            <ng-template #loading>
+                <p>Loading {{ type }}s...</p>
+            </ng-template>
+            <ng-template #noItems>
+                <h4 class="no-{{ type }}-text">No {{ type }}s found to import.</h4>
+                <p class="no-{{ type }}-text">
+                    We couldn't find any {{ type }}s that you can import. Make sure you have {{ type }}s in Canvas that are not already imported.
+                </p>
+            </ng-template>
+        </div>
+        <div class="continue-btn__container">
+            <button
+                class="continue-btn"
+                [class.disabled]="isLoading"
+                [disabled]="isLoading"
+                (click)="onCreate()">
+                {{ isLoading ? 'Processing...' : 'Continue' }}
+            </button>
+        </div>
+    </div>
+</div>

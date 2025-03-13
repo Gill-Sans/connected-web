@@ -1,7 +1,6 @@
 <div class="topnav">
-    <div class="left">
-        <div class="left-content" (click)="toggleAssignmentsHidden()" clickOutside
-             (clickOutside)="closeAssignmentsDropdown()">
+    <div class="left" *hasRole="[Role.Teacher, Role.Student]">
+        <div class="left-content" (click)="toggleAssignmentsHidden()" (clickOutside)="closeAssignmentsDropdown()">
             <div class="course-icon"></div>
             <div class="course-info" *ngIf="activeAssignment$ | async as active; else defaultInfo">
                 <p class="assignment-name">{{ active.assignment.name }}</p>
@@ -14,41 +13,68 @@
                 </div>
             </ng-template>
             <img alt="Dropdown" class="dropdown-icon" src="icons/dropdown.svg"/>
-            <div [hidden]="isHiddenAssignments" class="dropdown">
-                <dl *ngIf="courses$ | async as courses; else loadingAssignments">
-                    <div *ngFor="let course of courses">
-                        <dt>{{ course.name }}</dt>
-                        <dd
-                            (click)="selectAssignment(assignment, course)"
-                            *ngFor="let assignment of course.assignments"
-                            [ngClass]="{'selected': (activeAssignment$ | async)?.assignment?.id === assignment.id}">
-                            {{ assignment.name }}
-                        </dd>
-                    </div>
-                </dl>
-                <ng-template #loadingAssignments>
-                    Loading Assignments...
-                </ng-template>
-            </div>
+        </div>
+        <div [hidden]="isHiddenAssignments" class="dropdown">
+            <dl *ngIf="courses$ | async as courses; else loadingAssignments">
+                <div *ngFor="let course of courses" class="course">
+                    <dt>{{ course.name }}</dt>
+                    <dd (click)="selectAssignment(assignment, course)" *ngFor="let assignment of course.assignments"
+                        [ngClass]="{'selected': (activeAssignment$ | async)?.assignment?.id === assignment.id}">
+                        {{ assignment.name }}
+                    </dd>
+                </div>
+            </dl>
+            <ng-template #loadingAssignments>
+                Loading Assignments...
+            </ng-template>
         </div>
     </div>
-    <div class="right">
-        <div class="nav-name">Projects</div>
+    <div class="right" *ngIf="user$ | async as user">
+        <p>Welcome, {{ user.firstName }} {{ user.lastName }}</p>
         <div class="nav-icons">
-            <div class="notification-icon">
-                <img src="icons/bell-regular.svg" alt="Notifications"/>
-                <span class="notification-badge">3</span>
+            <div class="notifications" (clickOutside)="closeNotifications()" (click)="toggleNotifications()">
+                <div class="notifications-container">
+                    <div class="notification-icon">
+                        <img
+                            src="icons/bell-regular.svg"
+                            alt="Notifications"
+                        />
+                        <span class="notifications-badge" *ngIf="notifications$ | async as notifications">
+                    {{ notifications.length }}
+                </span>
+                    </div>
+                    <div
+                        class="notifications-dropdown"
+                        [ngClass]="{'hidden': isHiddenNotifications}"
+                    >
+                        <ng-container *ngIf="notifications$ | async as notifications">
+                            <div class="notification-item" *ngFor="let notification of notifications">
+                                <div class="notification-content" (click)="navigateToNotification(notification)">
+                                    <div class="unread-dot" *ngIf="!notification.isRead"></div>
+                                    <div class="notification-text">
+                                        <p>{{ notification.message }}</p>
+                                        <span
+                                            class="notification-date">{{ notification.timestamp | date:'short' }}</span>
+                                    </div>
+                                </div>
+                                <div class="delete-notification">
+                                    <button (click)="deleteNotification(notification.notificationId)">
+                                        <img src="icons/delete-icon.svg" alt="Delete notification"/>
+                                    </button>
+                                </div>
+                            </div>
+                            <div *ngIf="notifications.length === 0" class="no-notifications">
+                                No notifications
+                            </div>
+                        </ng-container>
+                    </div>
+                </div>
             </div>
-            <div *ngIf="user$ | async as user; else loadingUser">
-                <span class="nav-name">Welcome, {{ user.email + " - " + user.role }}</span>
-            </div>
-            <ng-template #loadingUser>
-                Loading...
-            </ng-template>
-            <div class="user-icon" (click)="toggleHiddenprofile()" clickOutside
-                 (clickOutside)="closeProfileDropdown()"></div>
+            <div class="user-icon" (click)="toggleHiddenprofile()" (clickOutside)="closeProfileDropdown()"></div>
             <div class="dropdownProfile" [hidden]="isHiddenProfile">
                 <ul>
+                    <li class="user-name">{{user.firstName}} {{user.lastName}}</li>
+                    <li (click)="navigateToSettings()">Settings</li>
                     <li (click)="navigateToProfile()">My profile</li>
                     <li (click)="logout()">Log out</li>
                 </ul>

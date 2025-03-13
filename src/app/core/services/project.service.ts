@@ -1,38 +1,40 @@
-import { inject, Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { environment } from '../../../environments/environment';
-import { Project } from '../../shared/models/project.model';
-import { response } from 'express';
-import { Application } from '../../shared/models/application.model';
-import { ApplicationCreate } from '../../shared/models/application.model';
+import {inject, Injectable} from '@angular/core';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {environment} from '../../../environments/environment';
+import {Project} from '../../shared/models/project.model';
+import {Application} from '../../shared/models/application.model';
+import {ApplicationCreate} from '../../shared/models/application.model';
 import {ProjectStatusEnum} from '../../shared/models/ProjectStatus.enum';
-import { createFeedback, Feedback } from '../../shared/models/feedback.model';
+import {createFeedback, Feedback} from '../../shared/models/feedback.model';
+import {ApplicationStatusEnum} from '../../shared/models/ApplicationStatus.enum';
 
-@Injectable({ providedIn: 'root' })
+@Injectable({providedIn: 'root'})
 export class ProjectService {
     private http = inject(HttpClient);
 
     getAllProjects(assignmentId: number): Observable<Project[]> {
-        const headers = new HttpHeaders().set('assignmentId', assignmentId.toString());
-
-        let response = this.http.get<Project[]>(`${environment.apiBaseUrl}/api/projects`, {
-            withCredentials: true,
-            headers: headers
+        return this.http.get<Project[]>(`${environment.apiBaseUrl}/api/projects/assignment/${assignmentId.toString()}`, {
+            withCredentials: true
         });
+    }
 
-        response.subscribe(projects => {
-            console.log('projects:', projects);
+    getAllGlobalProjects(): Observable<Project[]> {
+        return this.http.get<Project[]>(`${environment.apiBaseUrl}/api/projects/global`, {
+                withCredentials: true
+            }
+        );
+    }
+
+    importProject(projectId: number, assignmentId: number): Observable<Project> {
+        return this.http.post<Project>(`${environment.apiBaseUrl}/api/projects/${projectId}/import/${assignmentId}`, {}, {
+            withCredentials: true
         });
-
-        return response;
     }
 
     getAllPublishedProjects(assignmentId: number): Observable<Project[]> {
-        const headers: HttpHeaders = new HttpHeaders().set('assignmentId', assignmentId.toString());
-        return this.http.get<Project[]>(`${environment.apiBaseUrl}/api/projects/published`, {
-            withCredentials: true,
-            headers: headers
+        return this.http.get<Project[]>(`${environment.apiBaseUrl}/api/projects/${assignmentId.toString()}/published`, {
+            withCredentials: true
         });
     }
 
@@ -40,21 +42,34 @@ export class ProjectService {
         assignmentId: number,
         projectData: Project
     ): Observable<Project> {
-        const headers = new HttpHeaders()
-            .append('assignmentId', assignmentId.toString())
-            .append('Content-Type', 'application/json');
-
-        return this.http.post<Project>(`${environment.apiBaseUrl}/api/projects/create`, projectData, {
-            withCredentials: true,
-            headers: headers
+        return this.http.post<Project>(`${environment.apiBaseUrl}/api/projects/${assignmentId}`, projectData, {
+            withCredentials: true
         });
     }
 
-    getProject(projectId: string): Observable<Project> {
+    createGlobalProject(projectData: Project): Observable<Project> {
+        return this.http.post<Project>(`${environment.apiBaseUrl}/api/projects/global`, projectData, {
+            withCredentials: true
+        });
+    }
+
+    updateProject(projectId: number, projectData: Project): Observable<Project> {
+        return this.http.patch<Project>(`${environment.apiBaseUrl}/api/projects/${projectId}`, projectData, {
+            withCredentials: true
+        });
+    }
+
+    getProjectById(projectId: string): Observable<Project> {
         if (!projectId) {
             throw new Error('Project ID is required');
         }
         return this.http.get<Project>(`${environment.apiBaseUrl}/api/projects/${projectId}`, {
+            withCredentials: true
+        });
+    }
+
+    getProjectByUserAndAssignmentId(assignmentId: string): Observable<Project> {
+        return this.http.get<Project>(`${environment.apiBaseUrl}/api/projects/member/assignment/${assignmentId}`, {
             withCredentials: true
         });
     }
@@ -65,18 +80,26 @@ export class ProjectService {
         });
     }
 
-    approveApplication(projectId: string, applicationId: number): Observable<void> {
-        return this.http.post<void>(`${environment.apiBaseUrl}/api/projects/${projectId}/applications/${applicationId}/approve`, {}, {
+    reviewApplication(applicationId: number, status: ApplicationStatusEnum): Observable<Application> {
+        const headers: HttpHeaders = new HttpHeaders()
+            .set('status', status);
+        return this.http.post<Application>(`${environment.apiBaseUrl}/api/applications/${applicationId}/review`, {}, {
+            withCredentials: true,
+            headers: headers
+        });
+    }
+
+    joinProject(applicationId: number): Observable<Application> {
+        return this.http.post<Application>(`${environment.apiBaseUrl}/api/applications/${applicationId}/join`, {}, {
             withCredentials: true
         });
     }
 
-    rejectApplication(projectId: string, applicationId: number): Observable<void> {
-        return this.http.post<void>(`${environment.apiBaseUrl}/api/projects/${projectId}/applications/${applicationId}/reject`, {}, {
+    claimProject(projectId: number): Observable<Project> {
+        return this.http.post<Project>(`${environment.apiBaseUrl}/api/projects/${projectId}/claim`, {}, {
             withCredentials: true
         });
     }
-
 
     getFeedback(projectId: string): Observable<Feedback[]> {
         return this.http.get<Feedback[]>(`${environment.apiBaseUrl}/api/projects/${projectId}/feedback`, {
@@ -93,11 +116,22 @@ export class ProjectService {
         });
     }
 
-    updateProjectStatus(projectId: number, status: ProjectStatusEnum): Observable<Project>{
+    updateFeedbackByTeacher(feedbackId: number, feedback: Feedback): Observable<Feedback> {
+        return this.http.put<Feedback>(`${environment.apiBaseUrl}/api/feedback/${feedbackId}`, feedback, {
+            withCredentials: true
+        });
+    }
+
+    deleteFeedbackByTeacher(feedbackId: number): Observable<void> {
+        return this.http.delete<void>(`${environment.apiBaseUrl}/api/feedback/${feedbackId}`, {
+            withCredentials: true
+        });
+    }
+
+    updateProjectStatus(projectId: number, status: ProjectStatusEnum): Observable<Project> {
         const headers: HttpHeaders = new HttpHeaders()
-            .set('projectId', projectId.toString())
             .set('status', status);
-        return this.http.post<Project>(`${environment.apiBaseUrl}/api/projects/status`,   {}, {
+        return this.http.post<Project>(`${environment.apiBaseUrl}/api/projects/${projectId}/status`, {}, {
             withCredentials: true,
             headers: headers
         });
@@ -105,18 +139,25 @@ export class ProjectService {
 
     publishAllProjects(assignmentId: number): Observable<Project[]> {
         const headers: HttpHeaders = new HttpHeaders().set('assignmentId', assignmentId.toString());
-        return this.http.post<Project[]>(`${environment.apiBaseUrl}/api/assignments/${assignmentId}/projects/publish`, {}, {
+        return this.http.post<Project[]>(`${environment.apiBaseUrl}/api/projects/${assignmentId}/publish`, {}, {
             withCredentials: true,
             headers: headers
         });
     }
 
-    applyForProject(projectId: string, application: ApplicationCreate): Observable<Project> {
+
+    applyForProject(projectId: string, application: ApplicationCreate): Observable<Application> {
         const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-        return this.http.post<Project>(`${environment.apiBaseUrl}/api/projects/${projectId}/apply`, application, {
+        return this.http.post<Application>(`${environment.apiBaseUrl}/api/projects/${projectId}/apply`, application, {
             withCredentials: true,
             headers: headers
+        });
+    }
+
+    removeMember(projectId: string, memberId: string): Observable<void> {
+        return this.http.delete<void>(`${environment.apiBaseUrl}/api/projects/${projectId}/members/${memberId}`, {
+            withCredentials: true
         });
     }
 }

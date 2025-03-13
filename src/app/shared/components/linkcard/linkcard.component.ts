@@ -1,32 +1,24 @@
 import {CommonModule} from '@angular/common';
-import {Component} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {ButtonComponent} from '../button/button.component';
 
 @Component({
     selector: 'app-linkcard',
-    imports: [CommonModule],
+    imports: [CommonModule, ButtonComponent],
     templateUrl: './linkcard.component.html',
     styleUrls: ['./linkcard.component.scss']
 })
-export class LinkcardComponent {
-    // Mapping tussen linkType en de juiste icon URL
-    private iconMapping: { [key: string]: string } = {
-        'Github': 'icons/links/Github.svg',
-        'Trello': 'icons/links/Trello.svg',
-        'Jira': 'icons/links/Jira.svg',
-        'Slack': 'icons/links/Slack.svg'
-    };
+export class LinkcardComponent implements OnInit {
+    @Input() url: string = '';
+    @Input() variant!: string;
 
-    // De backend stuurt nu alleen een `linkType` en `url`
-    //NOTE: Lucas past dit aan zodra dynmic data beschikbaar is
-    links = [
-        {url: 'https://github.com', linkType: 'Github'},
-        {url: 'https://trello.com', linkType: 'Trello'},
-        {url: 'https://jira.com', linkType: 'Jira'},
-        {url: 'https://slack.com', linkType: 'Slack'}
-    ];
+    ngOnInit() {
+        if (this.url && !this.url.startsWith('http://') && !this.url.startsWith('https://')) {
+            this.url = 'http://' + this.url;
+        }
+    }
 
-    // Methode om de juiste icon URL te krijgen
-    getIconUrl(linkType: string): string {
-        return this.iconMapping[linkType] || 'icons/default.svg';
+    openLink(url: string) {
+        window.open(url, '_blank');
     }
 }
