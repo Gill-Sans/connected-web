@@ -12,6 +12,7 @@ import {AuthEffects} from './auth/store/auth.effects';
 import {authInterceptor} from './auth/interceptor/auth.interceptor';
 import {FormsModule} from '@angular/forms';
 import {NgxEditorModule} from 'ngx-editor';
+import {provideCharts, withDefaultRegisterables} from 'ng2-charts';
 
 export const appConfig: ApplicationConfig = {
     providers: [
@@ -57,5 +58,6 @@ export const appConfig: ApplicationConfig = {
                 },
             })
         ),
+        provideCharts(withDefaultRegisterables())
     ]
 };
