@@ -18,18 +18,6 @@ import {ToastService} from '../../../core/services/toast.service';
 import {AuthorizationService} from '../../../core/services/authorization.service';
 import {MdEditorComponent} from '../../../shared/components/md-editor/md-editor.component';
 
-// Validator to check minimum number of words
-function minWordsValidator(minWords: number) {
-    return (control: AbstractControl): ValidationErrors | null => {
-        const value: string = control.value || '';
-        if (!value.trim()) {
-            return null;
-        }
-        const wordCount = value.trim().split(/\s+/).length;
-        return wordCount < minWords ? { minWords: { required: minWords, actual: wordCount } } : null;
-    };
-}
-
 // Validator to ensure at least one tag is added
 function minTagsValidator(min: number) {
     return (control: AbstractControl): ValidationErrors | null => {
@@ -79,7 +67,7 @@ export class ProjectUpdateComponent implements OnInit, OnDestroy {
         ]),
         description: new FormControl('', [
             Validators.required,
-            minWordsValidator(50)
+            Validators.minLength(250)
         ]),
         shortDescription: new FormControl('', [
             Validators.required,
