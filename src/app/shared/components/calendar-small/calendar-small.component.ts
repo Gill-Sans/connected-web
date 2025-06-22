@@ -30,7 +30,7 @@ class CustomDateFormatter extends CalendarNativeDateFormatter {
         CalendarEventTitleFormatter
     ],
     templateUrl: './calendar-small.component.html',
-    styleUrls: ['node_modules/angular-calendar/dist/css/angular-calendar.css', './calendar-small.component.scss'],
+    styleUrls: ['./calendar-small.component.scss'],
     encapsulation: ViewEncapsulation.None
 })
 export class CalendarSmallComponent implements OnInit, OnChanges {

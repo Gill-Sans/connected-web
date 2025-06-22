@@ -27,6 +27,8 @@
         "@stomp/stompjs": "^7.0.0",
         "ace-builds": "^1.37.5",
         "angular-calendar": "^0.31.1",
+        "angular-draggable-droppable": "^8.0.0",
+        "angular-resizable-element": "^7.0.2",
         "bootstrap": "^5.3.3",
         "chart.js": "^4.4.8",
         "date-fns": "^4.1.0",
