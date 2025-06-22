@@ -5,3 +5,18 @@
         <router-outlet></router-outlet>
     </div>
 </div>
+
+
+<div class="dialog-backdrop" *ngIf="showEmailDialog">
+    <div class="dialog">
+        <h3>Verify your email </h3>
+        <input type="email" [(ngModel)]="emailToVerify" placeholder="Enter your email" class="dialog-input" />
+        <div class="dialog-button-row">
+            <app-button variant="primary" (click)="sendVerificationEmail()" [disabled]="isVerifying || !emailToVerify">
+                {{ isVerifying ? 'Sending...' : 'Send Verification Email' }}
+            </app-button>
+            <app-button variant="neutral" (click)="closeEmailDialog()">Close</app-button>
+        </div>
+        <div *ngIf="emailVerificationMessage">{{ emailVerificationMessage }}</div>
+    </div>
+</div>

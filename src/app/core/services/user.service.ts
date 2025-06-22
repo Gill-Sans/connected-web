@@ -38,4 +38,28 @@ export class UserService {
         );
     }
 
+    sendVerificationEmail(email: string): Observable<void>{
+        return this.http.post<void>(
+            `${this.baseUrl}/send-verification-email`,
+            { email },
+            { withCredentials: true }
+        )
+    }
+
+    checkEmailVerified(email: string): Observable<boolean> {
+        return this.http.post<boolean>(
+            `${this.baseUrl}/check-email-verified`,
+            { email },
+            { withCredentials: true }
+        );
+    }
+
+    getCurrentUser(): Observable<User> {
+        return this.http.get<User>(
+            `${this.baseUrl}/user`,
+            { withCredentials: true }
+        );
+    }
+
+
 }

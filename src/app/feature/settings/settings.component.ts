@@ -8,6 +8,7 @@ import {ButtonComponent} from '../../shared/components/button/button.component';
 import {HasRoleDirective} from '../../shared/directives/HasRole.directive';
 import {Role} from '../../auth/models/role.model';
 import {ConfirmClickDirective} from '../../shared/directives/confirmClick.directive';
+import {UserService} from '../../core/services/user.service';
 
 @Component({
     selector: 'app-settings',
@@ -22,12 +23,18 @@ import {ConfirmClickDirective} from '../../shared/directives/confirmClick.direct
     ],
 })
 export class SettingsComponent {
+    emailToVerify: string = '';
+    emailVerificationMessage: string = '';
     private readonly http: HttpClient = inject(HttpClient);
     private readonly toastService: ToastService = inject(ToastService);
     protected readonly Role = Role;
     inviteLink: string = '';
     isLoading: boolean = false;
     errorMessage: string = '';
+
+    constructor(
+        private userService: UserService
+    ) {}
 
     generateInviteLink(): void {
         this.isLoading = true;
@@ -66,6 +73,21 @@ export class SettingsComponent {
             error: (error) => {
                 console.error('Error requesting account deletion', error);
                 this.errorMessage = 'Error requesting account deletion';
+                this.isLoading = false;
+            }
+        });
+    }
+
+    verifyEmail(): void {
+        this.isLoading = true;
+        this.emailVerificationMessage = '';
+        this.userService.sendVerificationEmail(this.emailToVerify).subscribe({
+            next: () => {
+                this.emailVerificationMessage = 'Verification email sent. Please check your inbox.';
+                this.isLoading = false;
+            },
+            error: () => {
+                this.emailVerificationMessage = 'Failed to send verification email.';
                 this.isLoading = false;
             }
         });
