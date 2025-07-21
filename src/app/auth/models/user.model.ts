@@ -9,6 +9,7 @@ export interface User {
     email: string,
     avatarUrl?: string,
     role: Role,
+    isVerified: boolean,
     linkedinUrl?: string,
     fieldOfStudy?: string,
     aboutMe?: string,

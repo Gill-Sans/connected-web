@@ -27,13 +27,16 @@ import {
     AnnouncementOverviewComponent
 } from './feature/announcements/announcement-overview/announcement-overview.component';
 import {TeacherGuard} from './core/guards/teacher.guard';
+import {EmailVerifiedGuard} from './auth/guards/email-verified.guard';
+import {VerifyEmailComponent} from './feature/verify-email/verify-email/verify-email.component';
+import {VerifyTokenComponent} from './feature/verify-email/verify-token/verify-token.component';
 
 export const routes: Routes = [
     {
         // Authenticated routes
         path: '',
         component: MainLayoutComponent,
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard, EmailVerifiedGuard],
         children: [
             // Routes that do NOT require an active assignment context:
             { path: 'courses', canActivate: [TeacherGuard], component: CourseOverviewComponent },
@@ -84,7 +87,9 @@ export const routes: Routes = [
             // Password login for researchers.
             { path: 'guest', component: PasswordLoginComponent },
             // Register route (special registration logic for researchers).
-            { path: 'register', component: RegisterComponent }
+            { path: 'register', component: RegisterComponent },
+            { path: 'verify-email', component: VerifyEmailComponent },
+            { path: 'verify', component: VerifyTokenComponent }
         ]
     },
     { path: '**', redirectTo: '' }
