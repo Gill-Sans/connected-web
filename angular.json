@@ -42,6 +42,7 @@
                         ],
                         "styles": [
                             "src/styles.scss",
+                            "node_modules/angular-calendar/scss/angular-calendar.scss",
                             "node_modules/font-awesome/css/font-awesome.min.css",
                             "node_modules/ngx-markdown-editor/assets/highlight.js/agate.min.css"
                         ],
