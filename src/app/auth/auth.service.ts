@@ -35,7 +35,7 @@ export class AuthService {
 
     logout(): void {
         this.ngZone.run(() => {
-            this.http.post(`${environment.apiBaseUrl}/logout`, {}, { withCredentials: true }).subscribe({
+            this.http.post(`${environment.apiBaseUrl}/auth/logout`, {}, { withCredentials: true }).subscribe({
                 next: () => {
                     this.deleteCookie('JSESSIONID');
                     this.authFacade.redirectToLogin();
