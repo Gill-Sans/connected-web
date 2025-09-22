@@ -51,8 +51,7 @@ export const routes: Routes = [
                 children: [
                     { path: '', component: ProjectOverviewComponent },
                     { path: 'create', component: ProjectCreateComponent },
-                    { path: '', children: projectDetailsRoutes },
-                    // You can add more researcher-specific routes here (like dashboard) if needed.
+                    { path: '', children: projectDetailsRoutes }
                 ]
             },
 
@@ -64,11 +63,11 @@ export const routes: Routes = [
                     { path: 'dashboard', component: DashboardComponent },
                     { path: 'projects', component: ProjectOverviewComponent },
                     { path: 'projects/create', component: ProjectCreateComponent },
-                    { path: 'projects', children: projectDetailsRoutes },
-                    { path: 'projects/:id/apply', component: ApplicationsCreateComponent },
+                    { path: 'projects', children: projectDetailsRoutes},
+                    { path: 'projects/:id/apply', component: ApplicationsCreateComponent},
                     { path: 'deadlines', component: DeadlineOverviewComponent },
                     { path: 'applications', component: ApplicationsOverviewComponent },
-                    { path: 'applications/:id', component: ApplicationDetailsComponent },
+                    { path: 'applications/:id', component: ApplicationDetailsComponent},
                     { path: 'students', canActivate: [TeacherGuard], component: StudentOverviewComponent },
                     {path: 'announcements', canActivate: [TeacherGuard],  component: AnnouncementOverviewComponent },
                     { path: 'announcements/create', canActivate: [TeacherGuard],  component: AnnouncementCreateComponent },
