@@ -1,0 +1,13 @@
+node_modules
+**/node_modules
+dist
+.angular
+coverage
+.git
+.gitignore
+.vscode
+.idea
+npm-debug.log*
+yarn-error.log*
+.pnpm-store
+.cache
