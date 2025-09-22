@@ -17,11 +17,11 @@ export class VerifyTokenComponent implements OnInit {
     private readonly route = inject(ActivatedRoute);
     private readonly router = inject(Router);
     private readonly http = inject(HttpClient);
-    private readonly authFacade = inject(AuthFacade);
 
-    isLoading = true;
-    isError = false;
+    isLoading: boolean = true;
+    isError: boolean = false;
     message: string | null = null;
+    showLoginButton: boolean = false;
 
     ngOnInit(): void {
         const token = this.route.snapshot.queryParamMap.get('token');
@@ -32,8 +32,7 @@ export class VerifyTokenComponent implements OnInit {
                         this.isLoading = false;
                         this.isError = false;
                         this.message = 'Your email has been successfully verified. You can now log in.';
-                        // Optionally, dispatch an action to reload the user session if they were already logged in.
-                        this.authFacade.loadSession();
+                        this.showLoginButton = true;
                     },
                     error: (err) => {
                         this.isLoading = false;
