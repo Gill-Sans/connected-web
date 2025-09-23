@@ -2,12 +2,13 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {catchError, Observable} from 'rxjs';
 import {CreateReview, Review} from '../../shared/models/review.model';
+import { environment } from "../../../environments/environment";
 
 @Injectable({
     providedIn: 'root'
 })
 export class ReviewService {
-    private readonly baseUrl = 'http://localhost:8080/api';
+    private readonly baseUrl = environment.apiBaseUrl
 
     constructor(private http: HttpClient) {
     }

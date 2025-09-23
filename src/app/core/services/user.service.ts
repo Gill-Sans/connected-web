@@ -3,12 +3,13 @@ import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {User} from '../../auth/models/user.model';
 import {catchError} from 'rxjs/operators';
+import {environment} from '../../../environments/environment';
 
 @Injectable({
     providedIn: 'root'
 })
 export class UserService {
-    private readonly baseUrl = 'http://localhost:8080/api/users';
+    private readonly baseUrl = environment.apiBaseUrl
 
     constructor(private http: HttpClient) {
     }
