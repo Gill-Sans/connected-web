@@ -8,13 +8,12 @@ import {environment} from '../../../environments/environment';
     providedIn: 'root'
 })
 export class TagService {
-    private readonly baseUrl = `${environment.apiBaseUrl}/tags`;
 
     constructor(private http: HttpClient) {
     }
 
     searchTags(query: string): Observable<tag[]> {
-        return this.http.get<tag[]>(`${this.baseUrl}/search?query=${query}`, { withCredentials: true })
+        return this.http.get<tag[]>(`${environment.apiBaseUrl}/api/tags/search?query=${query}`, { withCredentials: true })
             .pipe(
                 catchError((error: HttpErrorResponse) => {
                     console.error("Error fetching tags:", error);
@@ -25,7 +24,7 @@ export class TagService {
     }
 
     createTag(tag: tagCreate): Observable<tag> {
-        return this.http.post<tag>(`${this.baseUrl}`, tag, { withCredentials: true })
+        return this.http.post<tag>(`${environment.apiBaseUrl}/api/tags`, tag, { withCredentials: true })
             .pipe(
                 catchError((error: HttpErrorResponse) => {
                     console.error("Error creating tag:", error);

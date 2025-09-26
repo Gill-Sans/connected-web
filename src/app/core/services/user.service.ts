@@ -15,14 +15,14 @@ export class UserService {
     }
 
     getUserProfile(id: number): Observable<User> {
-        return this.http.get<User>(`${this.baseUrl}/${id}`, {withCredentials: true});
+        return this.http.get<User>(`${this.baseUrl}/api/users/${id}`, {withCredentials: true});
     }
 
     //TODO change any type to userupdate type
     updateUserProfile(updatedUser: Partial<User>): Observable<User> {
 
         return this.http.patch<User>(
-            `${this.baseUrl}/update`,
+            `${this.baseUrl}/api/users/update`,
             updatedUser,
             {
                 withCredentials: true

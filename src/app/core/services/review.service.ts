@@ -16,7 +16,7 @@ export class ReviewService {
     // Create a new review
     createReview(projectId: string, review: CreateReview): Observable<Review> {
         return this.http.post<Review>(
-            `${this.baseUrl}/projects/${projectId}/reviews`,
+            `${this.baseUrl}/api/projects/${projectId}/reviews`,
             review,
             {
                 withCredentials: true
@@ -35,7 +35,7 @@ export class ReviewService {
 
     // Get all reviews by projectId
     getReviewsByProjectId(projectId: string): Observable<Review[]> {
-        return this.http.get<Review[]>(`${this.baseUrl}/projects/${projectId}/reviews`, {
+        return this.http.get<Review[]>(`${this.baseUrl}/api/projects/${projectId}/reviews`, {
             withCredentials: true
         }).pipe(
             catchError((error: HttpErrorResponse) => {
@@ -52,7 +52,7 @@ export class ReviewService {
     // Update Review
     updateReview(reviewId: string, review: CreateReview): Observable<Review> {
         return this.http.patch<Review>(
-            `${this.baseUrl}/reviews/${reviewId}`,
+            `${this.baseUrl}/api/reviews/${reviewId}`,
             review,
             {
                 withCredentials: true
@@ -72,7 +72,7 @@ export class ReviewService {
     // Delete Review
     deleteReview(reviewId: string): Observable<void> {
         return this.http.delete<void>(
-            `${this.baseUrl}/reviews/${reviewId}`,
+            `${this.baseUrl}/api/reviews/${reviewId}`,
             {
                 withCredentials: true
             }
