@@ -108,9 +108,12 @@
                         },
                         "development": {
                             "buildTarget": "connected-web:build:development"
+                        },
+                        "local": {
+                            "buildTarget": "connected-web:build:local"
                         }
                     },
-                    "defaultConfiguration": "development"
+                    "defaultConfiguration": "local"
                 },
                 "extract-i18n": {
                     "builder": "@angular-devkit/build-angular:extract-i18n"
