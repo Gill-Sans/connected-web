@@ -2,14 +2,11 @@
     <div class="profile-header">
         <div class="profile-info">
             <img
-                *ngIf="user?.avatarUrl; else placeholderImage"
+                *ngIf="user?.profileImageUrl"
                 class="user-image"
-                [src]="user?.avatarUrl"
+                [src]="user?.profileImageUrl"
                 alt="profile picture"
             />
-            <ng-template #placeholderImage>
-                <img class="user-image" src="icons/placeholderpic.svg" />
-            </ng-template>
             <p class="profile-name">{{ user?.firstName }} {{ user?.lastName }}</p>
         </div>
         <!-- Show edit button if not editing, and save button when editing -->
