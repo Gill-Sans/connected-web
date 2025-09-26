@@ -1,7 +1,7 @@
 <div class="announcement">
     <div class="announcement-header">
         <div class="announcement-user">
-            <div class="placeholder-avatar"></div>
+            <div class="placeholder-avatar"><img [src]="announcement.createdBy.profileImageUrl" alt="avatar"></div>
             <p class="announcement-author">{{ announcement.createdBy.firstName }} {{ announcement.createdBy.lastName }}</p>
         </div>
         <div class="announcement-date-container">

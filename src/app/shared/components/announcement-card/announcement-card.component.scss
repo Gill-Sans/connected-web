@@ -22,12 +22,13 @@
         gap: 0.5rem;
     }
 
-    .placeholder-avatar {
-        background-color: $primary-color;
+    .placeholder-avatar img{
         width: 28px;
         height: 28px;
+        max-width: 28px;
+        max-height: 28px;
         border-radius: 50%;
-        overflow: hidden;
+        object-fit: cover;
     }
 
     .announcement-date-container {

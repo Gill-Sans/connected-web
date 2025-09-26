@@ -68,7 +68,7 @@
                     /{{ project.teamSize }}</span></h3>
                 <ul>
                     <li class="owner-section" *ngIf="project.productOwner; else noOwner">
-                        <img class="avatar" [src]="'img/lucas.jpeg'" alt="avatar"/>
+                        <img class="avatar" [src]="project.productOwner.profileImageUrl" alt="avatar"/>
                         <span
                             class="owner-name">{{ project.productOwner.firstName }} {{ project.productOwner.lastName }}</span>
                     </li>
@@ -76,7 +76,7 @@
                         <li class="no-owner">No product owner</li>
                     </ng-template>
                     <li *ngFor="let member of getFilteredMembers(project.members || [], project.productOwner)">
-                        <img class="avatar" [src]="'img/lucas.jpeg'" alt="avatar"/>
+                        <img class="avatar" [src]="project.productOwner.profileImageUrl" alt="avatar"/>
                         <span>{{ member?.firstName || "" }} {{ member?.lastName || "" }}</span>
                     </li>
                 </ul>
