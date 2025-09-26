@@ -7,7 +7,7 @@ export interface User {
     firstName: string,
     lastName: string,
     email: string,
-    avatarUrl?: string,
+    profileImageUrl?: string,
     role: Role,
     isVerified: boolean,
     linkedinUrl?: string,
