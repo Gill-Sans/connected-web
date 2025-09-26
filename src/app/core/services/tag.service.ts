@@ -14,7 +14,7 @@ export class TagService {
     }
 
     searchTags(query: string): Observable<tag[]> {
-        return this.http.get<tag[]>(`${this.baseUrl}/search?query=${query}`, { withCredentials: true })
+        return this.http.get<tag[]>(`${this.baseUrl}/tag/search?query=${query}`, { withCredentials: true })
             .pipe(
                 catchError((error: HttpErrorResponse) => {
                     console.error("Error fetching tags:", error);
