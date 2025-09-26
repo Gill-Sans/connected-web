@@ -1,5 +1,7 @@
 export enum ProjectStatusEnum {
-    PENDING= 'PENDING',
+    PENDING = 'PENDING',
+    NEEDS_REVISION = 'NEEDS_REVISION',
+    REVISED = 'REVISED',
     APPROVED = 'APPROVED',
     PUBLISHED = 'PUBLISHED',
     REJECTED = 'REJECTED',

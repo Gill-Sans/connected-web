@@ -17,6 +17,10 @@ import {ActiveAssignment} from '../../../../../shared/models/activeAssignment.mo
 import {ToastService} from '../../../../../core/services/toast.service';
 import {Role} from '../../../../../auth/models/role.model';
 import {Assignment} from '../../../../../shared/models/assignment.model';
+import {
+    ProjectStatusSelectComponent
+} from '../../../../../shared/components/project-status-select/project-status-select.component';
+import {StatuscardComponent} from '../../../../../shared/components/statuscard/statuscard.component';
 
 @Component({
     selector: 'app-details-overview',
@@ -26,6 +30,8 @@ import {Assignment} from '../../../../../shared/models/assignment.model';
         MarkdownModule,
         ButtonComponent,
         TagcardComponent,
+        ProjectStatusSelectComponent,
+        StatuscardComponent,
     ],
     templateUrl: './details-overview.component.html',
     styleUrl: './details-overview.component.scss'
@@ -110,7 +116,7 @@ export class DetailsOverviewComponent implements OnInit, OnDestroy {
         return members.filter(member => member.id !== owner.id);
     }
 
-    updateProjectStatus(status: ProjectStatusEnum) {
+    updateProjectStatus(_t4: Project, status: ProjectStatusEnum) {
         if (this.projectId) {
             this.projectService.updateProjectStatus(this.projectId, status).subscribe(
                 (updatedProject: Project) => {

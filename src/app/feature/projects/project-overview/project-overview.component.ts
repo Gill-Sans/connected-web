@@ -13,6 +13,7 @@ import {ProjectStatusEnum} from '../../../shared/models/ProjectStatus.enum';
 import {AuthorizationService} from '../../../core/services/authorization.service';
 import {ButtonComponent} from '../../../shared/components/button/button.component';
 import {StatuscardComponent} from '../../../shared/components/statuscard/statuscard.component';
+import {ProjectStatusSelectComponent} from '../../../shared/components/project-status-select/project-status-select.component';
 
 type TabValue = 'all' | 'global';
 
@@ -28,7 +29,8 @@ interface TabOption {
         CommonModule,
         RouterOutlet,
         ButtonComponent,
-        StatuscardComponent
+        StatuscardComponent,
+        ProjectStatusSelectComponent
     ],
     templateUrl: './project-overview.component.html',
     styleUrl: './project-overview.component.scss'
