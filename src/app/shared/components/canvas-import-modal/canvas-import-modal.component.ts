@@ -1,7 +1,13 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Observable } from 'rxjs';
+import {map, Observable} from 'rxjs';
+import {Course} from '../../models/course.model';
+
+interface GroupedCourses {
+    yearLabel: string;
+    courses: Course[];
+}
 
 @Component({
     selector: 'app-canvas-import-modal',
@@ -10,7 +16,7 @@ import { Observable } from 'rxjs';
     templateUrl: './canvas-import-modal.component.html',
     styleUrls: ['./canvas-import-modal.component.scss']
 })
-export class CanvasImportModalComponent {
+export class CanvasImportModalComponent implements OnInit {
     /**
      * Type of the modal content.
      * 'course' – for importing courses.
@@ -43,6 +49,36 @@ export class CanvasImportModalComponent {
 
     selectedItem: any = null;
     isLoading: boolean = false;
+
+    ngOnInit() {
+        if (this.type === 'course' && this.items$) {
+            this.items$ = this.items$.pipe(
+                map((courses: Course[]) => this.groupCoursesByAcademicYear(courses))
+            );
+        }
+    }
+
+    private groupCoursesByAcademicYear(courses: Course[]): GroupedCourses[] {
+        const groups: { [key: string]: Course[] } = {};
+
+        for (const course of courses) {
+            const createdAt = new Date(course.canvasCreatedAt);
+            const year = createdAt.getUTCFullYear();
+            const yearLabel = `Year ${year}-${year + 1}`;
+
+            if (!groups[yearLabel]) {
+                groups[yearLabel] = [];
+            }
+            groups[yearLabel].push(course);
+        }
+
+        return Object.keys(groups)
+            .sort((a, b) => b.localeCompare(a))
+            .map(yearLabel => ({
+                yearLabel,
+                courses: groups[yearLabel]
+            }));
+    }
 
     selectItem(item: any) {
         this.selectedItem = item;
