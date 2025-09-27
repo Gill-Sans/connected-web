@@ -2,14 +2,18 @@ import {Component, inject} from '@angular/core';
 import {environment} from '../../../../environments/environment';
 import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
 import {HttpClient} from '@angular/common/http';
-import {CommonModule} from '@angular/common';
+import {CommonModule, NgOptimizedImage} from '@angular/common';
+import {ButtonComponent} from '../../../shared/components/button/button.component';
 
 @Component({
   selector: 'app-verify-email',
-  imports: [
-      CommonModule,
-      ReactiveFormsModule
-  ],
+    standalone: true,
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        ButtonComponent,
+        NgOptimizedImage
+    ],
   templateUrl: './verify-email.component.html',
   styleUrl: './verify-email.component.scss'
 })
