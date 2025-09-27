@@ -8,7 +8,6 @@
             <ng-container *ngIf="items$ | async as items; else loading">
                 <ng-container *ngIf="items.length > 0; else noItems">
 
-                    <!-- Courses grouped by academic year -->
                     <ng-container *ngIf="type === 'course'; else assignmentsBlock">
                         <div *ngFor="let group of items" class="course-group">
                             <h3>{{ group.yearLabel }}</h3>
@@ -25,7 +24,6 @@
                         </div>
                     </ng-container>
 
-                    <!-- Assignments flat list -->
                     <ng-template #assignmentsBlock>
                         <div class="assignment-btn__container">
                             <button
@@ -52,7 +50,6 @@
                 </ng-container>
             </ng-container>
 
-            <!-- still here ✅ -->
             <ng-template #loading>
                 <p>Loading {{ type }}s...</p>
             </ng-template>
