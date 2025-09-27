@@ -166,4 +166,6 @@ export class ProjectUpdateComponent implements OnInit, OnDestroy {
             document.exitFullscreen();
         }
     }
+
+    protected readonly ProjectStatusEnum = ProjectStatusEnum;
 }
