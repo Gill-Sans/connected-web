@@ -2,14 +2,15 @@ import {Component, inject, OnInit} from '@angular/core';
 import {environment} from '../../../../environments/environment';
 import {ActivatedRoute, Router} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
-import {AuthFacade} from '../../../auth/store/auth.facade';
 import {CommonModule} from '@angular/common';
+import {ButtonComponent} from '../../../shared/components/button/button.component';
 
 @Component({
   selector: 'app-verify-token',
-  imports: [
-      CommonModule
-  ],
+    imports: [
+        CommonModule,
+        ButtonComponent
+    ],
   templateUrl: './verify-token.component.html',
   styleUrl: './verify-token.component.scss'
 })
