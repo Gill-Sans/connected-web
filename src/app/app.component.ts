@@ -5,6 +5,7 @@ import { AuthFacade } from './auth/store/auth.facade';
 import { FormsModule } from '@angular/forms';
 import { ToastComponent } from './shared/components/toast/toast.component';
 import {Subscription} from 'rxjs';
+import {BugReportComponent} from './core/bug-report/bug-report.component';
 
 
 @Component({
@@ -13,7 +14,8 @@ import {Subscription} from 'rxjs';
         CommonModule,
         RouterOutlet,
         FormsModule,
-        ToastComponent
+        ToastComponent,
+        BugReportComponent
     ],
     templateUrl: './app.component.html',
     styleUrl: './app.component.scss'
