@@ -16,13 +16,6 @@ jobs:
             -   name: Set up Docker Buildx
                 uses: docker/setup-buildx-action@v3
 
-            -   name: Build frontend Docker image
-                run: |
-                    docker build \
-                        -t connected-frontend:dev \
-                        --build-arg BUILD_ENV=dev \
-                        -f Dockerfile .
-
             -   name: Stop and remove old frontend container
                 run: |
                     docker compose -f compose.dev.yml down frontend || true
