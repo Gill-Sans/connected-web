@@ -13,7 +13,7 @@ export class AuthService {
     private ngZone: NgZone = inject(NgZone);
 
     getCurrentUser(): Observable<any> {
-        return this.http.get(`${environment.apiBaseUrl}/auth/user`, {withCredentials: true});
+        return this.http.get(`${environment.apiBaseUrl}/api/auth/user`, {withCredentials: true});
     }
 
     login(username: string, password: string): Observable<any> {
@@ -26,16 +26,16 @@ export class AuthService {
         });
 
         // This will trigger the form login flow on the backend and set the JSESSIONID cookie.
-        return this.http.post(`${environment.apiBaseUrl}/auth/login`, body.toString(), { headers, withCredentials: true });
+        return this.http.post(`${environment.apiBaseUrl}/api/auth/login`, body.toString(), { headers, withCredentials: true });
     }
 
     register(request: RegistrationRequest): Observable<any> {
-        return this.http.post(`${environment.apiBaseUrl}/auth/register`, request, { withCredentials: true });
+        return this.http.post(`${environment.apiBaseUrl}/api/auth/register`, request, { withCredentials: true });
     }
 
     logout(): void {
         this.ngZone.run(() => {
-            this.http.post(`${environment.apiBaseUrl}/logout`, {}, { withCredentials: true }).subscribe({
+            this.http.post(`${environment.apiBaseUrl}/api/auth/logout`, {}, { withCredentials: true }).subscribe({
                 next: () => {
                     this.deleteCookie('JSESSIONID');
                     this.authFacade.redirectToLogin();

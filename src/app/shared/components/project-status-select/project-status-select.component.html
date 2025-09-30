@@ -1,0 +1,10 @@
+<select
+    [ngModel]="value"
+    (ngModelChange)="onChange($event)"
+    [disabled]="disabled"
+    class="status-select"
+>
+    <option *ngFor="let status of projectStatusOptions; trackBy: trackByStatus" [ngValue]="status">
+        {{ statusLabels[status] || status }}
+    </option>
+</select>

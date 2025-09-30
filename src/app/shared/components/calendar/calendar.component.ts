@@ -26,7 +26,7 @@ registerLocaleData(localeNl);
     providers: [{provide: DateAdapter, useFactory: adapterFactory, deps: []}, CalendarUtils, CalendarDateFormatter,
         CalendarA11y, CalendarEventTitleFormatter],
     templateUrl: './calendar.component.html',
-    styleUrls: ['node_modules/angular-calendar/dist/css/angular-calendar.css', './calendar.component.scss'],
+    styleUrls: ['./calendar.component.scss'],
     encapsulation: ViewEncapsulation.None
 })
 export class CalendarComponent implements OnInit {

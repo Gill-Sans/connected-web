@@ -12,12 +12,8 @@
                         (Created by {{ project.createdBy.firstName }} {{ project.createdBy.lastName }})
                     </span>
                 </h2>
-                <div *ngIf="(canManageProject$ | async)" class="status-section"
-                     [ngClass]="project.status.toString().toLowerCase()">
-                    <div class="status-container">
-                        <div class="status-icon"></div>
-                        <span class="status-label">{{ project.status.toString().toLowerCase() }}</span>
-                    </div>
+                <div *ngIf="(canManageProject$ | async)">
+                    <app-statuscard status="{{ project.status }}">{{ project.status }}</app-statuscard>
                 </div>
             </div>
             <div class="rich-content" [innerHTML]="project.description"></div>
@@ -25,15 +21,13 @@
 
         <!-- Right sidebar with Members & Links -->
         <div class="right-sidebar">
-            <div class="update-status" *ngIf="(isTeacher$ | async) && project.status !== ProjectStatusEnum.PUBLISHED && project.members.length > 0">
+            <div class="update-status" *ngIf="(isTeacher$ | async)">
                 <h3>Update status</h3>
                 <div class="update-status-buttons">
-                    <app-button variant="primary" [disabled]="project.status === ProjectStatusEnum.APPROVED"
-                                (click)="updateProjectStatus(ProjectStatusEnum.APPROVED)">Approve
-                    </app-button>
-                    <app-button variant="neutral" [disabled]="project.status === ProjectStatusEnum.REJECTED"
-                                (click)="updateProjectStatus(ProjectStatusEnum.REJECTED)">Reject
-                    </app-button>
+                    <app-project-status-select
+                        [value]="project.status"
+                        (valueChange)="updateProjectStatus(project, $event)"
+                    ></app-project-status-select>
                 </div>
             </div>
 
@@ -74,7 +68,7 @@
                     /{{ project.teamSize }}</span></h3>
                 <ul>
                     <li class="owner-section" *ngIf="project.productOwner; else noOwner">
-                        <img class="avatar" [src]="'img/lucas.jpeg'" alt="avatar"/>
+                        <img class="avatar" [src]="project.productOwner.profileImageUrl" alt="avatar"/>
                         <span
                             class="owner-name">{{ project.productOwner.firstName }} {{ project.productOwner.lastName }}</span>
                     </li>
@@ -82,7 +76,7 @@
                         <li class="no-owner">No product owner</li>
                     </ng-template>
                     <li *ngFor="let member of getFilteredMembers(project.members || [], project.productOwner)">
-                        <img class="avatar" [src]="'img/lucas.jpeg'" alt="avatar"/>
+                        <img class="avatar" [src]="project.productOwner.profileImageUrl" alt="avatar"/>
                         <span>{{ member?.firstName || "" }} {{ member?.lastName || "" }}</span>
                     </li>
                 </ul>

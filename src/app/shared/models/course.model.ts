@@ -5,6 +5,7 @@ export interface Course {
     canvasId: number
     uuid: string
     name: string
+    canvasCreatedAt: Date
     start_at: Date
     end_at: Date
     owner_id: number

@@ -27,13 +27,16 @@ import {
     AnnouncementOverviewComponent
 } from './feature/announcements/announcement-overview/announcement-overview.component';
 import {TeacherGuard} from './core/guards/teacher.guard';
+import {EmailVerifiedGuard} from './auth/guards/email-verified.guard';
+import {VerifyEmailComponent} from './feature/verify-email/verify-email/verify-email.component';
+import {VerifyTokenComponent} from './feature/verify-email/verify-token/verify-token.component';
 
 export const routes: Routes = [
     {
         // Authenticated routes
         path: '',
         component: MainLayoutComponent,
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard, EmailVerifiedGuard],
         children: [
             // Routes that do NOT require an active assignment context:
             { path: 'courses', canActivate: [TeacherGuard], component: CourseOverviewComponent },
@@ -48,8 +51,7 @@ export const routes: Routes = [
                 children: [
                     { path: '', component: ProjectOverviewComponent },
                     { path: 'create', component: ProjectCreateComponent },
-                    { path: '', children: projectDetailsRoutes },
-                    // You can add more researcher-specific routes here (like dashboard) if needed.
+                    { path: '', children: projectDetailsRoutes }
                 ]
             },
 
@@ -61,11 +63,11 @@ export const routes: Routes = [
                     { path: 'dashboard', component: DashboardComponent },
                     { path: 'projects', component: ProjectOverviewComponent },
                     { path: 'projects/create', component: ProjectCreateComponent },
-                    { path: 'projects', children: projectDetailsRoutes },
-                    { path: 'projects/:id/apply', component: ApplicationsCreateComponent },
+                    { path: 'projects', children: projectDetailsRoutes},
+                    { path: 'projects/:id/apply', component: ApplicationsCreateComponent},
                     { path: 'deadlines', component: DeadlineOverviewComponent },
                     { path: 'applications', component: ApplicationsOverviewComponent },
-                    { path: 'applications/:id', component: ApplicationDetailsComponent },
+                    { path: 'applications/:id', component: ApplicationDetailsComponent},
                     { path: 'students', canActivate: [TeacherGuard], component: StudentOverviewComponent },
                     {path: 'announcements', canActivate: [TeacherGuard],  component: AnnouncementOverviewComponent },
                     { path: 'announcements/create', canActivate: [TeacherGuard],  component: AnnouncementCreateComponent },
@@ -84,7 +86,9 @@ export const routes: Routes = [
             // Password login for researchers.
             { path: 'guest', component: PasswordLoginComponent },
             // Register route (special registration logic for researchers).
-            { path: 'register', component: RegisterComponent }
+            { path: 'register', component: RegisterComponent },
+            { path: 'verify-email', component: VerifyEmailComponent },
+            { path: 'verify', component: VerifyTokenComponent }
         ]
     },
     { path: '**', redirectTo: '' }

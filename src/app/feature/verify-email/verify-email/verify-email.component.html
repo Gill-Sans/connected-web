@@ -1,0 +1,46 @@
+<div class="verify-email-container">
+    <div class="logo-container">
+        <img ngSrc="logo/Connected_Large_Wide_4000px_web.png"
+             alt="Connected Logo"
+             class="logo"
+             height="80"
+             width="370"
+             priority>
+    </div>
+    <div class="content-card">
+        <div class="header">
+            <h2>Verify Your Email</h2>
+            <p>Please enter your school email address to continue. We'll send a verification link to your inbox.</p>
+        </div>
+
+        <form [formGroup]="verifyForm" (ngSubmit)="onSubmit()">
+            <div class="form-field">
+                <label for="email">Email Address</label>
+                <input
+                    id="email"
+                    type="email"
+                    formControlName="email"
+                    [class.error]="submitted && verifyForm.get('email')?.errors"
+                />
+                <div *ngIf="submitted && verifyForm.get('email')?.errors" class="error-message">
+                    <span *ngIf="verifyForm.get('email')?.errors?.['required']">Email is required.</span>
+                    <span *ngIf="verifyForm.get('email')?.errors?.['email']">Please enter a valid email.</span>
+                </div>
+            </div>
+
+            <app-button
+                type="submit"
+                variant="primary"
+                [disabled]="isLoading">
+                Send Verification
+            </app-button>
+        </form>
+
+        <div *ngIf="message"
+             class="message"
+             [class.success]="messageType === 'success'"
+             [class.error]="messageType === 'error'">
+            {{ message }}
+        </div>
+    </div>
+</div>

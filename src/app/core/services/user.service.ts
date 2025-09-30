@@ -3,25 +3,26 @@ import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {User} from '../../auth/models/user.model';
 import {catchError} from 'rxjs/operators';
+import {environment} from '../../../environments/environment';
 
 @Injectable({
     providedIn: 'root'
 })
 export class UserService {
-    private readonly baseUrl = 'http://localhost:8080/api/users';
+    private readonly baseUrl = environment.apiBaseUrl
 
     constructor(private http: HttpClient) {
     }
 
     getUserProfile(id: number): Observable<User> {
-        return this.http.get<User>(`${this.baseUrl}/${id}`, {withCredentials: true});
+        return this.http.get<User>(`${this.baseUrl}/api/users/${id}`, {withCredentials: true});
     }
 
     //TODO change any type to userupdate type
     updateUserProfile(updatedUser: Partial<User>): Observable<User> {
 
         return this.http.patch<User>(
-            `${this.baseUrl}/update`,
+            `${this.baseUrl}/api/users/update`,
             updatedUser,
             {
                 withCredentials: true

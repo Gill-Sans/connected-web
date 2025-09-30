@@ -1,0 +1,32 @@
+name: Frontend Prod Deployment
+on:
+    push:
+        branches:
+            - main
+
+jobs:
+    build-and-deploy:
+        name: Deploy Frontend to Prod Server
+        runs-on: [ self-hosted, prod, connected, frontend ]
+
+        steps:
+            -   name: Checkout code
+                uses: actions/checkout@v4
+
+            -   name: Set up Docker Buildx
+                uses: docker/setup-buildx-action@v3
+
+            -   name: Build frontend Docker image
+                run: |
+                    docker build \
+                      -t connected-frontend:prod \
+                      --build-arg BUILD_ENV=prod \
+                      -f Dockerfile .
+
+            -   name: Stop and remove old frontend container
+                run: |
+                    docker compose -f docker-compose.yml down frontend || true
+
+            -   name: Start new frontend container
+                run: |
+                    docker compose -f docker-compose.yml up -d --build frontend

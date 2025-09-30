@@ -1,0 +1,13 @@
+<div class="flex items-center justify-center min-h-screen bg-gray-100">
+    <div class="text-center p-8 bg-white rounded-lg shadow-md">
+        <div *ngIf="isLoading" class="flex flex-col items-center">
+            <span class="loading loading-spinner loading-lg"></span>
+            <p class="mt-4 text-lg">Verifying your email...</p>
+        </div>
+        <div *ngIf="!isLoading && message" [ngClass]="isError ? 'text-red-500' : 'text-green-500'">
+            <h2 class="text-2xl font-bold mb-4">{{ isError ? 'Verification Failed' : 'Verification Successful!' }}</h2>
+            <p>{{ message }}</p>
+            <app-button *ngIf="showLoginButton" (click)="goToLogin()" class="btn btn-primary mt-6">Proceed to Login</app-button>
+        </div>
+    </div>
+</div>

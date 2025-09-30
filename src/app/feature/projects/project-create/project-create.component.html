@@ -10,7 +10,7 @@
             <input id="title" class="title input" type="text" formControlName="title" placeholder="Title of your project" />
             <div *ngIf="projectForm.get('title')?.invalid && projectForm.get('title')?.touched" class="error">
                 <span *ngIf="projectForm.get('title')?.errors?.['required']" class="error">Title is required.</span>
-                <span *ngIf="projectForm.get('title')?.errors?.['maxLength']" class="error">Title cannot exceed 255 characters.</span>
+                <span *ngIf="projectForm.get('title')?.errors?.['maxlength']" class="error">Title cannot exceed 255 characters.</span>
             </div>
         </div>
 
@@ -23,7 +23,7 @@
             <textarea id="shortDescription" class="short-description input" formControlName="shortDescription" placeholder="Description of your project" maxlength="500" rows="7" (input)="updateCharCount()"></textarea>
             <div *ngIf="projectForm.get('shortDescription')?.invalid && projectForm.get('shortDescription')?.touched" class="error">
                 <span *ngIf="projectForm.get('shortDescription')?.errors?.['required']" class="error">Short description is required.</span>
-                <span *ngIf="projectForm.get('shortDescription')?.errors?.['maxLength']" class="error">Short description cannot exceed 500 characters.</span>
+                <span *ngIf="projectForm.get('shortDescription')?.errors?.['maxlength']" class="error">Short description cannot exceed 500 characters.</span>
             </div>
         </div>
         <div class="form-group">
@@ -34,9 +34,10 @@
             <app-md-editor [form]="projectForm" controlName="description"></app-md-editor>
             <div *ngIf="projectForm.get('description')?.invalid && projectForm.get('description')?.touched" class="error">
                 <span *ngIf="projectForm.get('description')?.errors?.['required']" class="error">Project description is required.</span>
-                <span *ngIf="projectForm.get('description')?.errors?.['minLength']" class="error">
-          Project description must contain at least 250 chars (currently {{ projectForm.get('description')?.errors?.['minLength'] }}).
-        </span>
+                <span *ngIf="projectForm.get('description')?.errors?.['minlength']" class="error">
+                  Project description must contain at least 250 chars
+                  (currently {{ projectForm.get('description')?.errors?.['minlength']?.actualLength || 0 }}).
+                </span>
             </div>
         </div>
 

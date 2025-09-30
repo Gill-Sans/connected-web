@@ -42,6 +42,7 @@
                         ],
                         "styles": [
                             "src/styles.scss",
+                            "node_modules/angular-calendar/scss/angular-calendar.scss",
                             "node_modules/font-awesome/css/font-awesome.min.css",
                             "node_modules/ngx-markdown-editor/assets/highlight.js/agate.min.css"
                         ],
@@ -57,27 +58,47 @@
                     },
                     "configurations": {
                         "production": {
+                            "fileReplacements": [
+                                {
+                                    "replace": "src/environments/environment.ts",
+                                    "with": "src/environments/environment.prod.ts"
+                                }
+                            ],
                             "budgets": [
                                 {
                                     "type": "initial",
-                                    "maximumWarning": "500kB",
-                                    "maximumError": "1MB"
+                                    "maximumWarning": "2mb",
+                                    "maximumError": "5MB"
                                 },
                                 {
                                     "type": "anyComponentStyle",
-                                    "maximumWarning": "4kB",
-                                    "maximumError": "8kB"
+                                    "maximumWarning": "8kB",
+                                    "maximumError": "16kB"
                                 }
                             ],
                             "outputHashing": "all"
                         },
                         "development": {
+                            "fileReplacements": [
+                                {
+                                    "replace": "src/environments/environment.ts",
+                                    "with": "src/environments/environment.dev.ts"
+                                }
+                            ],
                             "optimization": false,
                             "extractLicenses": false,
                             "sourceMap": true
+                        },
+                        "local": {
+                            "fileReplacements": [
+                                {
+                                    "replace": "src/environments/environment.ts",
+                                    "with": "src/environments/environment.local.ts"
+                                }
+                            ]
                         }
                     },
-                    "defaultConfiguration": "production"
+                    "defaultConfiguration": "local"
                 },
                 "serve": {
                     "builder": "@angular-devkit/build-angular:dev-server",
@@ -87,9 +108,12 @@
                         },
                         "development": {
                             "buildTarget": "connected-web:build:development"
+                        },
+                        "local": {
+                            "buildTarget": "connected-web:build:local"
                         }
                     },
-                    "defaultConfiguration": "development"
+                    "defaultConfiguration": "local"
                 },
                 "extract-i18n": {
                     "builder": "@angular-devkit/build-angular:extract-i18n"

@@ -3,7 +3,7 @@ import {Store} from '@ngrx/store';
 import * as AuthActions from './auth.actions'; // Actions like loadSession, redirectToLogin, logout
 import * as AuthSelectors from './auth.selectors';
 import {filter, take} from 'rxjs/operators';
-import {firstValueFrom, map} from 'rxjs';
+import {firstValueFrom, map, combineLatest} from 'rxjs';
 import {RegistrationRequest} from '../models/registration-request.model'; // Selectors like selectUser, selectIsAuthenticated, etc.
 
 @Injectable({providedIn: 'root'})
@@ -21,12 +21,23 @@ export class AuthFacade {
     loadSession(): Promise<void> {
         this.store.dispatch(AuthActions.loadSession());
         return firstValueFrom(
-            this.isLoading$.pipe(
-                filter(loading => !loading),
+            // Wait for either loading to complete OR an error to occur
+            combineLatest([this.isLoading$, this.authError$]).pipe(
+                filter(([loading, error]) => !loading || error !== null),
                 take(1),
-                map(() => undefined)
+                map(([loading, error]) => {
+                    if (error) {
+                        console.log('Session loading failed:', error);
+                    }
+                    return undefined;
+                })
             )
-        );
+        ).catch(error => {
+            // If session loading fails (e.g., user not authenticated), 
+            // don't throw the error, just log it and continue
+            console.log('Session loading failed:', error);
+            return Promise.resolve();
+        });
     }
 
     // Dispatch an action that triggers a redirect to the OAuth2 authorization endpoint
