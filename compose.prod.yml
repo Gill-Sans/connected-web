@@ -3,6 +3,6 @@ services:
         build:
             context: .
             dockerfile: Dockerfile
-        container_name: dev-frontend
+        container_name: prod-frontend
         ports:
             - "4200:80"   # browse at http://localhost:4200
