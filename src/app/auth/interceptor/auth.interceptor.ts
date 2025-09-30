@@ -29,7 +29,8 @@ export function authInterceptor(
                 if (
                     !currentPath.startsWith('/login') &&
                     !currentPath.startsWith('/register') &&
-                    !currentPath.startsWith('/guest')
+                    !currentPath.startsWith('/guest') &&
+                    !currentPath.startsWith('/verify')
                 ) {
                     toastService.showToast("error", 'Session expired, please login again');
                     authFacade.redirectToLogin();
