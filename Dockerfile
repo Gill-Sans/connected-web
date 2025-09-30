@@ -5,8 +5,7 @@ COPY package*.json ./
 RUN npm ci
 COPY . .
 
-# Pass ENV as build argument
-ARG BUILD_ENV=dev
+ARG BUILD_ENV
 RUN npm run build:${BUILD_ENV}
 
 # Stage 2: Serve with Nginx
