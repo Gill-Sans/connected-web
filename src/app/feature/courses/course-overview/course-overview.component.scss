@@ -7,15 +7,21 @@
     gap: 2rem;
 }
 
+
+
 .course-item {
     //grid with 1 full column for the title and then 3 colums for each assingment in it
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 1rem;
 
-    h2 {
-        grid-column: span 3;
-    }
+}
+
+.course-header {
+    grid-column: span 3;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
 }
 
 .assignment-card {

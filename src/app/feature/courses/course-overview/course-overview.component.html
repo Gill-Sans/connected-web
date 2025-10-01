@@ -18,10 +18,31 @@
     (create)="handleAssignmentCreate($event)">
 </app-canvas-import-modal>
 
+<!-- Confirmation modal for deleting a course -->
+<app-confirmation-modal
+    *ngIf="showCourseDeleteModal"
+    [title]="'Delete Course'"
+    [message]="'Are you sure you want to delete this course?'"
+    [confirmText]="'Delete'"
+    [cancelText]="'Cancel'"
+    (confirm)="handleCourseDelete(courseIdInput!)"
+    (cancel)="closeCourseDeleteModal()">
+</app-confirmation-modal>
+
+
 <div class="courses-list">
     <ng-container *ngIf="courses$ | async as courses; else loading">
         <div *ngFor="let course of courses" class="course-item">
+            <div class="course-header">
             <h2>{{ course.name }}</h2>
+                <div (click)="openCourseDeleteModal(course.id)"
+                     aria-label="Delete course">
+
+                    <i class="fa fa-trash">
+                    </i>
+                </div>
+
+            </div>
             <div *ngFor="let assignment of course.assignments">
                 <div class="assignment-card">
                     <h4>{{ assignment.name }}</h4>
