@@ -38,6 +38,12 @@
     height: 100%;
 }
 
+.assignment-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
 .import-assignment-button {
     display: flex;
     cursor: pointer;

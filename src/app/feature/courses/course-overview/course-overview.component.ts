@@ -34,9 +34,10 @@ export class CourseOverviewComponent implements OnInit {
     showImportCourseModal: boolean = false;
     showImportAssignmentModal: boolean = false;
     showCourseDeleteModal: boolean = false;
-    showAssignmentModal: boolean = false;
+    showAssignmentDeleteModal: boolean = false;
 
     // When opening the assignment import modal, we pass the course ID directly.
+    assignmentIdInput: number | null = null;
     courseIdInput: number | null = null;
 
     ngOnInit(): void {
@@ -68,6 +69,26 @@ export class CourseOverviewComponent implements OnInit {
 
     closeCourseDeleteModal():void {
         this.showCourseDeleteModal = false;
+    }
+
+    openAssignmentDeleteModal(assignmentId: number): void {
+        this.assignmentIdInput = assignmentId;
+        this.showAssignmentDeleteModal = true;
+    }
+
+    closeAssignmentDeleteModal(): void {
+        this.showAssignmentDeleteModal = false;
+    }
+
+    handleAssignmentDelete(assignmentId: number):void {
+        this.assignmentService.deleteAssignment(assignmentId)
+            .subscribe({
+                next: () => {
+                    this.courseService.refreshCourses();
+                    this.closeAssignmentDeleteModal();
+                },
+                error: (err) => console.error('Assignment delete error:', err)
+            })
     }
 
     /**

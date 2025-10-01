@@ -29,6 +29,16 @@
     (cancel)="closeCourseDeleteModal()">
 </app-confirmation-modal>
 
+<app-confirmation-modal
+    *ngIf="showAssignmentDeleteModal"
+    [title]="'Delete Assignment'"
+    [message]="'Are you sure you want to delete this assignment?'"
+    [confirmText]="'Delete'"
+    [cancelText]="'Cancel'"
+    (confirm)="handleAssignmentDelete(assignmentIdInput!)"
+    (cancel)="closeAssignmentDeleteModal()">
+</app-confirmation-modal>
+
 
 <div class="courses-list">
     <ng-container *ngIf="courses$ | async as courses; else loading">
@@ -45,7 +55,12 @@
             </div>
             <div *ngFor="let assignment of course.assignments">
                 <div class="assignment-card">
-                    <h4>{{ assignment.name }}</h4>
+                    <div class="assignment-header">
+                        <h4>{{ assignment.name }}</h4>
+                        <div (click)="openAssignmentDeleteModal(assignment.id)" aria-label="Delete assignment">
+                            <i class="fa fa-trash"></i>
+                        </div>
+                    </div>
                     <div>Default Team Size: {{ assignment.defaultTeamSize }}</div>
                 </div>
             </div>
