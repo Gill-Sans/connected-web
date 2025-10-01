@@ -8,13 +8,32 @@
 
     <!-- GDPR Checkbox -->
     <div class="gdpr-checkbox">
-        <label class="custom-checkbox">
-            <input type="checkbox" [(ngModel)]="accepted" (ngModelChange)="onCheckboxChange($event)" />
-            <span class="checkmark"></span>
-            I have read the data guides and agree to the data processing.
-        </label>
+        <div class="checkbox-row">
+            <!-- Native checkbox (screen-reader + keyboard focusable) -->
+            <input
+                id="gdpr"
+                type="checkbox"
+                [(ngModel)]="accepted"
+                (ngModelChange)="onCheckboxChange($event)"
+            />
+
+            <!-- Only this label (the box) toggles the checkbox -->
+            <label for="gdpr" class="custom-checkbox" aria-label="Accept data processing">
+                <span class="checkmark" aria-hidden="true"></span>
+            </label>
+
+            <!-- Informational text - NOT clickable -->
+            <span class="gdpr-text">
+        I have read the data guides and agree to the
+        <a href="https://www.erasmushogeschool.be/nl/privacyverklaring" target="_blank" rel="noopener">data processing.</a>
+      </span>
+        </div>
+
         <div class="error" *ngIf="error">{{ error }}</div>
     </div>
 
-    <p>Are you a Researcher? <app-button variant="link" (click)="router.navigate(['/guest'])">Click Here to login.</app-button></p>
+    <p>
+        Are you a Researcher?
+        <app-button variant="link" (click)="router.navigate(['/guest'])">Click Here to login.</app-button>
+    </p>
 </div>
