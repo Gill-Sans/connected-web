@@ -38,4 +38,8 @@ export class CourseService {
     getAllEnrolledStudentsByCourseId(courseId: string): Observable<User[]> {
         return this.http.get<User[]>(`${environment.apiBaseUrl}/api/courses/${courseId}/students`, {withCredentials: true});
     }
+
+    deleteCourse(courseId: number): Observable<any>{
+        return this.http.delete<void>(`${environment.apiBaseUrl}/api/courses/${courseId}`, {withCredentials: true});
+    }
 }
