@@ -17,7 +17,7 @@ export class AuthGuard implements CanActivate {
     ): Observable<boolean> {
         // Wait until the initial session loading is complete
         return this.authFacade.isLoading$.pipe(
-            filter(isLoading => isLoading === false), // Wait for the loading to finish
+            filter(isLoading => !isLoading), // Wait for the loading to finish
             take(1), // We only need the first value after loading is done
             switchMap(() => {
                 // Now that we know the state is resolved, check for authentication
@@ -28,7 +28,7 @@ export class AuthGuard implements CanActivate {
                             return true; // User is authenticated, allow access.
                         } else {
                             // User is not authenticated, redirect to the login page.
-                            this.router.navigate(['/login']);
+                            void this.router.navigate(['/login']);
                             return false;
                         }
                     })

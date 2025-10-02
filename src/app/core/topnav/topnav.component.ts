@@ -16,6 +16,8 @@ import {AuthService} from '../../auth/auth.service';
 import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import {Role} from '../../auth/models/role.model';
 import {HasRoleDirective} from '../../shared/directives/HasRole.directive';
+import { Store } from '@ngrx/store';
+import * as AuthActions from '../../auth/store/auth.actions';
 
 @Component({
     selector: 'app-topnav',
@@ -34,6 +36,7 @@ export class TopnavComponent implements OnInit, OnDestroy {
     private readonly courseService: CourseService = inject(CourseService);
     private readonly activeAssignmentService: ActiveAssignmentService = inject(ActiveAssignmentService);
     public readonly authService: AuthService = inject(AuthService);
+    private readonly store: Store = inject(Store);
 
     public activeAssignment$: Observable<ActiveAssignment | null> | null = null;
     public courses$: Observable<Course[]> = this.courseService.courses$;
@@ -95,7 +98,7 @@ export class TopnavComponent implements OnInit, OnDestroy {
     }
 
     logout(): void {
-        this.authService.logout();
+        this.store.dispatch(AuthActions.logout());
     }
 
     toggleNotifications() {

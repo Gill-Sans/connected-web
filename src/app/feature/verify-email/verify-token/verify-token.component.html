@@ -4,10 +4,10 @@
             <span class="loading loading-spinner loading-lg"></span>
             <p class="mt-4 text-lg">Verifying your email...</p>
         </div>
-        <div *ngIf="!isLoading && message" [ngClass]="isError ? 'text-red-500' : 'text-green-500'">
+        <div *ngIf="!isLoading && message" [ngClass]="isError ? 'text-red-500' : 'text-green-500'" class="" >
             <h2 class="text-2xl font-bold mb-4">{{ isError ? 'Verification Failed' : 'Verification Successful!' }}</h2>
             <p>{{ message }}</p>
-            <app-button *ngIf="showLoginButton" (click)="goToLogin()" class="btn btn-primary mt-6">Proceed to Login</app-button>
+            <app-button *ngIf="showLoginButton" (click)="goToPlatform()" class="btn btn-primary mt-6">Proceed</app-button>
         </div>
     </div>
 </div>

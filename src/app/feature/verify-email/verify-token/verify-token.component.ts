@@ -4,20 +4,22 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
 import {CommonModule} from '@angular/common';
 import {ButtonComponent} from '../../../shared/components/button/button.component';
+import {AuthFacade} from '../../../auth/store/auth.facade';
 
 @Component({
-  selector: 'app-verify-token',
+    selector: 'app-verify-token',
     imports: [
         CommonModule,
         ButtonComponent
     ],
-  templateUrl: './verify-token.component.html',
-  styleUrl: './verify-token.component.scss'
+    templateUrl: './verify-token.component.html',
+    styleUrl: './verify-token.component.scss'
 })
 export class VerifyTokenComponent implements OnInit {
     private readonly route = inject(ActivatedRoute);
     private readonly router = inject(Router);
     private readonly http = inject(HttpClient);
+    private readonly authFacade = inject(AuthFacade);
 
     isLoading: boolean = true;
     isError: boolean = false;
@@ -32,7 +34,7 @@ export class VerifyTokenComponent implements OnInit {
                     next: () => {
                         this.isLoading = false;
                         this.isError = false;
-                        this.message = 'Your email has been successfully verified. You can now log in.';
+                        this.message = 'Your email has been successfully verified. You can now proceed to the platform.';
                         this.showLoginButton = true;
                     },
                     error: (err) => {
@@ -48,7 +50,10 @@ export class VerifyTokenComponent implements OnInit {
         }
     }
 
-    goToLogin() {
-        this.router.navigate(['/login']);
+    goToPlatform() {
+        // ✅ Reload session so updated verification & role are reflected
+        this.authFacade.loadSession().then(() => {
+            void this.router.navigate(['/']);
+        });
     }
 }
