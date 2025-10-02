@@ -30,6 +30,8 @@ import {TeacherGuard} from './core/guards/teacher.guard';
 import {EmailVerifiedGuard} from './auth/guards/email-verified.guard';
 import {VerifyEmailComponent} from './feature/verify-email/verify-email/verify-email.component';
 import {VerifyTokenComponent} from './feature/verify-email/verify-token/verify-token.component';
+import {AlreadyAuthGuard} from './auth/guards/already-auth.guard';
+import {AlreadyVerifiedGuard} from './auth/guards/already-verified.guard';
 
 export const routes: Routes = [
     {
@@ -82,13 +84,13 @@ export const routes: Routes = [
         component: AuthLayoutComponent,
         children: [
             // Default route: canvas login page.
-            { path: 'login', component: LoginComponent },
+            { path: 'login', component: LoginComponent, canActivate: [AlreadyAuthGuard] },
             // Password login for researchers.
-            { path: 'guest', component: PasswordLoginComponent },
+            { path: 'guest', component: PasswordLoginComponent, canActivate: [AlreadyAuthGuard] },
             // Register route (special registration logic for researchers).
-            { path: 'register', component: RegisterComponent },
-            { path: 'verify-email', component: VerifyEmailComponent },
-            { path: 'verify', component: VerifyTokenComponent }
+            { path: 'register', component: RegisterComponent, canActivate: [AlreadyAuthGuard] },
+            { path: 'verify-email', component: VerifyEmailComponent, canActivate: [AlreadyVerifiedGuard] },
+            { path: 'verify', component: VerifyTokenComponent, canActivate: [AlreadyVerifiedGuard] }
         ]
     },
     { path: '**', redirectTo: '' }

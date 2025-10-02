@@ -17,7 +17,7 @@ export class EmailVerifiedGuard implements CanActivate {
     ): Observable<boolean> {
         // Wait for the session loading to finish before checking the user's status
         return this.authFacade.isLoading$.pipe(
-            filter(isLoading => isLoading === false),
+            filter(isLoading => !isLoading),
             take(1),
             switchMap(() => {
                 // AuthGuard has already run, so we can assume a user object exists.
@@ -29,7 +29,7 @@ export class EmailVerifiedGuard implements CanActivate {
                             return true; // User is verified, allow access.
                         } else {
                             // User is not verified, redirect to the verification page.
-                            this.router.navigate(['/verify-email']);
+                            void this.router.navigate(['/verify-email']);
                             return false;
                         }
                     })

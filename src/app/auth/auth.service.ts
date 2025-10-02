@@ -33,18 +33,7 @@ export class AuthService {
         return this.http.post(`${environment.apiBaseUrl}/api/auth/register`, request, { withCredentials: true });
     }
 
-    logout(): void {
-        this.ngZone.run(() => {
-            this.http.post(`${environment.apiBaseUrl}/api/auth/logout`, {}, { withCredentials: true }).subscribe({
-                next: () => {
-                    this.deleteCookie('JSESSIONID');
-                    this.authFacade.redirectToLogin();
-                }
-            });
-        });
-    }
-
-    private deleteCookie(name: string): void {
-        document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+    logoutRequest(): Observable<void> {
+        return this.http.post<void>(`${environment.apiBaseUrl}/api/auth/logout`, {}, { withCredentials: true });
     }
 }
