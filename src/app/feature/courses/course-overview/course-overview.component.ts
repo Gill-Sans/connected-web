@@ -7,6 +7,7 @@ import { Course } from '../../../shared/models/course.model';
 import { AssignmentService } from '../../../core/services/assignment.service';
 import {CanvasImportModalComponent} from '../../../shared/components/canvas-import-modal/canvas-import-modal.component';
 import {Assignment} from '../../../shared/models/assignment.model';
+import {ConfirmationModalComponent} from '../../../shared/components/confirmation-modal/confirmation-modal.component';
 
 @Component({
     selector: 'app-course-overview',
@@ -14,7 +15,8 @@ import {Assignment} from '../../../shared/models/assignment.model';
     imports: [
         CommonModule,
         ButtonComponent,
-        CanvasImportModalComponent
+        CanvasImportModalComponent,
+        ConfirmationModalComponent
     ],
     templateUrl: './course-overview.component.html',
     styleUrls: ['./course-overview.component.scss']
@@ -28,11 +30,14 @@ export class CourseOverviewComponent implements OnInit {
     canvasCourses$: Observable<Course[]> = this.courseService.getCanvasCourses();
     assignmentItems$: Observable<Assignment[]> | null = null;
 
-    // Flags to control the visibility of the two modals.
+    // Flags to control the visibility of the modals.
     showImportCourseModal: boolean = false;
     showImportAssignmentModal: boolean = false;
+    showCourseDeleteModal: boolean = false;
+    showAssignmentDeleteModal: boolean = false;
 
     // When opening the assignment import modal, we pass the course ID directly.
+    assignmentIdInput: number | null = null;
     courseIdInput: number | null = null;
 
     ngOnInit(): void {
@@ -57,6 +62,35 @@ export class CourseOverviewComponent implements OnInit {
         this.showImportAssignmentModal = false;
     }
 
+    openCourseDeleteModal(courseId: number): void {
+        this.courseIdInput = courseId;
+        this.showCourseDeleteModal = true;
+    }
+
+    closeCourseDeleteModal():void {
+        this.showCourseDeleteModal = false;
+    }
+
+    openAssignmentDeleteModal(assignmentId: number): void {
+        this.assignmentIdInput = assignmentId;
+        this.showAssignmentDeleteModal = true;
+    }
+
+    closeAssignmentDeleteModal(): void {
+        this.showAssignmentDeleteModal = false;
+    }
+
+    handleAssignmentDelete(assignmentId: number):void {
+        this.assignmentService.deleteAssignment(assignmentId)
+            .subscribe({
+                next: () => {
+                    this.courseService.refreshCourses();
+                    this.closeAssignmentDeleteModal();
+                },
+                error: (err) => console.error('Assignment delete error:', err)
+            })
+    }
+
     /**
      * Handles creation of a course.
      * @param course The course data returned from the modal.
@@ -70,6 +104,17 @@ export class CourseOverviewComponent implements OnInit {
                 },
                 error: (err) => console.error('Course creation error:', err)
             });
+    }
+
+    handleCourseDelete(courseId: number): void {
+        this.courseService.deleteCourse(courseId)
+            .subscribe({
+                next: () => {
+                    this.courseService.refreshCourses();
+                    this.closeCourseDeleteModal();
+                },
+                error: (err) => console.error('Course delete error:', err)
+            })
     }
 
     /**

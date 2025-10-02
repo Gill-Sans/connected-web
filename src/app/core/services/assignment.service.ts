@@ -20,4 +20,8 @@ export class AssignmentService {
     getAllApplicationsFromAssignment(id: number): Observable<Application[]> {
         return this.http.get<Application[]>(`${environment.apiBaseUrl}/api/assignments/${id}/applications`, { withCredentials: true });
     }
+
+    deleteAssignment(assignmentId: number): Observable<any>{
+        return this.http.delete<any>(`${environment.apiBaseUrl}/api/assignments/${assignmentId}`, {withCredentials: true});
+    }
 }
