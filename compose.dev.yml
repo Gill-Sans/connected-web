@@ -6,5 +6,6 @@ services:
             args:
                 BUILD_ENV: dev
         container_name: dev-frontend
+        restart: unless-stopped
         ports:
             - "4200:80"   # browse at http://localhost:4200
