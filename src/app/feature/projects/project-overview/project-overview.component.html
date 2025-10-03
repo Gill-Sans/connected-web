@@ -1,14 +1,14 @@
 <div class="project-overview">
     <div class="tab-bar">
         <div class="tabs">
-            <span
-                *ngFor="let tab of tabOptions"
-                class="tab"
-                [class.active]="selectedTab === tab.value"
-                (click)="changeTab(tab.value)"
-            >
-              {{ tab.label }}
-            </span>
+      <span
+          *ngFor="let tab of tabOptions"
+          class="tab"
+          [class.active]="selectedTab === tab.value"
+          (click)="changeTab(tab.value)"
+      >
+        {{ tab.label }}
+      </span>
         </div>
         <div class="tabs-right">
             <ng-container *ngIf="(isTeacher$ | async)">
@@ -35,45 +35,57 @@
 
     <!-- Render view based on the selected viewType -->
     <div *ngIf="projects$ | async as projects; else loadingProject">
-        <div *ngIf="viewType === 'card'; else tableView">
-            <div class="card-container">
-                <app-projectcard
-                    *ngFor="let project of projects"
-                    [project]="project"
-                ></app-projectcard>
+        <ng-container *ngIf="projects.length > 0; else noProjects">
+            <div *ngIf="viewType === 'card'; else tableView">
+                <div class="card-container">
+                    <app-projectcard
+                        *ngFor="let project of projects"
+                        [project]="project"
+                    ></app-projectcard>
+                </div>
             </div>
-        </div>
-        <ng-template #tableView>
-            <app-button variant="neutral" (click)="publishAllProjects()">Publish All</app-button>
-            <table class="project-table">
-                <thead>
-                <tr>
-                    <th>Title</th>
-                    <th>Owner</th>
-                    <th style="width:20%">Current Status</th>
-                    <th *ngIf="selectedTab === 'all'" style="width:20%">Change Status</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr *ngFor="let project of projects">
-                    <td (click)="navigateToProject(project)">{{ project.title }}</td>
-                    <td>
-                        {{
-                            project.productOwner
-                                ? project.productOwner.firstName + ' ' + project.productOwner.lastName
-                                : project.createdBy.firstName + ' ' + project.createdBy.lastName
-                        }}
-                    </td>
-                    <td><app-statuscard status="{{ project.status }}">{{ project.status }}</app-statuscard></td>
-                    <td *ngIf="selectedTab === 'all'">
-                        <app-project-status-select
-                            [value]="project.status"
-                            (valueChange)="updateProjectStatus(project, $event)"
-                        ></app-project-status-select>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+            <ng-template #tableView>
+                <app-button variant="neutral" (click)="publishAllProjects()">Publish All</app-button>
+                <table class="project-table">
+                    <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Owner</th>
+                        <th style="width:20%">Current Status</th>
+                        <th *ngIf="selectedTab === 'all'" style="width:20%">Change Status</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let project of projects">
+                        <td (click)="navigateToProject(project)">{{ project.title }}</td>
+                        <td>
+                            {{
+                                project.productOwner
+                                    ? project.productOwner.firstName + ' ' + project.productOwner.lastName
+                                    : project.createdBy.firstName + ' ' + project.createdBy.lastName
+                            }}
+                        </td>
+                        <td>
+                            <app-statuscard status="{{ project.status }}">
+                                {{ project.status }}
+                            </app-statuscard>
+                        </td>
+                        <td *ngIf="selectedTab === 'all'">
+                            <app-project-status-select
+                                [value]="project.status"
+                                (valueChange)="updateProjectStatus(project, $event)"
+                            ></app-project-status-select>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </ng-template>
+        </ng-container>
+
+        <ng-template #noProjects>
+            <div class="no-projects-message">
+                No projects found
+            </div>
         </ng-template>
     </div>
 
