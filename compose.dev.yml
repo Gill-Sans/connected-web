@@ -5,6 +5,8 @@ services:
             dockerfile: Dockerfile
             args:
                 BUILD_ENV: dev
-        container_name: dev-frontend
+        container_name: connected-web-dev
+        image: connected-web:dev
+        restart: unless-stopped
         ports:
-            - "4200:80"   # browse at http://localhost:4200
+            - "4200:80"

@@ -33,7 +33,7 @@ export class AuthFacade {
                 })
             )
         ).catch(error => {
-            // If session loading fails (e.g., user not authenticated), 
+            // If session loading fails (e.g., user not authenticated),
             // don't throw the error, just log it and continue
             console.log('Session loading failed:', error);
             return Promise.resolve();
@@ -57,8 +57,7 @@ export class AuthFacade {
         this.store.dispatch(AuthActions.register({ request }));
     }
 
-    // TODO: Implement logout functionality
-    // logout(): void {
-    //   this.store.dispatch(AuthActions.logout());
-    // }
+    logout(): void {
+        this.store.dispatch(AuthActions.logout());
+    }
 }

@@ -5,6 +5,8 @@ services:
             dockerfile: Dockerfile
             args:
                 BUILD_ENV: prod
-        container_name: prod-frontend
+        container_name: connected-web-prod
+        image: connected-web:prod
+        restart: always
         ports:
-            - "4200:80"   # browse at http://localhost:4200
+            - "4200:80"

@@ -4,6 +4,7 @@ import { FormGroup, FormControl, ReactiveFormsModule, Validators } from '@angula
 import { AuthFacade } from '../../store/auth.facade';
 import { ButtonComponent } from '../../../shared/components/button/button.component';
 import {Subscription} from 'rxjs';
+import {ICONS} from '../../../shared/constants/icons';
 
 @Component({
     selector: 'app-password-login',
@@ -45,4 +46,10 @@ export class PasswordLoginComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void {
         this.subscriptions.forEach(subscription => subscription.unsubscribe());
     }
+
+    navigateBack(): void {
+        this.authFacade.redirectToLogin();
+    }
+
+    protected readonly icons = ICONS;
 }

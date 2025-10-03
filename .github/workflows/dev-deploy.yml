@@ -23,3 +23,8 @@ jobs:
             -   name: Start new frontend container
                 run: |
                     docker compose -f compose.dev.yml up -d --build frontend
+
+            -   name: Cleanup old images
+                run: docker image prune -f
+
+

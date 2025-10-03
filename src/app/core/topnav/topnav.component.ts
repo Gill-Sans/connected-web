@@ -12,7 +12,6 @@ import {ActiveAssignment} from '../../shared/models/activeAssignment.model';
 import {NotificationService} from '../services/notifications.service';
 import {Notification} from '../../shared/models/notification.model';
 import {switchMap} from 'rxjs/operators';
-import {AuthService} from '../../auth/auth.service';
 import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import {Role} from '../../auth/models/role.model';
 import {HasRoleDirective} from '../../shared/directives/HasRole.directive';
@@ -33,7 +32,6 @@ export class TopnavComponent implements OnInit, OnDestroy {
     private readonly router: Router = inject(Router);
     private readonly courseService: CourseService = inject(CourseService);
     private readonly activeAssignmentService: ActiveAssignmentService = inject(ActiveAssignmentService);
-    public readonly authService: AuthService = inject(AuthService);
 
     public activeAssignment$: Observable<ActiveAssignment | null> | null = null;
     public courses$: Observable<Course[]> = this.courseService.courses$;
@@ -95,7 +93,7 @@ export class TopnavComponent implements OnInit, OnDestroy {
     }
 
     logout(): void {
-        this.authService.logout();
+        this.authFacade.logout();
     }
 
     toggleNotifications() {

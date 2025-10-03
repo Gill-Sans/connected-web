@@ -1,5 +1,12 @@
 @use "../../../../styles/variables" as *;
 
+.no-projects-message {
+    text-align: center;
+    padding: 2rem;
+    color: #666;
+    font-size: 1.2rem;
+}
+
 .project-overview {
     .card-container {
         display: grid;
