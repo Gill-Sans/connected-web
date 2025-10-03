@@ -66,16 +66,13 @@ export class CourseOverviewComponent implements OnInit {
         this.courseIdInput = courseId;
         this.showCourseDeleteModal = true;
     }
-
     closeCourseDeleteModal():void {
         this.showCourseDeleteModal = false;
     }
-
     openAssignmentDeleteModal(assignmentId: number): void {
         this.assignmentIdInput = assignmentId;
         this.showAssignmentDeleteModal = true;
     }
-
     closeAssignmentDeleteModal(): void {
         this.showAssignmentDeleteModal = false;
     }
