@@ -2,7 +2,7 @@
 
 .login-modal {
     background: white;
-    padding: 20px;
+    padding: 2rem;
     border-radius: 8px;
     text-align: center;
     display: flex;
@@ -78,6 +78,15 @@
         color: #e74c3c;
         font-size: 0.85rem;
         margin-top: 0.5rem;
+    }
+
+    a {
+        text-decoration: underline;
+    }
+
+    a:hover {
+        color: $primary-color;
+        transition: 0.2s ease;
     }
 }
 

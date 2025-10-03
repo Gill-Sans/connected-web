@@ -55,6 +55,12 @@ button.link {
     color: $text-color;
     padding: 0 0 2px 0;
     text-decoration: underline;
+    overflow: visible;
+
+    &:hover,
+    &:active {
+        background: transparent none;
+    }
 
     &:hover {
         color: $primary-color;
