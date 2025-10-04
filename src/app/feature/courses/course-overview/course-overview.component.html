@@ -39,15 +39,31 @@
     (cancel)="closeAssignmentDeleteModal()">
 </app-confirmation-modal>
 
+<app-confirmation-modal
+    *ngIf="showRefreshEnrollmentModal"
+    [title]="'Refresh Enrollments'"
+    [message]="'This will update the list of enrolled students from Canvas. Any students who are no longer enrolled will be removed, and new ones will be added.'"
+    [confirmText]="'Sync'"
+    [cancelText]="'Cancel'"
+    (confirm)="handleEnrollmentsRefresh(courseIdInput!)"
+    (cancel)="closeRefreshEnrollmentModal()">
+</app-confirmation-modal>
+
 
 <div class="courses-list">
     <ng-container *ngIf="courses$ | async as courses; else loading">
         <div *ngFor="let course of courses" class="course-item">
             <div class="course-header">
             <h2>{{ course.name }}</h2>
+                <div
+                    class="action-buttons"
+                    aria-label="Refresh Enrollments"
+                    (click)="openRefreshEnrollmentModal(course.id)">
+                    <i class="fa fa-refresh"></i>
+                </div>
                 <div (click)="openCourseDeleteModal(course.id)"
+                     class="action-buttons"
                      aria-label="Delete course">
-
                     <i class="fa fa-trash">
                     </i>
                 </div>
@@ -57,7 +73,7 @@
                 <div class="assignment-card">
                     <div class="assignment-header">
                         <h4>{{ assignment.name }}</h4>
-                        <div (click)="openAssignmentDeleteModal(assignment.id)" aria-label="Delete assignment">
+                        <div (click)="openAssignmentDeleteModal(assignment.id)" aria-label="Delete assignment" class="action-buttons">
                             <i class="fa fa-trash"></i>
                         </div>
                     </div>
