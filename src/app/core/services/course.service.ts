@@ -42,4 +42,12 @@ export class CourseService {
     deleteCourse(courseId: number): Observable<any>{
         return this.http.delete<void>(`${environment.apiBaseUrl}/api/courses/${courseId}`, {withCredentials: true});
     }
+
+    refreshEnrollments(courseId: number): Observable<void> {
+        return this.http.post<void>(
+            `${environment.apiBaseUrl}/api/courses/${courseId}/enrollments/refresh`,
+            {},
+            {withCredentials: true}
+        );
+    }
 }

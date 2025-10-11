@@ -15,7 +15,7 @@ import {ButtonComponent} from '../../../shared/components/button/button.componen
 import {StatuscardComponent} from '../../../shared/components/statuscard/statuscard.component';
 import {ProjectStatusSelectComponent} from '../../../shared/components/project-status-select/project-status-select.component';
 
-type TabValue = 'all' | 'global';
+type TabValue = 'all' | 'global' | 'my projects';
 
 interface TabOption {
     label: string;
@@ -49,7 +49,7 @@ export class ProjectOverviewComponent implements OnInit, OnDestroy {
     public isResearcher$: Observable<boolean> = this.authorizationService.isResearcher$();
 
     activeAssignment: ActiveAssignment | null = this.activeAssignmentService.getActiveAssignment();
-    selectedTab: 'all' | 'global' = 'all';
+    selectedTab: 'all' | 'global' | 'my projects' = 'all';
     viewType: 'card' | 'table' = 'card';
 
     // Subscription to listen to active assignment changes
@@ -69,7 +69,8 @@ export class ProjectOverviewComponent implements OnInit, OnDestroy {
             } else {
                 this.tabOptions = [
                     {label: 'All projects', value: 'all'},
-                    {label: 'Global projects', value: 'global'}
+                    {label: 'Global projects', value: 'global'},
+                    {label: 'My projects', value: 'my projects'}
                 ];
                 this.activeAssignmentSub = this.activeAssignmentService.activeAssignment$.subscribe((activeAssignment) => {
                     this.activeAssignment = activeAssignment;
@@ -109,6 +110,9 @@ export class ProjectOverviewComponent implements OnInit, OnDestroy {
         } else if (tab === 'global') {
             this.selectedTab = 'global';
             this.loadGlobalProjects();
+        }else if (tab === 'my projects') {
+            this.selectedTab = 'my projects'
+            this.loadMyProjects();
         }
     }
 
@@ -126,6 +130,13 @@ export class ProjectOverviewComponent implements OnInit, OnDestroy {
                     this.projects$ = this.projectService.getAllPublishedProjects(assignmentId);
                 }
             });
+        }
+    }
+
+    loadMyProjects(): void {
+        const assignmentId = this.activeAssignmentService.getActiveAssignment()?.assignment.id;
+        if (assignmentId) {
+            this.projects$ = this.projectService.getMyProjects(assignmentId);
         }
     }
 

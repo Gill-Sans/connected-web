@@ -35,6 +35,9 @@ export class CourseOverviewComponent implements OnInit {
     showImportAssignmentModal: boolean = false;
     showCourseDeleteModal: boolean = false;
     showAssignmentDeleteModal: boolean = false;
+    showRefreshEnrollmentModal: boolean = false;
+
+    isRefreshing: Record<number, boolean> = {};
 
     // When opening the assignment import modal, we pass the course ID directly.
     assignmentIdInput: number | null = null;
@@ -50,6 +53,15 @@ export class CourseOverviewComponent implements OnInit {
 
     closeCourseModal(): void {
         this.showImportCourseModal = false;
+    }
+
+    openRefreshEnrollmentModal(courseId: number): void {
+        this.courseIdInput = courseId;
+        this.showRefreshEnrollmentModal = true;
+    }
+
+    closeRefreshEnrollmentModal(): void {
+        this.showRefreshEnrollmentModal = false;
     }
 
     openAssignmentImportModal(courseId: number): void {
@@ -115,6 +127,20 @@ export class CourseOverviewComponent implements OnInit {
                 },
                 error: (err) => console.error('Course delete error:', err)
             })
+    }
+
+    handleEnrollmentsRefresh(courseId: number): void {
+        this.isRefreshing[courseId] = true;
+
+        this.courseService.refreshEnrollments(courseId).subscribe({
+            next: () => {
+                this.isRefreshing[courseId] = false;
+            },
+            error: (err) => {
+                console.error('Refresh enrollments error:', err);
+                this.isRefreshing[courseId] = false;
+            }
+        });
     }
 
     /**

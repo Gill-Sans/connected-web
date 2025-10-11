@@ -76,7 +76,7 @@
                         <li class="no-owner">No product owner</li>
                     </ng-template>
                     <li *ngFor="let member of getFilteredMembers(project.members || [], project.productOwner)">
-                        <img class="avatar" [src]="project.productOwner.profileImageUrl" alt="avatar"/>
+                        <img class="avatar" [src]="member?.profileImageUrl" alt="avatar"/>
                         <span>{{ member?.firstName || "" }} {{ member?.lastName || "" }}</span>
                     </li>
                 </ul>

@@ -13,10 +13,11 @@ import {ApplicationStatusEnum} from '../../../shared/models/ApplicationStatus.en
 import {StatuscardComponent} from '../../../shared/components/statuscard/statuscard.component';
 import {ToastService} from '../../../core/services/toast.service';
 import {Application} from '../../../shared/models/application.model';
+import {ConfirmationModalComponent} from '../../../shared/components/confirmation-modal/confirmation-modal.component';
 
 @Component({
     selector: 'app-application-details',
-    imports: [CommonModule, ButtonComponent, MarkdownModule, StatuscardComponent],
+    imports: [CommonModule, ButtonComponent, MarkdownModule, StatuscardComponent, ConfirmationModalComponent],
     templateUrl: './application-details.component.html',
     styleUrl: './application-details.component.scss'
 })
@@ -37,7 +38,30 @@ export class ApplicationDetailsComponent implements OnInit, OnDestroy {
     public isApplicationOwner$!: Observable<boolean>;
     public project$: Observable<Project> | null = null;
     protected readonly ApplicationStatusEnum = ApplicationStatusEnum;
+    showActionModal = false;
+    selectedAction: 'approve' | 'reject' | null = null;
+    selectedApplicationId: number | null = null;
 
+    openActionModal(applicationId: number, action: 'approve'| 'reject'){
+        this.selectedApplicationId = applicationId;
+        this.selectedAction = action;
+        this.showActionModal = true;
+    }
+
+    closeActionModal(){
+        this.showActionModal = false;
+        this.selectedAction= null;
+        this.selectedApplicationId = null;
+    }
+
+    handleActionConfirm(){
+        if(!this.selectedApplicationId || !this.selectedAction) return;
+        const status = this.selectedAction === 'approve'
+            ? ApplicationStatusEnum.APPROVED
+            : ApplicationStatusEnum.REJECTED;
+        this.reviewApplication(this.selectedApplicationId,status);
+        this.closeActionModal();
+    }
     private subscriptions: Subscription[] = [];
 
     ngOnInit() {
