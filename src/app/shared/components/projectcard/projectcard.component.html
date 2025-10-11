@@ -1,4 +1,4 @@
-<div class="card" (click)="navigateToProject()">
+<div class="card" (click)="navigateToProject($event)">
     <div class="card-header">
         <div class="card-user">
             <ng-container *ngIf="project.productOwner; else noOwner">
