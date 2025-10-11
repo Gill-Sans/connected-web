@@ -26,6 +26,14 @@ export class ProjectService {
         );
     }
 
+    getMyProjects(assignmentId: number): Observable<Project[]> {
+        return this.http.get<Project[]>(`${environment.apiBaseUrl}/api/projects/my-projects/${assignmentId}`, {
+            withCredentials: true
+        });
+    }
+
+
+
     importProject(projectId: number, assignmentId: number): Observable<Project> {
         return this.http.post<Project>(`${environment.apiBaseUrl}/api/projects/${projectId}/import/${assignmentId}`, {}, {
             withCredentials: true
