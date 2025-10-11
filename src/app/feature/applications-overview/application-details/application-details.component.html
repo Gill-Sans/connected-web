@@ -1,3 +1,14 @@
+<!-- Action Modal -->
+<app-confirmation-modal
+    *ngIf="showActionModal"
+    [title]="selectedAction === 'approve' ? 'Approve Application' : 'Reject Application'"
+    [message]="'Are you sure you want to do this action?'"
+    [confirmText]="selectedAction === 'approve' ? 'Approve' : 'Reject'"
+    [cancelText]="'Cancel'"
+    (confirm)="handleActionConfirm()"
+    (cancel)="closeActionModal()">
+</app-confirmation-modal>
+
 <div class="application-details-container">
     <div class="content-wrapper" *ngIf="application$ | async as application">
         <!-- Left side - Motivation -->
@@ -13,8 +24,8 @@
             <div class="action-container" *ngIf="(isOwner$ | async) && (application.status == ApplicationStatusEnum.PENDING)">
                 <h4>Manage Application</h4>
                 <div class="action-buttons">
-                    <app-button variant="success" (click)="reviewApplication(application.id, ApplicationStatusEnum.APPROVED)">Approve</app-button>
-                    <app-button variant="danger" (click)="reviewApplication(application.id, ApplicationStatusEnum.REJECTED)">Reject</app-button>
+                    <app-button variant="success" (click)="openActionModal(application.id, 'approve')">Approve</app-button>
+                    <app-button variant="danger" (click)="openActionModal(application.id, 'reject')">Reject</app-button>
                 </div>
             </div>
             <div class="action-container" *ngIf="(isApplicationOwner$ | async) && (application.status == ApplicationStatusEnum.APPROVED) && !(isMember$ | async)">

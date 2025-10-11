@@ -5,14 +5,14 @@
 
         <div class="modal-actions">
             <app-button
-                variant="neutral"
+                variant="primary"
                 [disabled]="isProcessing"
                 (click)="onCancel()">
                 {{ cancelText }}
             </app-button>
 
             <app-button
-                variant="primary"
+                variant="neutral"
                 [disabled]="isProcessing"
                 (click)="onConfirm()">
                 {{ confirmText }}
