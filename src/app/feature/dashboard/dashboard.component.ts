@@ -1,29 +1,27 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
-import { Observable, Subscription, combineLatest, map, shareReplay, switchMap } from 'rxjs';
+import {Component, inject, OnDestroy, OnInit} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {Router} from '@angular/router';
+import {map, Observable, shareReplay, Subscription, switchMap} from 'rxjs';
 
-import { AnnouncementService } from '../../core/services/announcement.service';
-import { DeadlineService } from '../../core/services/deadline.service';
-import { ProjectService } from '../../core/services/project.service';
-import { ActiveAssignmentService } from '../../core/services/active-assignment.service';
-import { ActiveAssignmentRoutingService } from '../../core/services/active-assignment-routing.service';
-import { AssignmentService } from '../../core/services/assignment.service';
+import {AnnouncementService} from '../../core/services/announcement.service';
+import {DeadlineService} from '../../core/services/deadline.service';
+import {ProjectService} from '../../core/services/project.service';
+import {ActiveAssignmentService} from '../../core/services/active-assignment.service';
+import {ActiveAssignmentRoutingService} from '../../core/services/active-assignment-routing.service';
+import {AssignmentService} from '../../core/services/assignment.service';
 
-import { Announcement } from '../../shared/models/announcement.model';
-import { Deadline } from '../../shared/models/deadline.model';
-import { Project } from '../../shared/models/project.model';
+import {Announcement} from '../../shared/models/announcement.model';
+import {Deadline} from '../../shared/models/deadline.model';
+import {Project} from '../../shared/models/project.model';
+import {ChartConfiguration} from 'chart.js';
 
-import { BaseChartDirective } from 'ng2-charts';
-import { ChartConfiguration } from 'chart.js';
-
-import { AnnouncementCardComponent } from '../../shared/components/announcement-card/announcement-card.component';
-import { ButtonComponent } from '../../shared/components/button/button.component';
-import { ProjectcardComponent } from '../../shared/components/projectcard/projectcard.component';
-import { CalendarSmallComponent } from '../../shared/components/calendar-small/calendar-small.component';
-import { HasRoleDirective } from '../../shared/directives/HasRole.directive';
-import { Role } from '../../auth/models/role.model';
-import { DashboardDetailsDto, UserSummaryDto } from '../../shared/models/dashboard.model';
+import {AnnouncementCardComponent} from '../../shared/components/announcement-card/announcement-card.component';
+import {ButtonComponent} from '../../shared/components/button/button.component';
+import {ProjectcardComponent} from '../../shared/components/projectcard/projectcard.component';
+import {CalendarSmallComponent} from '../../shared/components/calendar-small/calendar-small.component';
+import {HasRoleDirective} from '../../shared/directives/HasRole.directive';
+import {Role} from '../../auth/models/role.model';
+import {DashboardDetailsDto, UserSummaryDto} from '../../shared/models/dashboard.model';
 
 @Component({
     selector: 'app-dashboard',
@@ -34,7 +32,6 @@ import { DashboardDetailsDto, UserSummaryDto } from '../../shared/models/dashboa
         CalendarSmallComponent,
         ButtonComponent,
         ProjectcardComponent,
-        BaseChartDirective,
         HasRoleDirective
     ],
     templateUrl: './dashboard.component.html',
