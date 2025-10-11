@@ -4,6 +4,7 @@ import {Observable} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {Assignment} from '../../shared/models/assignment.model';
 import { Application } from '../../shared/models/application.model';
+import {DashboardDetailsDto} from '../../shared/models/dashboard.model';
 
 @Injectable({providedIn: 'root'})
 export class AssignmentService {
@@ -23,5 +24,12 @@ export class AssignmentService {
 
     deleteAssignment(assignmentId: number): Observable<any>{
         return this.http.delete<any>(`${environment.apiBaseUrl}/api/assignments/${assignmentId}`, {withCredentials: true});
+    }
+
+    getAssignmentDashboard(assignmentId: number): Observable<DashboardDetailsDto> {
+        return this.http.get<DashboardDetailsDto>(
+            `${environment.apiBaseUrl}/api/assignments/${assignmentId}/dashboard`,
+            { withCredentials: true }
+        );
     }
 }

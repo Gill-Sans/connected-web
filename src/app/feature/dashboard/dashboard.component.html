@@ -1,4 +1,70 @@
-<div class="dashboard-continer">
+<section class="tdb" *hasRole="Role.Teacher">
+    <ng-container *ngIf="dashboard$ | async as d; else tdbLoading">
+
+        <!-- KPIs -->
+        <div class="tdb-kpis">
+            <div class="kpi"><span class="kpi-label">Students</span><span class="kpi-value">{{ d.counts.totalStudents }}</span></div>
+            <div class="kpi"><span class="kpi-label">Assigned</span><span class="kpi-value">{{ d.counts.assignedStudents }}</span></div>
+            <div class="kpi"><span class="kpi-label">Unassigned</span><span class="kpi-value">{{ d.counts.unassignedStudents }}</span></div>
+            <div class="kpi"><span class="kpi-label">Awaiting Review</span><span class="kpi-value">{{ d.counts.reviewQueueProjects }}</span></div>
+            <div class="kpi"><span class="kpi-label">Needs Revision</span><span class="kpi-value">{{ d.counts.needsRevisionProjects }}</span></div>
+        </div>
+
+        <div class="tdb-grid">
+            <!-- Review queue -->
+            <article class="card">
+                <header class="card-h">
+                    <h4>Projects awaiting review</h4>
+                    <span class="count-badge" [class.ok]="!d.lists.reviewQueue?.length">{{ d.counts.reviewQueueProjects }}</span>
+                </header>
+
+                <ul class="list" *ngIf="d.lists.reviewQueue?.length; else noReview">
+                    <li *ngFor="let p of d.lists.reviewQueue" class="row">
+                        <div class="row-main">
+                            <div class="title">{{ p.title }}</div>
+                            <div class="meta">
+                                <span class="badge">{{ p.status }}</span>
+                                <span class="owner" *ngIf="p.createdBy">· {{ p.createdBy.firstName }} {{ p.createdBy.lastName }}</span>
+                            </div>
+                        </div>
+                        <div class="row-actions">
+                            <app-button variant="primary" (click)="openProject(p.id)">Open review</app-button>
+                        </div>
+                    </li>
+                </ul>
+                <ng-template #noReview><div class="empty">No projects waiting for review.</div></ng-template>
+            </article>
+
+            <!-- Students to nudge -->
+            <article class="card">
+                <header class="card-h">
+                    <h4>Students to nudge</h4>
+                </header>
+
+                <ul class="list" *ngIf="(studentsToNudge$ | async)?.length; else noNudge">
+                    <li *ngFor="let s of (studentsToNudge$ | async)" class="row">
+                        <div class="row-main">
+                            <div class="title">{{ s.firstName }} {{ s.lastName }}</div>
+                            <div class="meta"><span class="badge warn">{{ s.reason }}</span></div>
+                        </div>
+                    </li>
+                </ul>
+                <ng-template #noNudge><div class="empty">Everyone is placed or on track. 🎉</div></ng-template>
+            </article>
+        </div>
+
+    </ng-container>
+
+    <ng-template #tdbLoading>
+        <div class="skeleton">
+            <div class="skeleton-kpi" *ngFor="let i of [1,2,3,4,5]"></div>
+            <div class="skeleton-card"></div>
+            <div class="skeleton-card"></div>
+        </div>
+    </ng-template>
+</section>
+
+<div class="dashboard-continer" *hasRole="Role.Student">
     <main class="announcement-container">
         <h4>Announcements</h4>
         <div *ngIf="announcements.length > 0; else noAnnouncements" class="announcement-overview">
@@ -24,17 +90,5 @@
         <div class="calendar-container">
             <app-calendar-small [deadlines]="(deadlines$ | async) ?? []"></app-calendar-small>
         </div>
-
-        <!-- Teacher-only Charts Section -->
-        <ng-container *hasRole="Role.Teacher">
-            <section class="charts-section">
-                <h4>Project Submission Overview</h4>
-                <canvas baseChart
-                        [data]="submissionChartData"
-                        [options]="submissionChartOptions"
-                        [type]="submissionChartType">
-                </canvas>
-            </section>
-        </ng-container>
     </aside>
 </div>
