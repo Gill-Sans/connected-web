@@ -12,10 +12,10 @@
 
         <div class="tdb-grid">
             <!-- Review queue -->
-            <article class="card">
+            <article class="card" id="ToReview">
                 <header class="card-h">
-                    <h4>Projects awaiting review</h4>
-                    <span class="count-badge" [class.ok]="!d.lists.reviewQueue?.length">{{ d.counts.reviewQueueProjects }}</span>
+                    <h3>Projects awaiting review</h3>
+                    <span class="count-badge" [class.ok]="!d.lists.reviewQueue.length">{{ d.counts.reviewQueueProjects }}</span>
                 </header>
 
                 <ul class="list" *ngIf="d.lists.reviewQueue?.length; else noReview">
@@ -23,7 +23,7 @@
                         <div class="row-main">
                             <div class="title">{{ p.title }}</div>
                             <div class="meta">
-                                <span class="badge">{{ p.status }}</span>
+                                <app-statuscard variant='small' status="{{ p.status }}"></app-statuscard>
                                 <span class="owner" *ngIf="p.createdBy">· {{ p.createdBy.firstName }} {{ p.createdBy.lastName }}</span>
                             </div>
                         </div>
@@ -36,9 +36,9 @@
             </article>
 
             <!-- Students to nudge -->
-            <article class="card">
+            <article class="card" id="ToNudge">
                 <header class="card-h">
-                    <h4>Students to nudge</h4>
+                    <h3>Students to nudge</h3>
                 </header>
 
                 <ul class="list" *ngIf="(studentsToNudge$ | async)?.length; else noNudge">

@@ -12,12 +12,14 @@
         align-items: center;
         padding: $small-spacing;
         text-decoration: none;
+        border-radius: $border-radius-sm;
         color: inherit;
 
         &:hover {
             cursor: pointer;
-            background-color: $hover-bg;
-            border-radius: $border-radius;
+            background-color: $bg;
+            box-shadow: $shadow-s;
+            transition: 0.3s;
         }
 
         &.active-link {

@@ -1,3 +1,5 @@
+@use '../../../styles/variables' as *;
+
 .tag-search-container {
     position: relative;
     width: 300px;
@@ -7,8 +9,9 @@
         width: 100%;
         padding: 10px;
         border: none;
-        border-radius: 5px;
-        background-color: #e8e7e7;
+        border-radius: $border-radius-sm;
+        background-color: $bg-light;
+        box-shadow: $shadow-m;
         font-size: 1rem;
     }
 

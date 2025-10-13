@@ -1,3 +1,5 @@
+@use '../../../../styles/variables' as *;
+
 .md-container {
     width: 80%;
     min-width: 400px;
@@ -8,4 +10,13 @@
         overflow-y: scroll;
         scrollbar-width: thin;
     }
+}
+
+.NgxEditor,
+.NgxEditor__MenuBar{
+    background-color: $bg-light !important;
+}
+
+.NgxEditor__Wrapper{
+    box-shadow: $shadow-m !important;
 }
