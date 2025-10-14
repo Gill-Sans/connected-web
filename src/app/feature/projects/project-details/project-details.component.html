@@ -8,7 +8,7 @@
             <a routerLink="applications" routerLinkActive="active-tab" *ngIf="(canManageProject$ | async)">Applications</a>
         </div>
         <div class="project-tabs__right">
-            <a routerLink="edit" routerLinkActive="active-tab" *ngIf="(isOwner$ | async) || (isCreatedByTeacher$ | async)">
+            <a routerLink="edit" routerLinkActive="active-tab" *ngIf="(canManageProject$ | async) || (isCreatedByTeacher$ | async)">
                 <img src="icons/gear.svg" alt="Edit Project"  class="icon"/>
             </a>
         </div>
