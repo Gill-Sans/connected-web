@@ -14,6 +14,7 @@ import {AuthorizationService} from '../../../core/services/authorization.service
 import {ButtonComponent} from '../../../shared/components/button/button.component';
 import {StatuscardComponent} from '../../../shared/components/statuscard/statuscard.component';
 import {ProjectStatusSelectComponent} from '../../../shared/components/project-status-select/project-status-select.component';
+import {ConfirmationModalComponent} from '../../../shared/components/confirmation-modal/confirmation-modal.component';
 
 type TabValue = 'all' | 'global' | 'my projects';
 
@@ -30,7 +31,8 @@ interface TabOption {
         RouterOutlet,
         ButtonComponent,
         StatuscardComponent,
-        ProjectStatusSelectComponent
+        ProjectStatusSelectComponent,
+        ConfirmationModalComponent
     ],
     templateUrl: './project-overview.component.html',
     styleUrl: './project-overview.component.scss'
@@ -43,6 +45,10 @@ export class ProjectOverviewComponent implements OnInit, OnDestroy {
     private readonly toastService = inject(ToastService);
     private readonly authorizationService: AuthorizationService = inject(AuthorizationService);
     protected readonly ProjectStatusEnum = ProjectStatusEnum;
+
+    showStatusUpdateModal = false;
+    pendingStatusProject: Project | null = null;
+    pendingStatus: ProjectStatusEnum | null = null;
 
     projects$: Observable<Project[]> | null = null;
     public isTeacher$: Observable<boolean> = this.authorizationService.isTeacher$();
@@ -144,11 +150,28 @@ export class ProjectOverviewComponent implements OnInit, OnDestroy {
         this.projects$ = this.projectService.getAllGlobalProjects();
     }
 
-    updateProjectStatus(project: Project, status: ProjectStatusEnum): void {
-        this.projectService.updateProjectStatus(project.id, status).subscribe(() => {
-            this.toastService.showToast('success', 'Project status updated to ' + ProjectStatusEnum[status]);
-            this.loadProjects();
-        });
+    promptStatusUpdate(project: Project, status: ProjectStatusEnum): void {
+        this.pendingStatusProject = project;
+        this.pendingStatus = status;
+        this.showStatusUpdateModal = true;
+    }
+
+    confirmStatusUpdate(): void {
+        if (this.pendingStatusProject && this.pendingStatus !== null) {
+            this.projectService.updateProjectStatus(this.pendingStatusProject.id, this.pendingStatus).subscribe(() => {
+                this.toastService.showToast('success', 'Project status updated ');
+                this.loadProjects();
+            });
+        }
+        this.showStatusUpdateModal = false;
+        this.pendingStatusProject = null;
+        this.pendingStatus = null;
+    }
+
+    cancelStatusUpdate(): void {
+        this.showStatusUpdateModal = false;
+        this.pendingStatusProject = null;
+        this.pendingStatus = null;
     }
 
     publishAllProjects(): void {
