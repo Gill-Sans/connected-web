@@ -1,8 +1,7 @@
-
 <app-confirmation-modal
     *ngIf="showStatusUpdateModal"
     [title]="'Update Project Status'"
-    [message]="'Are you sure you want to change the status?'"
+    [message]="'Are you sure you want to change the status to ' + pendingStatusLabel + '?'"
     [confirmText]="'Update'"
     [cancelText]="'Cancel'"
     (confirm)="confirmStatusUpdate()"
