@@ -28,7 +28,7 @@
                 Loading Assignments...
             </ng-template>
         </div>
-    </div>
+    </div>@if(true) {
     <div class="right" *ngIf="user$ | async as user">
         <p>Welcome, {{ user.firstName }} {{ user.lastName }}</p>
         <div class="nav-icons">
@@ -83,4 +83,5 @@
             </div>
         </div>
     </div>
+}
 </div>

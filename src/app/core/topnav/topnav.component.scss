@@ -2,12 +2,12 @@
 @use "../../../styles/mixins.scss" as *;
 
 .topnav {
-    background-color: $bg;
+    background-color: $bg-1;
     border-radius: $border-radius-md;
     border: $border;
-    margin: $small-spacing;
+    margin: $spacing-md;
     display: flex;
-    box-shadow: $shadow-s;
+    box-shadow: $shadow-m;
     min-height: 85px;
     z-index: 6;
 
@@ -21,8 +21,8 @@
             position: relative;
             display: flex;
             align-items: center;
-            gap: $small-spacing;
-            padding: $small-spacing $spacing $small-spacing $small-spacing;
+            gap: $spacing-md;
+            padding: $spacing-md $spacing $spacing-md $spacing-md;
             cursor: pointer;
 
             .course-info {
@@ -73,10 +73,10 @@
             box-shadow: 0 15px 12px rgba(0, 0, 0, 0.15);
 
             dl {
-                padding: $small-spacing;
+                padding: $spacing-md;
                 display: flex;
                 flex-direction: column;
-                gap: $small-spacing;
+                gap: $spacing-md;
 
                 .course {
                     display: flex;
@@ -98,7 +98,7 @@
         gap: $spacing;
         justify-content: space-between;
         padding-left: $spacing;
-        padding-right: $small-spacing;
+        padding-right: $spacing-md;
         flex-grow: 1;
 
         .nav-name {
@@ -125,7 +125,7 @@
             min-width: 200px;
 
             ul {
-                padding: $small-spacing;
+                padding: $spacing-md;
                 list-style: none;
                 .user-name{
                     color: $primary-color;
@@ -178,7 +178,7 @@
     .user-icon img {
         cursor: pointer;
         border-radius: 50%;
-        background-color: $bg-light;
+        background-color: $bg-1;
         border: $border;
         width: $icon-size;
         height: $icon-size;
