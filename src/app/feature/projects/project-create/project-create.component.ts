@@ -1,5 +1,5 @@
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
-
+import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { MarkdownModule } from 'ngx-markdown';
 import { LMarkdownEditorModule } from 'ngx-markdown-editor';
@@ -31,14 +31,15 @@ function minTagsValidator(min: number) {
     selector: 'app-project-create',
     standalone: true,
     imports: [
-    MarkdownModule,
-    ReactiveFormsModule,
-    LMarkdownEditorModule,
-    TagcardComponent,
-    TagSearchComponentComponent,
-    ButtonComponent,
-    MdEditorComponent
-],
+        CommonModule,
+        MarkdownModule,
+        ReactiveFormsModule,
+        LMarkdownEditorModule,
+        TagcardComponent,
+        TagSearchComponentComponent,
+        ButtonComponent,
+        MdEditorComponent
+    ],
     templateUrl: './project-create.component.html',
     styleUrls: ['./project-create.component.scss']
 })

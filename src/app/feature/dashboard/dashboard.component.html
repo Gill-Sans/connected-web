@@ -1,105 +1,94 @@
 <section class="tdb" *hasRole="Role.Teacher">
-  @if (dashboard$ | async; as d) {
-    <!-- KPIs -->
-    <div class="tdb-kpis">
-      <div class="kpi"><span class="kpi-label">Students</span><span class="kpi-value">{{ d.counts.totalStudents }}</span></div>
-      <div class="kpi"><span class="kpi-label">Assigned</span><span class="kpi-value">{{ d.counts.assignedStudents }}</span></div>
-      <div class="kpi"><span class="kpi-label">Unassigned</span><span class="kpi-value">{{ d.counts.unassignedStudents }}</span></div>
-      <div class="kpi"><span class="kpi-label">Awaiting Review</span><span class="kpi-value">{{ d.counts.reviewQueueProjects }}</span></div>
-      <div class="kpi"><span class="kpi-label">Needs Revision</span><span class="kpi-value">{{ d.counts.needsRevisionProjects }}</span></div>
-    </div>
-    <div class="tdb-grid">
-      <!-- Review queue -->
-      <article class="card" id="ToReview">
-        <header class="card-h">
-          <h3>Projects awaiting review</h3>
-          <span class="count-badge" [class.ok]="!d.lists.reviewQueue.length">{{ d.counts.reviewQueueProjects }}</span>
-        </header>
-        @if (d.lists.reviewQueue.length) {
-          <ul class="list">
-            @for (p of d.lists.reviewQueue; track p) {
-              <li class="row">
-                <div class="row-main">
-                  <div class="title">{{ p.title }}</div>
-                  <div class="meta">
-                    <app-statuscard variant='small' status="{{ p.status }}"></app-statuscard>
-                    @if (p.createdBy) {
-                      <span class="owner">· {{ p.createdBy.firstName }} {{ p.createdBy.lastName }}</span>
-                    }
-                  </div>
-                </div>
-                <div class="row-actions">
-                  <app-button variant="primary" (click)="openProject(p.id)">Open review</app-button>
-                </div>
-              </li>
-            }
-          </ul>
-        } @else {
-          <div class="empty">No projects waiting for review.</div>
-        }
-      </article>
-      <!-- Students to nudge -->
-      <article class="card" id="ToNudge">
-        <header class="card-h">
-          <h3>Students to nudge</h3>
-        </header>
-        @if ((studentsToNudge$ | async)?.length) {
-          <ul class="list">
-            @for (s of (studentsToNudge$ | async); track s) {
-              <li class="row">
-                <div class="row-main">
-                  <div class="title">{{ s.firstName }} {{ s.lastName }}</div>
-                  <div class="meta"><span class="badge warn">{{ s.reason }}</span></div>
-                </div>
-              </li>
-            }
-          </ul>
-        } @else {
-          <div class="empty">Everyone is placed or on track. 🎉</div>
-        }
-      </article>
-    </div>
-  } @else {
-    <div class="skeleton">
-      @for (i of [1,2,3,4,5]; track i) {
-        <div class="skeleton-kpi"></div>
-      }
-      <div class="skeleton-card"></div>
-      <div class="skeleton-card"></div>
-    </div>
-  }
+    <ng-container *ngIf="dashboard$ | async as d; else tdbLoading">
 
+        <!-- KPIs -->
+        <div class="tdb-kpis">
+            <div class="kpi"><span class="kpi-label">Students</span><span class="kpi-value">{{ d.counts.totalStudents }}</span></div>
+            <div class="kpi"><span class="kpi-label">Assigned</span><span class="kpi-value">{{ d.counts.assignedStudents }}</span></div>
+            <div class="kpi"><span class="kpi-label">Unassigned</span><span class="kpi-value">{{ d.counts.unassignedStudents }}</span></div>
+            <div class="kpi"><span class="kpi-label">Awaiting Review</span><span class="kpi-value">{{ d.counts.reviewQueueProjects }}</span></div>
+            <div class="kpi"><span class="kpi-label">Needs Revision</span><span class="kpi-value">{{ d.counts.needsRevisionProjects }}</span></div>
+        </div>
+
+        <div class="tdb-grid">
+            <!-- Review queue -->
+            <article class="card">
+                <header class="card-h">
+                    <h4>Projects awaiting review</h4>
+                    <span class="count-badge" [class.ok]="!d.lists.reviewQueue?.length">{{ d.counts.reviewQueueProjects }}</span>
+                </header>
+
+                <ul class="list" *ngIf="d.lists.reviewQueue?.length; else noReview">
+                    <li *ngFor="let p of d.lists.reviewQueue" class="row">
+                        <div class="row-main">
+                            <div class="title">{{ p.title }}</div>
+                            <div class="meta">
+                                <span class="badge">{{ p.status }}</span>
+                                <span class="owner" *ngIf="p.createdBy">· {{ p.createdBy.firstName }} {{ p.createdBy.lastName }}</span>
+                            </div>
+                        </div>
+                        <div class="row-actions">
+                            <app-button variant="primary" (click)="openProject(p.id)">Open review</app-button>
+                        </div>
+                    </li>
+                </ul>
+                <ng-template #noReview><div class="empty">No projects waiting for review.</div></ng-template>
+            </article>
+
+            <!-- Students to nudge -->
+            <article class="card">
+                <header class="card-h">
+                    <h4>Students to nudge</h4>
+                </header>
+
+                <ul class="list" *ngIf="(studentsToNudge$ | async)?.length; else noNudge">
+                    <li *ngFor="let s of (studentsToNudge$ | async)" class="row">
+                        <div class="row-main">
+                            <div class="title">{{ s.firstName }} {{ s.lastName }}</div>
+                            <div class="meta"><span class="badge warn">{{ s.reason }}</span></div>
+                        </div>
+                    </li>
+                </ul>
+                <ng-template #noNudge><div class="empty">Everyone is placed or on track. 🎉</div></ng-template>
+            </article>
+        </div>
+
+    </ng-container>
+
+    <ng-template #tdbLoading>
+        <div class="skeleton">
+            <div class="skeleton-kpi" *ngFor="let i of [1,2,3,4,5]"></div>
+            <div class="skeleton-card"></div>
+            <div class="skeleton-card"></div>
+        </div>
+    </ng-template>
 </section>
 
 <div class="dashboard-continer" *hasRole="Role.Student">
-  <main class="announcement-container">
-    <h4>Announcements</h4>
-    @if (announcements.length > 0) {
-      <div class="announcement-overview">
-        @for (announcement of announcements; track announcement) {
-          <app-announcement-card [announcement]="announcement"></app-announcement-card>
-        }
-      </div>
-    } @else {
-      <p>No announcements available for this assignment.</p>
-    }
-  </main>
-  <aside>
-    <div class="project-container">
-      <h4>My project</h4>
-      @if (project != null) {
-        <div class="project">
-          <app-projectcard [project]="project"></app-projectcard>
+    <main class="announcement-container">
+        <h4>Announcements</h4>
+        <div *ngIf="announcements.length > 0; else noAnnouncements" class="announcement-overview">
+            <app-announcement-card *ngFor="let announcement of announcements" [announcement]="announcement"></app-announcement-card>
         </div>
-      } @else {
-        <div class="no-project">
-          <p>You are not part of a project yet in this assignment.</p>
-          <app-button variant="link" (click)="navigateToProjects()">Browse projects</app-button>
+        <ng-template #noAnnouncements>
+            <p>No announcements available for this assignment.</p>
+        </ng-template>
+    </main>
+    <aside>
+        <div class="project-container">
+            <h4>My project</h4>
+            <div class="project" *ngIf="project != null; else noProject">
+                <app-projectcard [project]="project"></app-projectcard>
+            </div>
+            <ng-template #noProject>
+                <div class="no-project">
+                    <p>You are not part of a project yet in this assignment.</p>
+                    <app-button variant="link" (click)="navigateToProjects()">Browse projects</app-button>
+                </div>
+            </ng-template>
         </div>
-      }
-    </div>
-    <div class="calendar-container">
-      <app-calendar-small [deadlines]="(deadlines$ | async) ?? []"></app-calendar-small>
-    </div>
-  </aside>
+        <div class="calendar-container">
+            <app-calendar-small [deadlines]="(deadlines$ | async) ?? []"></app-calendar-small>
+        </div>
+    </aside>
 </div>

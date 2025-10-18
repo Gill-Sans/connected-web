@@ -1,40 +1,38 @@
 <div class="login-modal">
-  <h2>Log in to start browsing projects</h2>
-  <p>Please use your Canvas account to log in and access Connected.</p>
+    <h2>Log in to start browsing projects</h2>
+    <p>Please use your Canvas account to log in and access Connected.</p>
 
-  <app-button variant="primary" (click)="loginWithCanvas()">
-    Log in with Canvas
-  </app-button>
+    <app-button variant="primary" (click)="loginWithCanvas()">
+        Log in with Canvas
+    </app-button>
 
-  <!-- GDPR Checkbox -->
-  <div class="gdpr-checkbox">
-    <div class="checkbox-row">
-      <!-- Native checkbox (screen-reader + keyboard focusable) -->
-      <input
-        id="gdpr"
-        type="checkbox"
-        [(ngModel)]="accepted"
-        (ngModelChange)="onCheckboxChange($event)"
-        />
+    <!-- GDPR Checkbox -->
+    <div class="gdpr-checkbox">
+        <div class="checkbox-row">
+            <!-- Native checkbox (screen-reader + keyboard focusable) -->
+            <input
+                id="gdpr"
+                type="checkbox"
+                [(ngModel)]="accepted"
+                (ngModelChange)="onCheckboxChange($event)"
+            />
 
-        <!-- Only this label (the box) toggles the checkbox -->
-        <label for="gdpr" class="custom-checkbox" aria-label="Accept data processing">
-          <span class="checkmark" aria-hidden="true"></span>
-        </label>
+            <!-- Only this label (the box) toggles the checkbox -->
+            <label for="gdpr" class="custom-checkbox" aria-label="Accept data processing">
+                <span class="checkmark" aria-hidden="true"></span>
+            </label>
 
-        <!-- Informational text - NOT clickable -->
-        <span class="gdpr-text">
-          I have read the <a href="https://www.erasmushogeschool.be/nl/privacyverklaring" target="_blank" rel="noopener">data guides</a> and agree to the data processing.
-        </span>
-      </div>
+            <!-- Informational text - NOT clickable -->
+            <span class="gdpr-text">
+                I have read the <a href="https://www.erasmushogeschool.be/nl/privacyverklaring" target="_blank" rel="noopener">data guides</a> and agree to the data processing.
+            </span>
+        </div>
 
-      @if (error) {
-        <div class="error">{{ error }}</div>
-      }
+        <div class="error" *ngIf="error">{{ error }}</div>
     </div>
 
     <p>
-      Are you a Researcher?
-      <app-button variant="link" (click)="router.navigate(['/guest'])">Click Here to login.</app-button>
+        Are you a Researcher?
+        <app-button variant="link" (click)="router.navigate(['/guest'])">Click Here to login.</app-button>
     </p>
-  </div>
+</div>

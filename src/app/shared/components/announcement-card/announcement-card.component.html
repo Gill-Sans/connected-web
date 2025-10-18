@@ -1,16 +1,14 @@
 <div class="announcement">
-  <div class="announcement-header">
-    <div class="announcement-user">
-      <div class="placeholder-avatar"><img [src]="announcement.createdBy.profileImageUrl" alt="avatar"></div>
-      <p class="announcement-author">{{ announcement.createdBy.firstName }} {{ announcement.createdBy.lastName }}</p>
+    <div class="announcement-header">
+        <div class="announcement-user">
+            <div class="placeholder-avatar"><img [src]="announcement.createdBy.profileImageUrl" alt="avatar"></div>
+            <p class="announcement-author">{{ announcement.createdBy.firstName }} {{ announcement.createdBy.lastName }}</p>
+        </div>
+        <div class="announcement-date-container">
+            <p class="announcement-time" *ngIf="announcement.createdAt">{{ announcement.createdAt | date: 'HH:mm ' }}</p>
+            <p class="announcement-date">{{ announcement.createdAt | date: 'dd/MM/yyyy' }}</p>
+        </div>
     </div>
-    <div class="announcement-date-container">
-      @if (announcement.createdAt) {
-        <p class="announcement-time">{{ announcement.createdAt | date: 'HH:mm ' }}</p>
-      }
-      <p class="announcement-date">{{ announcement.createdAt | date: 'dd/MM/yyyy' }}</p>
-    </div>
-  </div>
-  <h4>{{ announcement.title }}</h4>
-  <p>{{ announcement.message }}</p>
+    <h4>{{ announcement.title }}</h4>
+    <p>{{ announcement.message }}</p>
 </div>

@@ -23,7 +23,7 @@ import {MobileUnsupportedComponent} from './shared/components/mobile-unsupported
     styleUrl: './app.component.scss'
 })
 export class AppComponent implements OnInit, OnDestroy {
-    title = 'ConnectEd';
+    title = 'connected-web';
 
     private readonly authFacade = inject(AuthFacade);
     readonly isLoading$ = this.authFacade.isLoading$;
@@ -35,11 +35,12 @@ export class AppComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.authFacade.loadSession().then(() => {
             if (isPlatformBrowser(this.platformId)) {
-                this.checkIfMobile();
+                this.checkScreenSize();
 
+                // 🔄 Listen for resize events, debounce so it’s not too noisy
                 const resizeSub = fromEvent(window, 'resize')
                     .pipe(debounceTime(200))
-                    .subscribe(() => this.checkIfMobile());
+                    .subscribe(() => this.checkScreenSize());
 
                 this.subscriptions.push(resizeSub);
 
@@ -53,11 +54,7 @@ export class AppComponent implements OnInit, OnDestroy {
         this.subscriptions.forEach(subscription => subscription.unsubscribe());
     }
 
-    private checkIfMobile(): void {
-        const userAgent: string = navigator.userAgent;
-        const mobileRegex = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
-        const isMobile: boolean = mobileRegex.test(userAgent);
-        const isSmallScreen: boolean = window.innerWidth < 768;
-        this.isMobile = isMobile || isSmallScreen;
+    private checkScreenSize(): void {
+        this.isMobile = window.innerWidth < 1024;
     }
 }

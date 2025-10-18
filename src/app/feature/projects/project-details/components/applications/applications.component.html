@@ -1,39 +1,33 @@
 <div class="applications-container">
-  <table>
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Status</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      @for (application of applications$ | async; track application) {
-        <tr>
-          <td>
-            <div class="applicant-info">
-              {{ application.applicant.firstName }}
-              {{ application.applicant.lastName }}
-            </div>
-          </td>
-          <td>
-            <app-statuscard
-              [status]="application.status.toString()"
-            ></app-statuscard>
-          </td>
-          <td>
-            <div class="actions">
-              @if (application.status === ApplicationStatusEnum.PENDING) {
-                <app-button variant="success" (click)="approveApplication(application.id)">Accept</app-button>
-              }
-              @if (application.status === ApplicationStatusEnum.PENDING) {
-                <app-button variant="danger" (click)="rejectApplication(application.id)">Deny</app-button>
-              }
-              <app-button variant="neutral"  (click)="navigateToApplication(application.id)">View</app-button>
-            </div>
-          </td>
-        </tr>
-      }
-    </tbody>
-  </table>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let application of applications$ | async">
+                <td>
+                    <div class="applicant-info">
+                        {{ application.applicant.firstName }}
+                        {{ application.applicant.lastName }}
+                    </div>
+                </td>
+                <td>
+                    <app-statuscard
+                        [status]="application.status.toString()"
+                    ></app-statuscard>
+                </td>
+                <td>
+                    <div class="actions">
+                        <app-button variant="success" (click)="approveApplication(application.id)" *ngIf="application.status === ApplicationStatusEnum.PENDING">Accept</app-button>
+                        <app-button variant="danger" (click)="rejectApplication(application.id)" *ngIf="application.status === ApplicationStatusEnum.PENDING">Deny</app-button>
+                        <app-button variant="neutral"  (click)="navigateToApplication(application.id)">View</app-button>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </div>

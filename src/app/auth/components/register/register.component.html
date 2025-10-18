@@ -1,77 +1,55 @@
 <div class="register-container">
-  <h2>Register</h2>
-  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-    <!-- Email Input -->
-    <label for="email">Email:</label>
-    <input
-      id="email"
-      type="email"
-      formControlName="email"
-      placeholder="Enter your email" />
-      @if (registerForm.get('email')?.invalid && registerForm.get('email')?.touched) {
-        <div class="error">
-          @if (registerForm.get('email')?.errors?.['required']) {
-            <span class="error">Email is required.</span>
-          }
-          @if (registerForm.get('email')?.errors?.['email']) {
-            <span class="error">Please enter a valid email.</span>
-          }
+    <h2>Register</h2>
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <!-- Email Input -->
+        <label for="email">Email:</label>
+        <input
+            id="email"
+            type="email"
+            formControlName="email"
+            placeholder="Enter your email" />
+        <div class="error" *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
+            <span class="error" *ngIf="registerForm.get('email')?.errors?.['required']">Email is required.</span>
+            <span class="error" *ngIf="registerForm.get('email')?.errors?.['email']">Please enter a valid email.</span>
         </div>
-      }
 
-      <!-- Password Input -->
-      <label for="password">Password:</label>
-      <input
-        id="password"
-        type="password"
-        formControlName="password"
-        placeholder="Enter your password" />
-        @if (registerForm.get('password')?.invalid && registerForm.get('password')?.touched) {
-          <div class="error">
-            @if (registerForm.get('password')?.errors?.['required']) {
-              <span class="error">Password is required.</span>
-            }
-            @if (registerForm.get('password')?.errors?.['pattern']) {
-              <span class="error">
-                Password must be at least 8 characters long, contain one uppercase letter, one number, and one special character.
-              </span>
-            }
-          </div>
-        }
+        <!-- Password Input -->
+        <label for="password">Password:</label>
+        <input
+            id="password"
+            type="password"
+            formControlName="password"
+            placeholder="Enter your password" />
+        <div class="error" *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
+            <span class="error" *ngIf="registerForm.get('password')?.errors?.['required']">Password is required.</span>
+            <span class="error" *ngIf="registerForm.get('password')?.errors?.['pattern']">
+        Password must be at least 8 characters long, contain one uppercase letter, one number, and one special character.
+      </span>
+        </div>
 
         <!-- First Name Input -->
         <label for="firstName">First Name:</label>
         <input
-          id="firstName"
-          type="text"
-          formControlName="firstName"
-          placeholder="Enter your first name" />
-          @if (registerForm.get('firstName')?.invalid && registerForm.get('firstName')?.touched) {
-            <div class="error">
-              @if (registerForm.get('firstName')?.errors?.['required']) {
-                <span class="error">First name is required.</span>
-              }
-            </div>
-          }
+            id="firstName"
+            type="text"
+            formControlName="firstName"
+            placeholder="Enter your first name" />
+        <div class="error" *ngIf="registerForm.get('firstName')?.invalid && registerForm.get('firstName')?.touched">
+            <span class="error" *ngIf="registerForm.get('firstName')?.errors?.['required']">First name is required.</span>
+        </div>
 
-          <!-- Last Name Input -->
-          <label for="lastName">Last Name:</label>
-          <input
+        <!-- Last Name Input -->
+        <label for="lastName">Last Name:</label>
+        <input
             id="lastName"
             type="text"
             formControlName="lastName"
             placeholder="Enter your last name" />
-            @if (registerForm.get('lastName')?.invalid && registerForm.get('lastName')?.touched) {
-              <div class="error">
-                @if (registerForm.get('lastName')?.errors?.['required']) {
-                  <span class="error">Last name is required.</span>
-                }
-              </div>
-            }
-
-            <app-button variant="primary" type="submit">Register</app-button>
-          </form>
-          @if (errorMessage) {
-            <div class="error-message">{{ errorMessage }}</div>
-          }
+        <div class="error" *ngIf="registerForm.get('lastName')?.invalid && registerForm.get('lastName')?.touched">
+            <span class="error" *ngIf="registerForm.get('lastName')?.errors?.['required']">Last name is required.</span>
         </div>
+
+        <app-button variant="primary" type="submit">Register</app-button>
+    </form>
+    <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+</div>

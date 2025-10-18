@@ -8,16 +8,17 @@ import {Announcement} from '../../../shared/models/announcement.model';
 import {ActiveAssignment} from '../../../shared/models/activeAssignment.model';
 import {ActiveAssignmentRoutingService} from '../../../core/services/active-assignment-routing.service';
 import {ButtonComponent} from '../../../shared/components/button/button.component';
-
+import {CommonModule} from '@angular/common';
 import {ToastService} from '../../../core/services/toast.service';
 
 @Component({
     selector: 'app-announcement-create',
     standalone: true,
     imports: [
-    ReactiveFormsModule,
-    ButtonComponent
-],
+        CommonModule,
+        ReactiveFormsModule,
+        ButtonComponent
+    ],
     templateUrl: './announcement-create.component.html',
     styleUrls: ['./announcement-create.component.scss']
 })

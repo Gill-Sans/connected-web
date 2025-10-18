@@ -1,229 +1,89 @@
 @use '../../../styles/variables.scss' as *;
 
+/* Teacher dashboard styles (isolated; no impact on .dashboard-continer) */
 .tdb {
     display: grid;
-    gap: $spacing-lg;
-    margin-bottom: $spacing-lg;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
 
     .tdb-kpis {
         display: grid;
         grid-template-columns: repeat(5, minmax(120px, 1fr));
-        gap: $spacing-lg;
+        gap: .75rem;
 
         .kpi {
-            background: $bg-1;
-            border: $border;
-            border-radius: $border-radius-md;
-            box-shadow: $shadow-s;
-            padding: $card-padding;
-            display: flex;
-            flex-direction: column;
-            gap: .625rem;
-
-            .kpi-label {
-                color: $text-color-light;
-                font-size: 1rem;
-            }
-
-            .kpi-value {
-                font-weight: 700;
-                color: $text-color-dark;
-                font-size: 2.125rem;
-            }
+            background: $background-color-light;
+            border: 1px solid rgba(0,0,0,.08);
+            border-radius: 12px;
+            padding: .9rem;
+            display: flex; flex-direction: column; gap: .25rem;
+            .kpi-label { color: $text-color-light; font-size: .85rem; }
+            .kpi-value { font-weight: 700; font-size: 1.35rem; }
         }
     }
 
     .tdb-grid {
         display: grid;
-        grid-template-columns: repeat(5, minmax(120px, 1fr));
-        gap: $spacing-lg;
-    }
-
-    #ToReview{
-        grid-column-start: 1;
-        grid-column-end: 4;
-        grid-row-start: 1;
-
-    }
-
-    #ToNudge{
-        grid-column-start: 4;
-        grid-column-end: 6;
-    }
-
-    //tablet screens
-    @media  (max-width: 1024px) {
-        .tdb-grid {
-            grid-template-rows: repeat(2, minmax(120px, 1fr));
-        }
-
-        #ToReview{
-            grid-column-start: 1;
-            grid-column-end: 6;
-        }
-
-        #ToNudge{
-            grid-column-start: 1;
-            grid-column-end: 6;
-        }
+        grid-template-columns: 1.2fr 1fr;
+        gap: 1rem;
     }
 
     .card {
-        background: $bg-1;
-        box-shadow: $shadow-m;
-        border: $border;
-        border-radius: 16px;
-        padding: $card-padding;
+        background: #fff;
+        border: 1px solid rgba(0,0,0,.08);
+        border-radius: 12px;
+        padding: 1rem;
 
         .card-h {
-            display: flex;
-            align-items: baseline;
-            gap: .5rem;
-            margin-bottom: .75rem;
-
-            h4 {
-                margin: 0;
-            }
-
+            display: flex; align-items: baseline; gap: .5rem; margin-bottom: .75rem;
+            h4 { margin: 0; }
             .count-badge {
-                margin-left: auto;
-                padding: .15rem .5rem;
-                border-radius: 999px;
-                font-size: .8rem;
-                background: rgba(0, 0, 0, .05);
-
-                &.ok {
-                    background: rgba(0, 150, 0, .08);
-                }
+                margin-left: auto; padding: .15rem .5rem; border-radius: 999px; font-size: .8rem;
+                background: rgba(0,0,0,.05); &.ok { background: rgba(0,150,0,.08); }
             }
-
-            .hint {
-                color: $text-color-light;
-                font-size: .85rem;
-            }
+            .hint { color: $text-color-light; font-size: .85rem; }
         }
 
         .list {
-            display: flex;
-            flex-direction: column;
-            gap: .5rem;
-
-            .row-main {
-                display: flex;
-                align-items: center;
-                gap: .5rem;
-                flex: 1;
-                min-width: 0;
-
-                .title {
-                    flex: 1;
-                    min-width: 0;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    white-space: nowrap;
-                }
-
-                .meta {
-                    margin-left: auto;
-                }
+            .row-main { flex: 1; min-width: 0; }
+            .row-actions { flex-shrink: 0; margin-left: .75rem; }
+            .meta { white-space: nowrap; }
+            .row-main { display: flex; align-items: center; gap: .5rem; }
+            .row-main .title { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+            .row-main .meta { margin-left: auto; }
+            display: flex; flex-direction: column; gap: .5rem;
+            .row { display: flex; align-items: center; justify-content: space-between;
+                padding: .6rem .2rem; border-bottom: 1px dashed rgba(0,0,0,.06);
+                &:last-child { border-bottom: 0; }
             }
-
-            .row-actions {
-                flex-shrink: 0;
-                margin-left: .75rem;
-            }
-
-            .meta {
-                white-space: nowrap;
-                color: $text-color-light;
-                font-size: .85rem;
-                display: inline-flex;
-                gap: .5rem;
-                align-items: center;
-            }
-
-            .row {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                padding: .6rem .2rem;
-                border-bottom: 1px dashed rgba(0, 0, 0, .06);
-
-                &:last-child {
-                    border-bottom: 0;
-                }
-            }
-
-            .title {
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-            }
-
-            .badge {
-                padding: .1rem .5rem;
-                border-radius: 999px;
-                font-size: .75rem;
-                background: rgba(0, 0, 0, .05);
-                text-transform: capitalize;
-
-                &.warn {
-                    background: rgba(255, 165, 0, .12);
-                }
-            }
+            .title { font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+            .meta { color: $text-color-light; font-size: .85rem; display: inline-flex; gap: .5rem; align-items: center; }
+            .badge { padding: .1rem .5rem; border-radius: 999px; font-size: .75rem; background: rgba(0,0,0,.05); text-transform: capitalize; }
+            .badge.warn { background: rgba(255,165,0,.12); }
         }
 
-        .empty {
-            color: $text-color-light;
-            padding: .5rem 0;
-        }
+        .empty { color: $text-color-light; padding: .5rem 0; }
     }
 
     .skeleton {
-        .skeleton-kpi {
-            height: 64px;
-            background: linear-gradient(90deg, #eee, #f7f7f7, #eee);
-            border-radius: 10px;
-            margin-bottom: .5rem;
-            animation: pulse 1.3s infinite;
-        }
-
-        .skeleton-card {
-            height: 220px;
-            background: linear-gradient(90deg, #eee, #f7f7f7, #eee);
-            border-radius: 12px;
-            margin-top: .5rem;
-            animation: pulse 1.3s infinite;
-        }
+        .skeleton-kpi { height: 64px; background: linear-gradient(90deg, #eee, #f7f7f7, #eee);
+            border-radius: 10px; margin-bottom: .5rem; animation: pulse 1.3s infinite; }
+        .skeleton-card { height: 220px; background: linear-gradient(90deg, #eee, #f7f7f7, #eee);
+            border-radius: 12px; margin-top: .5rem; animation: pulse 1.3s infinite; }
     }
 }
 
-@keyframes pulse {
-    0% {
-        background-position: -200px 0;
-    }
-
-    100% {
-        background-position: calc(200px + 100%) 0;
-    }
-}
+@keyframes pulse { 0%{background-position:-200px 0} 100%{background-position:calc(200px + 100%) 0} }
 
 /* Responsive for teacher block only */
 @media (max-width: 1100px) {
-    .tdb .tdb-kpis {
-        grid-template-columns: repeat(3, 1fr);
-    }
-
-    .tdb .tdb-grid {
-        grid-template-columns: 1fr;
-    }
+    .tdb .tdb-kpis { grid-template-columns: repeat(3, 1fr); }
+    .tdb .tdb-grid { grid-template-columns: 1fr; }
 }
-
 @media (max-width: 640px) {
-    .tdb .tdb-kpis {
-        grid-template-columns: repeat(2, 1fr);
-    }
+    .tdb .tdb-kpis { grid-template-columns: repeat(2, 1fr); }
 }
+
 
 .dashboard-continer {
     display: grid;

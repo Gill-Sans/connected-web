@@ -1,101 +1,93 @@
 <div class="project-overview">
-  <div class="tab-bar">
-    <div class="tabs">
-      @for (tab of tabOptions; track tab) {
-        <span
+    <div class="tab-bar">
+        <div class="tabs">
+      <span
+          *ngFor="let tab of tabOptions"
           class="tab"
           [class.active]="selectedTab === tab.value"
           (click)="changeTab(tab.value)"
-          >
-          {{ tab.label }}
-        </span>
-      }
-    </div>
-    <div class="tabs-right">
-      @if ((isTeacher$ | async)) {
-        <div class="toggle-container" (click)="toggleView()">
-          <div class="toggle-switch">
-            <div class="toggle-highlight" [style.left]="viewType === 'card' ? '40px' : '0'"></div>
-            <div class="icon icon-list">
-              <img src="icons/list-solid.svg" alt="List View" />
-            </div>
-            <div class="icon icon-card">
-              <img src="icons/projects.svg" alt="Card View" />
-            </div>
-          </div>
+      >
+        {{ tab.label }}
+      </span>
         </div>
-      }
+        <div class="tabs-right">
+            <ng-container *ngIf="(isTeacher$ | async)">
+                <div class="toggle-container" (click)="toggleView()">
+                    <div class="toggle-switch">
+                        <div class="toggle-highlight" [style.left]="viewType === 'card' ? '40px' : '0'"></div>
+                        <div class="icon icon-list">
+                            <img src="icons/list-solid.svg" alt="List View" />
+                        </div>
+                        <div class="icon icon-card">
+                            <img src="icons/projects.svg" alt="Card View" />
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
 
-      <app-button variant="primary" (click)="navigateToProjectCreate()">Create Project</app-button>
-    </div>
-  </div>
-
-
-  <!-- Render view based on the selected viewType -->
-  @if (projects$ | async; as projects) {
-    <div>
-      @if (projects.length > 0) {
-        @if (viewType === 'card') {
-          <div>
-            <div class="card-container">
-              @for (project of projects; track project) {
-                <app-projectcard
-                  [project]="project"
-                ></app-projectcard>
-              }
-            </div>
-          </div>
-        } @else {
-          <app-button variant="neutral" (click)="publishAllProjects()">Publish All</app-button>
-          <table class="project-table">
-            <thead>
-              <tr>
-                <th>Title</th>
-                <th>Owner</th>
-                <th style="width:20%">Current Status</th>
-                @if (selectedTab === 'all') {
-                  <th style="width:20%">Change Status</th>
-                }
-              </tr>
-            </thead>
-            <tbody>
-              @for (project of projects; track project) {
-                <tr>
-                  <td (click)="navigateToProject(project)">{{ project.title }}</td>
-                  <td>
-                    {{
-                    project.productOwner
-                    ? project.productOwner.firstName + ' ' + project.productOwner.lastName
-                    : project.createdBy.firstName + ' ' + project.createdBy.lastName
-                    }}
-                  </td>
-                  <td>
-                    <app-statuscard status="{{ project.status }}">
-                      {{ project.status }}
-                    </app-statuscard>
-                  </td>
-                  @if (selectedTab === 'all') {
-                    <td>
-                      <app-project-status-select
-                        [value]="project.status"
-                        (valueChange)="updateProjectStatus(project, $event)"
-                      ></app-project-status-select>
-                    </td>
-                  }
-                </tr>
-              }
-            </tbody>
-          </table>
-        }
-      } @else {
-        <div class="no-projects-message">
-          No projects found
+            <app-button variant="primary" (click)="navigateToProjectCreate()">Create Project</app-button>
         </div>
-      }
     </div>
-  } @else {
-    <p>Loading...</p>
-  }
 
-  <router-outlet></router-outlet>
+    <ng-template #loadingProject>
+        <p>Loading...</p>
+    </ng-template>
+
+    <!-- Render view based on the selected viewType -->
+    <div *ngIf="projects$ | async as projects; else loadingProject">
+        <ng-container *ngIf="projects.length > 0; else noProjects">
+            <div *ngIf="viewType === 'card'; else tableView">
+                <div class="card-container">
+                    <app-projectcard
+                        *ngFor="let project of projects"
+                        [project]="project"
+                    ></app-projectcard>
+                </div>
+            </div>
+            <ng-template #tableView>
+                <app-button variant="neutral" (click)="publishAllProjects()">Publish All</app-button>
+                <table class="project-table">
+                    <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Owner</th>
+                        <th style="width:20%">Current Status</th>
+                        <th *ngIf="selectedTab === 'all'" style="width:20%">Change Status</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let project of projects">
+                        <td (click)="navigateToProject(project)">{{ project.title }}</td>
+                        <td>
+                            {{
+                                project.productOwner
+                                    ? project.productOwner.firstName + ' ' + project.productOwner.lastName
+                                    : project.createdBy.firstName + ' ' + project.createdBy.lastName
+                            }}
+                        </td>
+                        <td>
+                            <app-statuscard status="{{ project.status }}">
+                                {{ project.status }}
+                            </app-statuscard>
+                        </td>
+                        <td *ngIf="selectedTab === 'all'">
+                            <app-project-status-select
+                                [value]="project.status"
+                                (valueChange)="updateProjectStatus(project, $event)"
+                            ></app-project-status-select>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </ng-template>
+        </ng-container>
+
+        <ng-template #noProjects>
+            <div class="no-projects-message">
+                No projects found
+            </div>
+        </ng-template>
+    </div>
+
+    <router-outlet></router-outlet>
 </div>

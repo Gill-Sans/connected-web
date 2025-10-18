@@ -1,97 +1,91 @@
 <div class="tab-content">
-  <div class="feedback-container">
-    <div class="feedback-section">
-      @if ((isTeacher$ | async) || false) {
-        <div class="feedback-box">
-          <form [formGroup]="feedbackForm" (ngSubmit)="submitFeedback()">
-            <textarea
+    <div class="feedback-container">
+        <div class="feedback-section">
+            <div class="feedback-box" *ngIf="(isTeacher$ | async) || false">
+                <form [formGroup]="feedbackForm" (ngSubmit)="submitFeedback()">
+          <textarea
               formControlName="feedback"
               placeholder="Enter your feedback here..."
-            ></textarea>
-            <app-button variant="primary" type="submit" [disabled]="feedbackForm.invalid">
-              Post
-            </app-button>
-          </form>
+          ></textarea>
+                    <app-button variant="primary" type="submit" [disabled]="feedbackForm.invalid">
+                        Post
+                    </app-button>
+                </form>
+            </div>
+
+            <div class="feedback-list">
+                <ng-container *ngIf="feedbackList$ | async as feedbackList; else loading">
+                    <app-conversationcard
+                        *ngFor="let feedback of feedbackList"
+                        [firstName]="feedback.user.firstName || ''"
+                        [lastName]="feedback.user.lastName || ''"
+                        [createdAt]="feedback.createdAt"
+                        [comment]="feedback.comment"
+                        [feedbackId]="feedback.id"
+                        [isEditing]="(editingFeedback && editingFeedback.id === feedback.id) || false"
+                        [showEditDelete]="(isTeacher$ | async) || false"
+                        (edit)="updateFeedback(feedback)"
+                        (delete)="deleteFeedback(feedback)"
+                        (confirmEdit)="confirmEdit($event.id, $event.comment)"
+                        (cancelEdit)="cancelEdit(feedback.id)"
+                    >
+                    </app-conversationcard>
+                </ng-container>
+                <ng-template #loading>
+                    <p class="loading">Loading feedback...</p>
+                </ng-template>
+            </div>
         </div>
-      }
 
-      <div class="feedback-list">
-        @if (feedbackList$ | async; as feedbackList) {
-          @for (feedback of feedbackList; track feedback) {
-            <app-conversationcard
-              [firstName]="feedback.user.firstName || ''"
-              [lastName]="feedback.user.lastName || ''"
-              [createdAt]="feedback.createdAt"
-              [comment]="feedback.comment"
-              [feedbackId]="feedback.id"
-              [isEditing]="(editingFeedback && editingFeedback.id === feedback.id) || false"
-              [showEditDelete]="(isTeacher$ | async) || false"
-              (edit)="updateFeedback(feedback)"
-              (delete)="deleteFeedback(feedback)"
-              (confirmEdit)="confirmEdit($event.id, $event.comment)"
-              (cancelEdit)="cancelEdit(feedback.id)"
-              >
-            </app-conversationcard>
-          }
-        } @else {
-          <p class="loading">Loading feedback...</p>
-        }
-      </div>
-    </div>
-
-    @if ((isTeacher$ | async) || false) {
-      <div class="review-section">
-        <p class="teacher-only">Only visible to teachers</p>
-        <div class="review-buttons">
-          <div class="thumb-button" title="Thumbs Up">
-            <img
-              ngSrc="icons/thumb-up.svg"
-              class="thumbs-up"
-              alt="Thumbs Up"
-              height="25"
-              width="25"
-              (click)="updateReviewStatus('thumbs_up')"
-              >
-            </div>
-            <div class="thumb-button" title="Thumbs Down">
-              <img
-                ngSrc="icons/thumb-down.svg"
-                class="thumbs-down"
-                alt="Thumbs Down"
-                height="25"
-                width="25"
-                (click)="updateReviewStatus('thumbs_down')"
-                >
-              </div>
-            </div>
-            <div class="review-list">
-              @if (reviewList$ | async; as reviewList) {
-                @for (review of reviewList; track review) {
-                  <div class="review-item">
-                    <p>{{ review.reviewer.firstName }} {{ review.reviewer.lastName }}: </p>
-                    @if (review.status === 'THUMBS_UP') {
-                      <img
-                        class="thumbs-up"
+        <div class="review-section" *ngIf="(isTeacher$ | async) || false">
+            <p class="teacher-only">Only visible to teachers</p>
+            <div class="review-buttons">
+                <div class="thumb-button" title="Thumbs Up">
+                    <img
                         ngSrc="icons/thumb-up.svg"
+                        class="thumbs-up"
                         alt="Thumbs Up"
                         height="25"
-                        width="25">
-                    }
-                    @if (review.status === 'THUMBS_DOWN') {
-                      <img
-                        class="thumbs-down"
+                        width="25"
+                        (click)="updateReviewStatus('thumbs_up')"
+                    >
+                </div>
+                <div class="thumb-button" title="Thumbs Down">
+                    <img
                         ngSrc="icons/thumb-down.svg"
+                        class="thumbs-down"
                         alt="Thumbs Down"
                         height="25"
-                        width="25">
-                    }
-                  </div>
-                }
-              } @else {
-                <p class="loading">Loading reviews...</p>
-              }
+                        width="25"
+                        (click)="updateReviewStatus('thumbs_down')"
+                    >
+                </div>
             </div>
-          </div>
-        }
-      </div>
+
+            <div class="review-list">
+                <ng-container *ngIf="reviewList$ | async as reviewList; else loadingReviews">
+                    <div class="review-item" *ngFor="let review of reviewList">
+                        <p>{{ review.reviewer.firstName }} {{ review.reviewer.lastName }}: </p>
+                        <img
+                            class="thumbs-up"
+                            *ngIf="review.status === 'THUMBS_UP'"
+                            ngSrc="icons/thumb-up.svg"
+                            alt="Thumbs Up"
+                            height="25"
+                            width="25">
+                        <img
+                            class="thumbs-down"
+                            *ngIf="review.status === 'THUMBS_DOWN'"
+                            ngSrc="icons/thumb-down.svg"
+                            alt="Thumbs Down"
+                            height="25"
+                            width="25">
+                    </div>
+                </ng-container>
+                <ng-template #loadingReviews>
+                    <p class="loading">Loading reviews...</p>
+                </ng-template>
+            </div>
+        </div>
     </div>
+</div>

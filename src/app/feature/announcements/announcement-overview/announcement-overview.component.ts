@@ -1,5 +1,5 @@
 import {Component, inject, OnDestroy, OnInit} from '@angular/core';
-
+import {CommonModule} from '@angular/common';
 import {ButtonComponent} from '../../../shared/components/button/button.component';
 import {AnnouncementService} from '../../../core/services/announcement.service';
 import {ActiveAssignmentService} from '../../../core/services/active-assignment.service';
@@ -13,9 +13,10 @@ import {AnnouncementCardComponent} from '../../../shared/components/announcement
     selector: 'app-announcement-overview',
     standalone: true,
     imports: [
-    ButtonComponent,
-    AnnouncementCardComponent
-],
+        CommonModule,
+        ButtonComponent,
+        AnnouncementCardComponent
+    ],
     templateUrl: './announcement-overview.component.html',
     styleUrls: ['./announcement-overview.component.scss']
 })

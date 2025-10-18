@@ -13,7 +13,7 @@ form {
 .form-group {
     display: flex;
     flex-direction: column;
-    gap: $spacing-xs
+    gap: 1rem;
 }
 
 label {
@@ -29,7 +29,7 @@ input {
     width: 100%;
     padding: 10px;
     border: 1px solid #ddd;
-    border-radius: $border-radius-sm;
+    border-radius: 8px;
     background: $background-color-input;
 }
 
@@ -37,11 +37,10 @@ input {
     max-width: 40%;
     min-width: 400pxs;
     padding: 10px;
-    border-radius: $border-radius-sm;
+    border-radius: 8px;
     font-size: 1rem;
-    background: $bg-2;
-    box-shadow: $shadow-m;
-    border: $border;
+    background: $background-color-input;
+    border: none;
 }
 
 .short-description {

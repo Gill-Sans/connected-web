@@ -16,6 +16,7 @@ import { NotfoundComponent } from './feature/notfound/notfound.component';
 import { ApplicationDetailsComponent } from './feature/applications-overview/application-details/application-details.component';
 import { ApplicationsCreateComponent } from './feature/applications-create/applications-create.component';
 import {DeadlineOverviewComponent} from './feature/deadlines/deadline-overview/deadline-overview.component';
+import {DeadlineCreateComponent} from './feature/deadlines/deadline-create/deadline-create.component';
 import {StudentOverviewComponent} from './feature/student-overview/student-overview.component';
 import {PasswordLoginComponent} from './auth/components/password-login/password-login.component';
 import {RegisterComponent} from './auth/components/register/register.component';
@@ -36,20 +37,18 @@ export const routes: Routes = [
     {
         // Authenticated routes
         path: '',
-        title: 'ConnectEd - Assemble Student Teams with Ease',
         component: MainLayoutComponent,
         canActivate: [AuthGuard, EmailVerifiedGuard],
         children: [
             // Routes that do NOT require an active assignment context:
-            { path: 'courses', canActivate: [TeacherGuard], title: 'Course overview - ConnectEd', component: CourseOverviewComponent },
-            { path: 'profile', title: 'My Profile - ConnectEd', component: ProfilepageComponent },
+            { path: 'courses', canActivate: [TeacherGuard], component: CourseOverviewComponent },
+            { path: 'profile', component: ProfilepageComponent },
             { path: '', component: WelcomeComponent },
-            { path: '404', title: '404 Not Found - ConnectEd',  component: NotfoundComponent },
-            { path: 'settings', title: 'App Settings - ConnectEd', component: SettingsComponent},
-            { path: 'dashboard', title: 'Dashboard - ConnectEd',  canActivate: [ResearcherGuard], component: DashboardComponent },
+            { path: '404', component: NotfoundComponent },
+            { path: 'settings', component: SettingsComponent},
+            { path: 'dashboard', canActivate: [ResearcherGuard], component: DashboardComponent },
             {
                 path: 'projects',
-                title: 'Projects - ConnectEd',
                 canActivate: [ResearcherGuard],
                 children: [
                     { path: '', component: ProjectOverviewComponent },

@@ -1,4 +1,4 @@
-
+import { CommonModule } from '@angular/common';
 import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import { MarkdownModule } from 'ngx-markdown';
 import { LMarkdownEditorModule } from 'ngx-markdown-editor';
@@ -15,12 +15,13 @@ import {MdEditorComponent} from "../../shared/components/md-editor/md-editor.com
 @Component({
   selector: 'app-applications-create',
     imports: [
-    MarkdownModule,
-    LMarkdownEditorModule,
-    ReactiveFormsModule,
-    ButtonComponent,
-    MdEditorComponent
-],
+        MarkdownModule,
+        LMarkdownEditorModule,
+        CommonModule,
+        ReactiveFormsModule,
+        ButtonComponent,
+        MdEditorComponent
+    ],
   templateUrl: './applications-create.component.html',
   styleUrl: './applications-create.component.scss'
 })

@@ -1,40 +1,38 @@
 <div class="application-overview-container">
-  <div class="application-tab">
-    <p>Applications</p>
-  </div>
-  @if (applications$ | async; as applications) {
-    @if (applications.length > 0) {
-      <div>
-        <table>
-          <thead class="thapplicant">
-            <tr>
-              <th>Name</th>
-              <th>Applied for</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            @for (application of applications; track application) {
-              <tr class="application-row"
-                (click)="navigateToApplication(application)">
-                <td>
-                  <div class="applicant-info">
-                    {{ application.applicant.firstName }} {{ application.applicant.lastName }}
-                  </div>
-                </td>
-                <td>{{ application.project.title }}</td>
-                <td>
-                  <app-statuscard [status]="application.status.toString()"></app-statuscard>
-                </td>
-              </tr>
-            }
-          </tbody>
-        </table>
-      </div>
-    } @else {
-      <div class="no-applications-message">
-        No applications found
-      </div>
-    }
-  }
+    <div class="application-tab">
+        <p>Applications</p>
+    </div>
+    <ng-container *ngIf="applications$ | async as applications">
+        <div *ngIf="applications.length > 0; else noApplications">
+            <table>
+                <thead class="thapplicant">
+                <tr>
+                    <th>Name</th>
+                    <th>Applied for</th>
+                    <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="application-row" *ngFor="let application of applications"
+                    (click)="navigateToApplication(application)">
+                  <td>
+                    <div class="applicant-info">
+                      {{ application.applicant.firstName }} {{ application.applicant.lastName }}
+                    </div>
+                  </td>
+                  <td>{{ application.project.title }}</td>
+                  <td>
+                    <app-statuscard [status]="application.status.toString()"></app-statuscard>
+                  </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <ng-template #noApplications>
+            <div class="no-applications-message">
+                No applications found
+            </div>
+        </ng-template>
+    </ng-container>
 </div>

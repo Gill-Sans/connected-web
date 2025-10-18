@@ -1,4 +1,4 @@
-
+import { CommonModule } from '@angular/common';
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { AuthFacade } from '../../auth/store/auth.facade';
 import { User } from '../../auth/models/user.model';
@@ -13,7 +13,7 @@ import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-profilepage',
-    imports: [ButtonComponent, FormsModule, TagSearchComponentComponent, TagcardComponent],
+    imports: [CommonModule, ButtonComponent, FormsModule, TagSearchComponentComponent, TagcardComponent],
     templateUrl: './profilepage.component.html',
     styleUrl: './profilepage.component.scss'
 })

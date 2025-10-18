@@ -1,33 +1,3 @@
-// 1. Import the Sass map module to use module-prefixed functions
-@use 'sass:map';
-
-// Define a map for all status colors
-$status-colors: (
-    'pending': (
-        color: #b48b4e,
-    ),
-    'approved': (
-        color: #4caf50,
-    ),
-    'rejected': (
-        color: #d9534f,
-    ),
-    'published': (
-        color: #2196f3,
-    ),
-    'needs-revision': (
-        color: #ff9800,
-    ),
-    'revised': (
-        color: #9c27b0,
-    ),
-);
-
-/* ------------------------------------------------------------------- */
-/* --- Base Styles --- */
-/* ------------------------------------------------------------------- */
-
-/* Large Variant Styles */
 .status-button {
     display: inline-block;
     padding: 6px 16px;
@@ -40,44 +10,59 @@ $status-colors: (
     border: 2px solid;
     background: transparent;
     min-width: 100px;
+    transition: background 0.2s ease;
 }
 
-/* Small Variant Styles */
-.status-small {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 1;
+.pending {
+    border-color: #b48b4e;
+    color: #b48b4e;
 }
 
-.status-ball {
-    display: block;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    border: none !important;
-    color: transparent !important;
+.approved {
+    border-color: #4caf50;
+    color: #4caf50;
 }
 
-/* ------------------------------------------------------------------- */
-/* --- Color Generation with Sass Loop --- */
-/* ------------------------------------------------------------------- */
+.rejected {
+    border-color: #d9534f;
+    color: #d9534f;
+}
 
-@each $status, $props in $status-colors {
-    // 2. Updated from map-get($props, 'color') to map.get($props, 'color')
-    $color: map.get($props, 'color');
+.published {
+    border-color: #2196f3;
+    color: #2196f3;
+}
 
-    // Apply color to the class for both variants
-    .#{$status} {
-        // Large Variant: Text color and Border color
-        border-color: $color;
-        color: $color;
+.needs-revision {
+    border-color: #ff9800; /* amber/orange */
+    color: #ff9800;
+}
 
-        // Small Variant: Ball background color
-        .status-ball {
-            background-color: $color;
-        }
-    }
+.needs-revision:hover {
+    background: rgba(255, 152, 0, 0.1);
+}
+
+.revised {
+    border-color: #9c27b0; /* purple */
+    color: #9c27b0;
+}
+
+.revised:hover {
+    background: rgba(156, 39, 176, 0.1);
+}
+
+.pending:hover {
+    background: rgba(180, 139, 78, 0.1);
+}
+
+.approved:hover {
+    background: rgba(76, 175, 80, 0.1);
+}
+
+.rejected:hover {
+    background: rgba(217, 83, 79, 0.1);
+}
+
+.published:hover {
+    background: rgba(33, 150, 243, 0.1);
 }

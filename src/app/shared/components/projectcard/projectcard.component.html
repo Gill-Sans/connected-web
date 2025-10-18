@@ -1,33 +1,33 @@
 <div class="card" (click)="navigateToProject($event)">
-  <div class="card-header">
-    <div class="card-user">
-      @if (project.productOwner) {
-        <div class="card-user__details">
-          <img class="avatar" [src]="project.productOwner.profileImageUrl" alt="avatar"/>
-          <div class="user-info">
-            <p class="name">{{ project.productOwner.firstName }} {{ project.productOwner.lastName }}</p>
-            <p class="email">{{ project.productOwner.email }}</p>
-          </div>
+    <div class="card-header">
+        <div class="card-user">
+            <ng-container *ngIf="project.productOwner; else noOwner">
+                <div class="card-user__details">
+                    <img class="avatar" [src]="project.productOwner.profileImageUrl" alt="avatar"/>
+                    <div class="user-info">
+                        <p class="name">{{ project.productOwner.firstName }} {{ project.productOwner.lastName }}</p>
+                        <p class="email">{{ project.productOwner.email }}</p>
+                    </div>
+                </div>
+            </ng-container>
+            <ng-template #noOwner>
+                <div class="no-owner">No product owner</div>
+            </ng-template>
+            <div class="members">
+                {{ project.members.length }} {{ project.members.length === 1 ? 'member' : 'members' }}
+            </div>
         </div>
-      } @else {
-        <div class="no-owner">No product owner</div>
-      }
-      <div class="members">
-        {{ project.members.length }} / {{ project.teamSize }} members
-      </div>
     </div>
-  </div>
 
-  <div class="card-body">
-    <h3 class="card-title">{{ project.title }}</h3>
-    <p class="description">{{ project.shortDescription }}</p>
-    <div class="tags">
-      @for (tag of project.tags | slice:0:2; track tag) {
-        <app-tagcard
-          [tag]="tag"
-          [showDelete]="false"
+    <div class="card-body">
+        <h3 class="card-title">{{ project.title }}</h3>
+        <p class="description">{{ project.shortDescription }}</p>
+        <div class="tags">
+            <app-tagcard
+            *ngFor="let tag of project.tags | slice:0:2"
+            [tag]="tag"
+            [showDelete]="false"
         ></app-tagcard>
-      }
+        </div>
     </div>
-  </div>
 </div>

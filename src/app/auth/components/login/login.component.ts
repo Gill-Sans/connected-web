@@ -1,5 +1,5 @@
 import {Component, inject, Input} from '@angular/core';
-
+import {CommonModule} from '@angular/common';
 import {AuthFacade} from '../../store/auth.facade';
 import {ButtonComponent} from '../../../shared/components/button/button.component';
 import {FormsModule} from '@angular/forms';
@@ -8,9 +8,10 @@ import {Router} from '@angular/router';
 @Component({
     selector: 'app-login',
     imports: [
-    ButtonComponent,
-    FormsModule
-],
+        CommonModule,
+        ButtonComponent,
+        FormsModule,
+    ],
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.scss'],
     standalone: true

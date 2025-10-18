@@ -1,9 +1,9 @@
-
+import {CommonModule} from '@angular/common';
 import {Component, EventEmitter, HostListener, Input, Output} from '@angular/core';
 
 @Component({
     selector: 'app-role-dropdown',
-    imports: [],
+    imports: [CommonModule],
     templateUrl: './role-dropdown.component.html',
     styleUrl: './role-dropdown.component.scss'
 })

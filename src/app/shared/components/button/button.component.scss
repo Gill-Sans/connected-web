@@ -26,8 +26,6 @@ button {
     }
     &:hover {
         background: #47a7f5 radial-gradient(circle, transparent 1%, #47a7f5 1%) center/15000%;
-        transition: box-shadow 0.2s;
-        box-shadow: $shadow-l;
     }
     &.ripple:active {
         background-color: #6eb9f7;
@@ -66,7 +64,6 @@ button.link {
 
     &:hover {
         color: $primary-color;
-        box-shadow: none;
         transition: 0.2s ease;
 
         .button-icon {

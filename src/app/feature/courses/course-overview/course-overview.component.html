@@ -1,99 +1,92 @@
 <app-button variant="primary" (click)="openCourseImportModal()">Import a course</app-button>
 
 <!-- Course import modal uses the courses$ observable -->
-@if (showImportCourseModal) {
-  <app-canvas-import-modal
+<app-canvas-import-modal
+    *ngIf="showImportCourseModal"
     [type]="'course'"
     [items$]="canvasCourses$"
     (closeModal)="closeCourseModal()"
     (create)="handleCourseCreate($event)">
-  </app-canvas-import-modal>
-}
+</app-canvas-import-modal>
 
-@if (showImportAssignmentModal) {
-  <app-canvas-import-modal
+<app-canvas-import-modal
+    *ngIf="showImportAssignmentModal"
     [type]="'assignment'"
     [courseId]="courseIdInput"
     [items$]="assignmentItems$"
     (closeModal)="closeAssignmentModal()"
     (create)="handleAssignmentCreate($event)">
-  </app-canvas-import-modal>
-}
+</app-canvas-import-modal>
 
 <!-- Confirmation modal for deleting a course -->
-@if (showCourseDeleteModal) {
-  <app-confirmation-modal
+<app-confirmation-modal
+    *ngIf="showCourseDeleteModal"
     [title]="'Delete Course'"
     [message]="'Are you sure you want to delete this course?'"
     [confirmText]="'Delete'"
     [cancelText]="'Cancel'"
     (confirm)="handleCourseDelete(courseIdInput!)"
     (cancel)="closeCourseDeleteModal()">
-  </app-confirmation-modal>
-}
+</app-confirmation-modal>
 
-@if (showAssignmentDeleteModal) {
-  <app-confirmation-modal
+<app-confirmation-modal
+    *ngIf="showAssignmentDeleteModal"
     [title]="'Delete Assignment'"
     [message]="'Are you sure you want to delete this assignment?'"
     [confirmText]="'Delete'"
     [cancelText]="'Cancel'"
     (confirm)="handleAssignmentDelete(assignmentIdInput!)"
     (cancel)="closeAssignmentDeleteModal()">
-  </app-confirmation-modal>
-}
+</app-confirmation-modal>
 
-@if (showRefreshEnrollmentModal) {
-  <app-confirmation-modal
+<app-confirmation-modal
+    *ngIf="showRefreshEnrollmentModal"
     [title]="'Refresh Enrollments'"
     [message]="'This will update the list of enrolled students from Canvas. Any students who are no longer enrolled will be removed, and new ones will be added.'"
     [confirmText]="'Sync'"
     [cancelText]="'Cancel'"
     (confirm)="handleEnrollmentsRefresh(courseIdInput!)"
     (cancel)="closeRefreshEnrollmentModal()">
-  </app-confirmation-modal>
-}
+</app-confirmation-modal>
 
 
 <div class="courses-list">
-  @if (courses$ | async; as courses) {
-    @for (course of courses; track course) {
-      <div class="course-item">
-        <div class="course-header">
-          <h2>{{ course.name }}</h2>
-          <div
-            class="action-buttons"
-            aria-label="Refresh Enrollments"
-            (click)="openRefreshEnrollmentModal(course.id)">
-            <i class="fa fa-refresh"></i>
-          </div>
-          <div (click)="openCourseDeleteModal(course.id)"
-            class="action-buttons"
-            aria-label="Delete course">
-            <i class="fa fa-trash">
-            </i>
-          </div>
-        </div>
-        @for (assignment of course.assignments; track assignment) {
-          <div>
-            <div class="assignment-card">
-              <div class="assignment-header">
-                <h4>{{ assignment.name }}</h4>
-                <div (click)="openAssignmentDeleteModal(assignment.id)" aria-label="Delete assignment" class="action-buttons">
-                  <i class="fa fa-trash"></i>
+    <ng-container *ngIf="courses$ | async as courses; else loading">
+        <div *ngFor="let course of courses" class="course-item">
+            <div class="course-header">
+            <h2>{{ course.name }}</h2>
+                <div
+                    class="action-buttons"
+                    aria-label="Refresh Enrollments"
+                    (click)="openRefreshEnrollmentModal(course.id)">
+                    <i class="fa fa-refresh"></i>
                 </div>
-              </div>
-              <div>Default Team Size: {{ assignment.defaultTeamSize }}</div>
+                <div (click)="openCourseDeleteModal(course.id)"
+                     class="action-buttons"
+                     aria-label="Delete course">
+                    <i class="fa fa-trash">
+                    </i>
+                </div>
+
             </div>
-          </div>
-        }
-        <button (click)="openAssignmentImportModal(course.id)" class="import-assignment-button">
-          <img src="icons/file-import.svg" alt="import an assignment"/>
-          <p>Import an assignment</p>
-        </button>
-      </div>
-    }
-  } @else {
-    <div>Loading...</div>
-  }
+            <div *ngFor="let assignment of course.assignments">
+                <div class="assignment-card">
+                    <div class="assignment-header">
+                        <h4>{{ assignment.name }}</h4>
+                        <div (click)="openAssignmentDeleteModal(assignment.id)" aria-label="Delete assignment" class="action-buttons">
+                            <i class="fa fa-trash"></i>
+                        </div>
+                    </div>
+                    <div>Default Team Size: {{ assignment.defaultTeamSize }}</div>
+                </div>
+            </div>
+            <button (click)="openAssignmentImportModal(course.id)" class="import-assignment-button">
+                <img src="icons/file-import.svg" alt="import an assignment"/>
+                <p>Import an assignment</p>
+            </button>
+        </div>
+    </ng-container>
+    <ng-template #loading>
+        <div>Loading...</div>
+    </ng-template>
 </div>

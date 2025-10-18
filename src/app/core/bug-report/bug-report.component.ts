@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ButtonComponent } from '../../shared/components/button/button.component';
 import { BugService } from '../services/bug.service';
@@ -8,7 +8,7 @@ import { environment } from '../../../environments/environment';
 @Component({
     selector: 'app-bug-report',
     standalone: true,
-    imports: [FormsModule, ButtonComponent],
+    imports: [CommonModule, FormsModule, ButtonComponent],
     templateUrl: './bug-report.component.html',
     styleUrls: ['./bug-report.component.scss']
 })

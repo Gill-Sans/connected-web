@@ -1,25 +1,23 @@
 @use "../../../styles/variables.scss" as *;
 
 .sidenav {
-    padding-left: $spacing-md;
+    padding-left: $small-spacing;
     display: flex;
     flex-direction: column;
-    gap: $spacing-md;
+    gap: $small-spacing;
     color: $text-color;
 
     a {
         display: flex;
         align-items: center;
-        padding: $spacing-md;
+        padding: $small-spacing;
         text-decoration: none;
-        border-radius: $border-radius-sm;
         color: inherit;
 
         &:hover {
             cursor: pointer;
-            background-color: $bg-1;
-            box-shadow: $shadow-s;
-            transition: 0.3s;
+            background-color: $hover-bg;
+            border-radius: $border-radius;
         }
 
         &.active-link {
@@ -38,7 +36,7 @@
         .icon {
             width: 25px;
             height: 25px;
-            margin-right: $spacing-md;
+            margin-right: $small-spacing;
             filter: brightness(0) saturate(100%) invert(25%) sepia(10%)
             saturate(995%) hue-rotate(199deg) brightness(100%) contrast(87%);
         }

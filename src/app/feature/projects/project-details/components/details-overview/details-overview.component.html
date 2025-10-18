@@ -1,128 +1,105 @@
 <div class="tab-content">
-  @if (project$ | async; as project) {
-    <div class="page-container">
-      <!-- Left section with text -->
-      <div class="left-content">
-        <div>
-          @if (project.courseName != null || project.assignmentName != null) {
-            <div class="project-origin">
-              <p>{{ project.courseName }}</p>
-              <p>{{ project.assignmentName }}</p>
-            </div>
-          }
-          <h2>{{ project.title || "Untitled Project" }}
-            @if (project.createdBy) {
-              <span class="creator-name">
-                (Created by {{ project.createdBy.firstName }} {{ project.createdBy.lastName }})
-              </span>
-            }
-          </h2>
-          @if ((canManageProject$ | async)) {
+    <div class="page-container" *ngIf="project$ | async as project">
+        <!-- Left section with text -->
+        <div class="left-content">
             <div>
-              <app-statuscard status="{{ project.status }}">{{ project.status }}</app-statuscard>
+                <div class="project-origin" *ngIf="project.courseName != null || project.assignmentName != null">
+                    <p>{{ project.courseName }}</p>
+                    <p>{{ project.assignmentName }}</p>
+                </div>
+                <h2>{{ project.title || "Untitled Project" }}
+                    <span class="creator-name" *ngIf="project.createdBy">
+                        (Created by {{ project.createdBy.firstName }} {{ project.createdBy.lastName }})
+                    </span>
+                </h2>
+                <div *ngIf="(canManageProject$ | async)">
+                    <app-statuscard status="{{ project.status }}">{{ project.status }}</app-statuscard>
+                </div>
             </div>
-          }
+            <div class="rich-content" [innerHTML]="project.description"></div>
         </div>
-        <div class="rich-content" [innerHTML]="project.description"></div>
-      </div>
-      <!-- Right sidebar with Members & Links -->
-      <div class="right-sidebar">
-        @if ((isTeacher$ | async)) {
-          <div class="update-status">
-            <h3>Update status</h3>
-            <div class="update-status-buttons">
-              <app-project-status-select
-                [value]="project.status"
-                (valueChange)="updateProjectStatus(project, $event)"
-              ></app-project-status-select>
+
+        <!-- Right sidebar with Members & Links -->
+        <div class="right-sidebar">
+            <div class="update-status" *ngIf="(isTeacher$ | async)">
+                <h3>Update status</h3>
+                <div class="update-status-buttons">
+                    <app-project-status-select
+                        [value]="project.status"
+                        (valueChange)="updateProjectStatus(project, $event)"
+                    ></app-project-status-select>
+                </div>
             </div>
-          </div>
-        }
-        @if (!(isResearcher$ | async) && !(canManageProject$ | async) && !(isMember$ | async)) {
-          <div class="apply-section"
-            >
-            @if (!(isResearcher$ | async) && project.members.length === 0 && project.assignmentId != null) {
-              <p>
-                Press this button to claim this project. By claiming, you take ownership of this project.
-              </p>
-            }
-            @if (project.members.length === 0 && project.assignmentId != null) {
-              <app-button variant="primary" (click)="claimProject()"
-                >Claim Project
-              </app-button>
-            }
-            @if (!(isResearcher$ | async) && project.members.length > 0 && project.assignmentId != null) {
-              <p>
-                Press this button to apply for this project. By applying,
-                you express your interest in contributing to this project
-                and collaborating with the team.
-              </p>
-            }
-            @if (!(isResearcher$ | async) && project.assignmentId != null && project.members.length > 0) {
-              <app-button variant="primary" (click)="applyForProject()"
-                >
-                Apply for this project
-              </app-button>
-            }
-            @if (!(isResearcher$ | async) && project.assignmentId == null) {
-              <p>
-                Importing a global project means that you will import it into your current assignment.
-              </p>
-            }
-            @if (!(isResearcher$ | async) && project.assignmentId == null) {
-              <app-button variant="primary" (click)="importProject()"
-                >Import Project
-              </app-button>
-            }
-          </div>
-        }
-        <div class="members-section">
-          <h3>Members <span
-            style="font-size: small; color: rgb(128,128,128); font-weight: 300; ">{{ project.members.length || 0 }}
-          /{{ project.teamSize }}</span></h3>
-          <ul>
-            @if (project.productOwner) {
-              <li class="owner-section">
-                <img class="avatar" [src]="project.productOwner.profileImageUrl" alt="avatar"/>
-                <span
-                class="owner-name">{{ project.productOwner.firstName }} {{ project.productOwner.lastName }}</span>
-              </li>
-            } @else {
-              <li class="no-owner">No product owner</li>
-            }
-            @for (member of getFilteredMembers(project.members || [], project.productOwner); track member) {
-              <li>
-                <img class="avatar" [src]="member?.profileImageUrl" alt="avatar"/>
-                <span>{{ member?.firstName || "" }} {{ member?.lastName || "" }}</span>
-              </li>
-            }
-          </ul>
-        </div>
-        <h3>Links</h3>
-        <div class="link-section">
-          @if (repositoryUrl) {
-            <div>
-              <app-linkcard [url]="repositoryUrl" variant="Github"></app-linkcard>
+
+
+
+
+            <div class="apply-section"
+                 *ngIf="!(isResearcher$ | async) && !(canManageProject$ | async) && !(isMember$ | async)">
+                <p *ngIf="!(isResearcher$ | async) && project.members.length === 0 && project.assignmentId != null">
+                    Press this button to claim this project. By claiming, you take ownership of this project.
+                </p>
+                <app-button variant="primary" (click)="claimProject()"
+                            *ngIf="project.members.length === 0 && project.assignmentId != null">Claim Project
+                </app-button>
+                <p *ngIf="!(isResearcher$ | async) && project.members.length > 0 && project.assignmentId != null">
+                    Press this button to apply for this project. By applying,
+                    you express your interest in contributing to this project
+                    and collaborating with the team.
+                </p>
+                <app-button variant="primary" (click)="applyForProject()"
+                            *ngIf="!(isResearcher$ | async) && project.assignmentId != null && project.members.length > 0">
+                    Apply for this project
+                </app-button>
+                <p *ngIf="!(isResearcher$ | async) && project.assignmentId == null">
+                    Importing a global project means that you will import it into your current assignment.
+                </p>
+                <app-button variant="primary" (click)="importProject()"
+                            *ngIf="!(isResearcher$ | async) && project.assignmentId == null">Import Project
+                </app-button>
             </div>
-          }
-          @if (boardUrl) {
-            <div>
-              <app-linkcard [url]="boardUrl" variant="Trello"></app-linkcard>
+
+
+
+
+            <div class="members-section">
+                <h3>Members <span
+                    style="font-size: small; color: rgb(128,128,128); font-weight: 300; ">{{ project.members.length || 0 }}
+                    /{{ project.teamSize }}</span></h3>
+                <ul>
+                    <li class="owner-section" *ngIf="project.productOwner; else noOwner">
+                        <img class="avatar" [src]="project.productOwner.profileImageUrl" alt="avatar"/>
+                        <span
+                            class="owner-name">{{ project.productOwner.firstName }} {{ project.productOwner.lastName }}</span>
+                    </li>
+                    <ng-template #noOwner>
+                        <li class="no-owner">No product owner</li>
+                    </ng-template>
+                    <li *ngFor="let member of getFilteredMembers(project.members || [], project.productOwner)">
+                        <img class="avatar" [src]="member?.profileImageUrl" alt="avatar"/>
+                        <span>{{ member?.firstName || "" }} {{ member?.lastName || "" }}</span>
+                    </li>
+                </ul>
             </div>
-          }
+            <h3>Links</h3>
+            <div class="link-section">
+            <div *ngIf="repositoryUrl">
+                <app-linkcard [url]="repositoryUrl" variant="Github"></app-linkcard>
+            </div>
+            <div *ngIf="boardUrl">
+                <app-linkcard [url]="boardUrl" variant="Trello"></app-linkcard>
+            </div>
+            </div>
+            <div class="tag-section">
+                <h3>Tags</h3>
+                <div class="tags-container">
+                    <app-tagcard
+                        *ngFor="let tag of tags"
+                        [tag]="tag"
+                        [showDelete]="false"
+                    ></app-tagcard>
+                </div>
+            </div>
         </div>
-        <div class="tag-section">
-          <h3>Tags</h3>
-          <div class="tags-container">
-            @for (tag of tags; track tag) {
-              <app-tagcard
-                [tag]="tag"
-                [showDelete]="false"
-              ></app-tagcard>
-            }
-          </div>
-        </div>
-      </div>
     </div>
-  }
 </div>

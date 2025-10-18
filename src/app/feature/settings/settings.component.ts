@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-
+import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {ToastService} from '../../core/services/toast.service';
 import {ButtonComponent} from '../../shared/components/button/button.component';
@@ -14,11 +14,12 @@ import {ConfirmClickDirective} from '../../shared/directives/confirmClick.direct
     templateUrl: './settings.component.html',
     styleUrls: ['./settings.component.scss'],
     imports: [
-    FormsModule,
-    ButtonComponent,
-    HasRoleDirective,
-    ConfirmClickDirective
-],
+        CommonModule,
+        FormsModule,
+        ButtonComponent,
+        HasRoleDirective,
+        ConfirmClickDirective
+    ],
 })
 export class SettingsComponent {
     private readonly http: HttpClient = inject(HttpClient);

@@ -7,7 +7,7 @@ import {
     CalendarUtils,
     DateAdapter, DateFormatterParams
 } from 'angular-calendar';
-import { CommonModule, NgOptimizedImage } from '@angular/common';
+import {CommonModule, NgOptimizedImage} from '@angular/common';
 import {adapterFactory} from 'angular-calendar/date-adapters/date-fns';
 import {Deadline} from '../../models/deadline.model';
 import {addMonths, format, startOfToday, subMonths} from 'date-fns';

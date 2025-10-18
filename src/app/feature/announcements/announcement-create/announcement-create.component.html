@@ -1,24 +1,20 @@
 <div class="announcement-create-container">
-  <h2>Create New Announcement</h2>
-  <p class="instructions">Provide a title and the content for your announcement. This will be visible to all participants of the assignment.</p>
-  <form [formGroup]="announcementForm" (ngSubmit)="onSubmit()">
-    <fieldset class="form-group">
-      <label for="title">Title</label>
-      <input id="title" type="text" formControlName="title" placeholder="Enter announcement title" />
-      @if (announcementForm.get('title')?.invalid && announcementForm.get('title')?.touched) {
-        <div class="error">Title is required.</div>
-      }
-    </fieldset>
-    <fieldset class="form-group">
-      <label for="message">Content</label>
-      <textarea id="message" formControlName="message" rows="6" placeholder="Enter announcement content"></textarea>
-      @if (announcementForm.get('message')?.invalid && announcementForm.get('message')?.touched) {
-        <div class="error">Content is required.</div>
-      }
-    </fieldset>
-    <fieldset class="form-actions">
-      <app-button variant="primary" type="submit">Create Announcement</app-button>
-      <app-button variant="neutral" (click)="router.navigate(['..'], { relativeTo: route })">Cancel</app-button>
-    </fieldset>
-  </form>
+    <h2>Create New Announcement</h2>
+    <p class="instructions">Provide a title and the content for your announcement. This will be visible to all participants of the assignment.</p>
+    <form [formGroup]="announcementForm" (ngSubmit)="onSubmit()">
+        <fieldset class="form-group">
+            <label for="title">Title</label>
+            <input id="title" type="text" formControlName="title" placeholder="Enter announcement title" />
+            <div *ngIf="announcementForm.get('title')?.invalid && announcementForm.get('title')?.touched" class="error">Title is required.</div>
+        </fieldset>
+        <fieldset class="form-group">
+            <label for="message">Content</label>
+            <textarea id="message" formControlName="message" rows="6" placeholder="Enter announcement content"></textarea>
+            <div *ngIf="announcementForm.get('message')?.invalid && announcementForm.get('message')?.touched" class="error">Content is required.</div>
+        </fieldset>
+        <fieldset class="form-actions">
+            <app-button variant="primary" type="submit">Create Announcement</app-button>
+            <app-button variant="neutral" (click)="router.navigate(['..'], { relativeTo: route })">Cancel</app-button>
+        </fieldset>
+    </form>
 </div>
