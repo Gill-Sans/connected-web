@@ -13,14 +13,6 @@ $border-radius-md: 1rem; // 16px
 $border-radius-lg: 1.25rem; // 20px
 $border-radius-xl: 1.5rem; // 24 px
 
-//$bg-light: oklch(0.985 0.004 250);
-//$bg: oklch(0.975 0.005 250);
-//$bg-dark: oklch(0.93 0.015 255);
-
-$bg-light: #fff;
-$bg: oklch(0.990 0.002 250);
-$bg-dark: oklch(0.985 0.003 250);
-
 $primary-color: #7662f6;
 $primary-color-light: #b9aff1;
 $danger-color: #f66264;
@@ -66,9 +58,6 @@ $spacing-3xl: 4rem;     // 64px
 $spacing-4xl: 6rem;     // 96px
 
 $card-padding: 1.725rem 1.25rem;
-
-// Spacings
-$small-spacing: 1rem;
 
 // Sizes
 $icon-size: 50px;

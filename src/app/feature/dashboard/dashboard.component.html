@@ -15,7 +15,7 @@
           <h3>Projects awaiting review</h3>
           <span class="count-badge" [class.ok]="!d.lists.reviewQueue.length">{{ d.counts.reviewQueueProjects }}</span>
         </header>
-        @if (d.lists.reviewQueue?.length) {
+        @if (d.lists.reviewQueue.length) {
           <ul class="list">
             @for (p of d.lists.reviewQueue; track p) {
               <li class="row">
