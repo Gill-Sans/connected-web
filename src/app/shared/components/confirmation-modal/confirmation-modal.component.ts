@@ -1,14 +1,13 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import {ButtonComponent} from '../button/button.component';
 
 @Component({
     selector: 'app-confirmation-modal',
     standalone: true,
     imports: [
-        CommonModule,
-        ButtonComponent
-    ],
+    ButtonComponent
+],
     templateUrl: './confirmation-modal.component.html',
     styleUrls: ['./confirmation-modal.component.scss']
 })

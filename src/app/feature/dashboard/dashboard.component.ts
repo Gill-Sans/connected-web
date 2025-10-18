@@ -22,6 +22,7 @@ import {CalendarSmallComponent} from '../../shared/components/calendar-small/cal
 import {HasRoleDirective} from '../../shared/directives/HasRole.directive';
 import {Role} from '../../auth/models/role.model';
 import {DashboardDetailsDto, UserSummaryDto} from '../../shared/models/dashboard.model';
+import {StatuscardComponent} from '../../shared/components/statuscard/statuscard.component';
 
 @Component({
     selector: 'app-dashboard',
@@ -32,7 +33,8 @@ import {DashboardDetailsDto, UserSummaryDto} from '../../shared/models/dashboard
         CalendarSmallComponent,
         ButtonComponent,
         ProjectcardComponent,
-        HasRoleDirective
+        HasRoleDirective,
+        StatuscardComponent
     ],
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboard.component.scss']

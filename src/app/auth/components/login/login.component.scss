@@ -1,8 +1,10 @@
 @use '../../../../styles/variables' as *;
 
 .login-modal {
-    background: white;
-    padding: 2rem;
+    background: $bg-1;
+    border: $border;
+    box-shadow: $shadow-l;
+    padding: 2.5rem;
     border-radius: 8px;
     text-align: center;
     display: flex;
