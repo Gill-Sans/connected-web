@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {ProjectStatusEnum} from '../../models/ProjectStatus.enum';
@@ -6,7 +6,7 @@ import {ProjectStatusEnum} from '../../models/ProjectStatus.enum';
 @Component({
     selector: 'app-project-status-select',
     standalone: true,
-    imports: [CommonModule, FormsModule],
+    imports: [FormsModule],
     templateUrl: './project-status-select.component.html',
     styleUrls: ['./project-status-select.component.scss']
 })

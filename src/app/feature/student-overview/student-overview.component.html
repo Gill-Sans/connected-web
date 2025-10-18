@@ -1,23 +1,26 @@
-<div *ngIf="students$ | async as students; else loadingStudents">
+@if (students$ | async; as students) {
+  <div>
     <div class="student-container">
-        <table class="student-table">
-            <thead>
+      <table class="student-table">
+        <thead>
+          <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (student of students; track student) {
             <tr>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Email</th>
+              <td>{{ student.firstName }}</td>
+              <td>{{ student.lastName }}</td>
+              <td>{{ student.email }}</td>
             </tr>
-            </thead>
-            <tbody>
-            <tr *ngFor="let student of students">
-                <td>{{ student.firstName }}</td>
-                <td>{{ student.lastName }}</td>
-                <td>{{ student.email }}</td>
-            </tr>
-            </tbody>
-        </table>
+          }
+        </tbody>
+      </table>
     </div>
-</div>
-<ng-template #loadingStudents>
-    <p>Loading...</p>
-</ng-template>
+  </div>
+} @else {
+  <p>Loading...</p>
+}

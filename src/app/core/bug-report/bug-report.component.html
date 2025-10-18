@@ -1,18 +1,18 @@
 <button class="bug-button" (click)="toggleForm()">
-    <i class="fa fa-bug"></i>
-    Report Bug
+  <i class="fa fa-bug"></i>
+  Report Bug
 </button>
 
 
-<div class="bug-form" *ngIf="showForm" role="dialog" aria-modal="true" aria-label="Report a bug">
+@if (showForm) {
+  <div class="bug-form" role="dialog" aria-modal="true" aria-label="Report a bug">
     <h3 class="bug-title">Report a bug</h3>
-
     <textarea [(ngModel)]="message"
-              rows="4"
-              maxlength="800"
-              placeholder="Describe what happened, steps to reproduce, expected result…"></textarea>
-
+      rows="4"
+      maxlength="800"
+    placeholder="Describe what happened, steps to reproduce, expected result…"></textarea>
     <div class="actions">
-        <app-button (click)="submit()" [disabled]="sending || !message.trim()">{{ sending ? 'Sending…' : 'Send report' }}</app-button>
+      <app-button (click)="submit()" [disabled]="sending || !message.trim()">{{ sending ? 'Sending…' : 'Send report' }}</app-button>
     </div>
-</div>
+  </div>
+}

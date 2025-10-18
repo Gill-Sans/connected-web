@@ -1,5 +1,5 @@
 import { Component, EventEmitter, inject, OnDestroy, Output } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, Validators, ValidatorFn } from '@angular/forms';
 import { DeadlineService } from '../../../core/services/deadline.service';
 import { ActiveAssignmentService } from '../../../core/services/active-assignment.service';
@@ -26,11 +26,10 @@ export const futureDateValidator: ValidatorFn = (control: AbstractControl) => {
     selector: 'app-deadline-create',
     standalone: true,
     imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        ButtonComponent,
-        EnumDisplayPipe
-    ],
+    ReactiveFormsModule,
+    ButtonComponent,
+    EnumDisplayPipe
+],
     templateUrl: './deadline-create.component.html',
     styleUrls: ['./deadline-create.component.scss']
 })
