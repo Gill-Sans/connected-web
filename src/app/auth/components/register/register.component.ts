@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ButtonComponent } from '../../../shared/components/button/button.component';
@@ -9,7 +9,7 @@ import { RegistrationRequest } from '../../models/registration-request.model';
 @Component({
     selector: 'app-register',
     standalone: true,
-    imports: [CommonModule, ReactiveFormsModule, ButtonComponent],
+    imports: [ReactiveFormsModule, ButtonComponent],
     templateUrl: './register.component.html',
     styleUrls: ['./register.component.scss']
 })

@@ -1,5 +1,5 @@
 import {Component, inject, OnDestroy, OnInit} from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormGroup, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthFacade } from '../../store/auth.facade';
 import { ButtonComponent } from '../../../shared/components/button/button.component';
@@ -9,7 +9,7 @@ import {ICONS} from '../../../shared/constants/icons';
 @Component({
     selector: 'app-password-login',
     standalone: true,
-    imports: [CommonModule, ReactiveFormsModule, ButtonComponent],
+    imports: [ReactiveFormsModule, ButtonComponent],
     templateUrl: './password-login.component.html',
     styleUrls: ['./password-login.component.scss']
 })

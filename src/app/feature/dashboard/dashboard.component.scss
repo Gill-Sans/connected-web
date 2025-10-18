@@ -11,7 +11,7 @@
         gap: $spacing-lg;
 
         .kpi {
-            background: $bg;
+            background: $bg-1;
             border: $border;
             border-radius: $border-radius-md;
             box-shadow: $shadow-s;
@@ -69,7 +69,7 @@
     }
 
     .card {
-        background: $bg;
+        background: $bg-1;
         box-shadow: $shadow-m;
         border: $border;
         border-radius: 16px;

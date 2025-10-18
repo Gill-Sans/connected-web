@@ -1,24 +1,23 @@
 <div class="conversation-card">
-    <div class="user-info">
-        <span class="user-name">{{ firstName }} {{ lastName }}</span>
-        <span class="timestamp">{{ createdAt | date:'short' }}</span>
-    </div>
-    <div class="message">
-        <ng-container *ngIf="isEditing; else viewMode">
-            <textarea [(ngModel)]="editedComment"></textarea>
-            <div class="button-container__edit">
-                <app-button variant="neutral" (click)="onConfirm()">Confirm</app-button>
-                <app-button variant="danger" (click)="onCancel()">Cancel</app-button>
-            </div>
-        </ng-container>
-        <ng-template #viewMode>
-            <p>{{ comment }}</p>
-            <div class="button-container">
-                <ng-container *ngIf="showEditDelete">
-                    <app-button variant="link" (click)="onEdit()">Edit</app-button>
-                    <app-button variant="link"  (click)="onDelete()">Delete</app-button>
-                </ng-container>
-            </div>
-        </ng-template>
-    </div>
+  <div class="user-info">
+    <span class="user-name">{{ firstName }} {{ lastName }}</span>
+    <span class="timestamp">{{ createdAt | date:'short' }}</span>
+  </div>
+  <div class="message">
+    @if (isEditing) {
+      <textarea [(ngModel)]="editedComment"></textarea>
+      <div class="button-container__edit">
+        <app-button variant="neutral" (click)="onConfirm()">Confirm</app-button>
+        <app-button variant="danger" (click)="onCancel()">Cancel</app-button>
+      </div>
+    } @else {
+      <p>{{ comment }}</p>
+      <div class="button-container">
+        @if (showEditDelete) {
+          <app-button variant="link" (click)="onEdit()">Edit</app-button>
+          <app-button variant="link"  (click)="onDelete()">Delete</app-button>
+        }
+      </div>
+    }
+  </div>
 </div>

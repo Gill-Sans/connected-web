@@ -13,9 +13,19 @@ $border-radius-md: 1rem; // 16px
 $border-radius-lg: 1.25rem; // 20px
 $border-radius-xl: 1.5rem; // 24 px
 
-$bg-light: oklch(0.985 0.004 250);
-$bg:          oklch(0.975 0.005 250);
-$bg-dark:     oklch(0.93 0.015 255);
+$primary-color: #7662f6;
+$primary-color-light: #b9aff1;
+$danger-color: #f66264;
+$success-color: #30A155;
+$neutral-color: #6c757d;
+$text-color: #47485b;
+$text-color-light: #a4a4a4;
+$text-color-dark: #26273F;
+
+$bg--1: oklch(0.965 0.004 250); // slightly darker shell / sidebar
+$bg-0: oklch(0.97 0.004 271.37); // page background
+$bg-1:  oklch(0.990 0.002 250); // cards / main surfaces
+$bg-2:  #fff; // overlays / modals / sliders
 
 $shadow-color: #000;
 $highlight-color: #fff;
@@ -35,15 +45,6 @@ $shadow-l:
     0 4px 12px rgba($shadow-color, .08),
     0 16px 32px rgba($shadow-color, .06);
 
-$primary-color: #7662f6;
-$primary-color-light: #b9aff1;
-$danger-color: #f66264;
-$success-color: #30A155;
-$neutral-color: #6c757d;
-$text-color: #47485b;
-$text-color-light: #a4a4a4;
-$text-color-dark: #26273F;
-
 // Spacing Scale
 $spacing-xxs: 0.25rem; // 4px
 $spacing-xs: 0.5rem;    // 8px
@@ -57,10 +58,6 @@ $spacing-3xl: 4rem;     // 64px
 $spacing-4xl: 6rem;     // 96px
 
 $card-padding: 1.725rem 1.25rem;
-
-// Spacings
-$spacing: 2rem;
-$small-spacing: 1rem;
 
 // Sizes
 $icon-size: 50px;

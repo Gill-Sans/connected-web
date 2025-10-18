@@ -1,16 +1,14 @@
-import { Component, EventEmitter, inject, OnDestroy, Output } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, Validators, ValidatorFn } from '@angular/forms';
-import { DeadlineService } from '../../../core/services/deadline.service';
-import { ActiveAssignmentService } from '../../../core/services/active-assignment.service';
-import { ActiveAssignmentRoutingService } from '../../../core/services/active-assignment-routing.service';
-import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { ButtonComponent } from '../../../shared/components/button/button.component';
-import { ToastService } from '../../../core/services/toast.service';
-import { DeadlineRestrictionEnum } from '../../../shared/models/DeadlineRestriction.enum';
-import { Deadline } from '../../../shared/models/deadline.model';
-import { EnumDisplayPipe } from '../../../shared/pipes/enum-display.pipe';
+import {Component, EventEmitter, inject, OnDestroy, Output} from '@angular/core';
+
+import {AbstractControl, FormControl, FormGroup, ReactiveFormsModule, ValidatorFn, Validators} from '@angular/forms';
+import {DeadlineService} from '../../../core/services/deadline.service';
+import {ActiveAssignmentService} from '../../../core/services/active-assignment.service';
+import {Subscription} from 'rxjs';
+import {ButtonComponent} from '../../../shared/components/button/button.component';
+import {ToastService} from '../../../core/services/toast.service';
+import {DeadlineRestrictionEnum} from '../../../shared/models/DeadlineRestriction.enum';
+import {Deadline} from '../../../shared/models/deadline.model';
+import {EnumDisplayPipe} from '../../../shared/pipes/enum-display.pipe';
 
 // Custom validator to ensure the due date is in the future.
 export const futureDateValidator: ValidatorFn = (control: AbstractControl) => {
@@ -26,19 +24,16 @@ export const futureDateValidator: ValidatorFn = (control: AbstractControl) => {
     selector: 'app-deadline-create',
     standalone: true,
     imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        ButtonComponent,
-        EnumDisplayPipe
-    ],
+    ReactiveFormsModule,
+    ButtonComponent,
+    EnumDisplayPipe
+],
     templateUrl: './deadline-create.component.html',
     styleUrls: ['./deadline-create.component.scss']
 })
 export class DeadlineCreateComponent implements OnDestroy {
     private readonly deadlineService: DeadlineService = inject(DeadlineService);
     private readonly activeAssignmentService: ActiveAssignmentService = inject(ActiveAssignmentService);
-    private readonly activeAssignmentRoutingService: ActiveAssignmentRoutingService = inject(ActiveAssignmentRoutingService);
-    private readonly router: Router = inject(Router);
     private readonly toastService: ToastService = inject(ToastService);
 
     @Output() closeModal = new EventEmitter<void>();
