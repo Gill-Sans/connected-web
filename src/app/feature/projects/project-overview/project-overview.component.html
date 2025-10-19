@@ -12,6 +12,20 @@
       }
     </div>
     <div class="tabs-right">
+      <div class="sort-wrapper">
+        <label for="project-sort">Sort by</label>
+        <select
+          id="project-sort"
+          [ngModel]="selectedSort"
+          (ngModelChange)="changeSort($event)"
+        >
+          @for (option of sortOptions; track option.value) {
+            <option [ngValue]="option.value">
+              {{ option.label }}
+            </option>
+          }
+        </select>
+      </div>
       @if ((isTeacher$ | async)) {
         <div class="toggle-container" (click)="toggleView()">
           <div class="toggle-switch">

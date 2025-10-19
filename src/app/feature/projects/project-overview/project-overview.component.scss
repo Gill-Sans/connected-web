@@ -27,7 +27,7 @@
         margin-bottom: 20px;
     }
 
-    .tabs{
+    .tabs {
         display: flex;
         gap: 1rem;
         align-items: flex-end;
@@ -56,6 +56,26 @@
         display: flex;
         gap: 1rem;
         margin: 1rem 0;
+        align-items: center;
+    }
+
+    .sort-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+
+        label {
+            font-weight: 500;
+            color: $text-color;
+        }
+
+        select {
+            padding: 0.5rem 0.75rem;
+            border: 1px solid rgba(71, 72, 91, 0.2);
+            border-radius: 0.5rem;
+            background-color: #fff;
+            font-size: 0.9rem;
+        }
     }
 }
 
@@ -70,8 +90,8 @@
 /* Toggle switch base */
 .toggle-switch {
     position: relative;
-    width: 80px;       /* Adjusted width for two icons */
-    height: 40px;      /* Adjusted height to comfortably hold icons */
+    width: 80px; /* Adjusted width for two icons */
+    height: 40px; /* Adjusted height to comfortably hold icons */
     border-radius: 20px;
     transition: background-color 0.3s ease;
 }
@@ -81,7 +101,7 @@
     position: absolute;
     top: 0;
     left: 0;
-    width: 40px;      /* Half of toggle-switch width */
+    width: 40px; /* Half of toggle-switch width */
     height: 40px;
     background-color: $bg-1;
     box-shadow: $shadow-s;
@@ -99,7 +119,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 2;       /* Ensure icons are above the highlight */
+    z-index: 2; /* Ensure icons are above the highlight */
 
     img {
         filter: brightness(0) saturate(100%) invert(26%) sepia(8%) saturate(1320%) hue-rotate(199deg) brightness(96%) contrast(87%);
@@ -129,6 +149,7 @@
     tbody {
         tr {
             border-bottom: 2px solid #e0e0e0;
+
             &:hover {
                 background-color: #f2f2f2;
                 cursor: pointer;
@@ -136,12 +157,6 @@
         }
     }
 }
-
-
-
-
-
-
 
 
 //TODO: Should be removed when status card component is improved to use generic types
@@ -189,6 +204,7 @@
 .rejected:hover {
     background: rgba(217, 83, 79, 0.1);
 }
+
 
 
 
