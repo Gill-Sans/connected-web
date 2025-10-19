@@ -305,7 +305,7 @@ export class ProjectOverviewComponent implements OnInit, OnDestroy {
         this.minFreeSpots$.next(this.minFreeSpots);
     }
 
-    toggleStatusFilter(status: ProjectStatusEnum, selected: boolean): void {
+    private toggleStatusFilter(status: ProjectStatusEnum, selected: boolean): void {
         if (selected) {
             if (!this.selectedStatuses.includes(status)) {
                 this.selectedStatuses = [...this.selectedStatuses, status];
@@ -319,6 +319,11 @@ export class ProjectOverviewComponent implements OnInit, OnDestroy {
 
     isStatusSelected(status: ProjectStatusEnum): boolean {
         return this.selectedStatuses.includes(status);
+    }
+
+    toggleStatusFilterByClick(status: ProjectStatusEnum): void {
+        const shouldSelect = !this.isStatusSelected(status);
+        this.toggleStatusFilter(status, shouldSelect);
     }
 
     updateProjectStatus(project: Project, status: ProjectStatusEnum): void {

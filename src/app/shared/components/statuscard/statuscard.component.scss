@@ -15,7 +15,7 @@ $status-colors: (
     'published': (
         color: #2196f3,
     ),
-    'needs-revision': (
+    'needs_revision': (
         color: #ff9800,
     ),
     'revised': (
@@ -40,6 +40,16 @@ $status-colors: (
     border: 2px solid;
     background: transparent;
     min-width: 100px;
+    transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+
+    &.clickable {
+        cursor: pointer;
+
+        &:focus-visible {
+            outline: 3px solid rgba(33, 150, 243, 0.35);
+            outline-offset: 2px;
+        }
+    }
 }
 
 /* Small Variant Styles */
@@ -50,6 +60,14 @@ $status-colors: (
     font-size: 14px;
     font-weight: 500;
     line-height: 1;
+
+    &.clickable {
+        cursor: pointer;
+        border: 2px solid transparent;
+        border-radius: 8px;
+        padding: 4px 10px;
+        transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    }
 }
 
 .status-ball {
@@ -78,6 +96,34 @@ $status-colors: (
         // Small Variant: Ball background color
         .status-ball {
             background-color: $color;
+        }
+
+        &.clickable:not(.active):hover,
+        &.clickable:not(.active):focus-visible {
+            background-color: rgba($color, 0.1);
+        }
+
+        &.clickable.active {
+            background-color: $color;
+            color: #fff;
+            box-shadow:
+                inset 0 0 0 2px rgba($color, 0.25),
+                0 2px 18px rgba($color, 0.3);
+        }
+
+        &.clickable.active:focus-visible {
+            outline: 3px solid rgba($color, 0.4);
+            outline-offset: 2px;
+        }
+
+        &.status-small {
+            border-color: $color;
+
+            &.clickable.active {
+                background-color: rgba($color, 0.12);
+                color: $color;
+                box-shadow: none;
+            }
         }
     }
 }

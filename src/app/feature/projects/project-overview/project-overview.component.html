@@ -70,20 +70,14 @@
         <span class="filter-label">Status</span>
         <div class="status-options">
           @for (status of statusOptions; track status) {
-            <label
+            <app-statuscard
               class="status-option"
-              [class.selected]="isStatusSelected(status)"
-            >
-              <input
-                type="checkbox"
-                [checked]="isStatusSelected(status)"
-                (change)="toggleStatusFilter(status, $event.target.checked)"
-              />
-              <app-statuscard
-                variant="large"
-                [status]="status"
-              ></app-statuscard>
-            </label>
+              variant="large"
+              type="clickable"
+              [status]="status"
+              [active]="isStatusSelected(status)"
+              (click)="toggleStatusFilterByClick(status)"
+            ></app-statuscard>
           }
         </div>
       </div>
