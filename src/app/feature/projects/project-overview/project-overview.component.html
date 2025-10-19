@@ -26,6 +26,16 @@
           }
         </select>
       </div>
+      <button
+        type="button"
+        class="filter-toggle-btn"
+        (click)="toggleFilters()"
+        [attr.aria-expanded]="showFilters"
+        aria-controls="project-filters"
+        aria-label="Toggle filters"
+      >
+        <img src="icons/filter.svg" alt="" aria-hidden="true" />
+      </button>
       @if ((isTeacher$ | async)) {
         <div class="toggle-container" (click)="toggleView()">
           <div class="toggle-switch">
@@ -44,6 +54,41 @@
     </div>
   </div>
 
+  @if (showFilters) {
+    <div id="project-filters" class="filters-bar">
+      <div class="filter-group">
+        <label for="min-free-spots">Minimum free spots</label>
+        <input
+          id="min-free-spots"
+          type="number"
+          min="0"
+          [ngModel]="minFreeSpots"
+          (ngModelChange)="onMinFreeSpotsChange($event)"
+        />
+      </div>
+      <div class="filter-group status-group">
+        <span class="filter-label">Status</span>
+        <div class="status-options">
+          @for (status of statusOptions; track status) {
+            <label
+              class="status-option"
+              [class.selected]="isStatusSelected(status)"
+            >
+              <input
+                type="checkbox"
+                [checked]="isStatusSelected(status)"
+                (change)="toggleStatusFilter(status, $event.target.checked)"
+              />
+              <app-statuscard
+                variant="large"
+                [status]="status"
+              ></app-statuscard>
+            </label>
+          }
+        </div>
+      </div>
+    </div>
+  }
 
   <!-- Render view based on the selected viewType -->
   @if (projects$ | async; as projects) {

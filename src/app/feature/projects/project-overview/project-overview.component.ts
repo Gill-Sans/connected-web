@@ -71,6 +71,7 @@ export class ProjectOverviewComponent implements OnInit, OnDestroy {
     activeAssignment: ActiveAssignment | null = this.activeAssignmentService.getActiveAssignment();
     selectedTab: TabValue = 'all';
     viewType: 'card' | 'table' = 'card';
+    showFilters = false;
 
     // Subscription to listen to active assignment changes
     private activeAssignmentSub?: Subscription;
@@ -87,6 +88,11 @@ export class ProjectOverviewComponent implements OnInit, OnDestroy {
     ];
     selectedSort: SortValue = 'title-asc';
     private readonly sortOption$ = new BehaviorSubject<SortValue>(this.selectedSort);
+    minFreeSpots = 0;
+    private readonly minFreeSpots$ = new BehaviorSubject<number>(this.minFreeSpots);
+    selectedStatuses: ProjectStatusEnum[] = [];
+    private readonly selectedStatuses$ = new BehaviorSubject<ProjectStatusEnum[]>(this.selectedStatuses);
+    protected readonly statusOptions = Object.values(ProjectStatusEnum);
 
     tabOptions: TabOption[] = [];
 
@@ -156,9 +162,21 @@ export class ProjectOverviewComponent implements OnInit, OnDestroy {
         this.viewType = this.viewType === 'card' ? 'table' : 'card';
     }
 
+    toggleFilters(): void {
+        this.showFilters = !this.showFilters;
+    }
+
     private setProjects(projectStream: Observable<Project[]>): void {
-        this.projects$ = combineLatest([projectStream, this.sortOption$]).pipe(
-            map(([projects, sortOption]) => this.sortProjects(projects, sortOption))
+        this.projects$ = combineLatest([
+            projectStream,
+            this.sortOption$,
+            this.minFreeSpots$,
+            this.selectedStatuses$
+        ]).pipe(
+            map(([projects, sortOption, minFreeSpots, statuses]) => {
+                const filteredProjects = this.filterProjects(projects, minFreeSpots, statuses);
+                return this.sortProjects(filteredProjects, sortOption);
+            })
         );
     }
 
@@ -212,6 +230,23 @@ export class ProjectOverviewComponent implements OnInit, OnDestroy {
         return (a ?? '').localeCompare(b ?? '', undefined, {sensitivity: 'base', numeric: true});
     }
 
+    private filterProjects(
+        projects: Project[],
+        minFreeSpots: number,
+        selectedStatuses: ProjectStatusEnum[]
+    ): Project[] {
+        return projects.filter(project => {
+            const hasRequiredSpace = this.hasRequiredFreeSpots(project, minFreeSpots);
+            const matchesStatus =
+                selectedStatuses.length === 0 || selectedStatuses.includes(project.status);
+            return hasRequiredSpace && matchesStatus;
+        });
+    }
+
+    private hasRequiredFreeSpots(project: Project, minFreeSpots: number): boolean {
+        return this.getTeamVacancyCount(project) >= minFreeSpots;
+    }
+
     private compareTeamFill(a: Project, b: Project, direction: 'asc' | 'desc'): number {
         const fillA = this.getTeamFillRatio(a);
         const fillB = this.getTeamFillRatio(b);
@@ -260,6 +295,30 @@ export class ProjectOverviewComponent implements OnInit, OnDestroy {
         }
 
         return 0;
+    }
+
+    onMinFreeSpotsChange(value: number | string): void {
+        const parsedValue = Number(value);
+        const safeValue = Number.isFinite(parsedValue) && parsedValue >= 0 ? Math.floor(parsedValue) : 0;
+
+        this.minFreeSpots = safeValue;
+        this.minFreeSpots$.next(this.minFreeSpots);
+    }
+
+    toggleStatusFilter(status: ProjectStatusEnum, selected: boolean): void {
+        if (selected) {
+            if (!this.selectedStatuses.includes(status)) {
+                this.selectedStatuses = [...this.selectedStatuses, status];
+            }
+        } else {
+            this.selectedStatuses = this.selectedStatuses.filter(item => item !== status);
+        }
+
+        this.selectedStatuses$.next([...this.selectedStatuses]);
+    }
+
+    isStatusSelected(status: ProjectStatusEnum): boolean {
+        return this.selectedStatuses.includes(status);
     }
 
     updateProjectStatus(project: Project, status: ProjectStatusEnum): void {
