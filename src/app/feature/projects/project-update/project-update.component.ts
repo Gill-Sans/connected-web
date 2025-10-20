@@ -54,6 +54,7 @@ export class ProjectUpdateComponent implements OnInit, OnDestroy {
     private readonly authorizationService: AuthorizationService = inject(AuthorizationService);
 
     public isCreatedByTeacher$!: Observable<boolean>;
+    public isTeacher$!: Observable<boolean>;
 
     assignmentDefaultTeamSize: number | undefined = this.activeAssignmentService.getActiveAssignment()?.assignment.defaultTeamSize;
 
@@ -102,6 +103,7 @@ export class ProjectUpdateComponent implements OnInit, OnDestroy {
             this.projectData = project;
             this.projectStatus = project.status;
             this.isCreatedByTeacher$ = this.authorizationService.isCreatedByTeacher$(project);
+            this.isTeacher$ = this.authorizationService.isTeacher$();
             this.projectForm.patchValue({
                 title: project.title,
                 description: project.description,

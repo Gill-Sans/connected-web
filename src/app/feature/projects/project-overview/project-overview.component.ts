@@ -5,6 +5,8 @@ import {Router, RouterOutlet} from '@angular/router';
 import {FormsModule} from '@angular/forms';
 import {BehaviorSubject, combineLatest, Observable, Subscription} from 'rxjs';
 import {map, take} from 'rxjs/operators';
+import {Observable, Subscription, of} from 'rxjs';
+import {switchMap} from 'rxjs/operators';
 import {Project} from '../../../shared/models/project.model';
 import {ProjectService} from '../../../core/services/project.service';
 import {ToastService} from '../../../core/services/toast.service';
@@ -15,6 +17,10 @@ import {ProjectStatusEnum} from '../../../shared/models/ProjectStatus.enum';
 import {AuthorizationService} from '../../../core/services/authorization.service';
 import {ButtonComponent} from '../../../shared/components/button/button.component';
 import {StatuscardComponent} from '../../../shared/components/statuscard/statuscard.component';
+import {
+    ProjectStatusSelectComponent
+} from '../../../shared/components/project-status-select/project-status-select.component';
+import {ConfirmationModalComponent} from '../../../shared/components/confirmation-modal/confirmation-modal.component';
 import {
     ProjectStatusSelectComponent
 } from '../../../shared/components/project-status-select/project-status-select.component';
@@ -50,7 +56,8 @@ interface SortOption {
         RouterOutlet,
         ButtonComponent,
         StatuscardComponent,
-        ProjectStatusSelectComponent
+        ProjectStatusSelectComponent,
+        ConfirmationModalComponent
     ],
     templateUrl: './project-overview.component.html',
     styleUrl: './project-overview.component.scss'
@@ -63,6 +70,12 @@ export class ProjectOverviewComponent implements OnInit, OnDestroy {
     private readonly toastService = inject(ToastService);
     private readonly authorizationService: AuthorizationService = inject(AuthorizationService);
 
+    showStatusUpdateModal = false;
+    pendingStatusProject: Project | null = null;
+    pendingStatus: ProjectStatusEnum | null = null;
+    // Store original status so we can revert UI if the user cancels
+    pendingOriginalStatus: ProjectStatusEnum | null = null;
+
     projects$: Observable<Project[]> | null = null;
     public isTeacher$: Observable<boolean> = this.authorizationService.isTeacher$();
     public isResearcher$: Observable<boolean> = this.authorizationService.isResearcher$();
@@ -73,7 +86,6 @@ export class ProjectOverviewComponent implements OnInit, OnDestroy {
     showFilters = false;
     showSearch = false;
 
-    // Subscription to listen to active assignment changes
     private activeAssignmentSub?: Subscription;
 
     sortOptions: SortOption[] = [
@@ -133,7 +145,6 @@ export class ProjectOverviewComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        // Clean up subscriptions to avoid memory leaks.
         this.activeAssignmentSub?.unsubscribe();
     }
 
@@ -153,11 +164,6 @@ export class ProjectOverviewComponent implements OnInit, OnDestroy {
             this.selectedTab = 'my projects';
             this.loadMyProjects();
         }
-    }
-
-    changeSort(sortValue: SortValue): void {
-        this.selectedSort = sortValue;
-        this.sortOption$.next(sortValue);
     }
 
     toggleView(): void {
@@ -201,14 +207,20 @@ export class ProjectOverviewComponent implements OnInit, OnDestroy {
 
     loadProjects(): void {
         const assignmentId = this.activeAssignmentService.getActiveAssignment()?.assignment.id;
-        if (assignmentId) {
-            this.isTeacher$.pipe(take(1)).subscribe(isTeacher => {
-                const projectStream = isTeacher
-                    ? this.projectService.getAllProjects(assignmentId)
-                    : this.projectService.getAllPublishedProjects(assignmentId);
-                this.setProjects(projectStream);
-            });
+        if (!assignmentId) {
+            this.projects$ = of([]);
+            return;
         }
+
+        // Use the isTeacher$ stream to pick the right endpoint without manual subscription
+        this.projects$ = this.isTeacher$.pipe(
+            switchMap(isTeacher => {
+                if (isTeacher) {
+                    return this.projectService.getAllProjects(assignmentId);
+                }
+                return this.projectService.getAllPublishedProjects(assignmentId);
+            })
+        );
     }
 
     loadMyProjects(): void {
@@ -389,11 +401,57 @@ export class ProjectOverviewComponent implements OnInit, OnDestroy {
         ) ?? false;
     }
 
-    updateProjectStatus(project: Project, status: ProjectStatusEnum): void {
-        this.projectService.updateProjectStatus(project.id, status).subscribe(() => {
-            this.toastService.showToast('success', 'Project status updated to ' + ProjectStatusEnum[status]);
+    /**
+     * Show confirmation modal only when changing status to REJECTED.
+     * For other statuses update immediately.
+     */
+    promptStatusUpdate(project: Project, status: ProjectStatusEnum): void {
+        // store original status so we can revert if cancelled
+        this.pendingOriginalStatus = project.status as ProjectStatusEnum;
+
+        if(status === ProjectStatusEnum.REJECTED) {
+            this.pendingStatusProject = project;
+            this.pendingStatus = status;
+            this.showStatusUpdateModal = true;
+        }else {
+            this.projectService.updateProjectStatus(project.id, status).subscribe(() => {
+                this.toastService.showToast('success', 'Project status updated ');
+                this.reloadCurrentTabProjects();
+            });
+        }
+    }
+
+
+    confirmStatusUpdate(): void {
+        if (this.pendingStatusProject && this.pendingStatus !== null) {
+            this.projectService.updateProjectStatus(this.pendingStatusProject.id, this.pendingStatus).subscribe(() => {
+                this.toastService.showToast('success', 'Project status updated ');
+                this.reloadCurrentTabProjects();
+            });
+        }
+        this.showStatusUpdateModal = false;
+        this.pendingStatusProject = null;
+        this.pendingStatus = null;
+        this.pendingOriginalStatus = null;
+    }
+
+    cancelStatusUpdate(): void {
+        // revert any UI change by reloading the current tab projects
+        this.showStatusUpdateModal = false;
+        this.pendingStatusProject = null;
+        this.pendingStatus = null;
+        this.pendingOriginalStatus = null;
+        this.reloadCurrentTabProjects();
+    }
+
+    private reloadCurrentTabProjects(): void {
+        if (this.selectedTab === 'all') {
             this.loadProjects();
-        });
+        } else if (this.selectedTab === 'global') {
+            this.loadGlobalProjects();
+        } else if (this.selectedTab === 'my projects') {
+            this.loadMyProjects();
+        }
     }
 
     publishAllProjects(): void {
@@ -405,8 +463,9 @@ export class ProjectOverviewComponent implements OnInit, OnDestroy {
         }
     }
 
-    get publishedStatus(): string {
-        return ProjectStatusEnum[ProjectStatusEnum.PUBLISHED];
+    get pendingStatusLabel(): string {
+        if (this.pendingStatus === null) return '';
+        return (ProjectStatusEnum as any)[this.pendingStatus] ?? String(this.pendingStatus);
     }
 
     navigateToProject(project: Project): void {
