@@ -13,8 +13,8 @@ export class LinkcardComponent implements OnInit {
     @Input() variant!: string;
 
     ngOnInit() {
-        if (this.url && !this.url.startsWith('http://') && !this.url.startsWith('https://')) {
-            this.url = 'http://' + this.url;
+        if (this.url && !this.url.startsWith('https://')) {
+            this.url = 'https://' + this.url;
         }
     }
 
