@@ -3,8 +3,8 @@ import {ProjectcardComponent} from '../../../shared/components/projectcard/proje
 import {CommonModule} from '@angular/common';
 import {Router, RouterOutlet} from '@angular/router';
 import {FormsModule} from '@angular/forms';
-import {BehaviorSubject, combineLatest, Observable, of, Subscription} from 'rxjs';
-import {map, switchMap, take,} from 'rxjs/operators';
+import {BehaviorSubject, combineLatest, Observable, Subscription} from 'rxjs';
+import {map, take,} from 'rxjs/operators';
 import {Project} from '../../../shared/models/project.model';
 import {ProjectService} from '../../../core/services/project.service';
 import {ToastService} from '../../../core/services/toast.service';
