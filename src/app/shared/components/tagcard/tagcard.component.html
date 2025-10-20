@@ -1,4 +1,6 @@
 <span class="tag">
-    {{ tag.name }}
-    <button type="button" *ngIf="showDelete" class="delete-btn" (click)="onDelete()">×</button>
-  </span>
+  {{ tag.name }}
+  @if (showDelete) {
+    <button type="button" class="delete-btn" (click)="onDelete()">×</button>
+  }
+</span>

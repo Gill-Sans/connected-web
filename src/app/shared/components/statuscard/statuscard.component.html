@@ -1,3 +1,13 @@
-<button [ngClass]="getStatusClass()" class="status-button">
-    {{ status }}
-</button>
+@if (variant === 'large') {
+    <button [ngClass]="getStatusClass()" class="status-button">
+        {{ status | enumDisplay }}
+    </button>
+}
+
+@if (variant === 'small') {
+    <div class="status-small" [ngClass]="getStatusClass()">
+        <span class="status-ball"></span>
+        <span class="status-text">{{ status | enumDisplay }}</span>
+    </div>
+}
+

@@ -1,7 +1,7 @@
 <div class="links-container">
-    <ng-container *ngIf="url && url.trim()">
-        <app-button variant="neutral" (click)="openLink(url)">
-            {{ variant }}
-        </app-button>
-    </ng-container>
+  @if (url && url.trim()) {
+    <app-button variant="neutral" (click)="openLink(url)">
+      {{ variant }}
+    </app-button>
+  }
 </div>

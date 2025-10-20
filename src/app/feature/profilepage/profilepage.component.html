@@ -1,88 +1,99 @@
 <div class="profilepage">
-    <div class="profile-header">
-        <div class="profile-info">
-            <img
-                *ngIf="user?.profileImageUrl"
-                class="user-image"
-                [src]="user?.profileImageUrl"
-                alt="profile picture"
-            />
-            <p class="profile-name">{{ user?.firstName }} {{ user?.lastName }}</p>
-        </div>
-        <!-- Show edit button if not editing, and save button when editing -->
-        <ng-container *ngIf="canEditProfile">
-            <app-button
-                variant="primary"
-                (click)="startEditing()"
-                *ngIf="!isEditing">Edit Profile</app-button>
-            <app-button
-                variant="primary"
-                (click)="saveProfile()"
-                [disabled]="loading"
-                *ngIf="isEditing">Save changes</app-button>
-        </ng-container>
+  <div class="profile-header">
+    <div class="profile-info">
+      @if (user?.profileImageUrl) {
+        <img
+          class="user-image"
+          [src]="user?.profileImageUrl"
+          alt="profile picture"
+          />
+      }
+      <p class="profile-name">{{ user?.firstName }} {{ user?.lastName }}</p>
     </div>
+    <!-- Show edit button if not editing, and save button when editing -->
+    @if (canEditProfile) {
+      @if (!isEditing) {
+        <app-button
+          variant="primary"
+          (click)="startEditing()"
+        >Edit Profile</app-button>
+      }
+      @if (isEditing) {
+        <app-button
+          variant="primary"
+          (click)="saveProfile()"
+          [disabled]="loading"
+        >Save changes</app-button>
+      }
+    }
+  </div>
 
-    <!-- About Me Section -->
-    <div class="about-me">
-        <h4>About me</h4>
-        <div *ngIf="isEditing; else viewAboutMe">
-      <textarea
+  <!-- About Me Section -->
+  <div class="about-me">
+    <h4>About me</h4>
+    @if (isEditing) {
+      <div>
+        <textarea
           class="about-me-text"
           [(ngModel)]="user!.aboutMe"
-          name="aboutMe"></textarea>
-        </div>
-        <ng-template #viewAboutMe>
-            <p class="about-me-text view-text">{{ user?.aboutMe || 'No information provided.' }}</p>
-        </ng-template>
-    </div>
+        name="aboutMe"></textarea>
+      </div>
+    } @else {
+      <p class="about-me-text view-text">{{ user?.aboutMe || 'No information provided.' }}</p>
+    }
+  </div>
 
-    <!-- Field of Study Section -->
-    <div class="field-of-study">
-        <h4>Field of Study</h4>
-        <div *ngIf="isEditing; else viewFieldOfStudy">
-            <input
-                class="field-of-study-input"
-                [(ngModel)]="user!.fieldOfStudy"
-                name="fieldOfStudy" />
+  <!-- Field of Study Section -->
+  <div class="field-of-study">
+    <h4>Field of Study</h4>
+    @if (isEditing) {
+      <div>
+        <input
+          class="field-of-study-input"
+          [(ngModel)]="user!.fieldOfStudy"
+          name="fieldOfStudy" />
         </div>
-        <ng-template #viewFieldOfStudy>
-            <p class="view-text">{{ user?.fieldOfStudy || 'Not specified' }}</p>
-        </ng-template>
+      } @else {
+        <p class="view-text">{{ user?.fieldOfStudy || 'Not specified' }}</p>
+      }
     </div>
 
     <!-- LinkedIn Section -->
     <div class="linkedin-section">
-        <h4>Linkedin url</h4>
-        <div *ngIf="isEditing; else viewLinkedin">
-            <input
-                class="linkedin-link"
-                [(ngModel)]="user!.linkedinUrl"
-                name="linkedinUrl" />
-        </div>
-        <ng-template #viewLinkedin>
-            <p class="linkedin-link view-text">
-                <a [href]="user?.linkedinUrl" target="_blank">
-                    {{ user?.linkedinUrl || 'Not provided' }}
-                </a>
-            </p>
-        </ng-template>
-    </div>
+      <h4>Linkedin url</h4>
+      @if (isEditing) {
+        <div>
+          <input
+            class="linkedin-link"
+            [(ngModel)]="user!.linkedinUrl"
+            name="linkedinUrl" />
+          </div>
+        } @else {
+          <p class="linkedin-link view-text">
+            <a [href]="user?.linkedinUrl" target="_blank">
+              {{ user?.linkedinUrl || 'Not provided' }}
+            </a>
+          </p>
+        }
+      </div>
 
-    <!-- Skillset Section -->
-    <div class="skillset">
+      <!-- Skillset Section -->
+      <div class="skillset">
         <h4>Skillset</h4>
         <div class="tags-container">
+          @for (tag of user?.tags; track tag) {
             <app-tagcard
-                *ngFor="let tag of user?.tags"
-                [tag]="tag"
-                [showDelete]="isEditing"
-                (deleteTag)="removeTag($event)">
+              [tag]="tag"
+              [showDelete]="isEditing"
+              (deleteTag)="removeTag($event)">
             </app-tagcard>
+          }
         </div>
         <!-- Show tag search only in edit mode -->
-        <div *ngIf="isEditing">
+        @if (isEditing) {
+          <div>
             <app-tag-search-component (tagSelected)="addTagToUser($event)"></app-tag-search-component>
-        </div>
+          </div>
+        }
+      </div>
     </div>
-</div>

@@ -1,16 +1,17 @@
 <div class="toast-container">
+  @for (message of messages; track message) {
     <div
-        *ngFor="let message of messages"
-        class="toast"
-        [ngClass]="message.type"
-    >
-        <div class="toast-header">
-            <span class="icon" [ngClass]="message.type"></span>
-            <span class="type">{{ message.type | titlecase }}</span>
-            <button class="close-btn" (click)="removeToast(message)">×</button>
-        </div>
-        <div class="toast-body">
-            <span class="message">{{ message.message }}</span>
-        </div>
+      class="toast"
+      [ngClass]="message.type"
+      >
+      <div class="toast-header">
+        <span class="icon" [ngClass]="message.type"></span>
+        <span class="type">{{ message.type | titlecase }}</span>
+        <button class="close-btn" (click)="removeToast(message)">×</button>
+      </div>
+      <div class="toast-body">
+        <span class="message">{{ message.message }}</span>
+      </div>
     </div>
+  }
 </div>

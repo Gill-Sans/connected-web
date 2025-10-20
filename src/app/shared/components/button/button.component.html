@@ -1,10 +1,10 @@
 <button [attr.type]="buttonType"
-        [disabled]="disabled"
-        [ngClass]="variant"
-        (click)="onClick($event)"
-        class="ripple">
-    <ng-container *ngIf="icon">
-        <img [src]="icon" alt="icon" class="button-icon" />
-    </ng-container>
-    <ng-content></ng-content>
+  [disabled]="disabled"
+  [ngClass]="variant"
+  (click)="onClick($event)"
+  class="ripple">
+  @if (icon) {
+    <img [src]="icon" alt="icon" class="button-icon" />
+  }
+  <ng-content></ng-content>
 </button>
