@@ -1,3 +1,13 @@
+<app-confirmation-modal
+    *ngIf="showStatusUpdateModal"
+    [title]="'Update Project Status'"
+    [message]="'Are you sure you want to change the status to ' + pendingStatusLabel + '?'"
+    [confirmText]="'Update'"
+    [cancelText]="'Cancel'"
+    (confirm)="confirmStatusUpdate()"
+    (cancel)="cancelStatusUpdate()">
+</app-confirmation-modal>
+
 <div class="project-overview">
     <div class="tab-bar">
         <div class="tabs">
@@ -73,7 +83,7 @@
                         <td *ngIf="selectedTab === 'all'">
                             <app-project-status-select
                                 [value]="project.status"
-                                (valueChange)="updateProjectStatus(project, $event)"
+                                (valueChange)="promptStatusUpdate(project, $event)"
                             ></app-project-status-select>
                         </td>
                     </tr>
