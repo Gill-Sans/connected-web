@@ -29,6 +29,16 @@
       <button
         type="button"
         class="filter-toggle-btn"
+        (click)="toggleSearch()"
+        [attr.aria-expanded]="showSearch"
+        aria-controls="project-search"
+        aria-label="Toggle project search"
+      >
+        <img src="icons/search.svg" alt="" aria-hidden="true" />
+      </button>
+      <button
+        type="button"
+        class="filter-toggle-btn"
         (click)="toggleFilters()"
         [attr.aria-expanded]="showFilters"
         aria-controls="project-filters"
@@ -81,6 +91,30 @@
           }
         </div>
       </div>
+    </div>
+  }
+
+  @if (showSearch) {
+    <div id="project-search" class="search-bar" role="search">
+      <label class="search-label" for="project-search-input">Search projects</label>
+      <input
+        id="project-search-input"
+        type="search"
+        [ngModel]="searchTerm"
+        (ngModelChange)="onSearchTermChange($event)"
+        placeholder="Search by title, description, tag, or member"
+        autocomplete="off"
+      />
+      @if (searchTerm) {
+        <button
+          type="button"
+          class="clear-search-btn"
+          (click)="clearSearch()"
+          aria-label="Clear search"
+        >
+          Clear
+        </button>
+      }
     </div>
   }
 

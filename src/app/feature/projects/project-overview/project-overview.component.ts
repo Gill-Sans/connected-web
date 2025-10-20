@@ -62,7 +62,6 @@ export class ProjectOverviewComponent implements OnInit, OnDestroy {
     private readonly router: Router = inject(Router);
     private readonly toastService = inject(ToastService);
     private readonly authorizationService: AuthorizationService = inject(AuthorizationService);
-    protected readonly ProjectStatusEnum = ProjectStatusEnum;
 
     projects$: Observable<Project[]> | null = null;
     public isTeacher$: Observable<boolean> = this.authorizationService.isTeacher$();
@@ -72,6 +71,7 @@ export class ProjectOverviewComponent implements OnInit, OnDestroy {
     selectedTab: TabValue = 'all';
     viewType: 'card' | 'table' = 'card';
     showFilters = false;
+    showSearch = false;
 
     // Subscription to listen to active assignment changes
     private activeAssignmentSub?: Subscription;
@@ -92,6 +92,8 @@ export class ProjectOverviewComponent implements OnInit, OnDestroy {
     private readonly minFreeSpots$ = new BehaviorSubject<number>(this.minFreeSpots);
     selectedStatuses: ProjectStatusEnum[] = [];
     private readonly selectedStatuses$ = new BehaviorSubject<ProjectStatusEnum[]>(this.selectedStatuses);
+    searchTerm = '';
+    private readonly searchTerm$ = new BehaviorSubject<string>(this.searchTerm);
     protected readonly statusOptions = Object.values(ProjectStatusEnum);
 
     tabOptions: TabOption[] = [];
@@ -166,15 +168,32 @@ export class ProjectOverviewComponent implements OnInit, OnDestroy {
         this.showFilters = !this.showFilters;
     }
 
+    toggleSearch(): void {
+        this.showSearch = !this.showSearch;
+    }
+
+    onSearchTermChange(value: string): void {
+        this.searchTerm = value;
+        this.searchTerm$.next(value);
+    }
+
+    clearSearch(): void {
+        if (this.searchTerm) {
+            this.searchTerm = '';
+            this.searchTerm$.next('');
+        }
+    }
+
     private setProjects(projectStream: Observable<Project[]>): void {
         this.projects$ = combineLatest([
             projectStream,
             this.sortOption$,
             this.minFreeSpots$,
-            this.selectedStatuses$
+            this.selectedStatuses$,
+            this.searchTerm$
         ]).pipe(
-            map(([projects, sortOption, minFreeSpots, statuses]) => {
-                const filteredProjects = this.filterProjects(projects, minFreeSpots, statuses);
+            map(([projects, sortOption, minFreeSpots, statuses, searchTerm]) => {
+                const filteredProjects = this.filterProjects(projects, minFreeSpots, statuses, searchTerm);
                 return this.sortProjects(filteredProjects, sortOption);
             })
         );
@@ -233,13 +252,16 @@ export class ProjectOverviewComponent implements OnInit, OnDestroy {
     private filterProjects(
         projects: Project[],
         minFreeSpots: number,
-        selectedStatuses: ProjectStatusEnum[]
+        selectedStatuses: ProjectStatusEnum[],
+        searchTerm: string
     ): Project[] {
+        const normalizedSearch = searchTerm.trim().toLowerCase();
         return projects.filter(project => {
             const hasRequiredSpace = this.hasRequiredFreeSpots(project, minFreeSpots);
             const matchesStatus =
                 selectedStatuses.length === 0 || selectedStatuses.includes(project.status);
-            return hasRequiredSpace && matchesStatus;
+            const matchesSearch = this.matchesSearchTerm(project, normalizedSearch);
+            return hasRequiredSpace && matchesStatus && matchesSearch;
         });
     }
 
@@ -324,6 +346,47 @@ export class ProjectOverviewComponent implements OnInit, OnDestroy {
     toggleStatusFilterByClick(status: ProjectStatusEnum): void {
         const shouldSelect = !this.isStatusSelected(status);
         this.toggleStatusFilter(status, shouldSelect);
+    }
+
+    private matchesSearchTerm(project: Project, normalizedSearch: string): boolean {
+        if (!normalizedSearch) {
+            return true;
+        }
+
+        const searchableValues: (string | null | undefined)[] = [
+            project.title,
+            project.shortDescription,
+            project.description,
+            project.courseName,
+            project.assignmentName,
+            project.productOwner
+                ? `${project.productOwner.firstName} ${project.productOwner.lastName}`
+                : undefined,
+            project.createdBy
+                ? `${project.createdBy.firstName} ${project.createdBy.lastName}`
+                : undefined
+        ];
+
+        const hasFieldMatch = searchableValues.some(value =>
+            value?.toLowerCase().includes(normalizedSearch)
+        );
+
+        if (hasFieldMatch) {
+            return true;
+        }
+
+        const hasMemberMatch =
+            project.members?.some(member =>
+                `${member.firstName} ${member.lastName}`.toLowerCase().includes(normalizedSearch)
+            ) ?? false;
+
+        if (hasMemberMatch) {
+            return true;
+        }
+
+        return project.tags?.some(tagItem =>
+            tagItem.name?.toLowerCase().includes(normalizedSearch)
+        ) ?? false;
     }
 
     updateProjectStatus(project: Project, status: ProjectStatusEnum): void {
