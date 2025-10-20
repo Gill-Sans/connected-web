@@ -3,10 +3,8 @@ import {ProjectcardComponent} from '../../../shared/components/projectcard/proje
 import {CommonModule} from '@angular/common';
 import {Router, RouterOutlet} from '@angular/router';
 import {FormsModule} from '@angular/forms';
-import {BehaviorSubject, combineLatest, Observable, Subscription} from 'rxjs';
-import {map, take} from 'rxjs/operators';
-import {Observable, Subscription, of} from 'rxjs';
-import {switchMap} from 'rxjs/operators';
+import {BehaviorSubject, combineLatest, Observable, of, Subscription} from 'rxjs';
+import {map, switchMap, take,} from 'rxjs/operators';
 import {Project} from '../../../shared/models/project.model';
 import {ProjectService} from '../../../core/services/project.service';
 import {ToastService} from '../../../core/services/toast.service';
@@ -21,9 +19,6 @@ import {
     ProjectStatusSelectComponent
 } from '../../../shared/components/project-status-select/project-status-select.component';
 import {ConfirmationModalComponent} from '../../../shared/components/confirmation-modal/confirmation-modal.component';
-import {
-    ProjectStatusSelectComponent
-} from '../../../shared/components/project-status-select/project-status-select.component';
 
 type TabValue = 'all' | 'global' | 'my projects';
 
@@ -127,16 +122,13 @@ export class ProjectOverviewComponent implements OnInit, OnDestroy {
                     this.activeAssignment = activeAssignment;
                     // Only reload projects if an active assignment exists.
                     if (activeAssignment && activeAssignment.assignment) {
-
                         this.loadProjects();
-
                     }
                 });
             }
 
 
         });
-
 
         // Subscribe to user changes to check for teacher role
         this.isTeacher$.subscribe(isTeacher => {
@@ -164,6 +156,11 @@ export class ProjectOverviewComponent implements OnInit, OnDestroy {
             this.selectedTab = 'my projects';
             this.loadMyProjects();
         }
+    }
+
+    changeSort(sortValue: SortValue): void {
+        this.selectedSort = sortValue;
+        this.sortOption$.next(sortValue);
     }
 
     toggleView(): void {
@@ -207,20 +204,14 @@ export class ProjectOverviewComponent implements OnInit, OnDestroy {
 
     loadProjects(): void {
         const assignmentId = this.activeAssignmentService.getActiveAssignment()?.assignment.id;
-        if (!assignmentId) {
-            this.projects$ = of([]);
-            return;
+        if (assignmentId) {
+            this.isTeacher$.pipe(take(1)).subscribe(isTeacher => {
+                const projectStream = isTeacher
+                    ? this.projectService.getAllProjects(assignmentId)
+                    : this.projectService.getAllPublishedProjects(assignmentId);
+                this.setProjects(projectStream);
+            });
         }
-
-        // Use the isTeacher$ stream to pick the right endpoint without manual subscription
-        this.projects$ = this.isTeacher$.pipe(
-            switchMap(isTeacher => {
-                if (isTeacher) {
-                    return this.projectService.getAllProjects(assignmentId);
-                }
-                return this.projectService.getAllPublishedProjects(assignmentId);
-            })
-        );
     }
 
     loadMyProjects(): void {
