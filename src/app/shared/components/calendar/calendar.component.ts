@@ -1,5 +1,5 @@
 import {Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
-import {CommonModule, NgOptimizedImage, registerLocaleData} from '@angular/common';
+import { CommonModule, NgOptimizedImage, registerLocaleData } from '@angular/common';
 import localeNl from '@angular/common/locales/nl';
 import {
     CalendarEvent,

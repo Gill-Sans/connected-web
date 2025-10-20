@@ -1,5 +1,4 @@
 import {Component, Input, Output, EventEmitter, SimpleChanges} from '@angular/core';
-import { CommonModule } from '@angular/common';
 import {ButtonComponent} from '../button/button.component';
 import {FormsModule} from '@angular/forms';
 
@@ -7,7 +6,6 @@ import {FormsModule} from '@angular/forms';
     selector: 'app-confirmation-modal',
     standalone: true,
     imports: [
-        CommonModule,
         FormsModule,
         ButtonComponent
     ],
