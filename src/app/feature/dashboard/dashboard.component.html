@@ -2,9 +2,37 @@
   @if (dashboard$ | async; as d) {
     <!-- KPIs -->
     <div class="tdb-kpis">
-      <div class="kpi"><span class="kpi-label">Students</span><span class="kpi-value">{{ d.counts.totalStudents }}</span></div>
-      <div class="kpi"><span class="kpi-label">Assigned</span><span class="kpi-value">{{ d.counts.assignedStudents }}</span></div>
-      <div class="kpi"><span class="kpi-label">Unassigned</span><span class="kpi-value">{{ d.counts.unassignedStudents }}</span></div>
+      <div class="kpi students-card">
+        <div class="students-card-head">
+          <span class="kpi-label">Students</span>
+          <span class="kpi-value">{{ d.counts.totalStudents }}</span>
+        </div>
+        <div class="students-card-body">
+          <div class="students-chart" aria-hidden="true">
+            @if (studentDistributionChartOptions$ | async; as studentChart) {
+              <div echarts [options]="studentChart"></div>
+            }
+          </div>
+          <ul class="students-breakdown" aria-label="Student assignment breakdown">
+            <li>
+              <span class="dot dot--assigned" aria-hidden="true"></span>
+              <span class="label">Assigned</span>
+              <span class="value">
+                {{ d.counts.assignedStudents }}
+                <span class="percent">{{ (d.counts.totalStudents ? (d.counts.assignedStudents / d.counts.totalStudents) : 0) | percent:'1.0-0' }}</span>
+              </span>
+            </li>
+            <li>
+              <span class="dot dot--unassigned" aria-hidden="true"></span>
+              <span class="label">Unassigned</span>
+              <span class="value">
+                {{ d.counts.unassignedStudents }}
+                <span class="percent">{{ (d.counts.totalStudents ? (d.counts.unassignedStudents / d.counts.totalStudents) : 0) | percent:'1.0-0' }}</span>
+              </span>
+            </li>
+          </ul>
+        </div>
+      </div>
       <div class="kpi"><span class="kpi-label">Awaiting Review</span><span class="kpi-value">{{ d.counts.reviewQueueProjects }}</span></div>
       <div class="kpi"><span class="kpi-label">Needs Revision</span><span class="kpi-value">{{ d.counts.needsRevisionProjects }}</span></div>
     </div>

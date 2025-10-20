@@ -7,7 +7,7 @@
 
     .tdb-kpis {
         display: grid;
-        grid-template-columns: repeat(5, minmax(120px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
         gap: $spacing-lg;
 
         .kpi {
@@ -19,6 +19,7 @@
             display: flex;
             flex-direction: column;
             gap: .625rem;
+            min-height: 100%;
 
             .kpi-label {
                 color: $text-color-light;
@@ -29,6 +30,83 @@
                 font-weight: 700;
                 color: $text-color-dark;
                 font-size: 2.125rem;
+            }
+        }
+
+        .students-card {
+            gap: $spacing-sm;
+
+            .students-card-head {
+                display: flex;
+                align-items: baseline;
+                justify-content: space-between;
+            }
+
+            .students-card-body {
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+                gap: $spacing-md;
+            }
+
+            .students-chart {
+                position: relative;
+                width: 140px;
+                aspect-ratio: 1 / 1;
+
+                [echarts] {
+                    width: 100%;
+                    height: 100%;
+                    display: block;
+                }
+            }
+
+            .students-breakdown {
+                display: flex;
+                flex-direction: column;
+                gap: .75rem;
+                padding: 0;
+                margin: 0;
+                list-style: none;
+
+                li {
+                    display: flex;
+                    align-items: center;
+                    gap: .5rem;
+                    font-size: 0.95rem;
+                    color: $text-color-dark;
+                }
+
+                .dot {
+                    width: 10px;
+                    height: 10px;
+                    border-radius: 50%;
+
+                    &--assigned {
+                        background: #4caf50;
+                    }
+
+                    &--unassigned {
+                        background: #ff9800;
+                    }
+                }
+
+                .label {
+                    flex: 1;
+                    color: $text-color-light;
+                }
+
+                .value {
+                    display: inline-flex;
+                    align-items: baseline;
+                    gap: .35rem;
+                    font-weight: 600;
+                }
+
+                .percent {
+                    color: $text-color-light;
+                    font-size: .85rem;
+                }
             }
         }
     }

@@ -22,6 +22,40 @@
       }
     </div>
     <div class="tabs-right">
+      <div class="sort-wrapper">
+        <label for="project-sort">Sort by</label>
+        <select
+          id="project-sort"
+          [ngModel]="selectedSort"
+          (ngModelChange)="changeSort($event)"
+        >
+          @for (option of sortOptions; track option.value) {
+            <option [ngValue]="option.value">
+              {{ option.label }}
+            </option>
+          }
+        </select>
+      </div>
+      <button
+        type="button"
+        class="filter-toggle-btn"
+        (click)="toggleSearch()"
+        [attr.aria-expanded]="showSearch"
+        aria-controls="project-search"
+        aria-label="Toggle project search"
+      >
+        <img src="icons/search.svg" alt="" aria-hidden="true" />
+      </button>
+      <button
+        type="button"
+        class="filter-toggle-btn"
+        (click)="toggleFilters()"
+        [attr.aria-expanded]="showFilters"
+        aria-controls="project-filters"
+        aria-label="Toggle filters"
+      >
+        <img src="icons/filter.svg" alt="" aria-hidden="true" />
+      </button>
       @if ((isTeacher$ | async)) {
         <div class="toggle-container" (click)="toggleView()">
           <div class="toggle-switch">
@@ -39,6 +73,60 @@
       <app-button variant="primary" (click)="navigateToProjectCreate()">Create Project</app-button>
     </div>
   </div>
+
+  @if (showFilters) {
+    <div id="project-filters" class="filters-bar">
+      <div class="filter-group">
+        <label for="min-free-spots">Minimum free spots</label>
+        <input
+          id="min-free-spots"
+          type="number"
+          min="0"
+          [ngModel]="minFreeSpots"
+          (ngModelChange)="onMinFreeSpotsChange($event)"
+        />
+      </div>
+      <div class="filter-group status-group">
+        <span class="filter-label">Status</span>
+        <div class="status-options">
+          @for (status of statusOptions; track status) {
+            <app-statuscard
+              class="status-option"
+              variant="large"
+              type="clickable"
+              [status]="status"
+              [active]="isStatusSelected(status)"
+              (click)="toggleStatusFilterByClick(status)"
+            ></app-statuscard>
+          }
+        </div>
+      </div>
+    </div>
+  }
+
+  @if (showSearch) {
+    <div id="project-search" class="search-bar" role="search">
+      <label class="search-label" for="project-search-input">Search projects</label>
+      <input
+        id="project-search-input"
+        type="search"
+        [ngModel]="searchTerm"
+        (ngModelChange)="onSearchTermChange($event)"
+        placeholder="Search by title, description, tag, or member"
+        autocomplete="off"
+      />
+      @if (searchTerm) {
+        <button
+          type="button"
+          class="clear-search-btn"
+          (click)="clearSearch()"
+          aria-label="Clear search"
+        >
+          Clear
+        </button>
+      }
+    </div>
+  }
 
   <!-- Render view based on the selected viewType -->
   @if (projects$ | async; as projects) {
