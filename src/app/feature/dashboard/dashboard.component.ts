@@ -13,7 +13,11 @@ import {AssignmentService} from '../../core/services/assignment.service';
 import {Announcement} from '../../shared/models/announcement.model';
 import {Deadline} from '../../shared/models/deadline.model';
 import {Project} from '../../shared/models/project.model';
-import {ChartConfiguration} from 'chart.js';
+import * as echarts from 'echarts/core';
+import {PieChart} from 'echarts/charts';
+import {LegendComponent, TooltipComponent} from 'echarts/components';
+import {CanvasRenderer} from 'echarts/renderers';
+import type {EChartsOption} from 'echarts';
 
 import {AnnouncementCardComponent} from '../../shared/components/announcement-card/announcement-card.component';
 import {ButtonComponent} from '../../shared/components/button/button.component';
@@ -23,6 +27,7 @@ import {HasRoleDirective} from '../../shared/directives/HasRole.directive';
 import {Role} from '../../auth/models/role.model';
 import {DashboardDetailsDto, UserSummaryDto} from '../../shared/models/dashboard.model';
 import {StatuscardComponent} from '../../shared/components/statuscard/statuscard.component';
+import {provideEchartsCore, NgxEchartsDirective} from 'ngx-echarts';
 
 @Component({
     selector: 'app-dashboard',
@@ -34,12 +39,20 @@ import {StatuscardComponent} from '../../shared/components/statuscard/statuscard
         ButtonComponent,
         ProjectcardComponent,
         HasRoleDirective,
-        StatuscardComponent
+        StatuscardComponent,
+        NgxEchartsDirective
     ],
     templateUrl: './dashboard.component.html',
-    styleUrls: ['./dashboard.component.scss']
+    styleUrls: ['./dashboard.component.scss'],
+    providers: [
+provideEchartsCore({ echarts }),
+]
 })
 export class DashboardComponent implements OnInit, OnDestroy {
+    constructor() {
+        echarts.use([PieChart, TooltipComponent, LegendComponent, CanvasRenderer]);
+    }
+
     private readonly announcementService = inject(AnnouncementService);
     private readonly deadlineService = inject(DeadlineService);
     private readonly projectService = inject(ProjectService);
@@ -53,16 +66,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     deadlines$: Observable<Deadline[]> | null = null;
     project: Project | null = null;
 
-    // Student chart stays (visible for students)
-    submissionChartData = {
-        labels: ['Submitted', 'Not Submitted'],
-        datasets: [
-            { data: [40, 60], backgroundColor: ['#28a745', '#dc3545'], hoverBackgroundColor: ['#218838', '#c82333'] }
-        ]
-    };
-    submissionChartOptions: ChartConfiguration<'pie'>['options'] = { responsive: true, plugins: { legend: { position: 'bottom' } } };
-    submissionChartType: 'pie' = 'pie';
-
     activeAssignment$ = this.activeAssignmentService.activeAssignment$;
     private subscriptions: Subscription[] = [];
 
@@ -74,6 +77,51 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     dashboard$: Observable<DashboardDetailsDto> = this.assignmentId$.pipe(
         switchMap(id => this.assignmentService.getAssignmentDashboard(id)),
+        shareReplay({ bufferSize: 1, refCount: true })
+    );
+
+    studentDistributionChartOptions$: Observable<EChartsOption> = this.dashboard$.pipe(
+        map(d => {
+            const assigned = d.counts.assignedStudents ?? 0;
+            const unassigned = d.counts.unassignedStudents ?? 0;
+            const hasData = assigned + unassigned > 0;
+
+            return {
+                color: ['#4caf50', '#ff9800'],
+                tooltip: {
+                    trigger: 'item',
+                    formatter: '{b}: {c} ({d}%)'
+                },
+                legend: { show: false },
+                series: [
+                    {
+                        type: 'pie',
+                        radius: ['55%', '85%'],
+                        avoidLabelOverlap: true,
+                        itemStyle: {
+                            borderColor: '#fff',
+                            borderWidth: 2,
+                            borderRadius: 6
+                        },
+                        label: {
+                            show: !hasData,
+                            position: 'center',
+                            formatter: hasData ? '' : 'No data',
+                            fontSize: 14,
+                            color: '#888'
+                        },
+                        emphasis: {
+                            scale: true,
+                            scaleSize: 6
+                        },
+                        data: [
+                            { value: assigned, name: 'Assigned' },
+                            { value: unassigned, name: 'Unassigned' }
+                        ]
+                    }
+                ]
+            } satisfies EChartsOption;
+        }),
         shareReplay({ bufferSize: 1, refCount: true })
     );
 
