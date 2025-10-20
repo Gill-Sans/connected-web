@@ -12,7 +12,7 @@
       }
     </div>
     <div class="project-tabs__right">
-      @if ((canManageProject$ | async) || (isCreatedByTeacher$ | async)) {
+      @if ((canManageProject$ | async)) {
         <a routerLink="edit" routerLinkActive="active-tab">
           <img src="icons/gear.svg" alt="Edit Project"  class="icon"/>
         </a>
