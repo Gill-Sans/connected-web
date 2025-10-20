@@ -10,11 +10,21 @@ import { EnumDisplayPipe } from '../../pipes/enum-display.pipe';
 })
 export class StatuscardComponent {
     @Input() status!: string;
-    // New input for the variant, defaulting to 'large'
     @Input() variant: 'large' | 'small' = 'large';
+    @Input() type: 'static' | 'clickable' = 'static';
+    @Input() active = false;
 
     // Helper to get the base status class (e.g., 'pending')
     getStatusClass(): string {
         return this.status.toLowerCase().replace(/\s/g, '-');
+    }
+
+    getClassList(): string[] {
+        const classes = [this.getStatusClass(), this.type];
+        if (this.active) {
+            classes.push('active');
+        }
+
+        return classes;
     }
 }

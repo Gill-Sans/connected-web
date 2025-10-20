@@ -1,11 +1,16 @@
 @if (variant === 'large') {
-    <button [ngClass]="getStatusClass()" class="status-button">
+    <button
+        type="button"
+        class="status-button"
+        [ngClass]="getClassList()"
+        [attr.aria-pressed]="type === 'clickable' ? active : null"
+    >
         {{ status | enumDisplay }}
     </button>
 }
 
 @if (variant === 'small') {
-    <div class="status-small" [ngClass]="getStatusClass()">
+    <div class="status-small" [ngClass]="getClassList()">
         <span class="status-ball"></span>
         <span class="status-text">{{ status | enumDisplay }}</span>
     </div>
