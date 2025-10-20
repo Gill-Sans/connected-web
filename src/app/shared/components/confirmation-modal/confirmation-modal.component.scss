@@ -50,3 +50,48 @@
     from { transform: scale(0.95); opacity: 0; }
     to { transform: scale(1); opacity: 1; }
 }
+
+
+.exact-confirm-input {
+
+    padding: 0.25rem;
+
+    label {
+        display: block;
+        font-size: 0.95rem;
+
+        margin-bottom: 0.5rem;
+        line-height: 1.2;
+    }
+
+    input {
+        width: 100%;
+        display: block;
+        font: inherit;
+        font-size: 1rem;
+        background: #fff;
+        border: 1px solid rgba(0, 0, 0, 0.12);
+        padding: 0.6rem 0.75rem;
+        border-radius: 8px;
+        box-shadow: none;
+        transition: border-color 0.12s ease, box-shadow 0.12s ease;
+        -webkit-appearance: none;
+        appearance: none;
+    }
+
+    input::placeholder {
+        color: rgba(0, 0, 0, 0.35);
+    }
+
+    input:focus {
+        outline: none;
+        border-color: #9a67ea; /* app accent used in global styles */
+        box-shadow: 0 0 0 4px rgba(154, 103, 234, 0.08);
+    }
+
+    /* invalid state */
+    input.invalid {
+        border-color: #e53935;
+        box-shadow: 0 0 0 4px rgba(229, 57, 53, 0.08);
+    }
+}

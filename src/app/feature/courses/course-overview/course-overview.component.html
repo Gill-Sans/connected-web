@@ -27,6 +27,7 @@
     [message]="'Are you sure you want to delete this course?'"
     [confirmText]="'Delete'"
     [cancelText]="'Cancel'"
+    [exactConfirmText]="'delete'"
     (confirm)="handleCourseDelete(courseIdInput!)"
     (cancel)="closeCourseDeleteModal()">
   </app-confirmation-modal>
@@ -38,6 +39,7 @@
     [message]="'Are you sure you want to delete this assignment?'"
     [confirmText]="'Delete'"
     [cancelText]="'Cancel'"
+    [exactConfirmText]="'delete'"
     (confirm)="handleAssignmentDelete(assignmentIdInput!)"
     (cancel)="closeAssignmentDeleteModal()">
   </app-confirmation-modal>
