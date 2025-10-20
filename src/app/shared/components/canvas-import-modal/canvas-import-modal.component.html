@@ -1,75 +1,72 @@
 <div class="overlay">
-    <div class="modal">
-        <button class="close-btn" (click)="close()">✖</button>
-        <h2>Import a {{ type }}</h2>
-        <p><strong>Import a {{ type }} from Canvas</strong></p>
+  <div class="modal">
+    <button class="close-btn" (click)="close()">✖</button>
+    <h2>Import a {{ type }}</h2>
+    <p><strong>Import a {{ type }} from Canvas</strong></p>
 
-        <div class="items-container">
-            <ng-container *ngIf="items$ | async as items; else loading">
-                <ng-container *ngIf="items.length > 0; else noItems">
+    <div class="items-container">
+      @if (items$ | async; as items) {
+        @if (items.length > 0) {
+          @if (type === 'course') {
+            @for (group of items; track group) {
+              <div class="course-group">
+                <h3>{{ group.yearLabel }}</h3>
+                <div class="course-btn__container">
+                  @for (course of group.courses; track course) {
+                    <button
+                      class="course-btn"
+                      [class.selected]="selectedItem?.canvasId === course.canvasId"
+                      (click)="selectItem(course)"
+                      >
+                      {{ course.name }}
+                    </button>
+                  }
+                </div>
+              </div>
+            }
+          } @else {
+            <div class="assignment-btn__container">
+              @for (assignment of items; track assignment) {
+                <button
+                  class="assignment-btn"
+                  [class.selected]="selectedItem?.canvasId === assignment.canvasId"
+                  (click)="selectItem(assignment)"
+                  >
+                  {{ assignment.name }}
+                </button>
+              }
+            </div>
+            <div class="select-container">
+              <label>Default Team Size:</label>
+              <input
+                type="number"
+                [(ngModel)]="defaultTeamSize"
+                name="defaultTeamSize"
+                min="1"
+                max="50" />
+              </div>
+            }
+          } @else {
+            <h4 class="no-{{ type }}-text">No {{ type }}s found to import.</h4>
+            <p class="no-{{ type }}-text">
+              We couldn't find any {{ type }}s that you can import. Make sure you have {{ type }}s in Canvas that are not already imported.
+            </p>
+          }
+        } @else {
+          <p>Loading {{ type }}s...</p>
+        }
 
-                    <ng-container *ngIf="type === 'course'; else assignmentsBlock">
-                        <div *ngFor="let group of items" class="course-group">
-                            <h3>{{ group.yearLabel }}</h3>
-                            <div class="course-btn__container">
-                                <button
-                                    *ngFor="let course of group.courses"
-                                    class="course-btn"
-                                    [class.selected]="selectedItem?.canvasId === course.canvasId"
-                                    (click)="selectItem(course)"
-                                >
-                                    {{ course.name }}
-                                </button>
-                            </div>
-                        </div>
-                    </ng-container>
 
-                    <ng-template #assignmentsBlock>
-                        <div class="assignment-btn__container">
-                            <button
-                                *ngFor="let assignment of items"
-                                class="assignment-btn"
-                                [class.selected]="selectedItem?.canvasId === assignment.canvasId"
-                                (click)="selectItem(assignment)"
-                            >
-                                {{ assignment.name }}
-                            </button>
-                        </div>
+      </div>
 
-                        <div class="select-container">
-                            <label>Default Team Size:</label>
-                            <input
-                                type="number"
-                                [(ngModel)]="defaultTeamSize"
-                                name="defaultTeamSize"
-                                min="1"
-                                max="50" />
-                        </div>
-                    </ng-template>
-
-                </ng-container>
-            </ng-container>
-
-            <ng-template #loading>
-                <p>Loading {{ type }}s...</p>
-            </ng-template>
-
-            <ng-template #noItems>
-                <h4 class="no-{{ type }}-text">No {{ type }}s found to import.</h4>
-                <p class="no-{{ type }}-text">
-                    We couldn't find any {{ type }}s that you can import. Make sure you have {{ type }}s in Canvas that are not already imported.
-                </p>
-            </ng-template>
-        </div>
-
-        <div class="continue-btn__container">
-            <button
-                class="continue-btn"
-                [class.disabled]="isLoading"
-                [disabled]="isLoading"
-                (click)="onCreate()">
-                {{ isLoading ? 'Processing...' : 'Continue' }}
-            </button>
-        </div>
+      <div class="continue-btn__container">
+        <button
+          class="continue-btn"
+          [class.disabled]="isLoading"
+          [disabled]="isLoading"
+          (click)="onCreate()">
+          {{ isLoading ? 'Processing...' : 'Continue' }}
+        </button>
+      </div>
     </div>
-</div>
+  </div>

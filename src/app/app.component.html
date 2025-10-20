@@ -1,16 +1,16 @@
-<ng-container *ngIf="(isLoading$ | async) === false; else loadingTemplate">
-    <!-- Show mobile overlay if user is on small screen -->
-    <app-mobile-unsupported *ngIf="isMobile"></app-mobile-unsupported>
+@if ((isLoading$ | async) === false) {
+  <!-- Show mobile overlay if user is on small screen -->
+  @if (isMobile) {
+    <app-mobile-unsupported></app-mobile-unsupported>
+  }
+  <!-- Otherwise render the app -->
+  @if (!isMobile) {
+    <router-outlet></router-outlet>
+  }
+} @else {
+  <div class="loading-container">Loading...</div>
+}
 
-    <!-- Otherwise render the app -->
-    <ng-container *ngIf="!isMobile">
-        <router-outlet></router-outlet>
-    </ng-container>
-</ng-container>
-
-<ng-template #loadingTemplate>
-    <div class="loading-container">Loading...</div>
-</ng-template>
 
 <app-toast></app-toast>
 <app-bug-report></app-bug-report>

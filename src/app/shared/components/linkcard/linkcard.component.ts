@@ -1,10 +1,10 @@
-import {CommonModule} from '@angular/common';
+
 import {Component, Input, OnInit} from '@angular/core';
 import {ButtonComponent} from '../button/button.component';
 
 @Component({
     selector: 'app-linkcard',
-    imports: [CommonModule, ButtonComponent],
+    imports: [ButtonComponent],
     templateUrl: './linkcard.component.html',
     styleUrls: ['./linkcard.component.scss']
 })

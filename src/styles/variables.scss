@@ -4,6 +4,15 @@ $background-color-light: #ffffff;
 $background-color-input: #ededed;
 $accent-color: #e6e8ea;
 
+$border-color: hsl(210, 25%, 90%);
+$border: 1px solid $border-color;
+
+$border-radius-xs: .5rem; //8px
+$border-radius-sm: .75rem; // 12px
+$border-radius-md: 1rem; // 16px
+$border-radius-lg: 1.25rem; // 20px
+$border-radius-xl: 1.5rem; // 24 px
+
 $primary-color: #7662f6;
 $primary-color-light: #b9aff1;
 $danger-color: #f66264;
@@ -11,16 +20,44 @@ $success-color: #30A155;
 $neutral-color: #6c757d;
 $text-color: #47485b;
 $text-color-light: #a4a4a4;
-$text-color-dark: #27272F;
+$text-color-dark: #26273F;
 
+$bg--1: oklch(0.965 0.004 250); // slightly darker shell / sidebar
+$bg-0: oklch(0.97 0.004 271.37); // page background
+$bg-1:  oklch(0.990 0.002 250); // cards / main surfaces
+$bg-2:  #fff; // overlays / modals / sliders
 
-$box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
-$border-radius: 10px;
-$border-color: #d9d9d9;
+$shadow-color: #000;
+$highlight-color: #fff;
 
-// Spacings
-$spacing: 2rem;
-$small-spacing: 1rem;
+$shadow-s:
+    inset 0 1px 3px rgba($highlight-color, .18),
+    0 1px 2px rgba($shadow-color, .08),
+    0 3px 6px rgba($shadow-color, .06);
+
+$shadow-m:
+    inset 0 1px 3px rgba($highlight-color, .16),
+    0 2px 6px rgba($shadow-color, .08),
+    0 8px 16px rgba($shadow-color, .06);
+
+$shadow-l:
+    inset 0 2px 6px rgba($highlight-color, .14),
+    0 4px 12px rgba($shadow-color, .08),
+    0 16px 32px rgba($shadow-color, .06);
+
+// Spacing Scale
+$spacing-xxs: 0.25rem; // 4px
+$spacing-xs: 0.5rem;    // 8px
+$spacing-sm: 0.75rem; // 12px
+$spacing-md: 1rem;      // 16px
+$spacing: 1.25rem;       // 20px
+$spacing-lg: 1.5rem;    // 24px
+$spacing-xl: 2rem;       // 32px
+$spacing-2xl: 3rem;     // 48px
+$spacing-3xl: 4rem;     // 64px
+$spacing-4xl: 6rem;     // 96px
+
+$card-padding: 1.725rem 1.25rem;
 
 // Sizes
 $icon-size: 50px;
