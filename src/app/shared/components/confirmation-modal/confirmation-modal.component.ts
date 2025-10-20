@@ -1,13 +1,15 @@
 import {Component, Input, Output, EventEmitter, SimpleChanges} from '@angular/core';
 import {ButtonComponent} from '../button/button.component';
 import {FormsModule} from '@angular/forms';
+import {NgClass} from '@angular/common';
 
 @Component({
     selector: 'app-confirmation-modal',
     standalone: true,
     imports: [
         FormsModule,
-        ButtonComponent
+        ButtonComponent,
+        NgClass
     ],
     templateUrl: './confirmation-modal.component.html',
     styleUrls: ['./confirmation-modal.component.scss']

@@ -4,17 +4,21 @@
         <p class="modal-message">{{ message }}</p>
 
         <!-- Optional exact-text input -->
-        <div *ngIf="exactConfirmText" class="exact-confirm-input">
-            <label>
-                Type "{{ exactConfirmText }}" to confirm:
-                <input
-                    type="text"
-                    [(ngModel)]="confirmInput"
-                    autocomplete="off"
-                    [ngClass]="{ 'invalid': isInputInvalid }"
-                    [attr.aria-invalid]="isInputInvalid" />
-            </label>
-        </div>
+
+        @if (exactConfirmText) {
+            <div class="exact-confirm-input">
+                <label>
+                    Type "{{ exactConfirmText }}" to confirm:
+                    <input
+                        type="text"
+                        [(ngModel)]="confirmInput"
+                        autocomplete="off"
+                        [ngClass]="{ 'invalid': isInputInvalid }"
+                        [attr.aria-invalid]="isInputInvalid" />
+                </label>
+            </div>
+        }
+
 
         <div class="modal-actions">
             <app-button
