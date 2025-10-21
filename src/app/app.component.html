@@ -1,10 +1,8 @@
 @if ((isLoading$ | async) === false) {
-  <!-- Show mobile overlay if user is on small screen -->
+  @let isMobile = isMobile();
   @if (isMobile) {
     <app-mobile-unsupported></app-mobile-unsupported>
-  }
-  <!-- Otherwise render the app -->
-  @if (!isMobile) {
+  } @else {
     <router-outlet></router-outlet>
   }
 } @else {

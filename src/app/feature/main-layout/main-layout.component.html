@@ -1,6 +1,13 @@
 <div class="app-container">
-    <app-topnav></app-topnav>
-    <app-sidenav></app-sidenav>
+    @if (isMobile()) {
+        <div class="app-navigation-mobile">
+            <app-topnav></app-topnav>
+            <app-sidenav></app-sidenav>
+        </div>
+    } @else {
+        <app-topnav></app-topnav>
+        <app-sidenav></app-sidenav>
+    }
     <div class="content">
         <router-outlet></router-outlet>
     </div>

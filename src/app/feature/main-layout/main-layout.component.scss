@@ -26,4 +26,27 @@
         grid-column: 2 / -1;
         padding: 0 $spacing-md 4rem $spacing-md;
     }
+
+    .app-navigation-mobile {
+        display: flex;
+        flex-direction: column;
+        gap: $spacing-sm;
+    }
+}
+
+@media (max-width: 767px) {
+    .app-container {
+        display: flex;
+        flex-direction: column;
+        gap: $spacing-sm;
+
+        app-topnav,
+        app-sidenav {
+            position: static;
+        }
+
+        .content {
+            padding: 0 $spacing-sm 2rem $spacing-sm;
+        }
+    }
 }

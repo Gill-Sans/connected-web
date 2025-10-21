@@ -11,6 +11,7 @@ import {authReducer} from './auth/store/auth.reducer';
 import {AuthEffects} from './auth/store/auth.effects';
 import {authInterceptor} from './auth/interceptor/auth.interceptor';
 import {FormsModule} from '@angular/forms';
+import {LayoutModule} from '@angular/cdk/layout';
 import {NgxEditorModule} from 'ngx-editor';
 import {provideCharts, withDefaultRegisterables} from 'ng2-charts';
 
@@ -24,6 +25,7 @@ export const appConfig: ApplicationConfig = {
         provideEffects([AuthEffects]),
         importProvidersFrom(
             FormsModule,
+            LayoutModule,
             NgxEditorModule.forRoot({
                 locals: {
                     bold: 'Bold',
