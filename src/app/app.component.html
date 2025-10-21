@@ -1,6 +1,6 @@
 @if ((isLoading$ | async) === false) {
-  @let isMobile = isMobile();
-  @if (isMobile) {
+  @let isMobileDevice = isMobile();
+  @if (isMobileDevice) {
     <app-mobile-unsupported></app-mobile-unsupported>
   } @else {
     <router-outlet></router-outlet>
