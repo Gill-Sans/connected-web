@@ -349,3 +349,21 @@
     }
 }
 
+
+@media (max-width: 767px) {
+    .project-overview {
+        .tab-bar{
+            flex-direction: column-reverse;
+            gap: 1rem;
+
+            .tabs-right {
+                flex-wrap: wrap;
+            }
+        }
+
+        .card-container{
+            grid-template-columns: 1fr;
+        }
+    }
+}
+
