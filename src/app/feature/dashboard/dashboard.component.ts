@@ -1,7 +1,16 @@
-import {Component, inject, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {Router} from '@angular/router';
-import {map, Observable, shareReplay, Subscription, switchMap} from 'rxjs';
+import {
+    catchError,
+    distinctUntilChanged,
+    map,
+    Observable,
+    of,
+    shareReplay,
+    startWith,
+    switchMap
+} from 'rxjs';
 
 import {AnnouncementService} from '../../core/services/announcement.service';
 import {DeadlineService} from '../../core/services/deadline.service';
@@ -29,6 +38,8 @@ import {DashboardDetailsDto, UserSummaryDto} from '../../shared/models/dashboard
 import {StatuscardComponent} from '../../shared/components/statuscard/statuscard.component';
 import {provideEchartsCore, NgxEchartsDirective} from 'ngx-echarts';
 
+echarts.use([PieChart, TooltipComponent, LegendComponent, CanvasRenderer]);
+
 @Component({
     selector: 'app-dashboard',
     imports: [
@@ -44,13 +55,11 @@ import {provideEchartsCore, NgxEchartsDirective} from 'ngx-echarts';
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboard.component.scss'],
     providers: [
-provideEchartsCore({ echarts }),
-]
+        provideEchartsCore({ echarts })
+    ],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DashboardComponent implements OnInit, OnDestroy {
-    constructor() {
-        echarts.use([PieChart, TooltipComponent, LegendComponent, CanvasRenderer]);
-    }
+export class DashboardComponent {
 
     private readonly announcementService = inject(AnnouncementService);
     private readonly deadlineService = inject(DeadlineService);
@@ -61,28 +70,44 @@ export class DashboardComponent implements OnInit, OnDestroy {
     private readonly router = inject(Router);
     protected readonly Role = Role;
 
-    announcements: Announcement[] = [];
-    deadlines$: Observable<Deadline[]> | null = null;
-    project: Project | null = null;
+    private readonly activeAssignment$ = this.activeAssignmentService.activeAssignment$;
 
-    activeAssignment$ = this.activeAssignmentService.activeAssignment$;
-    private subscriptions: Subscription[] = [];
+    private readonly assignmentId$: Observable<number | null> = this.activeAssignment$.pipe(
+        map(activeAssignment => activeAssignment?.assignment.id ?? null),
+        distinctUntilChanged(),
+        shareReplay({ bufferSize: 1, refCount: true })
+    );
 
     // ---------- Teacher dashboard streams ----------
-    assignmentId$: Observable<number> = this.activeAssignment$.pipe(
-        map(a => a?.assignment.id as number),
+    protected readonly dashboard$: Observable<DashboardDetailsDto | null> = this.assignmentId$.pipe(
+        switchMap(id => {
+            if (id == null) {
+                return of<DashboardDetailsDto | null>(null);
+            }
+            return this.assignmentService.getAssignmentDashboard(id).pipe(
+                catchError(err => {
+                    console.error('Failed to load dashboard data', err);
+                    return of<DashboardDetailsDto | null>(null);
+                })
+            );
+        }),
+        startWith<DashboardDetailsDto | null>(null),
         shareReplay({ bufferSize: 1, refCount: true })
     );
 
-    dashboard$: Observable<DashboardDetailsDto> = this.assignmentId$.pipe(
-        switchMap(id => this.assignmentService.getAssignmentDashboard(id)),
-        shareReplay({ bufferSize: 1, refCount: true })
-    );
+    protected readonly studentDistributionChartOptions$: Observable<EChartsOption> = this.dashboard$.pipe(
+        map(dashboard => {
+            if (!dashboard) {
+                return {
+                    color: ['#4caf50', '#ff9800'],
+                    tooltip: { trigger: 'item' },
+                    legend: { show: false },
+                    series: []
+                } satisfies EChartsOption;
+            }
 
-    studentDistributionChartOptions$: Observable<EChartsOption> = this.dashboard$.pipe(
-        map(d => {
-            const assigned = d.counts.assignedStudents ?? 0;
-            const unassigned = d.counts.unassignedStudents ?? 0;
+            const assigned = dashboard.counts.assignedStudents ?? 0;
+            const unassigned = dashboard.counts.unassignedStudents ?? 0;
             const hasData = assigned + unassigned > 0;
 
             return {
@@ -124,10 +149,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
         shareReplay({ bufferSize: 1, refCount: true })
     );
 
-    studentsToNudge$: Observable<Array<UserSummaryDto & { reason: string }>> = this.dashboard$.pipe(
-        map(d => {
-            const unassigned = (d.lists.unassignedStudents ?? []).map(s => ({ ...s, reason: 'Unassigned' as const }));
-            const needs = (d.lists.needsRevision ?? [])
+    protected readonly studentsToNudge$: Observable<Array<UserSummaryDto & { reason: string }>> = this.dashboard$.pipe(
+        map(dashboard => {
+            if (!dashboard) {
+                return [] as Array<UserSummaryDto & { reason: string }>;
+            }
+
+            const unassigned = (dashboard.lists.unassignedStudents ?? []).map(s => ({ ...s, reason: 'Unassigned' as const }));
+            const needs = (dashboard.lists.needsRevision ?? [])
                 .filter(p => !!p.createdBy)
                 .map(p => ({ ...(p.createdBy as UserSummaryDto), reason: 'Needs revision' as const }));
             const seen = new Set<number>();
@@ -137,42 +166,54 @@ export class DashboardComponent implements OnInit, OnDestroy {
     );
     // -----------------------------------------------
 
-    ngOnInit(): void {
-        // Student-facing data remains
-        this.subscriptions.push(
-            this.activeAssignment$.subscribe({
-                next: (activeAssignment) => {
-                    if (activeAssignment) {
-                        const assignmentId = activeAssignment.assignment.id;
+    // ---------- Student dashboard streams ----------
+    protected readonly announcements$: Observable<Announcement[]> = this.assignmentId$.pipe(
+        switchMap(id => {
+            if (id == null) {
+                return of<Announcement[]>([]);
+            }
+            return this.announcementService.getAnnouncements(id).pipe(
+                catchError(err => {
+                    console.error('Failed to load announcements', err);
+                    return of<Announcement[]>([]);
+                })
+            );
+        }),
+        startWith<Announcement[]>([]),
+        shareReplay({ bufferSize: 1, refCount: true })
+    );
 
-                        this.subscriptions.push(
-                            this.announcementService.getAnnouncements(assignmentId).subscribe({
-                                next: (announcements) => (this.announcements = announcements),
-                                error: (err) => console.error('Failed to load announcements', err)
-                            })
-                        );
+    protected readonly project$: Observable<Project | null> = this.assignmentId$.pipe(
+        switchMap(id => {
+            if (id == null) {
+                return of<Project | null>(null);
+            }
+            return this.projectService.getProjectByUserAndAssignmentId(String(id)).pipe(
+                catchError(err => {
+                    console.error('Failed to load project', err);
+                    return of<Project | null>(null);
+                })
+            );
+        }),
+        startWith<Project | null>(null),
+        shareReplay({ bufferSize: 1, refCount: true })
+    );
 
-                        this.subscriptions.push(
-                            this.projectService.getProjectByUserAndAssignmentId(assignmentId.toString()).subscribe({
-                                next: (project) => (this.project = project)
-                            })
-                        );
-
-                        this.loadDeadlinesForAssignment();
-                    }
-                },
-                error: (err) => console.error('Failed to load active assignment', err)
-            })
-        );
-    }
-
-    loadDeadlinesForAssignment(): void {
-        const activeAssignment = this.activeAssignmentService.getActiveAssignment();
-        const assignmentId = activeAssignment?.assignment.id;
-        if (assignmentId) {
-            this.deadlines$ = this.deadlineService.getAllDeadlinesForAssignment(assignmentId);
-        }
-    }
+    protected readonly deadlines$: Observable<Deadline[]> = this.assignmentId$.pipe(
+        switchMap(id => {
+            if (id == null) {
+                return of<Deadline[]>([]);
+            }
+            return this.deadlineService.getAllDeadlinesForAssignment(id).pipe(
+                catchError(err => {
+                    console.error('Failed to load deadlines', err);
+                    return of<Deadline[]>([]);
+                })
+            );
+        }),
+        startWith<Deadline[]>([]),
+        shareReplay({ bufferSize: 1, refCount: true })
+    );
 
     // Student actions
     navigateToProjects(): void {
@@ -189,9 +230,5 @@ export class DashboardComponent implements OnInit, OnDestroy {
     messageStudent(id: number): void {
         // Hook into your messaging UI
         console.log('Message student', id);
-    }
-
-    ngOnDestroy(): void {
-        this.subscriptions.forEach(sub => sub.unsubscribe());
     }
 }
