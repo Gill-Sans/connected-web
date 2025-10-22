@@ -37,7 +37,6 @@
   </div>@if(true) {
   @if (user$ | async; as user) {
     <div class="right">
-      <p>Welcome, {{ user.firstName }} {{ user.lastName }}</p>
       <div class="nav-icons">
         <div class="notifications" (clickOutside)="closeNotifications()" (click)="toggleNotifications()">
           <div class="notifications-container">
