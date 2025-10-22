@@ -14,11 +14,11 @@ import {ConfirmClickDirective} from '../../shared/directives/confirmClick.direct
     templateUrl: './settings.component.html',
     styleUrls: ['./settings.component.scss'],
     imports: [
-    FormsModule,
-    ButtonComponent,
-    HasRoleDirective,
-    ConfirmClickDirective
-],
+        FormsModule,
+        ButtonComponent,
+        HasRoleDirective,
+        ConfirmClickDirective
+    ],
 })
 export class SettingsComponent {
     private readonly http: HttpClient = inject(HttpClient);

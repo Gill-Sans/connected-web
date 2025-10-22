@@ -11,7 +11,6 @@ const loadSettings = () => import('../settings/settings.component').then(m => m.
 const loadDashboard = () => import('../dashboard/dashboard.component').then(m => m.DashboardComponent);
 const loadApplicationsOverview = () => import('../applications-overview/applications-overview.component').then(m => m.ApplicationsOverviewComponent);
 const loadApplicationDetails = () => import('../applications-overview/application-details/application-details.component').then(m => m.ApplicationDetailsComponent);
-const loadApplicationCreate = () => import('../applications-create/applications-create.component').then(m => m.ApplicationsCreateComponent);
 const loadDeadlineOverview = () => import('../deadlines/deadline-overview/deadline-overview.component').then(m => m.DeadlineOverviewComponent);
 const loadStudentOverview = () => import('../student-overview/student-overview.component').then(m => m.StudentOverviewComponent);
 const loadAnnouncementsOverview = () => import('../announcements/announcement-overview/announcement-overview.component').then(m => m.AnnouncementOverviewComponent);
@@ -67,7 +66,6 @@ export const MAIN_ROUTES: Routes = [
             {path: 'students', canActivate: [TeacherGuard], loadComponent: loadStudentOverview},
             {path: 'announcements', canActivate: [TeacherGuard], loadComponent: loadAnnouncementsOverview},
             {path: 'announcements/create', canActivate: [TeacherGuard], loadComponent: loadAnnouncementCreate},
-            {path: 'projects/:id/apply', loadComponent: loadApplicationCreate},
             {path: '', redirectTo: 'dashboard', pathMatch: 'full'}
         ]
     }

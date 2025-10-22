@@ -31,7 +31,6 @@ function minTagsValidator(min: number) {
 
 @Component({
     selector: 'app-project-update',
-    standalone: true,
     imports: [
     ReactiveFormsModule,
     MarkdownModule,

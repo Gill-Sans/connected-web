@@ -9,7 +9,6 @@ import { Role } from '../../../auth/models/role.model';
 
 @Component({
     selector: 'app-projectcard',
-    standalone: true,
     imports: [CommonModule, MarkdownModule, TagcardComponent],
     templateUrl: './projectcard.component.html',
     styleUrl: './projectcard.component.scss'

@@ -31,7 +31,6 @@ import {provideEchartsCore, NgxEchartsDirective} from 'ngx-echarts';
 
 @Component({
     selector: 'app-dashboard',
-    standalone: true,
     imports: [
         CommonModule,
         AnnouncementCardComponent,

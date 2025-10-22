@@ -11,7 +11,6 @@ interface GroupedCourses {
 
 @Component({
     selector: 'app-canvas-import-modal',
-    standalone: true,
     imports: [CommonModule, FormsModule],
     templateUrl: './canvas-import-modal.component.html',
     styleUrls: ['./canvas-import-modal.component.scss']
