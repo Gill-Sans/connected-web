@@ -49,7 +49,7 @@ export class EmailVerifiedGuard implements CanActivate, CanMatch {
                         return true;
                     }
 
-                    if (normalizedUrl.startsWith('/verify-email')) {
+                    if (normalizedUrl.startsWith('/verify-email') || normalizedUrl.startsWith('/verify')) {
                         return true;
                     }
 
