@@ -1,5 +1,6 @@
 import {ApplicationConfig, importProvidersFrom, provideZoneChangeDetection} from '@angular/core';
 import {provideRouter} from '@angular/router';
+import Aura from '@primeuix/themes/aura';
 
 import {routes} from './app.routes';
 import {provideClientHydration, withEventReplay} from '@angular/platform-browser';
@@ -14,6 +15,7 @@ import {FormsModule} from '@angular/forms';
 import {LayoutModule} from '@angular/cdk/layout';
 import {NgxEditorModule} from 'ngx-editor';
 import {provideCharts, withDefaultRegisterables} from 'ng2-charts';
+import {providePrimeNG} from 'primeng/config';
 
 export const appConfig: ApplicationConfig = {
     providers: [
@@ -60,6 +62,11 @@ export const appConfig: ApplicationConfig = {
                 },
             })
         ),
-        provideCharts(withDefaultRegisterables())
+        provideCharts(withDefaultRegisterables()),
+        providePrimeNG({
+            theme: {
+                preset: Aura
+            }
+        })
     ]
 };
