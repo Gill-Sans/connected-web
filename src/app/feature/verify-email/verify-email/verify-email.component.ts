@@ -7,7 +7,6 @@ import {ButtonComponent} from '../../../shared/components/button/button.componen
 
 @Component({
   selector: 'app-verify-email',
-    standalone: true,
     imports: [
     ReactiveFormsModule,
     ButtonComponent,

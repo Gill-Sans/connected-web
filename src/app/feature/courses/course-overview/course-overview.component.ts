@@ -11,7 +11,6 @@ import {ConfirmationModalComponent} from '../../../shared/components/confirmatio
 
 @Component({
     selector: 'app-course-overview',
-    standalone: true,
     imports: [
         CommonModule,
         ButtonComponent,

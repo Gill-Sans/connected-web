@@ -22,7 +22,6 @@ export const futureDateValidator: ValidatorFn = (control: AbstractControl) => {
 
 @Component({
     selector: 'app-deadline-create',
-    standalone: true,
     imports: [
     ReactiveFormsModule,
     ButtonComponent,

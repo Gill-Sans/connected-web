@@ -7,7 +7,6 @@ import { environment } from '../../../environments/environment';
 
 @Component({
     selector: 'app-bug-report',
-    standalone: true,
     imports: [FormsModule, ButtonComponent],
     templateUrl: './bug-report.component.html',
     styleUrls: ['./bug-report.component.scss']

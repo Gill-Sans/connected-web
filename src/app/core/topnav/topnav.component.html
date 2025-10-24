@@ -1,29 +1,30 @@
 <div class="topnav">
-  <div class="left" *hasRole="[Role.Teacher, Role.Student]">
-    <div class="left-content" (click)="toggleAssignmentsHidden()" (clickOutside)="closeAssignmentsDropdown()">
-      <div class="course-icon"></div>
+  <div class="topnav__assignments" *hasRole="[Role.Teacher, Role.Student]">
+    <div class="topnav__assignments-trigger" (click)="toggleAssignmentsHidden()" (clickOutside)="closeAssignmentsDropdown()">
+      <div class="topnav__course-icon"></div>
       @if (activeAssignment$ | async; as active) {
-        <div class="course-info">
-          <p class="assignment-name">{{ active.assignment.name }}</p>
-          <p class="course-name">{{ active.course.name }}</p>
+        <div class="topnav__course-info">
+          <p class="topnav__assignment-name">{{ active.assignment.name }}</p>
+          <p class="topnav__course-name">{{ active.course.name }}</p>
         </div>
       } @else {
-        <div class="course-info">
-          <p class="assignment-name">No assignment selected</p>
-          <p class="course-name">select an assignment to get started</p>
+        <div class="topnav__course-info">
+          <p class="topnav__assignment-name">No assignment selected</p>
+          <p class="topnav__course-name">select an assignment to get started</p>
         </div>
       }
-      <img alt="Dropdown" class="dropdown-icon" src="icons/dropdown.svg"/>
+      <img alt="Dropdown" class="topnav__dropdown-icon" src="icons/dropdown.svg"/>
     </div>
-    <div [hidden]="isHiddenAssignments" class="dropdown">
+    <div [hidden]="isHiddenAssignments" class="topnav__assignments-dropdown">
       @if (courses$ | async; as courses) {
-        <dl>
+        <dl class="topnav__assignments-list">
           @for (course of courses; track course) {
-            <div class="course">
+            <div class="topnav__assignments-course">
               <dt>{{ course.name }}</dt>
               @for (assignment of course.assignments; track assignment) {
-                <dd (click)="selectAssignment(assignment, course)"
-                  [ngClass]="{'selected': (activeAssignment$ | async)?.assignment?.id === assignment.id}">
+                <dd class="topnav__assignments-option"
+                  (click)="selectAssignment(assignment, course)"
+                  [ngClass]="{'topnav__assignments-option--selected': (activeAssignment$ | async)?.assignment?.id === assignment.id}">
                   {{ assignment.name }}
                 </dd>
               }
@@ -36,40 +37,39 @@
     </div>
   </div>@if(true) {
   @if (user$ | async; as user) {
-    <div class="right">
-      <p>Welcome, {{ user.firstName }} {{ user.lastName }}</p>
-      <div class="nav-icons">
-        <div class="notifications" (clickOutside)="closeNotifications()" (click)="toggleNotifications()">
-          <div class="notifications-container">
-            <div class="notification-icon">
+    <div class="topnav__user">
+      <div class="topnav__actions">
+        <div class="topnav__notifications" (clickOutside)="closeNotifications()" (click)="toggleNotifications()">
+          <div class="topnav__notifications-container">
+            <div class="topnav__notifications-icon">
               <img
                 src="icons/bell-regular.svg"
                 alt="Notifications"
                 />
                 @if (notifications$ | async; as notifications) {
-                  <span class="notifications-badge">
+                  <span class="topnav__notifications-badge">
                     {{ notifications.length }}
                   </span>
                 }
               </div>
               <div
-                class="notifications-dropdown"
-                [ngClass]="{'hidden': isHiddenNotifications}"
+                class="topnav__notifications-dropdown"
+                [ngClass]="{'topnav__notifications-dropdown--hidden': isHiddenNotifications}"
                 >
                 @if (notifications$ | async; as notifications) {
                   @for (notification of notifications; track notification) {
-                    <div class="notification-item">
-                      <div class="notification-content" (click)="navigateToNotification(notification)">
+                    <div class="topnav__notifications-item">
+                      <div class="topnav__notifications-item-content" (click)="navigateToNotification(notification)">
                         @if (!notification.isRead) {
-                          <div class="unread-dot"></div>
+                          <div class="topnav__notifications-item-dot"></div>
                         }
-                        <div class="notification-text">
+                        <div class="topnav__notifications-item-text">
                           <p>{{ notification.message }}</p>
                           <span
-                          class="notification-date">{{ notification.timestamp | date:'short' }}</span>
+                          class="topnav__notifications-item-date">{{ notification.timestamp | date:'short' }}</span>
                         </div>
                       </div>
-                      <div class="delete-notification">
+                      <div class="topnav__notifications-item-delete">
                         <button (click)="deleteNotification(notification.notificationId)">
                           <img src="icons/delete-icon.svg" alt="Delete notification"/>
                         </button>
@@ -77,7 +77,7 @@
                     </div>
                   }
                   @if (notifications.length === 0) {
-                    <div class="no-notifications">
+                    <div class="topnav__notifications-empty">
                       No notifications
                     </div>
                   }
@@ -85,15 +85,15 @@
               </div>
             </div>
           </div>
-          <div class="user-icon" (click)="toggleHiddenprofile()" (clickOutside)="closeProfileDropdown()">
+          <div class="topnav__avatar" (click)="toggleHiddenprofile()" (clickOutside)="closeProfileDropdown()">
             <img [src]="user.profileImageUrl" alt="avatar">
           </div>
-          <div class="dropdownProfile" [hidden]="isHiddenProfile">
-            <ul>
-              <li class="user-name">{{user.firstName}} {{user.lastName}}</li>
-              <li (click)="navigateToSettings()">Settings</li>
-              <li (click)="navigateToProfile()">My profile</li>
-              <li (click)="logout()">Log out</li>
+          <div class="topnav__profile-dropdown" [hidden]="isHiddenProfile">
+            <ul class="topnav__profile-list">
+              <li class="topnav__profile-name">{{user.firstName}} {{user.lastName}}</li>
+              <li class="topnav__profile-item" (click)="navigateToSettings()">Settings</li>
+              <li class="topnav__profile-item" (click)="navigateToProfile()">My profile</li>
+              <li class="topnav__profile-item" (click)="logout()">Log out</li>
             </ul>
           </div>
         </div>

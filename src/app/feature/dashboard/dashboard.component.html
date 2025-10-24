@@ -45,7 +45,7 @@
         </header>
         @if (d.lists.reviewQueue.length) {
           <ul class="list">
-            @for (p of d.lists.reviewQueue; track p) {
+            @for (p of d.lists.reviewQueue; track p.id) {
               <li class="row">
                 <div class="row-main">
                   <div class="title">{{ p.title }}</div>
@@ -71,19 +71,21 @@
         <header class="card-h">
           <h3>Students to nudge</h3>
         </header>
-        @if ((studentsToNudge$ | async)?.length) {
-          <ul class="list">
-            @for (s of (studentsToNudge$ | async); track s) {
-              <li class="row">
-                <div class="row-main">
-                  <div class="title">{{ s.firstName }} {{ s.lastName }}</div>
-                  <div class="meta"><span class="badge warn">{{ s.reason }}</span></div>
-                </div>
-              </li>
-            }
-          </ul>
-        } @else {
-          <div class="empty">Everyone is placed or on track. 🎉</div>
+        @if (studentsToNudge$ | async; as studentsToNudge) {
+          @if (studentsToNudge.length) {
+            <ul class="list">
+              @for (s of studentsToNudge; track s.id) {
+                <li class="row">
+                  <div class="row-main">
+                    <div class="title">{{ s.firstName }} {{ s.lastName }}</div>
+                    <div class="meta"><span class="badge warn">{{ s.reason }}</span></div>
+                  </div>
+                </li>
+              }
+            </ul>
+          } @else {
+            <div class="empty">Everyone is placed or on track. 🎉</div>
+          }
         }
       </article>
     </div>
@@ -100,34 +102,40 @@
 </section>
 
 <div class="dashboard-continer" *hasRole="Role.Student">
-  <main class="announcement-container">
-    <h4>Announcements</h4>
-    @if (announcements.length > 0) {
-      <div class="announcement-overview">
-        @for (announcement of announcements; track announcement) {
-          <app-announcement-card [announcement]="announcement"></app-announcement-card>
-        }
-      </div>
-    } @else {
-      <p>No announcements available for this assignment.</p>
-    }
-  </main>
+  @if (announcements$ | async; as announcements) {
+    <main class="announcement-container">
+      <h4>Announcements</h4>
+      @if (announcements.length > 0) {
+        <div class="announcement-overview">
+          @for (announcement of announcements; track announcement.id) {
+            <app-announcement-card [announcement]="announcement"></app-announcement-card>
+          }
+        </div>
+      } @else {
+        <p>No announcements available for this assignment.</p>
+      }
+    </main>
+  }
   <aside>
     <div class="project-container">
       <h4>My project</h4>
-      @if (project != null) {
-        <div class="project">
-          <app-projectcard [project]="project"></app-projectcard>
-        </div>
-      } @else {
-        <div class="no-project">
-          <p>You are not part of a project yet in this assignment.</p>
-          <app-button variant="link" (click)="navigateToProjects()">Browse projects</app-button>
-        </div>
+      @if (project$ | async; as project) {
+        @if (project) {
+          <div class="project">
+            <app-projectcard [project]="project"></app-projectcard>
+          </div>
+        } @else {
+          <div class="no-project">
+            <p>You are not part of a project yet in this assignment.</p>
+            <app-button variant="link" (click)="navigateToProjects()">Browse projects</app-button>
+          </div>
+        }
       }
     </div>
     <div class="calendar-container">
-      <app-calendar-small [deadlines]="(deadlines$ | async) ?? []"></app-calendar-small>
+      @if (deadlines$ | async; as deadlines) {
+        <app-calendar-small [deadlines]="deadlines"></app-calendar-small>
+      }
     </div>
   </aside>
 </div>

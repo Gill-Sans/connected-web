@@ -5,7 +5,6 @@ import {NgClass} from '@angular/common';
 
 @Component({
     selector: 'app-confirmation-modal',
-    standalone: true,
     imports: [
         FormsModule,
         ButtonComponent,

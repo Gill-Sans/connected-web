@@ -159,7 +159,7 @@
         }
 
         .clear-search-btn {
-            padding: $spacing-xs $spacing-sm;
+            padding: $spacing-md $spacing-sm;
             border: 1px solid rgba($text-color, 0.2);
             border-radius: $border-radius-sm;
             background-color: transparent;
@@ -345,6 +345,24 @@
                 background-color: #f2f2f2;
                 cursor: pointer;
             }
+        }
+    }
+}
+
+
+@media (max-width: 767px) {
+    .project-overview {
+        .tab-bar{
+            flex-direction: column-reverse;
+            gap: 1rem;
+
+            .tabs-right {
+                flex-wrap: wrap;
+            }
+        }
+
+        .card-container{
+            grid-template-columns: 1fr;
         }
     }
 }

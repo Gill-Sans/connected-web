@@ -1,6 +1,48 @@
-<div class="app-container">
-    <app-topnav></app-topnav>
-    <app-sidenav></app-sidenav>
+<div class="app-container" [class.app-container--mobile-nav-open]="mobileNavOpen">
+    @if (isMobile()) {
+        <div class="mobile-header">
+            <button
+                type="button"
+                class="mobile-nav-toggle"
+                (click)="toggleMobileNav()"
+                [attr.aria-expanded]="mobileNavOpen"
+                aria-controls="mobile-navigation"
+                aria-label="Toggle navigation"
+            >
+                <span class="mobile-nav-toggle__bar"></span>
+                <span class="mobile-nav-toggle__bar"></span>
+                <span class="mobile-nav-toggle__bar"></span>
+            </button>
+        </div>
+        <div
+            id="mobile-navigation"
+            class="app-navigation-mobile"
+            [class.app-navigation-mobile--open]="mobileNavOpen"
+            [attr.aria-hidden]="!mobileNavOpen"
+            role="navigation"
+            (click)="closeMobileNav()"
+        >
+            <div class="app-navigation-mobile__drawer" (click)="$event.stopPropagation()">
+                <div class="app-navigation-mobile__toolbar">
+                    <button
+                        type="button"
+                        class="mobile-nav-close"
+                        (click)="closeMobileNav()"
+                        aria-label="Close navigation"
+                    >
+                        <span class="mobile-nav-close__bar"></span>
+                        <span class="mobile-nav-close__bar"></span>
+                    </button>
+                </div>
+                <app-topnav></app-topnav>
+                <app-sidenav></app-sidenav>
+            </div>
+            <div class="app-navigation-mobile__backdrop"></div>
+        </div>
+    } @else {
+        <app-topnav></app-topnav>
+        <app-sidenav></app-sidenav>
+    }
     <div class="content">
         <router-outlet></router-outlet>
     </div>

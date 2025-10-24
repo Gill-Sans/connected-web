@@ -11,7 +11,6 @@ import {AnnouncementCardComponent} from '../../../shared/components/announcement
 
 @Component({
     selector: 'app-announcement-overview',
-    standalone: true,
     imports: [
     ButtonComponent,
     AnnouncementCardComponent
