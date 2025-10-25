@@ -85,6 +85,26 @@
     color: $text-color-light;
 }
 
+.capacity {
+    margin-left: auto;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: $text-color-light;
+}
+
+.full-badge {
+    background: $danger-color;
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.15rem 0.45rem;
+    border-radius: $border-radius-xs;
+    margin-left: $spacing-xxs;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+
 @media (max-width: 599px) {
     .project-card {
         padding: $spacing-md;

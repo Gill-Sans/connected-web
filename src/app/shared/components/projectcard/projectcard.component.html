@@ -41,6 +41,13 @@
         @if (remainingMemberCount > 0) {
             <span class="project-card__members-overflow">+{{ remainingMemberCount }}</span>
         }
+        <span class="capacity">
+    {{ project.members.length }}/{{ project.teamSize }}
+  </span>
+
+        @if (project.members.length >= project.teamSize) {
+            <span class="full-badge">FULL</span>
+        }
     </footer>
 
 </article>
