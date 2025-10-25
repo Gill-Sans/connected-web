@@ -1,32 +1,49 @@
+@use "sass:color";
+@use "../../../../styles/variables.scss" as *;
+
 .tag {
     display: inline-flex;
     align-items: center;
-    border-radius: 16px;
-    padding: 4px 12px;
-    margin: 4px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    background-color: #f0f0f0;
-    color: #333;
-    transition: background-color 0.3s, border-color 0.3s;
+    gap: $spacing-xxs;
+    padding: 0.25rem 0.6rem;
+    border-radius: $border-radius-sm;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: $text-color-dark;
+    background-color: $background-color-input;
+    border: 1px solid $border-color;
+    transition: background-color .18s ease, border-color .18s ease, color .18s ease;
+    user-select: none;
 
     &:hover {
-        border-color: #b0b0b0;
+        background-color: $hover-bg;
+        border-color: color.adjust($border-color, $lightness: -6%);
     }
 
-    .delete-btn {
-        margin-left: 8px;
+    &__label {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    &__delete-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 16px;
+        height: 16px;
+        padding: 0;
         border: none;
         background: none;
         cursor: pointer;
-        padding: 0 4px;
-        font-size: 16px;
+        font-size: 0.85rem;
         line-height: 1;
-        color: #999;
-        transition: color 0.3s;
+        color: $text-color-light;
+        transition: color .18s ease, transform .18s ease;
 
         &:hover {
-            color: #e74c3c;
+            color: $danger-color;
+            transform: scale(1.1);
         }
     }
 }

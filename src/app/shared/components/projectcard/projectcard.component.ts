@@ -10,11 +10,12 @@ import {User} from '../../../auth/models/user.model';
 import {AvatarModule} from 'primeng/avatar';
 import {AvatarGroupModule} from 'primeng/avatargroup';
 import {tag} from '../../models/tag.model';
+import {Tooltip} from 'primeng/tooltip';
 
 @Component({
     selector: 'app-projectcard',
     standalone: true,
-    imports: [CommonModule, TagcardComponent, StatuscardComponent, AvatarModule, AvatarGroupModule],
+    imports: [CommonModule, TagcardComponent, StatuscardComponent, AvatarModule, AvatarGroupModule, Tooltip],
     templateUrl: './projectcard.component.html',
     styleUrl: './projectcard.component.scss'
 })

@@ -1,33 +1,46 @@
 <article class="project-card" (click)="navigateToProject($event)">
-  <header class="project-card__header">
-    <h3 class="project-card__title">{{ project.title }}</h3>
-    <app-statuscard class="project-card__status" variant="small" [status]="project.status"></app-statuscard>
-  </header>
+    <header class="project-card__header">
+        <h3 class="project-card__title" title="{{ project.title }}">
+            {{ project.title }}
+        </h3>
 
-  <p class="project-card__description">{{ project.shortDescription }}</p>
+        <app-statuscard
+            class="project-card__status"
+            variant="small"
+            [status]="project.status">
+        </app-statuscard>
+    </header>
 
-  @if (hasTags) {
-    <div class="project-card__tags" aria-label="Project tags">
-      @for (tag of visibleTags; track tag.id ?? tag.name) {
-        <app-tagcard [tag]="tag" [showDelete]="false"></app-tagcard>
-      }
-    </div>
-  }
+    <p class="project-card__description" title="{{ project.shortDescription }}">
+        {{ project.shortDescription }}
+    </p>
 
-  <footer class="project-card__members" aria-label="Project members">
-    <p-avatarGroup>
-      @for (member of visibleMembers; track member.id) {
-        <p-avatar
-          shape="circle"
-          size="large"
-          [image]="member.profileImageUrl || undefined"
-          [label]="member.profileImageUrl ? undefined : initialsFor(member)"
-          [class]="'project-card__member-avatar'"
-        ></p-avatar>
-      }
-    </p-avatarGroup>
-    @if (remainingMemberCount > 0) {
-      <span class="project-card__members-overflow">+{{ remainingMemberCount }}</span>
+    @if (hasTags) {
+        <div class="project-card__tags" aria-label="Project tags">
+            @for (tag of visibleTags; track tag.id ?? tag.name) {
+                <app-tagcard [tag]="tag" [showDelete]="false"></app-tagcard>
+            }
+        </div>
     }
-  </footer>
+
+    <footer class="project-card__members" aria-label="Project members">
+        <p-avatarGroup>
+            @for (member of visibleMembers; track member.id) {
+                <p-avatar
+                    shape="circle"
+                    size="large"
+                    pTooltip="{{ member.firstName }} {{ member.lastName }}"
+                    tooltipPosition="top"
+                    [image]="member.profileImageUrl || undefined"
+                    [label]="member.profileImageUrl ? undefined : initialsFor(member)"
+                    class="project-card__member-avatar">
+                </p-avatar>
+            }
+        </p-avatarGroup>
+
+        @if (remainingMemberCount > 0) {
+            <span class="project-card__members-overflow">+{{ remainingMemberCount }}</span>
+        }
+    </footer>
+
 </article>
