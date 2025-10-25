@@ -5,25 +5,21 @@
     display: inline-flex;
     align-items: center;
     gap: $spacing-xxs;
-    padding: 0.25rem 0.6rem;
-    border-radius: $border-radius-sm;
-    font-size: 0.85rem;
+    padding: 0.28rem 0.65rem;
+    border-radius: $border-radius-xs;
+    font-size: 0.82rem;
     font-weight: 500;
     color: $text-color-dark;
-    background-color: $background-color-input;
-    border: 1px solid $border-color;
-    transition: background-color .18s ease, border-color .18s ease, color .18s ease;
+    background-color: $bg-1;
+    border: 1px solid $primary-color;
+    transition: background-color .16s ease, border-color .16s ease, color .16s ease;
     user-select: none;
-
-    &:hover {
-        background-color: $hover-bg;
-        border-color: color.adjust($border-color, $lightness: -6%);
-    }
 
     &__label {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        max-width: 140px; // prevents card break & keeps layout tight
     }
 
     &__delete-btn {
@@ -36,10 +32,10 @@
         border: none;
         background: none;
         cursor: pointer;
-        font-size: 0.85rem;
+        font-size: 0.9rem;
         line-height: 1;
         color: $text-color-light;
-        transition: color .18s ease, transform .18s ease;
+        transition: color .16s ease, transform .16s ease;
 
         &:hover {
             color: $danger-color;
