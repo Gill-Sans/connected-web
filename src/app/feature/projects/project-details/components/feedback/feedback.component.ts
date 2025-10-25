@@ -101,7 +101,7 @@ export class FeedbackComponent implements OnInit, OnDestroy {
         this.subscriptions.push(deleteSubscription);
     }
 
-    cancelEdit(feedbackId: number) {
+    cancelEdit() {
         this.editingFeedback = null;
     }
 

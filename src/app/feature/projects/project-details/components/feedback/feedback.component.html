@@ -24,7 +24,7 @@
                         (edit)="updateFeedback(feedback)"
                         (delete)="deleteFeedback(feedback)"
                         (confirmEdit)="confirmEdit($event.id, $event.comment)"
-                        (cancelEdit)="cancelEdit(feedback.id)">
+                        (cancelEdit)="cancelEdit()">
                     </app-conversationcard>
                 }
             } @else {
