@@ -1,11 +1,10 @@
 import {Component, inject, OnInit, PLATFORM_ID} from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { AuthFacade } from './auth/store/auth.facade';
-import { FormsModule } from '@angular/forms';
-import { ToastComponent } from './shared/components/toast/toast.component';
+import {RouterOutlet} from '@angular/router';
+import {CommonModule, isPlatformBrowser} from '@angular/common';
+import {AuthFacade} from './auth/store/auth.facade';
+import {FormsModule} from '@angular/forms';
+import {ToastComponent} from './shared/components/toast/toast.component';
 import {BugReportComponent} from './core/bug-report/bug-report.component';
-import {MobileUnsupportedComponent} from './shared/components/mobile-unsupported/mobile-unsupported.component';
 import {DeviceService} from './shared/services/device/device.service';
 
 
@@ -16,8 +15,7 @@ import {DeviceService} from './shared/services/device/device.service';
         RouterOutlet,
         FormsModule,
         ToastComponent,
-        BugReportComponent,
-        MobileUnsupportedComponent
+        BugReportComponent
     ],
     templateUrl: './app.component.html',
     styleUrl: './app.component.scss'

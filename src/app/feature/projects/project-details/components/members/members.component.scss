@@ -1,86 +1,57 @@
+@use "../../../../../../styles/variables.scss" as *;
+
 .members-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin-top: 20px;
-
-    .delete-btn {
-        border: none;
-        color: red;
-        background-color: transparent;
-        font-size: 1rem;
-        cursor: pointer;
-    }
-
     table {
         width: 100%;
         border-collapse: collapse;
-        margin: 20px 0;
-        font-size: 1em;
-        min-width: 400px;
+        font-size: 0.95rem;
+        min-width: 480px;
 
-        thead tr {
-            text-align: left;
-            font-weight: bold;
-        }
-
-        th {
-            padding: 12px 1rem;
-        }
+        th,
         td {
-            border-bottom: 1px solid #ddd;
-            padding: 1.5rem 1rem;
+            padding: $spacing-sm $spacing-md;
+            vertical-align: middle;
         }
-    }
-}
 
+        thead th {
+            font-weight: 600;
+            color: $text-color-dark;
+            border-bottom: 2px solid $border-color;
+            text-align: left;
+        }
 
-.modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+        tbody tr {
+            border-bottom: 1px solid $border-color;
+            transition: background 0.12s ease;
+        }
 
-.modal-content {
-    background: white;
-    padding: 2rem;
-    border-radius: 12px;
-    text-align: center;
-    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
-    max-width: 400px;
-    width: 90%;
-    h2 {
-        font-size: 1.5rem;
-        color: #1a1a1a;
-        margin-bottom: 1.5rem;
-        font-weight: 600;
-    }
-}
+        .col-name {
+            text-align: left;
+        }
 
-.modal-actions {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    margin-top: 2rem;
+        .col-role {
+            text-align: left;
+        }
 
-    app-button {
-        min-width: 120px;
-    }
-}
+        .col-actions {
+            width: 120px;
+            text-align: center;
+        }
 
-@keyframes slideUp {
-    from {
-        transform: translateY(20px);
-        opacity: 0;
-    }
-    to {
-        transform: translateY(0);
-        opacity: 1;
+        .icon-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            padding: 0.25rem;
+
+            &.delete {
+                color: $danger-color;
+
+                &:hover {
+                    opacity: 0.75;
+                }
+            }
+        }
     }
 }

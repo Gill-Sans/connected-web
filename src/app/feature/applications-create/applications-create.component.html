@@ -3,23 +3,25 @@
     class="application-form"
     (ngSubmit)="onSubmit()"
 >
-    <h2>Submit Your Application</h2>
+    <header class="form-header">
+        <h2>Submit Your Application</h2>
+        <p class="instructions">
+            Please provide a clear and concise motivation for why you want to join this project.
+            You may use <strong>Markdown</strong> to format your message.
+        </p>
+    </header>
 
-    <p class="instructions">
-        Please provide a clear and concise motivation for why you want to join this project. You can use Markdown to style your text.
-    </p>
-
-    <div class="editor-container">
+    <div class="form-field">
         <label for="motivationMd">Motivation</label>
         <app-md-editor [form]="applicationForm" controlName="motivationMd"></app-md-editor>
     </div>
 
-    <div class="buttons-container">
+    <footer class="form-actions">
+        <app-button variant="neutral" type="button" (click)="return()">
+            Cancel
+        </app-button>
         <app-button variant="primary" type="submit">
             Send Application
         </app-button>
-        <app-button variant="neutral" (click)="return()">
-            Cancel
-        </app-button>
-    </div>
+    </footer>
 </form>

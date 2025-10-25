@@ -1,43 +1,41 @@
 <div class="members-container">
-  <table>
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Role</th>
-        @if ((isTeacher$ | async)) {
-          <th>Actions</th>
-        }
-      </tr>
-    </thead>
-    <tbody>
-      @for (member of (project$ | async)?.members; track member; let i = $index) {
+    <table>
+        <thead>
         <tr>
-          <td>
-            {{ member.firstName }} {{ member.lastName }}
-          </td>
-          <td>{{ member.role.charAt(0) + member.role.substring(1).toLowerCase() }}</td>
-          @if ((isTeacher$ | async)) {
-            <td>
-              <button class="delete-btn" (click)="openDeleteModal(member)">X</button>
-            </td>
-          }
+            <th class="col-name">Name</th>
+            <th class="col-role">Role</th>
+            @if (isTeacher$ | async) {
+                <th class="col-actions">Actions</th>
+            }
         </tr>
-      }
-    </tbody>
-  </table>
+        </thead>
+
+        <tbody>
+            @for (member of (project$ | async)?.members; track member) {
+                <tr>
+                    <td class="col-name">{{ member.firstName }} {{ member.lastName }}</td>
+                    <td class="col-role">{{ member.role }}</td>
+
+                    @if (isTeacher$ | async) {
+                        <td class="col-actions">
+                            <button class="icon-btn delete" (click)="openDeleteModal(member)" title="Remove member">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                        </td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>
 
-
-<!-- Delete Confirmation Modal -->
 @if (showModal) {
-  <div class="modal">
-    <div class="modal-content">
-      <h2>Delete this member?</h2>
-      <div class="modal-actions">
-        <app-button variant="danger" (click)="closeModal()">Cancel</app-button>
-        <app-button variant="primary" (click)="confirmDelete()">Confirm</app-button>
-      </div>
-    </div>
-  </div>
+    <app-confirmation-modal
+        [title]="'Remove Member'"
+        [message]="'Are you sure you want to remove this member from the project?'"
+        [confirmText]="'Remove'"
+        [cancelText]="'Cancel'"
+        (confirm)="confirmDelete()"
+        (cancel)="closeModal()">
+    </app-confirmation-modal>
 }
-
