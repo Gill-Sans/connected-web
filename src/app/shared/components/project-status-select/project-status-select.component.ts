@@ -5,7 +5,6 @@ import {ProjectStatusEnum} from '../../models/ProjectStatus.enum';
 
 @Component({
     selector: 'app-project-status-select',
-    standalone: true,
     imports: [FormsModule],
     templateUrl: './project-status-select.component.html',
     styleUrls: ['./project-status-select.component.scss']

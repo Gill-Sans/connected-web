@@ -1,55 +1,82 @@
 @use '../../../../styles/variables' as *;
 
-form {
+.update-project-container {
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: $spacing-xl;
+    max-width: 100%;
 }
 
+.page-title {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: $text-color-dark;
+    margin: 0;
+}
+
+/* FORM */
+.update-form {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xl;
+}
+
+.section-label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: $text-color-light;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin: 0;
+}
+
+/* Groups */
 .form-group {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: $spacing-xs;
+    max-width: 100%;
 }
 
 label {
-    font-weight: bold;
+    font-weight: 500;
+    color: $text-color-dark;
 }
 
-.input-description {
-    font-size: 1rem;
+.field-description {
+    font-size: 0.85rem;
     color: $text-color-light;
+    margin: 0;
 }
 
-input {
+/* Inputs */
+input,
+textarea {
     width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    font-size: 16px;
+    padding: $spacing-xs $spacing-sm;
+    border: 1px solid $border-color;
+    border-radius: $border-radius-sm;
+    font-size: 0.95rem;
+    background: $background-color-input;
+    color: $text-color-dark;
     box-sizing: border-box;
-    background: $background-color-input;
 }
 
-.input {
-    max-width: 40%;
-    min-width: 400px;
-    padding: 10px;
-    border-radius: 8px;
-    font-size: 1rem;
-    background: $background-color-input;
-    border: none;
+textarea {
+    resize: vertical;
+    min-height: 150px;
 }
 
-.short-description {
-    resize: none;
+/* Errors */
+.error-message {
+    color: $danger-color;
+    font-size: 0.85rem;
+    margin: 0;
 }
 
-.team-size {
-    width: min-content;
-}
-
-.error {
-    color: red;
-    font-size: 0.9rem;
+/* Tags */
+.tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacing-xs;
 }

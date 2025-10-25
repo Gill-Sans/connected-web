@@ -13,7 +13,6 @@ import {ToastService} from '../../../core/services/toast.service';
 
 @Component({
     selector: 'app-announcement-create',
-    standalone: true,
     imports: [
     ReactiveFormsModule,
     ButtonComponent

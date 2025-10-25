@@ -1,99 +1,87 @@
-<div class="profilepage">
-  <div class="profile-header">
-    <div class="profile-info">
-      @if (user?.profileImageUrl) {
-        <img
-          class="user-image"
-          [src]="user?.profileImageUrl"
-          alt="profile picture"
-          />
-      }
-      <p class="profile-name">{{ user?.firstName }} {{ user?.lastName }}</p>
-    </div>
-    <!-- Show edit button if not editing, and save button when editing -->
-    @if (canEditProfile) {
-      @if (!isEditing) {
-        <app-button
-          variant="primary"
-          (click)="startEditing()"
-        >Edit Profile</app-button>
-      }
-      @if (isEditing) {
-        <app-button
-          variant="primary"
-          (click)="saveProfile()"
-          [disabled]="loading"
-        >Save changes</app-button>
-      }
-    }
-  </div>
+<div class="profile-page">
 
-  <!-- About Me Section -->
-  <div class="about-me">
-    <h4>About me</h4>
-    @if (isEditing) {
-      <div>
-        <textarea
-          class="about-me-text"
-          [(ngModel)]="user!.aboutMe"
-        name="aboutMe"></textarea>
-      </div>
-    } @else {
-      <p class="about-me-text view-text">{{ user?.aboutMe || 'No information provided.' }}</p>
-    }
-  </div>
-
-  <!-- Field of Study Section -->
-  <div class="field-of-study">
-    <h4>Field of Study</h4>
-    @if (isEditing) {
-      <div>
-        <input
-          class="field-of-study-input"
-          [(ngModel)]="user!.fieldOfStudy"
-          name="fieldOfStudy" />
+    <!-- HEADER -->
+    <header class="profile-header">
+        <div class="profile-identity">
+            @if (user?.profileImageUrl) {
+                <img class="avatar" [src]="user?.profileImageUrl" alt="Profile picture" />
+            }
+            <div class="identity-text">
+                <h2 class="profile-name">{{ user?.firstName }} {{ user?.lastName }}</h2>
+            </div>
         </div>
-      } @else {
-        <p class="view-text">{{ user?.fieldOfStudy || 'Not specified' }}</p>
-      }
+
+        @if (canEditProfile) {
+            @if (!isEditing) {
+                <app-button variant="primary" (click)="startEditing()">Edit Profile</app-button>
+            } @else {
+                <app-button variant="primary" (click)="saveProfile()" [disabled]="loading">Save Changes</app-button>
+            }
+        }
+    </header>
+
+    <!-- CONTENT -->
+    <div class="profile-content">
+
+        <!-- LEFT COLUMN -->
+        <section class="profile-left">
+
+            <div class="profile-section">
+                <h3 class="section-label">ABOUT ME</h3>
+                @if (isEditing) {
+                    <textarea [(ngModel)]="user!.aboutMe" class="input textarea"></textarea>
+                } @else {
+                    <p class="view-text">{{ user?.aboutMe || 'No information provided.' }}</p>
+                }
+            </div>
+
+            <div class="profile-section">
+                <h3 class="section-label">FIELD OF STUDY</h3>
+                @if (isEditing) {
+                    <input [(ngModel)]="user!.fieldOfStudy" class="input" />
+                } @else {
+                    <p class="view-text">{{ user?.fieldOfStudy || 'Not specified' }}</p>
+                }
+            </div>
+
+            <div class="profile-section">
+                <h3 class="section-label">LINKEDIN</h3>
+                @if (isEditing) {
+                    <input [(ngModel)]="user!.linkedinUrl" class="input" />
+                } @else {
+                    @if (user?.linkedinUrl) {
+                        <p class="view-text">
+                            <a [href]="user?.linkedinUrl" target="_blank">{{ user?.linkedinUrl }}</a>
+                        </p>
+                    } @else {
+                        <p class="view-text text-muted">Not provided</p>
+                    }
+                }
+            </div>
+
+        </section>
+
+        <!-- RIGHT COLUMN -->
+        <section class="profile-right">
+            <div class="profile-section">
+                <h3 class="section-label">SKILLSET</h3>
+
+                <div class="tags-container">
+                    @for (tag of user?.tags; track tag) {
+                        <app-tagcard
+                            [tag]="tag"
+                            [showDelete]="isEditing"
+                            (deleteTag)="removeTag($event)">
+                        </app-tagcard>
+                    }
+                </div>
+
+                @if (isEditing) {
+                    <app-tag-search-component (tagSelected)="addTagToUser($event)"></app-tag-search-component>
+                }
+            </div>
+        </section>
+
     </div>
 
-    <!-- LinkedIn Section -->
-    <div class="linkedin-section">
-      <h4>Linkedin url</h4>
-      @if (isEditing) {
-        <div>
-          <input
-            class="linkedin-link"
-            [(ngModel)]="user!.linkedinUrl"
-            name="linkedinUrl" />
-          </div>
-        } @else {
-          <p class="linkedin-link view-text">
-            <a [href]="user?.linkedinUrl" target="_blank">
-              {{ user?.linkedinUrl || 'Not provided' }}
-            </a>
-          </p>
-        }
-      </div>
-
-      <!-- Skillset Section -->
-      <div class="skillset">
-        <h4>Skillset</h4>
-        <div class="tags-container">
-          @for (tag of user?.tags; track tag) {
-            <app-tagcard
-              [tag]="tag"
-              [showDelete]="isEditing"
-              (deleteTag)="removeTag($event)">
-            </app-tagcard>
-          }
-        </div>
-        <!-- Show tag search only in edit mode -->
-        @if (isEditing) {
-          <div>
-            <app-tag-search-component (tagSelected)="addTagToUser($event)"></app-tag-search-component>
-          </div>
-        }
-      </div>
-    </div>
+</div>

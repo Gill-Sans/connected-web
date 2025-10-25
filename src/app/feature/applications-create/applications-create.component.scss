@@ -3,33 +3,45 @@
 .application-form {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: $spacing-xl;
+    max-width: 1200px;
 
-    h2 {
-        margin-bottom: 0.5rem;
-        font-size: 1.5rem;
-    }
-
-    .instructions {
-        font-size: 1rem;
-        color: #6c757d;
-    }
-
-    .editor-container {
+    .form-header {
         display: flex;
         flex-direction: column;
-        gap: 0.5rem;
+        gap: $spacing-xs;
 
-        label {
+        h2 {
+            margin: 0;
+            font-size: 1.6rem;
             font-weight: 600;
-            margin-bottom: 0.25rem;
+            color: $text-color-dark;
+        }
+
+        .instructions {
+            margin: 0;
+            font-size: 0.95rem;
+            color: $text-color-light;
+            line-height: 1.5;
         }
     }
 
-    .buttons-container {
+    .form-field {
         display: flex;
-        gap: 1rem;
-        margin-top: 1.5rem;
+        flex-direction: column;
+        gap: $spacing-xs;
+
+        label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: $text-color-dark;
+        }
+    }
+
+    .form-actions {
+        margin-top: $spacing-md;
+        display: flex;
+        justify-content: flex-start;
+        gap: $spacing-sm;
     }
 }
-

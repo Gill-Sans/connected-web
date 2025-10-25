@@ -1,23 +1,29 @@
 <div class="conversation-card">
-  <div class="user-info">
-    <span class="user-name">{{ firstName }} {{ lastName }}</span>
-    <span class="timestamp">{{ createdAt | date:'short' }}</span>
-  </div>
-  <div class="message">
-    @if (isEditing) {
-      <textarea [(ngModel)]="editedComment"></textarea>
-      <div class="button-container__edit">
-        <app-button variant="neutral" (click)="onConfirm()">Confirm</app-button>
-        <app-button variant="danger" (click)="onCancel()">Cancel</app-button>
-      </div>
-    } @else {
-      <p>{{ comment }}</p>
-      <div class="button-container">
-        @if (showEditDelete) {
-          <app-button variant="link" (click)="onEdit()">Edit</app-button>
-          <app-button variant="link"  (click)="onDelete()">Delete</app-button>
+    <div class="comment-header">
+        <span class="user-name">{{ firstName }} {{ lastName }}</span>
+        <span class="timestamp">{{ createdAt | date:'short' }}</span>
+    </div>
+
+    <div class="comment-body">
+        @if (isEditing) {
+            <textarea [(ngModel)]="editedComment" class="edit-textarea"></textarea>
+            <div class="edit-actions">
+                <app-button variant="primary" (click)="onConfirm()">Save</app-button>
+                <app-button variant="neutral" (click)="onCancel()">Cancel</app-button>
+            </div>
+        } @else {
+            <p class="comment-text">{{ comment }}</p>
+
+            @if (showEditDelete) {
+                <div class="comment-actions">
+                    <button class="icon-btn edit" (click)="onEdit()">
+                        <i class="fa fa-pencil"></i> Edit
+                    </button>
+                    <button class="icon-btn delete" (click)="onDelete()">
+                        <i class="fa fa-trash"></i> Delete
+                    </button>
+                </div>
+            }
         }
-      </div>
-    }
-  </div>
+    </div>
 </div>

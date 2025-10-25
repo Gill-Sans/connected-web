@@ -8,7 +8,7 @@ import {Router, ActivatedRoute, ParamMap} from '@angular/router';
 import { Project } from '../../../shared/models/project.model';
 import { ActiveAssignmentRoutingService } from '../../../core/services/active-assignment-routing.service';
 import { ActiveAssignmentService } from '../../../core/services/active-assignment.service';
-import {Observable, Subscription} from 'rxjs';
+import {combineLatest, map, Observable, Subscription} from 'rxjs';
 import { TagcardComponent } from '../../../shared/components/tagcard/tagcard.component';
 import { TagSearchComponentComponent } from '../../../shared/tag-search-component/tag-search-component.component';
 import { tag } from '../../../shared/models/tag.model';
@@ -17,6 +17,7 @@ import { ButtonComponent } from '../../../shared/components/button/button.compon
 import {ToastService} from '../../../core/services/toast.service';
 import {AuthorizationService} from '../../../core/services/authorization.service';
 import {MdEditorComponent} from '../../../shared/components/md-editor/md-editor.component';
+import {AsyncPipe} from '@angular/common';
 
 // Validator to ensure at least one tag is added
 function minTagsValidator(min: number) {
@@ -31,16 +32,16 @@ function minTagsValidator(min: number) {
 
 @Component({
     selector: 'app-project-update',
-    standalone: true,
     imports: [
-    ReactiveFormsModule,
-    MarkdownModule,
-    LMarkdownEditorModule,
-    TagSearchComponentComponent,
-    TagcardComponent,
-    ButtonComponent,
-    MdEditorComponent
-],
+        ReactiveFormsModule,
+        MarkdownModule,
+        LMarkdownEditorModule,
+        TagSearchComponentComponent,
+        TagcardComponent,
+        ButtonComponent,
+        MdEditorComponent,
+        AsyncPipe
+    ],
     templateUrl: './project-update.component.html',
     styleUrls: ['./project-update.component.scss']
 })
@@ -55,6 +56,7 @@ export class ProjectUpdateComponent implements OnInit, OnDestroy {
 
     public isCreatedByTeacher$!: Observable<boolean>;
     public isTeacher$!: Observable<boolean>;
+    public canEdit$!: Observable<boolean>;
 
     assignmentDefaultTeamSize: number | undefined = this.activeAssignmentService.getActiveAssignment()?.assignment.defaultTeamSize;
 
@@ -71,7 +73,7 @@ export class ProjectUpdateComponent implements OnInit, OnDestroy {
         ]),
         shortDescription: new FormControl('', [
             Validators.required,
-            Validators.maxLength(500)
+            Validators.maxLength(280)
         ]),
         teamSize: new FormControl(this.assignmentDefaultTeamSize || 1, [
             Validators.required
@@ -104,6 +106,18 @@ export class ProjectUpdateComponent implements OnInit, OnDestroy {
             this.projectStatus = project.status;
             this.isCreatedByTeacher$ = this.authorizationService.isCreatedByTeacher$(project);
             this.isTeacher$ = this.authorizationService.isTeacher$();
+            this.canEdit$ = combineLatest([
+                this.authorizationService.isTeacher$(),
+                this.authorizationService.isOwner$(project)
+            ]).pipe(
+                map(([isTeacher]) => {
+                    return isTeacher || (
+                        this.projectStatus !== ProjectStatusEnum.APPROVED &&
+                        this.projectStatus !== ProjectStatusEnum.REJECTED &&
+                        this.projectStatus !== ProjectStatusEnum.PUBLISHED
+                    );
+                })
+            );
             this.projectForm.patchValue({
                 title: project.title,
                 description: project.description,
