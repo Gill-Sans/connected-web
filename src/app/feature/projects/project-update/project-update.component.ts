@@ -73,7 +73,7 @@ export class ProjectUpdateComponent implements OnInit, OnDestroy {
         ]),
         shortDescription: new FormControl('', [
             Validators.required,
-            Validators.maxLength(500)
+            Validators.maxLength(280)
         ]),
         teamSize: new FormControl(this.assignmentDefaultTeamSize || 1, [
             Validators.required

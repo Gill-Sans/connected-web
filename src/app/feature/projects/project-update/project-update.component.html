@@ -23,12 +23,12 @@
             <div class="form-group">
                 <label for="shortDescription">Short Description</label>
                 <p class="field-description">
-                    Describe your project. ({{ charCount }}/500 characters)
+                    Describe your project. ({{ charCount }}/280 characters)
                 </p>
                 <textarea
                     id="shortDescription"
                     rows="7"
-                    maxlength="500"
+                    maxlength="280"
                     formControlName="shortDescription"
                     placeholder="Short description of your project"
                     (input)="updateCharCount()"
@@ -37,7 +37,7 @@
                 @if (projectForm.get('shortDescription')?.invalid && projectForm.get('shortDescription')?.touched) {
                     <div class="error-message">
                         @if (projectForm.get('shortDescription')?.errors?.['required']) { Short description is required. }
-                        @if (projectForm.get('shortDescription')?.errors?.['maxLength']) { Short description cannot exceed 500 characters. }
+                        @if (projectForm.get('shortDescription')?.errors?.['maxLength']) { Short description cannot exceed 280 characters. }
                     </div>
                 }
             </div>
