@@ -10,8 +10,11 @@
 .project-overview {
     .card-container {
         display: grid;
-        grid-template-columns: repeat(3, 1fr); /* 3 cards per row */
+        grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
+        //grid-template-columns: repeat(3, 1fr);
         gap: 1em;
+        width: 100%;
+        align-items: stretch;
     }
 
     .card-container > * {
@@ -23,6 +26,7 @@
     .tab-bar {
         display: flex;
         justify-content: space-between;
+        flex-wrap: wrap-reverse;
         border-bottom: 2px solid rgba(71, 72, 91, 0.2);
         margin-bottom: 20px;
     }
@@ -54,6 +58,7 @@
 
     .tabs-right {
         display: flex;
+        flex-wrap: wrap;
         gap: 1rem;
         margin: 1rem 0;
         align-items: center;
@@ -275,7 +280,6 @@
     display: flex;
     align-items: center;
     cursor: pointer;
-    margin-left: 1rem;
 }
 
 /* Toggle switch base */
@@ -352,15 +356,6 @@
 
 @media (max-width: 767px) {
     .project-overview {
-        .tab-bar{
-            flex-direction: column-reverse;
-            gap: 1rem;
-
-            .tabs-right {
-                flex-wrap: wrap;
-            }
-        }
-
         .card-container{
             grid-template-columns: 1fr;
         }
