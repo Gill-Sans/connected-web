@@ -2,24 +2,45 @@
 @use '../../../../styles/mixins' as *;
 
 .calendar-wrapper {
-    padding: 1rem;
+    padding: 1.5rem;
     background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: $border-radius-md;
+    box-shadow: $shadow-s;
     width: 100%;
 }
 
+/* HEADER */
 .calendar-header {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: 16px;
-    margin-bottom: 1.5rem;
-    padding: 1rem 0.5rem;
-    img {
-        border-radius: 0 2px 2px 0;
-        padding: 6px;
-        cursor: pointer;
-        @include text-color-filter;
+    margin-bottom: $spacing-lg;
+}
+
+.left-controls {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+}
+
+.nav-buttons {
+    display: flex;
+    align-items: center;
+}
+
+.nav-btn {
+    background: transparent;
+    border: none;
+    padding: 0.35rem 0.5rem;
+    border-radius: $border-radius-xs;
+    cursor: pointer;
+    transition: 0.18s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+        background: $hover-bg;
     }
 }
 
@@ -27,44 +48,38 @@
     transform: scaleX(-1);
 }
 
-.calendar-wrapper span {
+.calendar-title {
     font-size: 1.25rem;
     font-weight: 600;
-    color: $text-color;
-    padding-left: 0.5rem;
+    color: $text-color-dark;
 }
 
-.buttons {
-    display: flex;
-    gap: 1px;
-}
-
+/* CALENDAR GRID */
 :host {
     .cal-month-view {
         .cal-header {
-            background-color: #f8f9fa;
-            padding: 0.75rem 0;
+            background-color: $bg-0;
+            padding: $spacing-sm 0;
             font-weight: 600;
         }
 
-        .cal-out-month {
-            .cal-day-number {
-                opacity: 0.3;
-            }
+        .cal-out-month .cal-day-number {
+            opacity: 0.3;
         }
     }
 }
 
 .cal-month-view .cal-day-cell.cal-today {
-    background: $background-color;
+    background: $bg-0;
 }
 
 .cal-month-view .cal-day-cell.cal-today .cal-day-number {
-    font-size: 1.3rem;
-    font-weight: bold;
+    font-size: 1.2rem;
+    font-weight: 700;
     color: $primary-color;
 }
 
+/* EVENTS */
 .cal-day {
     font-size: 1rem;
 }
@@ -73,16 +88,14 @@
     display: flex;
     flex-wrap: wrap;
     gap: 0.25rem;
-    overflow: visible;
-    padding-left: 0.3rem;
-    padding-top: 0.70rem;
+    padding-top: 0.4rem;
 }
 
 .cal-event {
     position: relative;
-    width: 15px !important;
-    height: 15px !important;
-    background-color: $primary-color !important;
+    width: 12px;
+    height: 12px;
+    background-color: $primary-color;
     border-radius: 50%;
     cursor: pointer;
     flex-shrink: 0;
@@ -92,22 +105,23 @@
     }
 }
 
+/* TOOLTIP */
 .tooltip {
     display: none;
     position: absolute;
     bottom: calc(100% + 10px);
     left: 50%;
     transform: translateX(-50%);
-    background-color: $background-color;
-    padding: 12px;
-    border-radius: 6px;
-    z-index: 1000;
-    min-width: 220px;
-    max-width: 300px;
+    background-color: white;
+    border: $border;
+    padding: $spacing-xs;
+    border-radius: $border-radius-sm;
+    box-shadow: $shadow-m;
+    min-width: 200px;
+    max-width: 260px;
     flex-direction: column;
-    gap: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    color: white;
+    gap: $spacing-xxs;
+    z-index: 1000;
 
     &::after {
         content: '';
@@ -117,7 +131,7 @@
         transform: translateX(-50%);
         border-width: 6px;
         border-style: solid;
-        border-color: $background-color transparent transparent transparent;
+        border-color: white transparent transparent transparent;
     }
 }
 
@@ -125,24 +139,16 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 8px;
 }
 
 .tooltip .title {
-    font-size: 1rem;
+    font-size: 0.95rem;
     font-weight: 600;
-    color: black;
+    color: $text-color-dark;
 }
 
-.tooltip .date {
-    font-size: 0.875rem;
-    font-weight: 400;
-    color: black;
-}
-
+.tooltip .date,
 .tooltip .description {
-    font-size: 0.875rem;
-    font-weight: 400;
-    color: black;
-    line-height: 1rem;
+    font-size: 0.8rem;
+    color: $text-color;
 }

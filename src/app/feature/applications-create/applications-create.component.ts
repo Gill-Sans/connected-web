@@ -14,13 +14,13 @@ import {MdEditorComponent} from "../../shared/components/md-editor/md-editor.com
 
 @Component({
   selector: 'app-applications-create',
-    imports: [
+  imports: [
     MarkdownModule,
     LMarkdownEditorModule,
     ReactiveFormsModule,
     ButtonComponent,
     MdEditorComponent
-],
+  ],
   templateUrl: './applications-create.component.html',
   styleUrl: './applications-create.component.scss'
 })

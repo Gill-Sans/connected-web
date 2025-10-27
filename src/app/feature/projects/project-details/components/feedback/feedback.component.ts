@@ -1,22 +1,22 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
-import { ConversationcardComponent } from "../../../../../shared/components/conversationcard/conversationcard.component";
-import { CommonModule, NgOptimizedImage } from '@angular/common';
-import { FormsModule, ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
-import { ButtonComponent } from '../../../../../shared/components/button/button.component';
-import { Observable, Subscription } from 'rxjs';
-import { Project } from '../../../../../shared/models/project.model';
-import { ActivatedRoute } from '@angular/router';
-import { ProjectService } from '../../../../../core/services/project.service';
-import { createFeedback, Feedback } from '../../../../../shared/models/feedback.model';
-import { ToastService } from '../../../../../core/services/toast.service';
-import { AuthorizationService } from '../../../../../core/services/authorization.service';
-import { ReviewService } from '../../../../../core/services/review.service';
-import { CreateReview, Review } from '../../../../../shared/models/review.model';
-import { ReviewStatusEnum } from '../../../../../shared/models/ReviewStatus.enum';
+import {Component, inject, OnDestroy, OnInit} from '@angular/core';
+import {ConversationcardComponent} from "../../../../../shared/components/conversationcard/conversationcard.component";
+import {CommonModule} from '@angular/common';
+import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
+import {ButtonComponent} from '../../../../../shared/components/button/button.component';
+import {Observable, Subscription} from 'rxjs';
+import {Project} from '../../../../../shared/models/project.model';
+import {ActivatedRoute} from '@angular/router';
+import {ProjectService} from '../../../../../core/services/project.service';
+import {createFeedback, Feedback} from '../../../../../shared/models/feedback.model';
+import {ToastService} from '../../../../../core/services/toast.service';
+import {AuthorizationService} from '../../../../../core/services/authorization.service';
+import {ReviewService} from '../../../../../core/services/review.service';
+import {CreateReview, Review} from '../../../../../shared/models/review.model';
+import {ReviewStatusEnum} from '../../../../../shared/models/ReviewStatus.enum';
 
 @Component({
     selector: 'app-feedback',
-    imports: [ConversationcardComponent, CommonModule, FormsModule, ReactiveFormsModule, ButtonComponent, NgOptimizedImage],
+    imports: [ConversationcardComponent, CommonModule, FormsModule, ReactiveFormsModule, ButtonComponent],
     templateUrl: './feedback.component.html',
     styleUrls: ['./feedback.component.scss']
 })
@@ -101,7 +101,7 @@ export class FeedbackComponent implements OnInit, OnDestroy {
         this.subscriptions.push(deleteSubscription);
     }
 
-    cancelEdit(feedbackId: number) {
+    cancelEdit() {
         this.editingFeedback = null;
     }
 

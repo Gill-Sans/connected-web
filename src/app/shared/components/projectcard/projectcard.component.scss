@@ -1,98 +1,111 @@
-.card {
+@use "../../../../styles/variables.scss" as *;
+
+:host {
+    display: block;
+    height: 100%;
+}
+
+.project-card {
     cursor: pointer;
     display: flex;
     flex-direction: column;
-    background: #fff;
-    border-radius: 16px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    transition: all 0.3s ease-in-out;
-    border: 1px solid #e5e7eb;
+    gap: $spacing-sm;
+    padding: $spacing-md;
+    background-color: $bg-1;
+    border: 1px solid $border-color;
+    border-radius: $border-radius-md;
+    box-shadow: $shadow-s;
     height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
 
     &:hover {
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-        transform: translateY(-3px);
+        box-shadow: $shadow-m;
+        transform: translateY(-2px);
     }
 }
 
-.card-header {
+.project-card__header {
+    display: flex;
+    justify-content: space-between;
+    gap: $spacing-sm;
+}
+
+.project-card__title {
+    margin: 0;
+    font-weight: 600;
+    font-size: 1.25rem;
+    color: $text-color-dark;
+    flex: 1 1 auto;
+}
+
+.project-card__status {
+    flex-shrink: 0;
+}
+
+.project-card__description {
+    margin: 0;
+    color: $text-color;
+    font-size: 0.92rem;
+    line-height: 1.45;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.project-card__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacing-xs;
+    margin-top: auto;
+}
+
+.project-card__members {
     display: flex;
     align-items: center;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #e5e7eb;
-
-    .card-user {
-        width: 100%;
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        justify-content: space-between;
-
-        .card-user__details {
-            display: flex;
-            gap: 1rem;
-
-            .user-info {
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-
-                .name {
-                    font-size: 14px;
-                    font-weight: 600;
-                    color: #111827;
-                    margin: 0;
-                }
-
-                .email {
-                    font-size: 12px;
-                    color: #6b7280;
-                    margin: 0;
-                }
-            }
-        }
-
-        .members {
-            font-size: 13px;
-            font-weight: 500;
-            color: #6b7280;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            text-align: right;
-        }
-
-        .avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-        }
-    }
+    gap: $spacing-xxs;
 }
 
-.card-body {
-    padding-top: 10px;
-    flex-grow: 1;
-
-    .card-title {
-        font-size: 18px;
-        font-weight: 700;
-        color: #1f2937;
-        margin: 0 0 12px;
-    }
-
-    .description {
-        font-size: 14px;
-        color: #4b5563;
-        line-height: 1.5;
-    }
-
-    .tags{
-        margin-top: 20px;
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-    }
+.project-card__member-avatar {
+    border: 2px solid $bg-1;
+    box-shadow: $shadow-s;
+    border-radius: 50%;
 }
 
+.project-card__members-overflow {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: $text-color-light;
+}
+
+.capacity {
+    margin-left: auto;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: $text-color-light;
+}
+
+.full-badge {
+    background: $danger-color;
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.15rem 0.45rem;
+    border-radius: $border-radius-xs;
+    margin-left: $spacing-xxs;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+
+@media (max-width: 599px) {
+    .project-card {
+        padding: $spacing-md;
+    }
+
+    .project-card__title {
+        font-size: 1rem;
+    }
+}

@@ -8,7 +8,6 @@ import {ICONS} from '../../../shared/constants/icons';
 
 @Component({
     selector: 'app-password-login',
-    standalone: true,
     imports: [ReactiveFormsModule, ButtonComponent],
     templateUrl: './password-login.component.html',
     styleUrls: ['./password-login.component.scss']

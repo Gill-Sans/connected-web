@@ -6,12 +6,14 @@ import {ProjectService} from '../../../../../core/services/project.service';
 import {ActivatedRoute} from '@angular/router';
 import {AuthorizationService} from '../../../../../core/services/authorization.service';
 import {ToastService} from '../../../../../core/services/toast.service';
-import {ButtonComponent} from '../../../../../shared/components/button/button.component';
 import {User} from '../../../../../auth/models/user.model';
+import {
+    ConfirmationModalComponent
+} from '../../../../../shared/components/confirmation-modal/confirmation-modal.component';
 
 @Component({
     selector: 'app-members',
-    imports: [CommonModule, ButtonComponent],
+    imports: [CommonModule, ConfirmationModalComponent],
     templateUrl: './members.component.html',
     styleUrl: './members.component.scss'
 })

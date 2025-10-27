@@ -1,6 +1,12 @@
 <span class="tag">
-  {{ tag.name }}
-  @if (showDelete) {
-    <button type="button" class="delete-btn" (click)="onDelete()">×</button>
-  }
+  <span class="tag__label">{{ tag.name }}</span>
+
+    @if (showDelete) {
+        <button
+            type="button"
+            class="tag__delete-btn"
+            (click)="onDelete()"
+            aria-label="Remove tag"
+        >×</button>
+    }
 </span>

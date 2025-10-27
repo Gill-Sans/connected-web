@@ -369,3 +369,16 @@
         }
     }
 }
+
+
+@media (max-width: 768px) {
+    .tdb {
+        .tdb-kpis{
+            .kpi{
+                grid-column-start: 1;
+                grid-column-end: 3;
+            }
+        }
+    }
+
+}

@@ -1,75 +1,95 @@
 @use "../../../styles/variables.scss" as *;
 
-.profilepage {
+.profile-page {
     display: flex;
     flex-direction: column;
-    gap: 2rem;
-    padding: 20px;
+    gap: $spacing-xl;
+    padding: $spacing-xl;
 }
 
+/* HEADER */
 .profile-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.profile-info {
+.profile-identity {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: $spacing-md;
 
-    .user-image {
+    .avatar {
+        width: 85px;
+        height: 85px;
         border-radius: 50%;
-        width: 100px;
-        height: 100px;
-        border: 2px solid #abaaac;
+        border: 2px solid $border-color;
+        object-fit: cover;
     }
 
     .profile-name {
-        font-size: 22px;
-        font-weight: bold;
+        font-size: 1.6rem;
+        font-weight: 600;
+        margin: 0;
+        color: $text-color-dark;
     }
 }
 
-h4 {
-    margin-bottom: 1rem;
+/* CONTENT LAYOUT */
+.profile-content {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: $spacing-2xl;
+
+    @media (max-width: 900px) {
+        grid-template-columns: 1fr;
+    }
 }
 
+/* SECTIONS */
+.profile-section {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xs;
+}
 
-.about-me-text,
-.field-of-study-input,
-.linkedin-link {
+.section-label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: $text-color-light;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin: 0 0 $spacing-xs 0;
+    padding-top: $spacing-xl;
+}
+
+/* INPUTS & TEXTAREAS */
+.input {
     width: 100%;
-    padding: 1rem;
-    font-size: 1rem;
+    padding: $spacing-xs $spacing-sm;
+    border: 1px solid $border-color;
+    border-radius: $border-radius-sm;
     background: $background-color-input;
-    border: none;
-    border-radius: 8px;
-    resize: none;
+    color: $text-color-dark;
+    font-size: 0.95rem;
 }
 
-.about-me-text:focus,
-.field-of-study-input:focus,
-.linkedin-link:focus {
-    outline: $primary-color-light 2px solid;
+.textarea {
+    min-height: 150px;
+    resize: vertical;
 }
 
+/* VIEW TEXT */
+.view-text {
+    margin: 0;
+    color: $text-color;
+    line-height: 1.5;
+    padding-bottom: $spacing-xl;
+}
+
+/* TAGS */
 .tags-container {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
-}
-
-
-.about-me {
-    .about-me-text {
-        min-height: 300px;
-    }
-}
-
-/* Read-only view styling */
-.view-text {
-    background-color: transparent !important;
-    min-height: fit-content !important;
-    padding: 0 !important;
+    gap: $spacing-xs;
 }

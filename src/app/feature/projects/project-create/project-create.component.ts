@@ -29,7 +29,6 @@ function minTagsValidator(min: number) {
 
 @Component({
     selector: 'app-project-create',
-    standalone: true,
     imports: [
     MarkdownModule,
     ReactiveFormsModule,
@@ -66,7 +65,7 @@ export class ProjectCreateComponent implements OnInit, OnDestroy {
         ]),
         shortDescription: new FormControl('', [
             Validators.required,
-            Validators.maxLength(500)
+            Validators.maxLength(280)
         ]),
         teamSize: new FormControl(this.activeAssignmentService.getActiveAssignment()?.assignment.defaultTeamSize || 1, [
             Validators.required

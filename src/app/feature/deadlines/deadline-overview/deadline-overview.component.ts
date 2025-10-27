@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 import { toZonedTime } from 'date-fns-tz';
 import { CalendarComponent } from '../../../shared/components/calendar/calendar.component';
 import {DeadlineCreateComponent} from '../deadline-create/deadline-create.component';
+import {ConfirmationModalComponent} from '../../../shared/components/confirmation-modal/confirmation-modal.component';
 
 @Component({
     selector: 'app-deadline-overview',
@@ -19,7 +20,8 @@ import {DeadlineCreateComponent} from '../deadline-create/deadline-create.compon
         CommonModule,
         ButtonComponent,
         CalendarComponent,
-        DeadlineCreateComponent
+        DeadlineCreateComponent,
+        ConfirmationModalComponent
     ],
     templateUrl: './deadline-overview.component.html',
     styleUrls: ['./deadline-overview.component.scss']
@@ -45,6 +47,13 @@ export class DeadlineOverviewComponent implements OnInit, OnDestroy {
 
     // New property for create deadline modal
     showCreateModal = false;
+
+    selectedDate: Date | null = null;
+
+    onDayClick(date: Date) {
+        this.selectedDate = date;
+        this.openCreateModal();
+    }
 
     ngOnInit(): void {
         // Subscribe to changes in the active assignment
@@ -78,6 +87,7 @@ export class DeadlineOverviewComponent implements OnInit, OnDestroy {
     // Close the create deadline modal overlay
     closeCreateModal(): void {
         this.showCreateModal = false;
+        this.selectedDate = null;
     }
 
     // Handle the event when a deadline is successfully created:

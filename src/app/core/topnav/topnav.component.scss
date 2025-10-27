@@ -2,286 +2,223 @@
 @use "../../../styles/mixins.scss" as *;
 
 .topnav {
-    background-color: $bg-1;
-    border-radius: $border-radius-md;
-    border: $border;
-    margin: $spacing-md;
     display: flex;
+    align-items: center;
+    min-height: 5.3125rem; // 85px
+    margin: $spacing-md;
+    background-color: $bg-1;
+    border: $border;
+    border-radius: $border-radius-md;
     box-shadow: $shadow-m;
-    min-height: 85px;
     z-index: 6;
 
-    .left {
-        border-right: 1px solid $border-color;
-        width: 20%;
-        min-width: 300px;
+    &__assignments {
         position: relative;
+        display: flex;
+        flex-direction: column;
+        width: 20%;
+        min-width: 18.75rem; // 300px
+        border-right: 1px solid $border-color;
 
-        .left-content {
+        &-trigger {
             position: relative;
             display: flex;
             align-items: center;
             gap: $spacing-md;
             padding: $spacing-md $spacing $spacing-md $spacing-md;
             cursor: pointer;
-
-            .course-info {
-                display: flex;
-                flex-direction: column;
-                flex-grow: 1;
-                min-width: 0;
-                @include text-ellipsis;
-            }
-
-            .assignment-name {
-                font-size: 18px;
-                padding-bottom: 0;
-                margin: 0;
-                @include text-ellipsis;
-            }
-
-            .course-name {
-                color: gray;
-                font-size: 14px;
-                margin: 0;
-                @include text-ellipsis;
-            }
-
-            .course-icon {
-                background-color: $border-color;
-                min-width: $icon-size;
-                min-height: $icon-size;
-                border-radius: $border-radius-sm;
-            }
-
-            .dropdown-icon {
-                width: 20px;
-                height: 20px;
-                cursor: pointer;
-            }
         }
 
-        .dropdown {
+        &-dropdown {
             position: absolute;
-            background-color: #fff;
-            width: 100%;
             top: 4.7rem;
             left: 0;
             z-index: 5;
+            width: 100%;
             padding: $spacing-md 0;
+            background-color: $bg-0;
             border-radius: 0 0 $border-radius-md $border-radius-md;
-            box-shadow: 0 15px 12px rgba(0, 0, 0, 0.15);
+            box-shadow: $shadow-l;
+        }
 
-            dl {
-                padding: $spacing-md;
-                display: flex;
-                flex-direction: column;
-                gap: $spacing-md;
+        &-list {
+            display: flex;
+            flex-direction: column;
+            gap: $spacing-md;
+            padding: $spacing-md;
+        }
 
-                .course {
-                    display: flex;
-                    flex-direction: column;
-                    gap: .5rem;
+        &-course {
+            display: flex;
+            flex-direction: column;
+            gap: $spacing-sm;
 
-                    dt {
-                        font-size: 1rem;
-                        font-weight: bold;
-                    }
+            dt {
+                font-size: 1rem;
+                font-weight: bold;
+            }
+        }
+
+        &-option {
+            padding: $spacing-md;
+            border-radius: $border-radius-md;
+            cursor: pointer;
+
+            &:hover {
+                background-color: $hover-bg;
+            }
+
+            &--selected {
+                cursor: default;
+                color: $bg-2;
+                background-color: $primary-color;
+
+                &:hover {
+                    background-color: $primary-color;
+                    cursor: default;
                 }
             }
         }
     }
 
-    .right {
+    &__course-icon {
+        min-width: $icon-size;
+        min-height: $icon-size;
+        border-radius: $border-radius-sm;
+        background-color: $border-color;
+    }
+
+    &__course-info {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        min-width: 0;
+        @include text-ellipsis;
+    }
+
+    &__assignment-name {
+        margin: 0;
+        font-size: 1.125rem;
+        @include text-ellipsis;
+    }
+
+    &__course-name {
+        margin: 0;
+        font-size: 0.875rem;
+        color: $text-color-light;
+        @include text-ellipsis;
+    }
+
+    &__dropdown-icon {
+        width: 1.25rem;
+        height: 1.25rem;
+        cursor: pointer;
+    }
+
+    &__user {
         display: flex;
         align-items: center;
+        justify-content: flex-end;
         gap: $spacing;
-        justify-content: space-between;
+        flex-grow: 1;
         padding-left: $spacing;
         padding-right: $spacing-md;
-        flex-grow: 1;
-
-        .nav-name {
-            font-size: 18px;
-        }
-
-        .nav-icons {
-            position: relative;
-            display: flex;
-            align-items: center;
-            gap: 3rem;
-        }
-
-        .dropdownProfile {
-            position: absolute;
-            top: 4.3rem;
-            right: -1.1rem;
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15),
-            -4px 0px 12px rgba(0, 0, 0, 0.1),
-            4px 0px 12px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
-            min-width: 200px;
-
-            ul {
-                padding: $spacing-md;
-                list-style: none;
-                .user-name{
-                    color: $primary-color;
-                    pointer-events: none;
-                    font-weight: bold;
-                }
-
-                li {
-                    padding: 10px;
-                    justify-content: center;
-                    cursor: pointer;
-                    border-radius: 8px;
-                    &:hover {
-                        background-color: #f0f0f0;
-                    }
-                }
-
-            }
-        }
     }
 
-    .notification-icon {
+    &__actions {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: $spacing-3xl;
+    }
+
+    &__notifications {
         position: relative;
         cursor: pointer;
-        img {
-            width: $notification-size;
-            height: $notification-size;
-            transform: rotate(30deg);
-            filter: invert(68%) sepia(9%) saturate(229%) hue-rotate(196deg)
-            brightness(90%) contrast(85%);
+
+        &-container {
+            position: relative;
         }
-        .notification-badge {
+
+        &-icon {
+            img {
+                width: $notification-size;
+                height: $notification-size;
+                transform: rotate(30deg);
+                filter: invert(68%) sepia(9%) saturate(229%) hue-rotate(196deg) brightness(90%) contrast(85%);
+            }
+        }
+
+        &-badge {
             position: absolute;
-            top: -5px;
-            right: -5px;
-            padding: 1px;
-            background-color: #fff;
-            color: #999aa3;
-            border: 1px solid #999aa3;
-            font-size: 1rem;
-            width: $badge-size;
-            height: $badge-size;
-            border-radius: 2px;
+            top: -0.3125rem; // -5px
+            right: -0.3125rem; // -5px
             display: flex;
             align-items: center;
             justify-content: center;
-        }
-    }
-
-    .user-icon img {
-        cursor: pointer;
-        border-radius: 50%;
-        background-color: $bg-1;
-        border: $border;
-        width: $icon-size;
-        height: $icon-size;
-        box-shadow: $shadow-s;
-        padding: 4px;
-    }
-
-
-}
-
-// Global element styles for interactive elements
-dd,
-.left-content {
-    cursor: pointer;
-}
-dd {
-    padding: 1rem;
-    border-radius: $border-radius-md;
-    &:hover {
-        background-color: $background-color;
-    }
-
-    &.selected {
-        background-color: $primary-color;
-        cursor: default;
-    }
-}
-
-.selected {
-    color: white;
-    background-color: $primary-color;
-}
-
-// Notifications styling grouped together using BEM naming
-.notifications {
-    &-container {
-        position: relative;
-        img {
-            cursor: pointer;
+            width: $badge-size;
+            height: $badge-size;
+            padding: $spacing-xxs;
+            font-size: 1rem;
+            color: $text-color-light;
+            background-color: $bg-2;
+            border: 1px solid $text-color-light;
+            border-radius: 0.125rem;
         }
 
-        .delete-notification {
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 4px;
-            margin-left: 8px;
-            img {
-                width: 12px;
-                height: 12px;
+        &-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            z-index: 1000;
+            min-width: 15.625rem;
+            max-height: 25rem;
+            background: $bg-2;
+            border: 1px solid $border-color;
+            border-radius: $border-radius-sm;
+            box-shadow: $shadow-m;
+            overflow-y: auto;
+
+            &--hidden {
+                display: none;
             }
         }
-    }
 
-    &-dropdown {
-        position: absolute;
-        top: 100%;
-        right: 0;
-        background: white;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        min-width: 250px;
-        max-height: 400px;
-        overflow-y: auto;
-        z-index: 1000;
-        &.hidden {
-            display: none;
-        }
-    }
-
-    .notification-item {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        padding: 10px;
-        border-bottom: 1px solid #ddd;
-        &:last-child {
-            border-bottom: none;
-        }
-        &:hover {
-            background-color: #f9f9f9;
-        }
-
-        .notification-content {
+        &-item {
             display: flex;
             align-items: flex-start;
-            cursor: pointer;
-            flex: 1;
+            justify-content: space-between;
+            padding: $spacing-sm;
+            border-bottom: 1px solid $border-color;
 
-            .unread-dot {
-                min-width: 8px;
-                height: 8px;
-                background-color: red;
-                border-radius: 50%;
-                margin-right: 10px;
-                margin-top: 6px;
+            &:last-child {
+                border-bottom: none;
             }
 
-            .notification-text {
+            &:hover {
+                background-color: $hover-bg;
+            }
+
+            &-content {
+                display: flex;
+                align-items: flex-start;
+                flex: 1;
+                cursor: pointer;
+            }
+
+            &-dot {
+                min-width: 0.5rem;
+                height: 0.5rem;
+                margin-top: 0.375rem;
+                margin-right: $spacing-xs;
+                border-radius: 50%;
+                background-color: $danger-color;
+            }
+
+            &-text {
                 display: flex;
                 flex-direction: column;
-                gap: 4px;
+                gap: $spacing-xxs;
 
                 p {
                     margin: 0;
@@ -289,33 +226,132 @@ dd {
                     overflow: hidden;
                     text-overflow: ellipsis;
                 }
+            }
 
-                .notification-date {
-                    font-size: 0.8em;
-                    color: #666;
+            &-date {
+                font-size: 0.8em;
+                color: $text-color-light;
+            }
+
+            &-delete {
+                display: flex;
+                align-items: center;
+
+                button {
+                    padding: $spacing-xxs;
+                    background: none;
+                    border: none;
+                    cursor: pointer;
+
+                    img {
+                        width: 0.75rem;
+                        height: 0.75rem;
+                    }
                 }
             }
         }
 
-        .delete-notification {
-            display: flex;
-            align-items: center;
-            button {
-                background: none;
-                border: none;
-                cursor: pointer;
-                padding: 4px;
-                img {
-                    width: 12px;
-                    height: 12px;
-                }
-            }
+        &-empty {
+            padding: $spacing-sm;
+            text-align: center;
+            color: $text-color-light;
         }
     }
 
-    .no-notifications {
-        padding: 12px;
-        text-align: center;
-        color: #666;
+    &__avatar {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+
+        img {
+            width: $icon-size;
+            height: $icon-size;
+            padding: $spacing-xxs;
+            border: $border;
+            border-radius: 50%;
+            background-color: $bg-1;
+            box-shadow: $shadow-s;
+        }
+    }
+
+    &__profile-dropdown {
+        position: absolute;
+        top: 4.3rem;
+        right: -1.1rem;
+        min-width: 12.5rem;
+        background-color: $bg-2;
+        border-radius: $border-radius-md;
+        box-shadow: $shadow-l;
+        z-index: 1000;
+    }
+
+    &__profile-list {
+        list-style: none;
+        padding: $spacing-md;
+    }
+
+    &__profile-name {
+        color: $primary-color;
+        font-weight: bold;
+        pointer-events: none;
+    }
+
+    &__profile-item {
+        padding: $spacing-sm;
+        border-radius: $border-radius-sm;
+        cursor: pointer;
+
+        &:hover {
+            background-color: $hover-bg;
+        }
+    }
+}
+
+@media (max-width: 767px) {
+    .topnav {
+        flex-direction: column;
+        align-items: flex-start;
+        background-color: transparent;
+        border: none;
+        box-shadow: none;
+
+        &__assignments,
+        &__user {
+            width: 100%;
+            padding-bottom: $spacing-md;
+            margin-bottom: $spacing-md;
+            border-right: none;
+            border-bottom: 1px solid $border-color;
+        }
+
+        &__assignments {
+            padding: 0;
+            border: $border;
+            border-radius: $border-radius-md;
+            box-shadow: $shadow-s;
+        }
+
+        &__course-icon {
+            display: none;
+        }
+
+        &__user {
+            justify-content: flex-start;
+            gap: $spacing-md;
+            padding-bottom: 0;
+            margin-bottom: 0;
+            border-bottom: none;
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .topnav{
+        &__notifications {
+            &-dropdown {
+                right: -215px;
+            }
+        }
     }
 }
