@@ -1,64 +1,150 @@
 @use "../../../../styles/variables.scss" as *;
 
+.courses-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: $spacing-xl;
+
+    h1 {
+        margin: 0;
+        font-size: 1.5rem;
+        color: $text-color-dark;
+    }
+}
+
 .courses-list {
-    margin-top: 2rem;
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: $spacing-xl;
+    margin-top: $spacing-xl;
 }
-
-
 
 .course-item {
-    //grid with 1 full column for the title and then 3 colums for each assingment in it
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
-}
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: $spacing-md;
 
-.action-buttons {
-    cursor: pointer;
+    @media (max-width: 1100px) { grid-template-columns: repeat(2, 1fr); }
+    @media (max-width: 720px) { grid-template-columns: 1fr; }
 }
 
 .course-header {
-    grid-column: span 3;
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: $spacing-xs 0;
+    border-bottom: 1px solid black;
+    background: transparent;
+    box-shadow: none;
+    border-radius: 0;
+
+    h2 {
+        margin: 0;
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: $text-color-dark;
+    }
+}
+
+.course-actions {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: $spacing-xs;
+
+    > i {
+        width: 34px;
+        height: 34px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: $neutral-color;
+        border-radius: $border-radius-xs;
+        cursor: pointer;
+        transition: .18s ease;
+
+        &:hover {
+            background: $hover-bg;
+            color: $text-color-dark;
+        }
+    }
+
+    .import-action {
+        display: flex;
+        align-items: center;
+        gap: $spacing-xxs;
+        padding: 0 $spacing-sm;
+        height: 34px;
+        border: $border;
+        border-radius: $border-radius-xs;
+        background: $bg-1;
+        font-size: .85rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: .18s ease;
+
+        i {
+            font-size: .8rem;
+            margin: 0;
+            padding-right: $spacing-sm;
+        }
+
+        &:hover {
+            background: $bg-2;
+            box-shadow: $shadow-s;
+            color: $text-color-dark;
+
+            i {
+                color: $text-color-dark;
+            }
+        }
+
+        &:active {
+            transform: scale(.97);
+        }
+    }
 }
 
 .assignment-card {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    gap: 1rem;
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    transition: 0.3s ease-in-out;
-    flex-grow: 1;
-    height: 100%;
-}
+    background: $bg-1;
+    border: $border;
+    border-radius: $border-radius-sm;
+    padding: $card-padding;
+    box-shadow: $shadow-s;
+    transition: .18s ease;
 
-.assignment-header {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
+    .assignment-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: $spacing-xs;
 
-.import-assignment-button {
-    display: flex;
-    cursor: pointer;
-    justify-content: center;
-    align-items: center;
-    max-width: 250px;
-    padding: 1rem;
-    border: none;
-    border-radius: 8px;
-    background-color: $accent-color;
+        h4 {
+            margin: 0;
+            font-weight: 600;
+            color: $text-color;
+        }
 
-    img {
-        width: 1.5rem;
+        i {
+            cursor: pointer;
+            color: $neutral-color;
+            transition: .18s ease;
+
+            &:hover {
+                color: $danger-color;
+            }
+        }
     }
+
+    .details {
+        font-size: .9rem;
+        color: $text-color-light;
+    }
+}
+
+.loading {
+    text-align: center;
+    padding: $spacing-xl;
+    color: $text-color-light;
 }

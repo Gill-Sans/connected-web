@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation} from '@angular/core';
 import { CommonModule, NgOptimizedImage, registerLocaleData } from '@angular/common';
 import localeNl from '@angular/common/locales/nl';
 import {
@@ -12,7 +12,7 @@ import {
     CalendarEventTitleFormatter, CalendarMonthViewDay
 } from 'angular-calendar';
 import {adapterFactory} from 'angular-calendar/date-adapters/date-fns';
-import {addMonths, format, startOfToday, subMonths} from 'date-fns';
+import {addMonths, format, startOfDay, startOfToday, subMonths} from 'date-fns';
 import {Deadline} from '../../models/deadline.model';
 import {ButtonComponent} from '../button/button.component';
 import {toZonedTime} from 'date-fns-tz';
@@ -31,6 +31,7 @@ registerLocaleData(localeNl);
 })
 export class CalendarComponent implements OnInit {
     @Input() deadlines: Deadline[] = [];
+    @Output() dayClick = new EventEmitter<Date>();
     view: CalendarView = CalendarView.Month;
     viewDate: Date = new Date();
     events: CalendarEvent[] = [];
@@ -74,8 +75,8 @@ export class CalendarComponent implements OnInit {
     }
 
     onDayClick(day: CalendarMonthViewDay): void {
-        console.log('Day clicked:', day.date);
-        // Here you can log additional information like day.events or day.isToday
+        this.dayClick.emit(startOfDay(day.date));
     }
+
 }
 
