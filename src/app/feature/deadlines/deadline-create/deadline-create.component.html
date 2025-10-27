@@ -1,83 +1,46 @@
-<div class="create-deadline-container">
-  <h2>Create a Deadline</h2>
-  <p class="page-description">
-    Use this form to add a new deadline to your project timeline. Provide clear details so everyone understands what needs to be done and by when.
-  </p>
-  <form [formGroup]="deadlineForm" (ngSubmit)="onSubmit()">
-    <!-- Deadline Title Input -->
-    <div class="form-group">
-      <label for="title">Deadline Title *</label>
-      <input
-        id="title"
-        type="text"
-        formControlName="title"
-        placeholder="E.g., 'Submit Project Proposal'" />
-        @if (deadlineForm.get('title')?.invalid && deadlineForm.get('title')?.touched) {
-          <div class="error">
-            @if (deadlineForm.get('title')?.errors?.['required']) {
-              <span class="error">Title is required.</span>
-            }
-            @if (deadlineForm.get('title')?.errors?.['maxLength']) {
-              <span class="error">Title cannot exceed 100 characters.</span>
-            }
-          </div>
-        }
-      </div>
-
-      <!-- Deadline Description -->
-      <div class="form-group">
-        <label for="description">Description</label>
-        <textarea
-          id="description"
-          formControlName="description"
-        placeholder="E.g., 'Submit your project proposal to the committee for review by the end of the month.'"></textarea>
-      </div>
-
-      <!-- Due Date -->
-      <div class="form-group">
-        <label for="dueDate">Due Date *</label>
-        <input
-          id="dueDate"
-          type="datetime-local"
-          formControlName="dueDate" />
-          @if (deadlineForm.get('dueDate')?.invalid && deadlineForm.get('dueDate')?.touched) {
-            <div class="error">
-              @if (deadlineForm.get('dueDate')?.errors?.['required']) {
-                <span class="error">Due date is required.</span>
-              }
-              @if (deadlineForm.get('dueDate')?.errors?.['futureDate']) {
-                <span class="error">Due date must be in the future.</span>
-              }
-            </div>
-          }
-        </div>
-
-        <!-- Restriction -->
-        <div class="form-group">
-          <label for="restriction">Restriction</label>
-          <p class="input-description">
-            Choose the appropriate restriction level to categorize your deadline.
-          </p>
-          <select id="restriction" formControlName="restriction">
-            @for (restriction of deadlineRestrictions; track restriction) {
-              <option [value]="restriction">
-                {{ restriction | enumDisplay }}
-              </option>
-            }
-          </select>
-          @if (deadlineForm.get('restriction')?.invalid && deadlineForm.get('restriction')?.touched) {
-            <div class="error">
-              @if (deadlineForm.get('restriction')?.errors?.['required']) {
-                <span>Restriction is required.</span>
-              }
-            </div>
-          }
-        </div>
-
-        <!-- Hidden TimeZone Input -->
-        <input type="hidden" formControlName="timeZone" />
-
-        <!-- Submit Button -->
-        <app-button variant="primary" type="submit">Create Deadline</app-button>
-      </form>
+<div class="modal-card">
+    <div class="modal-header">
+        <h2>Create deadline</h2>
     </div>
+
+    <form [formGroup]="deadlineForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+            <label for="title">Deadline Title *</label>
+            <input id="title" type="text" formControlName="title" placeholder="E.g., 'Submit Project Proposal'"/>
+            @if (deadlineForm.get('title')?.invalid && deadlineForm.get('title')?.touched) {
+                <div class="error">
+                    @if (deadlineForm.get('title')?.errors?.['required']) { <span>Title is required.</span> }
+                    @if (deadlineForm.get('title')?.errors?.['maxlength']) { <span>Title cannot exceed 100 characters.</span> }
+                </div>
+            }
+        </div>
+
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea id="description" formControlName="description" placeholder="E.g., 'Submit your project proposal to the committee for review by the end of the month.'"></textarea>
+        </div>
+
+        <div class="row">
+            <div class="form-group">
+                <label for="dueDate">Due Date *</label>
+                <input id="dueDate" type="datetime-local" formControlName="dueDate"/>
+            </div>
+
+            <div class="form-group">
+                <label for="restriction">Restriction</label>
+                <select id="restriction" formControlName="restriction">
+                    @for (restriction of deadlineRestrictions; track restriction) {
+                        <option [value]="restriction">{{ restriction | enumDisplay }}</option>
+                    }
+                </select>
+            </div>
+        </div>
+
+        <input type="hidden" formControlName="timeZone"/>
+
+        <div class="modal-footer">
+            <app-button variant="neutral" type="button" (click)="closeModal.emit()">Cancel</app-button>
+            <app-button variant="primary" type="submit">Create</app-button>
+        </div>
+    </form>
+</div>

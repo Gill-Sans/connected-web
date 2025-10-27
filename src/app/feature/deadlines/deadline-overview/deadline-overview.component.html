@@ -1,71 +1,74 @@
 <div class="calendar-container">
-  <div class="calendar">
-    <app-calendar [deadlines]="(deadlines$ | async) ?? []"></app-calendar>
-  </div>
-  <div class="right-sidebar">
-    @if ((isTeacher$ | async)) {
-      <!-- Changed button click from navigation to opening the modal -->
-      <app-button variant="primary" (click)="openCreateModal()">Create Deadline</app-button>
-    }
-    @if (deadlines$ | async; as deadlines) {
-      <div>
-        @if (deadlines.length > 0) {
-          <div>
-            <div class="deadline-container">
-              @for (deadline of deadlines; track deadline) {
-                <div class="deadline-card">
-                  <h3>{{ deadline.title }}</h3>
-                  @if ((isTeacher$ | async)) {
-                    <span class="delete-icon" (click)="openDeleteModal(deadline)">
-                      X
-                    </span>
-                  }
-                  <p class="due-date">
-                    {{ convertToTimeZone(deadline.dueDate) | date: 'EEE MMM d' }} at
-                    {{ convertToTimeZone(deadline.dueDate) | date: 'HH:mm' }}
-                  </p>
-                  <p class="description">{{ deadline.description }}</p>
-                  <p class="restriction" [ngClass]="deadline.restriction.toLowerCase()">
-                    <span class="badge">{{ deadline.restriction.replace('_', ' ').toLowerCase() }}</span>
-                  </p>
-                </div>
-              }
-            </div>
-          </div>
-        } @else {
-          <p>No deadlines available.</p>
+    <div class="calendar">
+        <app-calendar
+            [deadlines]="(deadlines$ | async) ?? []"
+            (dayClick)="onDayClick($event)">
+        </app-calendar>
+
+    </div>
+
+    <div class="right-sidebar">
+        @if ((isTeacher$ | async)) {
+            <app-button variant="primary" (click)="openCreateModal()">Create Deadline</app-button>
         }
-      </div>
-    } @else {
-      <p>Loading deadlines...</p>
-    }
-  </div>
+
+        @if (deadlines$ | async; as deadlines) {
+            <div>
+                @if (deadlines.length > 0) {
+                    <div class="deadline-container">
+                        @for (deadline of deadlines; track deadline) {
+                            <div class="deadline-card">
+                                <div class="card-header">
+                                    <h3>{{ deadline.title }}</h3>
+                                    @if ((isTeacher$ | async)) {
+                                        <i class="fa fa-trash delete-btn" (click)="openDeleteModal(deadline)"></i>
+                                    }
+                                </div>
+
+                                <p class="due-date">
+                                    {{ convertToTimeZone(deadline.dueDate) | date: 'EEE MMM d · HH:mm' }}
+                                </p>
+
+                                <p class="description">{{ deadline.description }}</p>
+
+                                <span class="badge {{ deadline.restriction.toLowerCase() }}">
+                  {{ deadline.restriction.replace('_', ' ').toLowerCase() }}
+                </span>
+                            </div>
+                        }
+                    </div>
+                } @else {
+                    <p class="empty-state">No deadlines available.</p>
+                }
+            </div>
+        } @else {
+            <p class="empty-state">Loading deadlines...</p>
+        }
+    </div>
 </div>
 
-<!-- Delete Confirmation Modal (remains unchanged) -->
+<!-- Delete Confirmation Modal -->
 @if (showModal) {
-  <div class="modal">
-    <div class="modal-content">
-      <h2>Delete this Deadline?</h2>
-      <div class="modal-actions">
-        <app-button variant="danger" (click)="closeModal()">Cancel</app-button>
-        <app-button variant="primary" (click)="confirmDelete()">Confirm</app-button>
-      </div>
-    </div>
-  </div>
+    <app-confirmation-modal
+        [title]="'Delete Deadline'"
+        [message]="'Are you sure you want to delete this deadline?'"
+        [confirmText]="'Delete'"
+        [cancelText]="'Cancel'"
+        (confirm)="confirmDelete()"
+        (cancel)="closeModal()">
+    </app-confirmation-modal>
 }
 
-<!-- Create Deadline Modal Overlay -->
+<!-- Create Deadline Modal -->
 @if (showCreateModal) {
-  <div class="modal">
-    <div class="modal-content">
-      <!-- Close button for the modal overlay -->
-      <button class="close-button" (click)="closeCreateModal()">X</button>
-      <!-- Embed the create deadline component -->
-      <app-deadline-create
-        (deadlineCreated)="onDeadlineCreated()"
-        (closeModal)="closeCreateModal()">
-      </app-deadline-create>
+    <div class="modal">
+        <div class="modal-content">
+            <button class="close-button" (click)="closeCreateModal()">✕</button>
+            <app-deadline-create
+                [defaultDate]="selectedDate"
+                (deadlineCreated)="onDeadlineCreated()"
+                (closeModal)="closeCreateModal()">
+            </app-deadline-create>
+        </div>
     </div>
-  </div>
 }
