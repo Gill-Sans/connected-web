@@ -345,3 +345,13 @@
         }
     }
 }
+
+@media (max-width: 768px) {
+    .topnav{
+        &__notifications {
+            &-dropdown {
+                right: -215px;
+            }
+        }
+    }
+}
