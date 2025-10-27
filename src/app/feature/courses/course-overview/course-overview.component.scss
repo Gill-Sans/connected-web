@@ -114,8 +114,6 @@
     box-shadow: $shadow-s;
     transition: .18s ease;
 
-    &:hover { box-shadow: $shadow-m; }
-
     .assignment-header {
         display: flex;
         justify-content: space-between;
