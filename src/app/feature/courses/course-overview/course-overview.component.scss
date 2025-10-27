@@ -34,11 +34,11 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: $spacing-md;
-    background: $bg-1;
-    border: $border;
-    border-radius: $border-radius-sm;
-    box-shadow: $shadow-s;
+    padding: $spacing-xs 0;
+    border-bottom: 1px solid black;
+    background: transparent;
+    box-shadow: none;
+    border-radius: 0;
 
     h2 {
         margin: 0;
@@ -53,7 +53,7 @@
     align-items: center;
     gap: $spacing-xs;
 
-    i {
+    > i {
         width: 34px;
         height: 34px;
         display: flex;
@@ -87,12 +87,17 @@
         i {
             font-size: .8rem;
             margin: 0;
-            padding: 0;
+            padding-right: $spacing-sm;
         }
 
         &:hover {
             background: $bg-2;
             box-shadow: $shadow-s;
+            color: $text-color-dark;
+
+            i {
+                color: $text-color-dark;
+            }
         }
 
         &:active {
@@ -140,7 +145,6 @@
     }
 }
 
-/* LOADING */
 .loading {
     text-align: center;
     padding: $spacing-xl;
